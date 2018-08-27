@@ -175,7 +175,13 @@ setup_plug() {
 }
 
 install_vim_plug() {
-    curl -fLo "$1/plug.vim" --create-dirs "$2" 
+    if [ -d "$2" ];then
+	    cd "$2"
+	    git pull
+	    cd"$4"
+    else
+	    git clone --depth=1 "$1" "$2"
+    fi
     success "Successfully installed/updated $3 for $4"
     debug
 }
