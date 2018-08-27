@@ -18,10 +18,10 @@
 app_name='starry-vim'
 [ -z "$APP_PATH" ] && APP_PATH="$HOME/.starry-vim"
 [ -z "$REPO_URI" ] && REPO_URI='https://github.com/StarryLeo/starry-vim.git'
-[ -z "$REPO_BRANCH" ] && REPO_BRANCH='matser'
+[ -z "$REPO_BRANCH" ] && REPO_BRANCH='dev'
 debug_mode='0'
 fork_maintainer='0'
-[ -z "$PLUG_URI" ] && PLUG_URI="https://github.com/junegunn/vim-plug.vim.git"
+[ -z "$PLUG_URI" ] && PLUG_URI="https://github.com/junegunn/vim-plug.git"
 
 ############################  BASIC SETUP TOOLS
 msg() {
@@ -174,10 +174,16 @@ setup_plug() {
     debug
 }
 
+install_vim_plug() {
+    curl -fLo "$1/plug.vim" --create-dirs "$2" 
+    success "Successfully installed/updated $3 for $4"
+    debug
+}
 ############################ MAIN()
 variable_set "$HOME"
 program_must_exist "vim"
 program_must_exist "git"
+program_must_exist "curl"
 
 do_backup       "$HOME/.vim" \
                 "$HOME/.vimrc" \
@@ -198,9 +204,14 @@ setup_fork_mode "$fork_maintainer" \
 sync_repo       "$HOME/.vim/viplug/plug.vim" \
                 "$PLUG_URI" \
                 "master" \
-                "Vundle.vim"
+                "vim-plug"
 
-setup_vundle    "$APP_PATH/.vimrc.plugs.default"
+setup_plug      "$APP_PATH/.vimrc.plugs.default"
+
+install_vim_plug "$HOME/.vim/viplug"
+                 "$PLUG"
+		 "vim-plug"
+		 "vim"
 
 msg             "\nThanks for installing $app_name."
 msg             "© `date +%Y` https://github.com/StarryLeo/starry-vim"
