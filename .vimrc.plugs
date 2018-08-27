@@ -34,8 +34,8 @@
         endif
     " }
     " Setup Plug Support {
-	" The next two lines ensure that the ~/.vim/plug/ system works
-	set rtp+=~/.vim/viplug/plug.vim
+	" The next two lines ensure that the ~/.vim/viplug/ system works
+	set rtp+=~/.vim/viplug
 	call plug#begin('~/.vim/viplug')
     " }  
 
