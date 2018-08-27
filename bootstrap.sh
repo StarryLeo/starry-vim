@@ -208,7 +208,7 @@ sync_repo       "$HOME/.vim/viplug/plug.vim" \
 
 setup_plug      "$APP_PATH/.vimrc.plugs.default"
 
-install_vim_plug "$HOME/.vim/viplug"
+install_vim_plug "$HOME/.vim/autoload"
                  "$PLUG"
 		 "vim-plug"
 		 "vim"
