@@ -175,49 +175,48 @@ setup_plug() {
 }
 
 install_vim_plug() {
-    if [ -d "$2" ];then
-	    cd "$2"
+    if [ -d "$1" ];then
+	    cd "$1"
 	    git pull
-	    cd"$4"
+	    cd"$3"
     else
-	    git clone --depth=1 "$1" "$2"
+	    git clone --depth=1 "$2" "$1" 
     fi
-    success "Successfully installed/updated $3 for $4"
+    success "Successfully installed/updated $4 for $3"
     debug
 }
 ############################ MAIN()
 variable_set "$HOME"
 program_must_exist "vim"
 program_must_exist "git"
-program_must_exist "curl"
 
-do_backup       "$HOME/.vim" \
-                "$HOME/.vimrc" \
-                "$HOME/.gvimrc"
+do_backup        "$HOME/.vim" \
+                 "$HOME/.vimrc" \
+                 "$HOME/.gvimrc"
 				
-sync_repo       "$APP_PATH" \
-                "$REPO_URI" \
-                "$REPO_BRANCH" \
-                "$app_name"
+sync_repo        "$APP_PATH" \
+                 "$REPO_URI" \
+                 "$REPO_BRANCH" \
+                 "$app_name"
 
-create_symlinks "$APP_PATH" \
-                "$HOME"
+create_symlinks  "$APP_PATH" \
+                 "$HOME"
 
-setup_fork_mode "$fork_maintainer" \
-                "$APP_PATH" \
-                "$HOME"
+setup_fork_mode  "$fork_maintainer" \
+                 "$APP_PATH" \
+                 "$HOME"
 
-sync_repo       "$HOME/.vim/viplug/plug.vim" \
-                "$PLUG_URI" \
-                "master" \
-                "vim-plug"
+sync_repo        "$HOME/.vim/viplug/plug.vim" \
+                 "$PLUG_URI" \
+                 "master" \
+                 "vim-plug"
 
-setup_plug      "$APP_PATH/.vimrc.plugs.default"
+setup_plug       "$APP_PATH/.vimrc.plugs.default"
 
-install_vim_plug "$HOME/.vim/autoload"
-                 "$PLUG"
+install_vim_plug "$HOME/.vim/autoload" \
+                 "$PLUG_URI" \
+		 "$APP_PATH" \
 		 "vim-plug"
-		 "vim"
 
 msg             "\nThanks for installing $app_name."
 msg             "© `date +%Y` https://github.com/StarryLeo/starry-vim"
