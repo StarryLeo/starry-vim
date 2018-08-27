@@ -1,0 +1,12 @@
+
+" Use fork before if available {
+    if filereadable(expand("~/.vimrc.before.fork"))
+        source ~/.vimrc.before.fork
+    endif
+" }
+
+" Use local before if available {
+    if filereadable(expand("~/.vimrc.before.local"))
+        source ~/.vimrc.before.local
+    endif
+" }
