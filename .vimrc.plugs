@@ -33,8 +33,15 @@
             set termencoding=utf-8
         endif
     " }
+    " Setup Plug Support {
+	" The next two lines ensure that the ~/.vim/plug/ system works
+	set rtp+=~/.vim/viplug/plug.vim
+	call plug#begin('~/.vim/viplug')
+    " }  
 
-
+    " Plugs {
+	
+    " }
 " Use fork bundles config if available {
     if filereadable(expand("~/.vimrc.plugs.fork"))
         source ~/.vimrc.plugs.fork
@@ -47,3 +54,6 @@
     endif
 " }
 
+" Pulgs End {
+    call plug#end()
+" }
