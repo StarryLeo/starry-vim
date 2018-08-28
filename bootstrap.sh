@@ -162,11 +162,9 @@ setup_plug() {
     export SHELL='/bin/sh'
     msg "Starting updating/installing plugins"
     vim \
-        -u "$1" \
-        "+set nomore" \
-        "+PlugInstall" \
-        "+PlugClean" \
-        "+qall"
+        +PlugInstall \
+        +PlugClean \
+        +qall
 
     export SHELL="$system_shell"
 
