@@ -122,13 +122,13 @@
 
 " }
 
-" Use fork bundles config if available {
+" Use fork plugs config if available {
     if filereadable(expand("~/.vimrc.plugs.fork"))
         source ~/.vimrc.plugs.fork
     endif
 " }
 
-" Use local bundles config if available {
+" Use local plugs config if available {
     if filereadable(expand("~/.vimrc.plugs.local"))
         source ~/.vimrc.plugs.local
     endif
