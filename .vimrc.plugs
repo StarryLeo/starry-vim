@@ -1,4 +1,3 @@
-
 " Environment {
 
     " Basics {
@@ -34,10 +33,10 @@
         endif
     " }
     " Setup Plug Support {
-	" The next two lines ensure that the ~/.vim/viplug/ system works
-	set rtp+=~/.vim/viplug
-	call plug#begin('~/.vim/viplug')
-    " }  
+        " The next two lines ensure that the ~/.vim/viplug/ system works
+        set rtp+=~/.vim/viplug
+        call plug#begin('~/.vim/viplug')
+    " }
 
 " Plugs {
 
@@ -55,7 +54,7 @@
     endif
 
     " To override all the included bundles, add the following to your
-    " .vimrc.bundles.local file:
+    " .vimrc.plugs.local file:
     "
     "重写插件组包含的插件，将以下值声明在你的.vimrc.plugs.local
     "
@@ -75,6 +74,7 @@
 
     " General Programming {
         if count(g:starry_plug_groups, 'programming')
+	    Plug 'tpope/vim-fugitive'
         endif
     " }
 
