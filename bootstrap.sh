@@ -164,7 +164,7 @@ setup_plug() {
     vim \
         -u "$1" \
         "+set nomore" \
-        "+PluginInstall!" \
+        "+PluginInstall" \
         "+PluginClean" \
         "+qall"
 
@@ -176,10 +176,10 @@ setup_plug() {
 
 install_vim_plug() {
     if [ -d "$1" ];then
-	    cd "$1"
-	    git pull
+            cd "$1"
+            git pull
     else
-	    git clone "$2" "$1" 
+            git clone "$2" "$1"
     fi
     success "Successfully installed/updated vim-plug for starry-vim"
     debug
@@ -192,7 +192,7 @@ program_must_exist "git"
 do_backup        "$HOME/.vim" \
                  "$HOME/.vimrc" \
                  "$HOME/.gvimrc"
-				
+
 sync_repo        "$APP_PATH" \
                  "$REPO_URI" \
                  "$REPO_BRANCH" \
