@@ -78,13 +78,13 @@
             if (has("python") || has("python3")) && exists('g:starry_use_powerline') && !exists('g:starry_use_old_powerline')
                 Plug 'powerline/powerline', { 'rtp': '/powerline/bindings/vim'}
            "elseif exists('g:spf13_use_powerline') && exists('g:spf13_use_old_powerline')
-           "     Plugin 'Lokaltog/vim-powerline'
+           "     Plug 'Lokaltog/vim-powerline'
           " else
-           "     Plugin 'vim-airline/vim-airline'
-            "    Plugin 'vim-airline/vim-airline-themes'
+           "     Plug 'vim-airline/vim-airline'
+            "    Plug 'vim-airline/vim-airline-themes'
             endif
-            Plugin 'powerline/fonts',{ 'do': './install.sh'}
-            Plugin 'StarryLeo/Consolas-with-Yahei'
+            Plug 'powerline/fonts',{ 'do': './install.sh'}
+            Plug 'StarryLeo/Consolas-with-Yahei'
         endif
     " }
 
