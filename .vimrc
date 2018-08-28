@@ -165,7 +165,7 @@
     if !exists('g:override_starry_plugs') && filereadable(expand("~/.vim/viplug/vim-colorschemes/colors/solarized8.vim"))
         let g:solarized_termtrans=1
         let g:solarized_visibility="normal"
-        colorcheme solarized8             " Load a colorscheme
+        colorscheme solarized8             " Load a colorscheme
     endif
 
     set tabpagemax=15               " Only show 15 tabs 最多只打开15个标签页
