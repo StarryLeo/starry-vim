@@ -74,7 +74,17 @@
 
     " General Programming {
         if count(g:starry_plug_groups, 'programming')
-	    Plug 'tpope/vim-fugitive'
+            Plug 'tpope/vim-fugitive'
+            if (has("python") || has("python3")) && exists('g:starry_use_powerline') && !exists('g:starry_use_old_powerline')
+                Plug 'powerline/powerline', { 'rtp': '/powerline/bindings/vim'}
+           "elseif exists('g:spf13_use_powerline') && exists('g:spf13_use_old_powerline')
+           "     Plugin 'Lokaltog/vim-powerline'
+          " else
+           "     Plugin 'vim-airline/vim-airline'
+            "    Plugin 'vim-airline/vim-airline-themes'
+            endif
+            Plugin 'powerline/fonts',{ 'do': './install.sh'}
+            Plugin 'StarryLeo/Consolas-with-Yahei'
         endif
     " }
 
