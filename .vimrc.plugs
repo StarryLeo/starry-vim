@@ -107,6 +107,9 @@
         if count(g:starry_plug_groups, 'haskell')
         endif
     " }
+
+    endif
+
 " }
 
 " Use fork bundles config if available {
