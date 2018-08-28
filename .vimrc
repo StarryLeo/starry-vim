@@ -191,7 +191,7 @@
         set statusline=%<%f\                     " Filename
         set statusline+=%w%h%m%r                 " Options
         if !exists('g:override_starry_plugs')
-            set statusline+=%{fugitive#statusline()} " Git Hotness
+            set statusline+=%{fugitive#Statusline()} " Git Hotness
         endif
         set statusline+=\ [%{&ff}/%Y]            " Filetype
         set statusline+=\ [%{getcwd()}]          " Current dir
