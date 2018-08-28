@@ -39,12 +39,79 @@
 	call plug#begin('~/.vim/viplug')
     " }  
 
-    " Plugs {
+" Plugs {
 
-        " Deps {
-            Plug 'junegunn/vim-plug'
-    "   }
+    " Deps {
+        Plug 'junegunn/vim-plug'
     " }
+
+    " In your .vimrc.before.local file
+    " list only the plugin groups you will use
+    "
+    "在你的.vimrc.before.local文件中列出你要用的插件组
+    "
+    if !exists('g:starry_plug_groups')
+        let g:starry_plug_groups=['general', 'writing', 'neocomplete', 'programming', 'php', 'ruby', 'python', 'javascript', 'html', 'misc',]
+    endif
+
+    " To override all the included bundles, add the following to your
+    " .vimrc.bundles.local file:
+    "
+    "重写插件组包含的插件，将以下值声明在你的.vimrc.plugs.local
+    "
+    "   let g:override_starry_plugs = 1
+    if !exists("g:override_starry_plugs")
+
+    " General {
+        if count(g:starry_plug_groups, 'general')
+            Plug 'StarryLeo/vim-colorschemes'
+        endif
+    " }
+
+    " Writing {
+        if count(g:starry_plug_groups, 'writing')
+        endif
+    " }
+
+    " General Programming {
+        if count(g:starry_plug_groups, 'programming')
+        endif
+    " }
+
+    " Snippets & AutoComplete {
+        if count(g:starry_plug_groups, 'snipmate')
+        endif
+    " }
+
+    " PHP {
+        if count(g:starry_plug_groups, 'php')
+        endif
+    " }
+
+    " Python {
+        if count(g:starry_plug_groups, 'python')
+        endif
+    " }
+
+    " Javascript {
+        if count(g:starry_plug_groups, 'javascript')
+        endif
+    " }
+
+    " Scala {
+        if count(g:starry_plug_groups, 'scala')
+        endif
+    " }
+
+    " Haskell {
+        if count(g:starry_plug_groups, 'haskell')
+        endif
+    " }
+
+    endif
+
+" }
+
 " Use fork bundles config if available {
     if filereadable(expand("~/.vimrc.plugs.fork"))
         source ~/.vimrc.plugs.fork
