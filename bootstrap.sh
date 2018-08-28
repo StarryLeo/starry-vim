@@ -160,14 +160,9 @@ setup_fork_mode() {
 setup_plug() {
     local system_shell="$SHELL"
     export SHELL='/bin/sh'
+    echo
     msg "Starting updating/installing plugins"
-    vim \
-        -u "$1" \
-        "+set nomore"
-        "+PlugInstall!" \
-        "+PlugClean" \
-        "+qall"
-
+    "$1" +PlugInstall +qall
     export SHELL="$system_shell"
 
     success "Now updating/installing plugins using vim-plug"
