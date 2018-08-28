@@ -205,15 +205,15 @@ setup_fork_mode  "$fork_maintainer" \
                  "$APP_PATH" \
                  "$HOME"
 
-sync_repo        "$HOME/.vim/viplug/plug.vim" \
+sync_repo        "$HOME/.vim/autoload" \
                  "$PLUG_URI" \
                  "master" \
                  "vim-plug"
 
-setup_plug       "$APP_PATH/.vimrc.plugs.default"
-
 install_vim_plug "$HOME/.vim/autoload" \
                  "$PLUG_URI"
+
+setup_plug       "$APP_PATH/.vimrc.plugs.default"
 
 msg             "\nThanks for installing $app_name."
 msg             "© `date +%Y` https://github.com/StarryLeo/starry-vim"
