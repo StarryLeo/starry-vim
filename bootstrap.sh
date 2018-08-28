@@ -164,8 +164,8 @@ setup_plug() {
     vim \
         -u "$1" \
         "+set nomore" \
-        "+PluginInstall" \
-        "+PluginClean" \
+        "+PlugInstall" \
+        "+PlugClean" \
         "+qall"
 
     export SHELL="$system_shell"
