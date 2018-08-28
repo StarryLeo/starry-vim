@@ -163,7 +163,7 @@ setup_plug() {
     msg "Starting updating/installing plugins"
     vim \
         +PlugInstall \
-        +PlugClean \
+        +PlugClean! \
         +qall
 
     export SHELL="$system_shell"
