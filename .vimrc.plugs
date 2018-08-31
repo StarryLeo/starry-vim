@@ -136,4 +136,5 @@
 
 " Pulgs End {
     call plug#end()
+    command! PlugReinstall PlugClean! | PlugInstall --sync
 " }
