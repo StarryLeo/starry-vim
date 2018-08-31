@@ -276,15 +276,15 @@
     " 编辑和应用starry配置的快捷键分别是
     " are <leader>ev and <leader>sv respectively. Change them to your preference
     " by adding the following to your .vimrc.before.local file:
-    "   let g:starry_edit_config_mapping='<leader>ec'
-    "   let g:starry_apply_config_mapping='<leader>sc'
+    "   let g:starry_edit_config_mapping="<leader>ec"
+    "   let g:starry_apply_config_mapping="<leader>sc"
     if !exists('g:starry_edit_config_mapping')
-        let s:starry_edit_config_mapping = '<leader>ev'
+        let s:starry_edit_config_mapping = "<leader>ev"
     else
         let s:starry_edit_config_mapping = g:starry_edit_config_mapping
     endif
     if !exists('g:starry_apply_config_mapping')
-        let s:starry_apply_config_mapping = '<leader>sv'
+        let s:starry_apply_config_mapping = "<leader>sv"
     else
         let s:starry_apply_config_mapping = g:starry_apply_config_mapping
     endif
