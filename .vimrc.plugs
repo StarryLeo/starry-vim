@@ -63,6 +63,9 @@
     " General {
         if count(g:starry_plug_groups, 'general')
             Plug 'StarryLeo/vim-colorschemes'
+            Plug 'scrooloose/nerdtree'
+            Plug 'Xuyuanp/nerdtree-git-plugin'
+            Plug 'jistr/vim-nerdtree-tabs'
         endif
     " }
 

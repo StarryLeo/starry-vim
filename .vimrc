@@ -485,6 +485,20 @@
     " }
 
     " NerdTree {
+        if isdirectory(expand("~/.vim/viplug/nerdtree"))
+            map <C-n> <plug>NERDTreeTabsToggle<CR>              "Ctrl+n 打开目录树
+            map <leader>e :NERDTreeFind<CR>                     "查找目录
+            nmap <leader>nf :NERDTreeFind<CR>                   "
+
+            let NERDTreeShowBookmarks=1
+            let NERDTreeIgnore=['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
+            let NERDTreeChDirMode=0
+            let NERDTreeQuitOnOpen=1
+            let NERDTreeMouseMode=2
+            let NERDTreeShowHidden=1
+            let NERDTreeKeepTreeInNewTab=1
+            let g:nerdtree_tabs_open_on_gui_startup=0
+        endif
     " }
 
     " Tabularize {
