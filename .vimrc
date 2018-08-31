@@ -218,6 +218,40 @@
 
 " }
 
+" Formatting {
+
+    set nowrap                      " Do not wrap long lines 长行不换
+    set autoindent                  " Indent at the same level of the previous line 自动对齐缩进
+    set shiftwidth=4                " Use indents of 4 spaces 缩进使用4个空格
+    set expandtab                   " Tabs are spaces, not tabs 制表符(Tab键)扩展为空格
+    set tabstop=4                   " An indentation every four columns 制表符所占空格数
+    set softtabstop=4               " Let backspace delete indent 软制表符宽度
+    set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J) 防止标点后接两个空格
+    set splitright                  " Puts new vsplit windows to the right of the current
+    set splitbelow                  " Puts new split windows to the bottom of the current
+    "set matchpairs+=<:>             " Match, to be used with %
+    set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
+    "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks 自动格式化
+    " Remove trailing whitespaces and ^M chars 移除行尾的空格和^M
+    " To disable the stripping of whitespace, add the following to your
+    " 如要禁用，声明以下值
+    " .vimrc.before.local file:
+    "   let g:starry_keep_trailing_whitespace = 1
+    autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql autocmd BufWritePre <buffer> if !exists('g:starry_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
+    "autocmd FileType go autocmd BufWritePre <buffer> Fmt
+    autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
+    autocmd FileType haskell,puppet,ruby,yml setlocal expandtab shiftwidth=2 softtabstop=2
+    " preceding line best in a plugin but here for now.
+
+    autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+
+    " Workaround vim-commentary for Haskell
+    autocmd FileType haskell setlocal commentstring=--\ %s
+    " Workaround broken colour highlighting in Haskell
+    autocmd FileType haskell,rust setlocal nospell
+
+" }
+
 " Plugins {
 
     " GoLang {
