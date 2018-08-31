@@ -166,7 +166,6 @@ setup_plug() {
     vim \
 	-u "$1" \
 	+PlugUpgrade \
-	+PlugClean! \
 	+PlugInstall \
 	+qall
 
