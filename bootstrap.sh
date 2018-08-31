@@ -164,12 +164,12 @@ setup_plug() {
     msg "Starting updating/installing plugins"
 
     vim \
-	-u "$1" \
-	"+set nomore" \
-	"+PlugUpgrade" \
-	"+PlugClean!" \
-	"+PlugInstall" \
-	"+qall"
+        -u "$1" \
+        "+set nomore" \
+        "+PlugUpgrade" \
+        "+PlugClean!" \
+        "+PlugInstall" \
+        "+qall"
 
     export SHELL="$system_shell"
 
@@ -180,7 +180,7 @@ setup_plug() {
 install_vim_plug() {
     if [ -d "$1" ];then
         cd "$1"
-	git pull
+        git pull
     else
         git clone "$2" "$1"
     fi

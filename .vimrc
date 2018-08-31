@@ -27,7 +27,7 @@
           set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
         endif
     " }
-    
+
     " Arrow Key Fix {
         " https://github.com/spf13/spf13-vim/issues/780
         if &term[:4] == "xterm" || &term[:5] == 'screen' || &term[:3] == 'rxvt'
@@ -191,8 +191,8 @@
         set statusline=%<%f\                     " Filename
         set statusline+=%w%h%m%r                 " Options
         set statusline+=\ [%{&ff}/%Y]            " Filetype
-	if !exists('g:override_starry_plugs')
-	    set statusline+=%{fugitive#statusline()} " Git Hotness
+        if !exists('g:override_starry_plugs')
+            set statusline+=%{fugitive#statusline()} " Git Hotness
         endif
         set statusline+=\ [%{getcwd()}]          " Current dir
         set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
@@ -566,10 +566,10 @@
 
         " See `:echo g:airline_theme_map` for some more choices
         " Default in terminal vim is 'dark'
-	"
-	"
-	"设置路径显示格式
-	let g:airline#extensions#tabline#formatter = 'unique_tail'
+        "
+        "
+        "设置路径显示格式
+        let g:airline#extensions#tabline#formatter = 'unique_tail'
 
         if isdirectory(expand("~/.vim/viplug/vim-airline-themes/"))
             if !exists('g:airline_theme')

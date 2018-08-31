@@ -74,7 +74,7 @@
     " Mappings for editing/applying spf13 config
     "   let g:starry_edit_config_mapping='<leader>ev'
     "   let g:starry_apply_config_mapping='<leader>sv'
-    
+
 " }
 
 " Use fork before if available {
