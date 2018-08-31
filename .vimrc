@@ -257,7 +257,7 @@
     " The default leader is '\', but many people prefer ',' as it's in a standard
     " location. To override this behavior and set it back to '\' (or any other
     " character) add the following to your .vimrc.before.local file:
-    " 
+    "
     " 默认快捷键“前缀”为“\”，更多人喜欢“,” 这里你可以自定义
     "
     "   let g:starry_leader='\'
@@ -305,13 +305,14 @@
     noremap j gj
     noremap k gk
 
+    "长行自动折行
     " End/Start of line motion keys act relative to row/wrap width in the
     " presence of `:set wrap`, and relative to line for `:set nowrap`.
     " Default vim behaviour is to act relative to text line in both cases
     " If you prefer the default behaviour, add the following to your
     " .vimrc.before.local file:
-    "   let g:spf13_no_wrapRelMotion = 1
-    if !exists('g:spf13_no_wrapRelMotion')
+    "   let g:starry_no_wrapRelMotion = 1
+    if !exists('g:starry_no_wrapRelMotion')
         " Same for 0, home, end, etc
         function! WrapRelativeMotion(key, ...)
             let vis_sel=""
@@ -355,7 +356,7 @@
     endif
 
     " Stupid shift key fixes
-    if !exists('g:spf13_no_keyfixes')
+    if !exists('g:starry_no_keyfixes')
         if has("user_commands")
             command! -bang -nargs=* -complete=file E e<bang> <args>
             command! -bang -nargs=* -complete=file W w<bang> <args>
@@ -375,6 +376,7 @@
     nnoremap Y y$
 
     " Code folding options
+    " 代码折叠级别选项
     nmap <leader>f0 :set foldlevel=0<CR>
     nmap <leader>f1 :set foldlevel=1<CR>
     nmap <leader>f2 :set foldlevel=2<CR>
@@ -386,11 +388,12 @@
     nmap <leader>f8 :set foldlevel=8<CR>
     nmap <leader>f9 :set foldlevel=9<CR>
 
+    "搜索结果高亮切换
     " Most prefer to toggle search highlighting rather than clear the current
     " search results. To clear search highlighting rather than toggle it on
     " and off, add the following to your .vimrc.before.local file:
-    "   let g:spf13_clear_search_highlight = 1
-    if exists('g:spf13_clear_search_highlight')
+    "   let g:starry_clear_search_highlight = 1
+    if exists('g:starry_clear_search_highlight')
         nmap <silent> <leader>/ :nohlsearch<CR>
     else
         nmap <silent> <leader>/ :set invhlsearch<CR>
@@ -400,6 +403,7 @@
     " Find merge conflict markers
     map <leader>fc /\v^[<\|=>]{7}( .*\|$)<CR>
 
+    "快捷键切换当前文件目录为工作目录
     " Shortcuts
     " Change Working Directory to that of the current file
     cmap cwd lcd %:p:h
@@ -413,6 +417,7 @@
     " http://stackoverflow.com/a/8064607/127816
     vnoremap . :normal .<CR>
 
+    "编辑只读文件忘记用sudo，使用 :w!! 保存
     " For when you forget to sudo.. Really Write the file.
     cmap w!! w !sudo tee % >/dev/null
 
@@ -424,6 +429,7 @@
     map <leader>ev :vsp %%
     map <leader>et :tabe %%
 
+    "调整窗口为相同大小
     " Adjust viewports to the same size
     map <Leader>= <C-w>=
 
@@ -438,9 +444,17 @@
     " Easier formatting
     nnoremap <silent> <leader>q gwip
 
+    "安装 wmctrl 可使用F11切换全屏
     " FIXME: Revert this f70be548
     " fullscreen mode for GVIM and Terminal, need 'wmctrl' in you PATH
     map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
+
+
+    "使用9跳至行尾，默认0跳至行首
+    nnoremap 9 $
+
+    "Ctrl+A 全选
+    map <silent> <C-A> <esc>ggVG
 
 " }
 " Plugins {
