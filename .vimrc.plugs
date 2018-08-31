@@ -41,7 +41,6 @@
 " Plugs {
 
     " Deps {
-        Plug 'junegunn/vim-plug'
     " }
 
     " In your .vimrc.before.local file
