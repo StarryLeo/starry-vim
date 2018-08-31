@@ -191,6 +191,9 @@
         set statusline=%<%f\                     " Filename
         set statusline+=%w%h%m%r                 " Options
         set statusline+=\ [%{&ff}/%Y]            " Filetype
+	if !exists('g:override_starry_plugs')
+	    set statusline+=%{fugitive#statusline()} " Git Hotness
+        endif
         set statusline+=\ [%{getcwd()}]          " Current dir
         set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
     endif
@@ -215,6 +218,245 @@
 
 " }
 
+" Formatting {
+
+    set nowrap                      " Do not wrap long lines 长行不换
+    set autoindent                  " Indent at the same level of the previous line 自动对齐缩进
+    set shiftwidth=4                " Use indents of 4 spaces 缩进使用4个空格
+    set expandtab                   " Tabs are spaces, not tabs 制表符(Tab键)扩展为空格
+    set tabstop=4                   " An indentation every four columns 制表符所占空格数
+    set softtabstop=4               " Let backspace delete indent 软制表符宽度
+    set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J) 防止标点后接两个空格
+    set splitright                  " Puts new vsplit windows to the right of the current
+    set splitbelow                  " Puts new split windows to the bottom of the current
+    "set matchpairs+=<:>             " Match, to be used with %
+    set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
+    "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks 自动格式化
+    " Remove trailing whitespaces and ^M chars 移除行尾的空格和^M
+    " To disable the stripping of whitespace, add the following to your
+    " 如要禁用，声明以下值
+    " .vimrc.before.local file:
+    "   let g:starry_keep_trailing_whitespace = 1
+    autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql autocmd BufWritePre <buffer> if !exists('g:starry_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
+    "autocmd FileType go autocmd BufWritePre <buffer> Fmt
+    autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
+    autocmd FileType haskell,puppet,ruby,yml setlocal expandtab shiftwidth=2 softtabstop=2
+    " preceding line best in a plugin but here for now.
+
+    autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+
+    " Workaround vim-commentary for Haskell
+    autocmd FileType haskell setlocal commentstring=--\ %s
+    " Workaround broken colour highlighting in Haskell
+    autocmd FileType haskell,rust setlocal nospell
+
+" }
+
+" Key (re)Mappings {
+
+    " The default leader is '\', but many people prefer ',' as it's in a standard
+    " location. To override this behavior and set it back to '\' (or any other
+    " character) add the following to your .vimrc.before.local file:
+    "
+    " 默认快捷键“前缀”为“\”，更多人喜欢“,” 这里你可以自定义
+    "
+    "   let g:starry_leader='\'
+    if !exists('g:starry_leader')
+        let mapleader = ','
+    else
+        let mapleader=g:starry_leader
+    endif
+    if !exists('g:starry_localleader')
+        let maplocalleader = ';'
+    else
+        let maplocalleader=g:starry_localleader
+    endif
+
+    " The default mappings for editing and applying the starry configuration
+    " 编辑和应用starry配置的快捷键分别是
+    " are <leader>ev and <leader>sv respectively. Change them to your preference
+    " by adding the following to your .vimrc.before.local file:
+    "   let g:starry_edit_config_mapping='<leader>ec'
+    "   let g:starry_apply_config_mapping='<leader>sc'
+    if !exists('g:starry_edit_config_mapping')
+        let s:starry_edit_config_mapping = '<leader>ev'
+    else
+        let s:starry_edit_config_mapping = g:starry_edit_config_mapping
+    endif
+    if !exists('g:starry_apply_config_mapping')
+        let s:starry_apply_config_mapping = '<leader>sv'
+    else
+        let s:starry_apply_config_mapping = g:starry_apply_config_mapping
+    endif
+
+    " Easier moving in tabs and windows 更好的窗口切换
+    " The lines conflict with the default digraph mapping of <C-K>
+    " If you prefer that functionality, add the following to your
+    " .vimrc.before.local file:
+    "   let g:starry_no_easyWindows = 1
+    if !exists('g:starry_no_easyWindows')
+        map <C-J> <C-W>j<C-W>_
+        map <C-K> <C-W>k<C-W>_
+        map <C-L> <C-W>l<C-W>_
+        map <C-H> <C-W>h<C-W>_
+    endif
+
+    " Wrapped lines goes down/up to next row, rather than next line in file.
+    noremap j gj
+    noremap k gk
+
+    "长行自动折行
+    " End/Start of line motion keys act relative to row/wrap width in the
+    " presence of `:set wrap`, and relative to line for `:set nowrap`.
+    " Default vim behaviour is to act relative to text line in both cases
+    " If you prefer the default behaviour, add the following to your
+    " .vimrc.before.local file:
+    "   let g:starry_no_wrapRelMotion = 1
+    if !exists('g:starry_no_wrapRelMotion')
+        " Same for 0, home, end, etc
+        function! WrapRelativeMotion(key, ...)
+            let vis_sel=""
+            if a:0
+                let vis_sel="gv"
+            endif
+            if &wrap
+                execute "normal!" vis_sel . "g" . a:key
+            else
+                execute "normal!" vis_sel . a:key
+            endif
+        endfunction
+
+        " Map g* keys in Normal, Operator-pending, and Visual+select
+        noremap $ :call WrapRelativeMotion("$")<CR>
+        noremap <End> :call WrapRelativeMotion("$")<CR>
+        noremap 0 :call WrapRelativeMotion("0")<CR>
+        noremap <Home> :call WrapRelativeMotion("0")<CR>
+        noremap ^ :call WrapRelativeMotion("^")<CR>
+        " Overwrite the operator pending $/<End> mappings from above
+        " to force inclusive motion with :execute normal!
+        onoremap $ v:call WrapRelativeMotion("$")<CR>
+        onoremap <End> v:call WrapRelativeMotion("$")<CR>
+        " Overwrite the Visual+select mode mappings from above
+        " to ensure the correct vis_sel flag is passed to function
+        vnoremap $ :<C-U>call WrapRelativeMotion("$", 1)<CR>
+        vnoremap <End> :<C-U>call WrapRelativeMotion("$", 1)<CR>
+        vnoremap 0 :<C-U>call WrapRelativeMotion("0", 1)<CR>
+        vnoremap <Home> :<C-U>call WrapRelativeMotion("0", 1)<CR>
+        vnoremap ^ :<C-U>call WrapRelativeMotion("^", 1)<CR>
+    endif
+
+    " The following two lines conflict with moving to top and
+    " bottom of the screen
+    " If you prefer that functionality, add the following to your
+    " .vimrc.before.local file:
+    "   let g:spf13_no_fastTabs = 1
+    if !exists('g:spf13_no_fastTabs')
+        map <S-H> gT
+        map <S-L> gt
+    endif
+
+    " Stupid shift key fixes
+    if !exists('g:starry_no_keyfixes')
+        if has("user_commands")
+            command! -bang -nargs=* -complete=file E e<bang> <args>
+            command! -bang -nargs=* -complete=file W w<bang> <args>
+            command! -bang -nargs=* -complete=file Wq wq<bang> <args>
+            command! -bang -nargs=* -complete=file WQ wq<bang> <args>
+            command! -bang Wa wa<bang>
+            command! -bang WA wa<bang>
+            command! -bang Q q<bang>
+            command! -bang QA qa<bang>
+            command! -bang Qa qa<bang>
+        endif
+
+        cmap Tabe tabe
+    endif
+
+    " Yank from the cursor to the end of the line, to be consistent with C and D.
+    nnoremap Y y$
+
+    " Code folding options
+    " 代码折叠级别选项
+    nmap <leader>f0 :set foldlevel=0<CR>
+    nmap <leader>f1 :set foldlevel=1<CR>
+    nmap <leader>f2 :set foldlevel=2<CR>
+    nmap <leader>f3 :set foldlevel=3<CR>
+    nmap <leader>f4 :set foldlevel=4<CR>
+    nmap <leader>f5 :set foldlevel=5<CR>
+    nmap <leader>f6 :set foldlevel=6<CR>
+    nmap <leader>f7 :set foldlevel=7<CR>
+    nmap <leader>f8 :set foldlevel=8<CR>
+    nmap <leader>f9 :set foldlevel=9<CR>
+
+    "搜索结果高亮切换
+    " Most prefer to toggle search highlighting rather than clear the current
+    " search results. To clear search highlighting rather than toggle it on
+    " and off, add the following to your .vimrc.before.local file:
+    "   let g:starry_clear_search_highlight = 1
+    if exists('g:starry_clear_search_highlight')
+        nmap <silent> <leader>/ :nohlsearch<CR>
+    else
+        nmap <silent> <leader>/ :set invhlsearch<CR>
+    endif
+
+
+    " Find merge conflict markers
+    map <leader>fc /\v^[<\|=>]{7}( .*\|$)<CR>
+
+    "快捷键切换当前文件目录为工作目录
+    " Shortcuts
+    " Change Working Directory to that of the current file
+    cmap cwd lcd %:p:h
+    cmap cd. lcd %:p:h
+
+    " Visual shifting (does not exit Visual mode)
+    vnoremap < <gv
+    vnoremap > >gv
+
+    " Allow using the repeat operator with a visual selection (!)
+    " http://stackoverflow.com/a/8064607/127816
+    vnoremap . :normal .<CR>
+
+    "编辑只读文件忘记用sudo，使用 :w!! 保存
+    " For when you forget to sudo.. Really Write the file.
+    cmap w!! w !sudo tee % >/dev/null
+
+    " Some helpers to edit mode
+    " http://vimcasts.org/e/14
+    cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
+    map <leader>ew :e %%
+    map <leader>es :sp %%
+    map <leader>ev :vsp %%
+    map <leader>et :tabe %%
+
+    "调整窗口为相同大小
+    " Adjust viewports to the same size
+    map <Leader>= <C-w>=
+
+    " Map <Leader>ff to display all lines with keyword under cursor
+    " and ask which one to jump to
+    nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+
+    " Easier horizontal scrolling
+    map zl zL
+    map zh zH
+
+    " Easier formatting
+    nnoremap <silent> <leader>q gwip
+
+    "安装 wmctrl 可使用F11切换全屏
+    " FIXME: Revert this f70be548
+    " fullscreen mode for GVIM and Terminal, need 'wmctrl' in you PATH
+    map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
+
+
+    "使用9跳至行尾，默认0跳至行首
+    nnoremap 9 $
+
+    "Ctrl+A 全选
+    map <silent> <C-A> <esc>ggVG
+
+" }
 " Plugins {
 
     " GoLang {
