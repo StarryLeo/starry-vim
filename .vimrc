@@ -254,20 +254,20 @@
 
 " Key (re)Mappings {
 
-    " The default leader is '\', but many people prefer ',' as it's in a standard
-    " location. To override this behavior and set it back to '\' (or any other
+    " The default leader is "\", but many people prefer "," as it's in a standard
+    " location. To override this behavior and set it back to "\" (or any other
     " character) add the following to your .vimrc.before.local file:
     "
-    " 默认快捷键“前缀”为“\”，更多人喜欢“,” 这里你可以自定义
+    " vim默认快捷键“前缀”为“\”，更多人喜欢更改为“,” 这里你可以自定义
     "
-    "   let g:starry_leader='\'
+    "   let g:starry_leader="\"
     if !exists('g:starry_leader')
-        let mapleader = ','
+        let mapleader = ","
     else
         let mapleader=g:starry_leader
     endif
     if !exists('g:starry_localleader')
-        let maplocalleader = ';'
+        let maplocalleader = ";"
     else
         let maplocalleader=g:starry_localleader
     endif
