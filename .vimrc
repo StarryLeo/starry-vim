@@ -191,6 +191,9 @@
         set statusline=%<%f\                     " Filename
         set statusline+=%w%h%m%r                 " Options
         set statusline+=\ [%{&ff}/%Y]            " Filetype
+	if !exists('g:override_starry_plugs')
+	    set statusline+=%{fugitive#statusline()} " Git Hotness
+        endif
         set statusline+=\ [%{getcwd()}]          " Current dir
         set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
     endif
