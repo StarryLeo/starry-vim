@@ -165,7 +165,7 @@ setup_plug() {
     
     vim \
 
-        -u "$1" \
+        -u ~/.starry-vim/.vimrc.plugs.default \
 	+PlugClean! \
 	+PlugInstall \
 	+qall
