@@ -159,7 +159,7 @@ setup_fork_mode() {
 
 setup_plug() {
     local system_shell="$SHELL"
-    export SHELL='/bin/sh'
+    export SHELL='/usr/bin/env bash'
 
     msg "Starting updating/installing plugins"
     
