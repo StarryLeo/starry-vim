@@ -163,7 +163,7 @@ setup_plug() {
 
     msg "Starting updating/installing plugins"
     
-    vim -u ~/.starry-vim/.vimrc.plugs.default +PlugClean! +PlugInstall --sync +qall
+    vim -u ~/.starry-vim/.vimrc.plugs.default +PlugClean! +PlugInstall +qall
 
     export SHELL="$system_shell"
 
