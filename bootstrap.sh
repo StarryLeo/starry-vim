@@ -165,6 +165,7 @@ setup_plug() {
     
     vim \
 	-u "$1" \
+	+set nomore \
 	+PlugUpgrade \
 	+PlugClean! \
 	+PlugInstall \
