@@ -451,7 +451,7 @@
 
 
     "使用9跳至行尾，默认0跳至行首
-    nnoremap 9 $
+    map 9 $
 
     "Ctrl+A 全选
     map <silent> <C-A> <esc>ggVG
