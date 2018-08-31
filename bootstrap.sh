@@ -166,9 +166,8 @@ setup_plug() {
     vim \
 
         -u ~/.starry-vim/.vimrc.plugs.default \
-	+PlugClean! \
-	+PlugInstall \
-	+qall
+	"+PlugClean! | PlugInstall --sync" \
+	"+qall"
 
     export SHELL="$system_shell"
 
