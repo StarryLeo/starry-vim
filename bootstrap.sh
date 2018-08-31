@@ -166,6 +166,7 @@ setup_plug() {
     vim \
 	-u "$1" \
 	+PlugUpgrade \
+	+PlugClean! \
 	+PlugInstall \
 	+qall
 
@@ -176,12 +177,7 @@ setup_plug() {
 }
 
 install_vim_plug() {
-    if [ -d "$1" ];then
-            cd "$1"
-            git pull
-    else
-            git clone "$2" "$1"
-    fi
+            git clone "$1" "$2"
     success "Successfully installed/updated vim-plug for starry-vim"
     debug
 }
@@ -211,8 +207,8 @@ sync_repo        "$HOME/.vim/autoload" \
                  "master" \
                  "vim-plug"
 
-install_vim_plug "$HOME/.vim/autoload" \
-                 "$PLUG_URI"
+install_vim_plug "$PLUG_URI" \
+                 "$HOME/.vim/autoload"
 
 setup_plug       "$APP_PATH/.vimrc.plugs.default"
 
