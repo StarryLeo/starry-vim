@@ -164,6 +164,7 @@ setup_plug() {
     msg "Starting updating/installing plugins"
     
     vim \
+	command! \
         -u "$1" \
 	+PlugClean! \
 	+PlugInstall \
