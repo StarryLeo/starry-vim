@@ -580,7 +580,7 @@
         "
         "
         "设置路径显示格式
-        let g:airline#extensions#tabline#formatter = 'unique_tail'
+        let g:airline#extensions#tabline#formatter = 'default'
 
         if isdirectory(expand("~/.vim/viplug/vim-airline-themes/"))
             if !exists('g:airline_theme')
@@ -593,8 +593,6 @@
             endif
         endif
     " }
-
-
 
 " }
 
