@@ -54,18 +54,6 @@
 
     set background=dark         " Assume a dark background
 
-    " Allow to trigger background 切换背景色
-    function! ToggleBG()
-        let s:tbg = &background
-        " Inversion
-        if s:tbg == "dark"
-            set background=light
-        else
-            set background=dark
-        endif
-    endfunction
-    noremap <leader>bg :call ToggleBG()<CR>
-
     if !has('gui')
         set term=xterm-256color          " Make arrow and other keys work 启用终端256色
     endif
@@ -271,6 +259,18 @@
     else
         let maplocalleader=g:starry_localleader
     endif
+
+    " Allow to trigger background 切换背景色
+    function! ToggleBG()
+        let s:tbg = &background
+        " Inversion
+        if s:tbg == "dark"
+            set background=light
+        else
+            set background=dark
+        endif
+    endfunction
+    noremap <leader>bg :call ToggleBG()<CR>
 
     " The default mappings for editing and applying the starry configuration
     " 编辑和应用starry配置的快捷键分别是
