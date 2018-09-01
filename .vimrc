@@ -584,7 +584,11 @@
 
         if isdirectory(expand("~/.vim/viplug/vim-airline-themes/"))
             if !exists('g:airline_theme')
-                let g:airline_theme = 'solarized'
+                if WINDOWS()
+                    let g:airline_theme = 'solarized'
+                else
+                    let g:airline_theme = 'solarized_flood'
+                endif
             endif
             if !exists('g:airline_powerline_fonts')
                 " Use the default set of separators with a few customizations
