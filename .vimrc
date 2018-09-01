@@ -592,8 +592,28 @@
             endif
             if !exists('g:airline_powerline_fonts')
                 " Use the default set of separators with a few customizations
-                let g:airline_left_sep='›'  " Slightly fancier than '>'
-                let g:airline_right_sep='‹' " Slightly fancier than '<'
+                if !exists('g:airline_symbols')
+                    " unicode symbols
+                    let g:airline_symbols = {}
+                    let g:airline_left_sep = '»'
+                    let g:airline_left_sep = '▶'
+                    let g:airline_right_sep = '«'
+                    let g:airline_right_sep = '◀'
+                    let g:airline_symbols.crypt = '🔒'
+                    let g:airline_symbols.linenr = '☰'
+                    let g:airline_symbols.linenr = '␊'
+                    let g:airline_symbols.linenr = '␤'
+                    let g:airline_symbols.linenr = '¶'
+                    let g:airline_symbols.maxlinenr = ''
+                    let g:airline_symbols.maxlinenr = '㏑'
+                    let g:airline_symbols.branch = '⎇'
+                    let g:airline_symbols.paste = 'ρ'
+                    let g:airline_symbols.paste = 'Þ'
+                    let g:airline_symbols.paste = '∥'
+                    let g:airline_symbols.spell = 'Ꞩ'
+                    let g:airline_symbols.notexists = 'Ɇ'
+                    let g:airline_symbols.whitespace = 'Ξ'
+	        endif
             endif
         endif
     " }
@@ -608,11 +628,11 @@
         set lines=40                " 40 lines of text instead of 24
         if !exists("g:starry_no_big_font")
             if LINUX() && has("gui_running")
-                set guifont=Andale\ Mono\ Regular\ 12,Menlo\ Regular\ 11,Consolas\ Regular\ 12,Courier\ New\ Regular\ 14
+                set guifont=Consolas-with-Yahei:h12
             elseif OSX() && has("gui_running")
                 set guifont=Andale\ Mono\ Regular:h12,Menlo\ Regular:h11,Consolas\ Regular:h12,Courier\ New\ Regular:h14
             elseif WINDOWS() && has("gui_running")
-                set guifont=Consolas-with-Yahei:h10,Andale_Mono:h10,Menlo:h10,Consolas:h10,Courier_New:h10,Microsoft_YaHei_UI:h10
+                set guifont=Consolas-with-Yahei:h10
             endif
         endif
     else
