@@ -85,7 +85,7 @@
                 Plug 'vim-airline/vim-airline'
                 Plug 'vim-airline/vim-airline-themes'
             endif
-            Plug 'StarryLeo/Consolas-with-Yahei',{ 'do': './install.sh'}
+            Plug 'StarryLeo/Consolas-with-Yahei',{ 'dir': '~/.vim/viplug/Consolas-with-Yahei', 'do': './install.sh'}
         endif
     " }
 
