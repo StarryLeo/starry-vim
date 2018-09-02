@@ -1,5 +1,6 @@
 REM    Copyright 2014 Steve Francia
-REM 
+REM              2018 StarryLeo
+REM
 REM    Licensed under the Apache License, Version 2.0 (the "License");
 REM    you may not use this file except in compliance with the License.
 REM    You may obtain a copy of the License at
@@ -49,4 +50,4 @@ IF NOT EXIST "%HOME%/.vim/autoload" (
   call cd %HOME%
 )
 
-call vim -u "%APP_PATH%/.vimrc.plugs" +PlugUpgrade +PlugClean! +PlugInstall +qall
+call vim -u "%APP_PATH%/.vimrc.plugs" +PlugClean! +PlugInstall +qall

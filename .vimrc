@@ -1,3 +1,35 @@
+" Modeline and Notes {
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker spell:
+"
+"             _                                          _
+"        ___ | |_  __ _  _ __  _ __  _   _       __   __(_) _ __ ___
+"       / __|| __|/ _` || '__|| '__|| | | | _____\ \ / /| || '_ ` _ \
+"       \__ \| |_| (_| || |   | |   | |_| ||_____|\ V / | || | | | | |
+"       |___/ \__|\__,_||_|   |_|    \__, |        \_/  |_||_| |_| |_|
+"                                    |___/
+"
+"   This is StarryLeo's .vimrc file forked from https://github.com/spf13/spf13-vim
+"   Sincerely thank him for his great work, and I have made some updates and changes for my own requires.
+"
+"   While much of it is beneficial for general use, I would
+"   recommend picking out the parts you want and understand.
+"
+"   You can find spf13 at http://spf13.com
+"
+"   Copyright 2014 Steve Francia
+"             2018 StarryLeo
+"   Licensed under the Apache License, Version 2.0 (the "License");
+"   you may not use this file except in compliance with the License.
+"   You may obtain a copy of the License at
+"
+"       http://www.apache.org/licenses/LICENSE-2.0
+"
+"   Unless required by applicable law or agreed to in writing, software
+"   distributed under the License is distributed on an "AS IS" BASIS,
+"   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+"   See the License for the specific language governing permissions and
+"   limitations under the License.
+" }
 
 " Environment {
 
@@ -48,7 +80,6 @@
         source ~/.vimrc.plugs
     endif
 " }
-
 
 " General {
 
@@ -148,6 +179,9 @@
                 \ ]
         endif
     " }
+
+"}
+
 " Vim UI {
 
     if !exists('g:override_starry_plugs') && filereadable(expand("~/.vim/viplug/vim-colorschemes/colors/solarized8.vim"))
@@ -178,10 +212,10 @@
         " Broken down into easily includeable segments
         set statusline=%<%f\                     " Filename
         set statusline+=%w%h%m%r                 " Options
-        set statusline+=\ [%{&ff}/%Y]            " Filetype
         if !exists('g:override_starry_plugs')
             set statusline+=%{fugitive#statusline()} " Git Hotness
         endif
+        set statusline+=\ [%{&ff}/%Y]            " Filetype
         set statusline+=\ [%{getcwd()}]          " Current dir
         set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
     endif
@@ -349,8 +383,8 @@
     " bottom of the screen
     " If you prefer that functionality, add the following to your
     " .vimrc.before.local file:
-    "   let g:spf13_no_fastTabs = 1
-    if !exists('g:spf13_no_fastTabs')
+    "   let g:starry_no_fastTabs = 1
+    if !exists('g:starry_no_fastTabs')
         map <S-H> gT
         map <S-L> gt
     endif
@@ -454,6 +488,7 @@
     map <silent> <C-A> <esc>ggVG
 
 " }
+
 " Plugins {
 
     " GoLang {
@@ -571,7 +606,7 @@
         " Use the powerline theme and optionally enable powerline symbols.
         " To use the symbols , , , , , , and .in the statusline
         " segments add the following to your .vimrc.before.local file:
-        "   let g:airline_powerline_fonts=1
+        "   let g:airline_powerline_symbol_font=1
         " If the previous symbols do not render for you then install a
         " powerline enabled font.
 
@@ -592,11 +627,11 @@
             endif
                 if !exists('g:airline_symbols')
                     let g:airline_symbols = {}
-	        endif
-                if !exists('g:airline_powerline_fonts')
+            endif
+                if !exists('g:airline_powerline_symbol_font')
                     " unicode symbols
                     let g:airline_left_sep = '»'
-                    let g:airline_left_sep = '›' 
+                    let g:airline_left_sep = '›'
                     let g:airline_right_sep = '«'
                     let g:airline_right_sep = '‹'
                     let g:airline_symbols.crypt = '🔒'
@@ -613,7 +648,7 @@
                     let g:airline_symbols.spell = 'Ꞩ'
                     let g:airline_symbols.notexists = 'Ɇ'
                     let g:airline_symbols.whitespace = 'Ξ'
-	        else
+            else
                     " powerline symbols
                     let g:airline_left_sep = ''
                     let g:airline_left_alt_sep = ''
@@ -623,8 +658,8 @@
                     let g:airline_symbols.readonly = ''
                     let g:airline_symbols.linenr = '☰'
                     let g:airline_symbols.maxlinenr = ''
-	        endif
-	endif
+            endif
+    endif
     " }
 
 " }

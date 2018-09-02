@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 #   Copyright 2014 Steve Francia
+#             2018 StarryLeo
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -144,11 +145,11 @@ setup_fork_mode() {
 
     if [ "$1" -eq '1' ]; then
         touch "$target_path/.vimrc.fork"
-        touch "$target_path/.vimrc.bundles.fork"
+        touch "$target_path/.vimrc.plugs.fork"
         touch "$target_path/.vimrc.before.fork"
 
         lnif "$source_path/.vimrc.fork"         "$target_path/.vimrc.fork"
-        lnif "$source_path/.vimrc.bundles.fork" "$target_path/.vimrc.bundles.fork"
+        lnif "$source_path/.vimrc.plugs.fork" "$target_path/.vimrc.plugs.fork"
         lnif "$source_path/.vimrc.before.fork"  "$target_path/.vimrc.before.fork"
 
         ret="$?"
