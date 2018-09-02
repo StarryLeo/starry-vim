@@ -17,11 +17,11 @@
 ############################  SETUP PARAMETERS
 app_name='starry-vim'
 [ -z "$APP_PATH" ] && APP_PATH="$HOME/.starry-vim"
-[ -z "$REPO_URI" ] && REPO_URI='https://github.com/StarryLeo/starry-vim.git'
+[ -z "$REPO_URL" ] && REPO_URL='https://github.com/StarryLeo/starry-vim.git'
 [ -z "$REPO_BRANCH" ] && REPO_BRANCH='dev'
 debug_mode='0'
 fork_maintainer='0'
-[ -z "$PLUG_URI" ] && PLUG_URI="https://github.com/junegunn/vim-plug.git"
+[ -z "$PLUG_URL" ] && PLUG_URL="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 
 ############################  BASIC SETUP TOOLS
 msg() {
@@ -97,7 +97,7 @@ do_backup() {
 
 sync_repo() {
     local repo_path="$1"
-    local repo_uri="$2"
+    local repo_url="$2"
     local repo_branch="$3"
     local repo_name="$4"
 
@@ -105,7 +105,7 @@ sync_repo() {
 
     if [ ! -e "$repo_path" ]; then
         mkdir -p "$repo_path"
-        git clone -b "$repo_branch" "$repo_uri" "$repo_path"
+        git clone -b "$repo_branch" "$repo_url" "$repo_path"
         ret="$?"
         success "Successfully cloned $repo_name."
     else
@@ -178,26 +178,24 @@ setup_plug() {
 }
 
 install_vim_plug() {
-    if [ -d "$1" ];then
-        cd "$1"
-        git pull
-    else
-        git clone "$2" "$1"
+    if [ ! -d "$1" ]; then
+        curl -fLo "$1/plug.vim" --create-dirs "$2"
+        success "Successfully installed vim-plug for starry-vim"
+        debug
     fi
-    success "Successfully installed/updated vim-plug for starry-vim"
-    debug
 }
 ############################ MAIN()
 variable_set "$HOME"
 program_must_exist "vim"
 program_must_exist "git"
+program_must_exist "curl"
 
 do_backup        "$HOME/.vim" \
                  "$HOME/.vimrc" \
                  "$HOME/.gvimrc"
 
 sync_repo        "$APP_PATH" \
-                 "$REPO_URI" \
+                 "$REPO_URL" \
                  "$REPO_BRANCH" \
                  "$app_name"
 
@@ -208,13 +206,8 @@ setup_fork_mode  "$fork_maintainer" \
                  "$APP_PATH" \
                  "$HOME"
 
-sync_repo        "$HOME/.vim/autoload" \
-                 "$PLUG_URI" \
-                 "master" \
-                 "vim-plug"
-
 install_vim_plug "$HOME/.vim/autoload" \
-                 "$PLUG_URI"
+                 "$PLUG_URL"
 
 setup_plug       "$APP_PATH/.vimrc.plugs.default"
 
