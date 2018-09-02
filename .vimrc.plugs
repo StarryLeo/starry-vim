@@ -84,6 +84,7 @@
             else
                 Plug 'vim-airline/vim-airline'
                 Plug 'vim-airline/vim-airline-themes'
+                Plug 'StarryLeo/powerline-symbol-font', { 'do': './install.sh'}
             endif
         endif
     " }

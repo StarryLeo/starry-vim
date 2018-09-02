@@ -590,15 +590,15 @@
                     let g:airline_theme = 'solarized_flood'
                 endif
             endif
-            if !exists('g:airline_powerline_fonts')
-                " Use the default set of separators with a few customizations
                 if !exists('g:airline_symbols')
-                    " unicode symbols
                     let g:airline_symbols = {}
+	        endif
+                if !exists('g:airline_powerline_fonts')
+                    " unicode symbols
                     let g:airline_left_sep = '»'
-                    let g:airline_left_sep = '>'
+                    let g:airline_left_sep = '›' 
                     let g:airline_right_sep = '«'
-                    let g:airline_right_sep = '<'
+                    let g:airline_right_sep = '‹'
                     let g:airline_symbols.crypt = '🔒'
                     let g:airline_symbols.linenr = '☰'
                     let g:airline_symbols.linenr = '␊'
@@ -613,9 +613,18 @@
                     let g:airline_symbols.spell = 'Ꞩ'
                     let g:airline_symbols.notexists = 'Ɇ'
                     let g:airline_symbols.whitespace = 'Ξ'
-                endif
-            endif
-        endif
+	        else
+                    " powerline symbols
+                    let g:airline_left_sep = ''
+                    let g:airline_left_alt_sep = ''
+                    let g:airline_right_sep = ''
+                    let g:airline_right_alt_sep = ''
+                    let g:airline_symbols.branch = ''
+                    let g:airline_symbols.readonly = ''
+                    let g:airline_symbols.linenr = '☰'
+                    let g:airline_symbols.maxlinenr = ''
+	        endif
+	endif
     " }
 
 " }
