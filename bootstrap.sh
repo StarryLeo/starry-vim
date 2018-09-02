@@ -184,7 +184,7 @@ install_vim_plug() {
         msg "Installing vim-plug with curl"
         elif [ ! -d "$1" ]; then
             curl -fLo "$1/plug.vim" --create-dirs "$2"
-    else [ ! -d "$1" ]; then
+    else [ ! -d "$1" ]
 	git clone https://github.com/junegunn/vim-plug.git "$1"
     fi
     success "Successfully installed vim-plug for starry-vim"
