@@ -177,11 +177,19 @@ setup_plug() {
 }
 
 install_vim_plug() {
-
+    program_exists curl
+    if [ "$?" -eq 0 ]; then
     curl -fLo "$1/plug.vim" --create-dirs "$2"
 
     success "Successfully installed/updated vim-plug for starry-vim"
     debug
+elif [ -d "$1" ]; then
+	cd "$1"
+	git pull
+else
+	git clone "$2" "$1"
+fi
+
 }
 ############################ MAIN()
 variable_set "$HOME"
