@@ -167,8 +167,8 @@ setup_plug() {
         -u "$1" \
         "+set nomore" \
         "+PlugUpgrade" \
-        "+PlugInstall" \
         "+PlugClean!" \
+        "+PlugInstall" \
         "+qall"
 
     export SHELL="$system_shell"
