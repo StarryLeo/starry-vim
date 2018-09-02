@@ -178,7 +178,8 @@ setup_plug() {
 }
 
 install_vim_plug() {
-    if [ program_exists "curl" -ne 0 ];then
+    program_exists "curl"
+    if [ "$?" -ne 0 ];then
         if [ ! -d "$1" ]; then
             curl -fLo "$1/plug.vim" --create-dirs "$2"
             success "Successfully installed vim-plug for starry-vim"
