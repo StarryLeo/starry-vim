@@ -85,6 +85,7 @@
                 Plug 'vim-airline/vim-airline'
                 Plug 'vim-airline/vim-airline-themes'
                 Plug 'StarryLeo/powerline-symbol-font', { 'do': './install.sh'}
+                Plug 'StarryLeo/Consolas-with-Yahei', { 'do': './install.sh'}
             endif
         endif
     " }
