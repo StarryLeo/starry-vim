@@ -1,3 +1,35 @@
+" Modeline and Notes {
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker spell:
+"
+"             _                                          _
+"        ___ | |_  __ _  _ __  _ __  _   _       __   __(_) _ __ ___
+"       / __|| __|/ _` || '__|| '__|| | | | _____\ \ / /| || '_ ` _ \
+"       \__ \| |_| (_| || |   | |   | |_| ||_____|\ V / | || | | | | |
+"       |___/ \__|\__,_||_|   |_|    \__, |        \_/  |_||_| |_| |_|
+"                                    |___/
+"
+"   This is StarryLeo's .vimrc file forked from https://github.com/spf13/spf13-vim
+"   Sincerely thank him for his great work, and I have made some updates and changes for my own requires.
+"
+"   While much of it is beneficial for general use, I would
+"   recommend picking out the parts you want and understand.
+"
+"   You can find spf13 at http://spf13.com
+"
+"   Copyright 2014 Steve Francia
+"             2018 StarryLeo
+"   Licensed under the Apache License, Version 2.0 (the "License");
+"   you may not use this file except in compliance with the License.
+"   You may obtain a copy of the License at
+"
+"       http://www.apache.org/licenses/LICENSE-2.0
+"
+"   Unless required by applicable law or agreed to in writing, software
+"   distributed under the License is distributed on an "AS IS" BASIS,
+"   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+"   See the License for the specific language governing permissions and
+"   limitations under the License.
+" }
 
 " Environment {
 

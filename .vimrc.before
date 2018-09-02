@@ -1,3 +1,24 @@
+" Modeline and Notes {
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker:
+"
+"             _                                          _
+"        ___ | |_  __ _  _ __  _ __  _   _       __   __(_) _ __ ___
+"       / __|| __|/ _` || '__|| '__|| | | | _____\ \ / /| || '_ ` _ \
+"       \__ \| |_| (_| || |   | |   | |_| ||_____|\ V / | || | | | | |
+"       |___/ \__|\__,_||_|   |_|    \__, |        \_/  |_||_| |_| |_|
+"                                    |___/
+"
+"   This is StarryLeo's .vimrc.before file forked from https://github.com/spf13/spf13-vim
+"   While much of it is beneficial for general use, I would
+"   recommend picking out the parts you want and understand.
+"
+"   This file is for options which must be set *before* plugins
+"   are loaded and the main .vimrc config is run. Most of these
+"   are for preventing mappings or commands from being created.
+"
+"   You can find spf13 at http://spf13.com
+" }
+
 " starry options {
 
     " Prevent automatically changing to open file directory
