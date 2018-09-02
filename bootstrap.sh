@@ -181,6 +181,7 @@ install_vim_plug() {
     program_exists curl
 
     if [ "$?" -eq 0 ]; then
+        msg "Installing vim-plug with curl"
         elif [ ! -d "$1" ]; then
             curl -fLo "$1/plug.vim" --create-dirs "$2"
     else [ ! -d "$1" ]; then
