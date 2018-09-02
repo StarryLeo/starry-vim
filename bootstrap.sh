@@ -166,6 +166,7 @@ setup_plug() {
     vim \
         -u "$1" \
         "+set nomore" \
+	"+PlugUpgrade" \
         "+PlugClean!" \
         "+PlugInstall" \
         "+qall"
@@ -178,18 +179,15 @@ setup_plug() {
 
 install_vim_plug() {
     program_exists curl
+
     if [ "$?" -eq 0 ]; then
-    curl -fLo "$1/plug.vim" --create-dirs "$2"
-
-    success "Successfully installed/updated vim-plug for starry-vim"
-    debug
-elif [ -d "$1" ]; then
-	cd "$1"
-	git pull
-else
+        elif [ ! -d "$1" ]; then
+            curl -fLo "$1/plug.vim" --create-dirs "$2"
+    else [ ! -d "$1" ]; then
 	git clone https://github.com/junegunn/vim-plug.git "$1"
-fi
-
+    fi
+    success "Successfully installed vim-plug for starry-vim"
+    debug
 }
 ############################ MAIN()
 variable_set "$HOME"
