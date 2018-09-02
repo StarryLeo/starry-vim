@@ -18,8 +18,6 @@
 app_name='starry-vim'
 [ -z "$APP_PATH" ] && APP_PATH="$HOME/.starry-vim"
 <<<<<<< HEAD
-[ -z "$REPO_URL" ] && REPO_URL='https://github.com/StarryLeo/starry-vim.git'
-[ -z "$REPO_BRANCH" ] && REPO_BRANCH='dev'
 =======
 [ -z "$REPO_URI" ] && REPO_URI='https://github.com/StarryLeo/starry-vim.git'
 [ -z "$REPO_BRANCH" ] && REPO_BRANCH='master'
