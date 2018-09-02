@@ -17,7 +17,7 @@
 ############################  SETUP PARAMETERS
 app_name='starry-vim'
 [ -z "$APP_PATH" ] && APP_PATH="$HOME/.starry-vim"
-[ -z "$REPO_URI" ] && REPO_URI='https://github.com/StarryLeo/starry-vim.git'
+[ -z "$REPO_URL" ] && REPO_URL='https://github.com/StarryLeo/starry-vim.git'
 [ -z "$REPO_BRANCH" ] && REPO_BRANCH='master'
 debug_mode='0'
 fork_maintainer='0'
