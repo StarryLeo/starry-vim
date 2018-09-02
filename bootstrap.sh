@@ -187,7 +187,7 @@ elif [ -d "$1" ]; then
 	cd "$1"
 	git pull
 else
-	git clone "$2" "$1"
+	git clone https://github.com/junegunn/vim-plug.git "$1"
 fi
 
 }
