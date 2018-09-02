@@ -17,11 +17,8 @@
 ############################  SETUP PARAMETERS
 app_name='starry-vim'
 [ -z "$APP_PATH" ] && APP_PATH="$HOME/.starry-vim"
-<<<<<<< HEAD
-=======
 [ -z "$REPO_URI" ] && REPO_URI='https://github.com/StarryLeo/starry-vim.git'
 [ -z "$REPO_BRANCH" ] && REPO_BRANCH='master'
->>>>>>> 10f95c37354b497d22a7368f9b4a373e309e145f
 debug_mode='0'
 fork_maintainer='0'
 [ -z "$PLUG_URL" ] && PLUG_URL="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
