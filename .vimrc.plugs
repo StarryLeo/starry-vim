@@ -66,7 +66,17 @@
             Plug 'scrooloose/nerdtree'
             Plug 'Xuyuanp/nerdtree-git-plugin'
             Plug 'jistr/vim-nerdtree-tabs'
-        endif
+            Plug 'tpope/vim-fugitive'
+            if (has("python") || has("python3")) && exists('g:starry_use_powerline') && !exists('g:starry_use_old_powerline')
+                Plug 'powerline/powerline', { 'rtp': '/powerline/bindings/vim'}
+            elseif exists('g:starry_use_powerline') && exists('g:starry_use_old_powerline')
+                Plug 'Lokaltog/vim-powerline'
+            else
+                Plug 'vim-airline/vim-airline'
+                Plug 'vim-airline/vim-airline-themes'
+            endif
+            Plug 'StarryLeo/powerline-symbol-font', { 'do': './install.sh'}
+            Plug 'StarryLeo/Consolas-with-Yahei', { 'do': './install.sh'}
     " }
 
     " Writing {
@@ -77,16 +87,6 @@
     " General Programming {
         if count(g:starry_plug_groups, 'programming')
             Plug 'tpope/vim-fugitive'
-            if (has("python") || has("python3")) && exists('g:starry_use_powerline') && !exists('g:starry_use_old_powerline')
-                Plug 'powerline/powerline', { 'rtp': '/powerline/bindings/vim'}
-            elseif exists('g:spf13_use_powerline') && exists('g:spf13_use_old_powerline')
-                Plug 'Lokaltog/vim-powerline'
-            else
-                Plug 'vim-airline/vim-airline'
-                Plug 'vim-airline/vim-airline-themes'
-                Plug 'StarryLeo/powerline-symbol-font', { 'do': './install.sh'}
-                Plug 'StarryLeo/Consolas-with-Yahei', { 'do': './install.sh'}
-            endif
         endif
     " }
 
