@@ -191,6 +191,8 @@ install_vim_plug() {
         else
             git clone https://github.com/junegunn/vim-plug.git "$1"
         fi
+            success "Successfully installed/updated vim-plug for starry-vim"
+            debug
     fi
 }
 ############################ MAIN()
