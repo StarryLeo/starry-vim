@@ -521,7 +521,7 @@
 
     " NerdTree {
         if isdirectory(expand("~/.vim/viplug/nerdtree"))
-            map <C-n> <plug>NERDTreeTabsToggle<CR>              "Ctrl+n 打开目录树
+            map <C-e> <plug>NERDTreeTabsToggle<CR>              "Ctrl+e 打开目录树
             map <leader>e :NERDTreeFind<CR>                     "查找目录
             nmap <leader>nf :NERDTreeFind<CR>                   "
 
