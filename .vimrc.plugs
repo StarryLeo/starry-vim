@@ -61,6 +61,17 @@
 " Plugs {
 
     " Deps {
+        Plug 'MarcWeber/vim-addon-mw-utils'
+        Plug 'tomtom/tlib_vim'
+        if executable('ag')
+            Plug 'mileszs/ack.vim'
+            let g:ackprg = 'ag --nogroup --nocolor --column --smart-case'
+        elseif executable('ack-grep')
+            let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+            Plug 'mileszs/ack.vim'
+        elseif executable('ack')
+            Plug 'mileszs/ack.vim'
+        endif
     " }
 
     " In your .vimrc.before.local file
@@ -95,8 +106,8 @@
                 Plug 'vim-airline/vim-airline'
                 Plug 'vim-airline/vim-airline-themes'
             endif
-            Plug 'StarryLeo/powerline-symbol-font', { 'do': './install.sh'}
-            Plug 'StarryLeo/Consolas-with-Yahei', { 'do': './install.sh'}
+            Plug 'StarryLeo/powerline-symbol-font', { 'do': './install.sh' }
+            Plug 'StarryLeo/Consolas-with-Yahei', { 'do': './install.sh' }
         endif
     " }
 
@@ -113,6 +124,31 @@
 
     " Snippets & AutoComplete {
         if count(g:starry_plug_groups, 'snipmate')
+            Plug 'garbas/vim-snipmate'
+            Plug 'honza/vim-snippets'
+            " Source support_function.vim to support vim-snippets.
+            if filereadable(expand("~/.vim/viplug/vim-snippets/snippets/support_functions.vim"))
+                source ~/.vim/viplug/vim-snippets/snippets/support_functions.vim
+            endif
+        elseif count(g:starry_plug_groups, 'youcompleteme')
+            Plug 'Valloric/YouCompleteMe'
+            Plug 'SirVer/ultisnips'
+            Plug 'honza/vim-snippets'
+        elseif count(g:starry_plug_groups, 'neocomplcache')
+            Plug 'Shougo/neocomplcache'
+            Plug 'Shougo/neosnippet'
+            Plug 'Shougo/neosnippet-snippets'
+            Plug 'honza/vim-snippets'
+        elseif count(g:starry_plug_groups, 'neocomplete')
+            Plug 'Shougo/neocomplete.vim'
+            Plug 'Shougo/neosnippet'
+            Plug 'Shougo/neosnippet-snippets'
+            Plug 'honza/vim-snippets'
+        elseif count(g:starry_plug_groups, 'deoplete')
+            Plug 'Shougo/deoplete.nvim'
+            Plug 'roxma/nvim-yarp'
+            Plug 'roxma/vim-hug-neovim-rpc'
+            Plug 'honza/vim-snippets'
         endif
     " }
 
