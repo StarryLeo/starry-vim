@@ -860,7 +860,7 @@
     " }
     " deoplete {
         if count(g:starry_plug_groups, 'deoplete')
-            let g:deoplete#enacle_at_startup = 1
+            let g:deoplete#enable_at_startup = 1
         endif
     " }
     " Normal Vim omni-completion {
