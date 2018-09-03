@@ -861,6 +861,7 @@
     " deoplete {
         if count(g:starry_plug_groups, 'deoplete')
             let g:deoplete#enacle_at_startup = 1
+        endif
     " }
     " Normal Vim omni-completion {
     " To disable omni complete, add the following to your .vimrc.before.local file:
