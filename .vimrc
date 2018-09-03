@@ -631,7 +631,7 @@
             endif
 
             " For snippet_complete marker.
-            if !exists("g:spf13_no_conceal")
+            if !exists("g:starry_no_conceal")
                 if has('conceal')
                     set conceallevel=2 concealcursor=i
                 endif
