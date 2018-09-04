@@ -124,6 +124,7 @@
             Plug 'ctrlpvim/ctrlp.vim'
             Plug 'tacahiroy/ctrlp-funky'
             Plug 'scrooloose/nerdcommenter'
+            Plug 'vim-syntastic/syntastic'
         endif
     " }
 

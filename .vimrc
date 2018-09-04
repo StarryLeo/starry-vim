@@ -953,6 +953,19 @@
     " $ `cabal install ghcmod` if missing and ensure
     " ~/.cabal/bin is in your $PATH.
 
+    " Syntastic {
+        if isdirectory(expand("~/.vim/viplug/syntastic/"))
+            set statusline+=%#warningmsg#
+            set statusline+=%{SyntasticStatuslinelineFlag()}
+            set statusline+=%*
+
+            let g:syntastic_always_populate_loc_list = 1
+            let g:syntastic_auto_loc_list = 1
+            let g:syntastic_check_on_open = 1
+            let g:syntastic_check_on_wq = 0
+        endif
+    " }
+
     " UndoTree {
         if isdirectory(expand("~/.vim/viplug/undotree/"))
             nnoremap <Leader>u :UndotreeToggle<CR>
