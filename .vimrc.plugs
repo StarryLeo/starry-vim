@@ -125,6 +125,7 @@
             Plug 'tacahiroy/ctrlp-funky'
             Plug 'scrooloose/nerdcommenter'
             Plug 'vim-syntastic/syntastic'
+            Plug 'godlygeek/tabular'
         endif
     " }
 
