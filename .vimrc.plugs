@@ -112,6 +112,7 @@
             Plug 'tpope/vim-surround'
             Plug 'tpope/vim-repeat'
             Plug 'easymotion/vim-easymotion'
+            Plug 'rhysd/conflict-marker.vim'
         endif
     " }
 
