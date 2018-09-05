@@ -110,6 +110,7 @@
             Plug 'StarryLeo/Consolas-with-Yahei', { 'do': './install.sh' }
             Plug 'mbbill/undotree'
             Plug 'tpope/vim-surround'
+            Plug 'easymotion/vim-easymotion'
         endif
     " }
 
