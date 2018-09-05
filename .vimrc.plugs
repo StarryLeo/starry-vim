@@ -126,6 +126,9 @@
             Plug 'scrooloose/nerdcommenter'
             Plug 'vim-syntastic/syntastic'
             Plug 'godlygeek/tabular'
+            if executable('ctags')
+                Plug 'majutsushi/tagbar'
+            endif
         endif
     " }
 

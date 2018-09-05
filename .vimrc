@@ -642,6 +642,9 @@
     "}
 
     " TagBar {
+        if isdirectory(expand("~/.vim/viplug/tagbar/"))
+            nnoremap <silent> <leader>tt :TagbarToggle<CR>
+        endif
     "}
 
     " Rainbow {
