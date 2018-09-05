@@ -97,7 +97,8 @@
             Plug 'scrooloose/nerdtree'
             Plug 'Xuyuanp/nerdtree-git-plugin'
             Plug 'jistr/vim-nerdtree-tabs'
-            Plug 'tpope/vim-fugitive'
+            Plug 'ctrlpvim/ctrlp.vim'
+            Plug 'tacahiroy/ctrlp-funky'
             if (has("python") || has("python3")) && exists('g:starry_use_powerline') && !exists('g:starry_use_old_powerline')
                 Plug 'powerline/powerline', { 'rtp': '/powerline/bindings/vim'}
             elseif exists('g:starry_use_powerline') && exists('g:starry_use_old_powerline')
@@ -125,8 +126,6 @@
     " General Programming {
         if count(g:starry_plug_groups, 'programming')
             Plug 'tpope/vim-fugitive'
-            Plug 'ctrlpvim/ctrlp.vim'
-            Plug 'tacahiroy/ctrlp-funky'
             Plug 'scrooloose/nerdcommenter'
             Plug 'vim-syntastic/syntastic'
             Plug 'godlygeek/tabular'
