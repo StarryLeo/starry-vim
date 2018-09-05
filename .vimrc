@@ -1003,6 +1003,38 @@
     " Wildfire {
     " }
 
+    " vim-multiple-cursors {
+        if isdirectory(expand("~/.vim/viplug/vim-multiple-cursors/"))
+            let g:multi_cursor_use_default_mapping=0
+
+            "Mapping
+            let g:multi_cursor_start_word_key      = '<C-n>'
+            let g:multi_cursor_select_all_word_key = '<A-n>'
+            let g:multi_cursor_start_key           = 'g<C-n>'
+            let g:multi_cursor_select_all_key      = 'g<A-n>'
+            let g:multi_cursor_next_key            = '<C-n>'
+            let g:multi_cursor_prev_key            = '<C-m>'
+            let g:multi_cursor_skip_key            = '<C-x>'
+            let g:multi_cursor_quit_key            = '<Esc>'
+
+            " Default highlighting (see help :highlight and help :highlight-link)
+            highlight multiple_cursors_cursor term=reverse cterm=reverse gui=reverse
+            highlight link multiple_cursors_visual Visual
+
+            function! Multiple_cursors_before()
+              if exists(':NeoCompleteLock')==2
+                exe 'NeoCompleteLock'
+              endif
+            endfunction
+
+            function! Multiple_cursors_after()
+              if exists(':NeoCompleteUnlock')==2
+                exe 'NeoCompleteUnlock'
+             endif
+            endfunction
+        endif
+    " }
+
     " vim-airline {
         " Set configuration options for the statusline plugin vim-airline.
         " Use the powerline theme and optionally enable powerline symbols.
@@ -1014,12 +1046,9 @@
 
         " See `:echo g:airline_theme_map` for some more choices
         " Default in terminal vim is 'dark'
-        "
-        "
+        if isdirectory(expand("~/.vim/viplug/vim-airline-themes/"))
         "设置路径显示格式
         let g:airline#extensions#tabline#formatter = 'default'
-
-        if isdirectory(expand("~/.vim/viplug/vim-airline-themes/"))
             if !exists('g:airline_theme')
                 if WINDOWS()
                     let g:airline_theme = 'solarized'
