@@ -565,6 +565,26 @@
     " }
 
     " Tabularize {
+        if isdirectory(expand("~/.vim/viplug/tabular"))
+            nmap <Leader>a& :Tabularize /&<CR>
+            vmap <Leader>a& :Tabularize /&<CR>
+            nmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
+            vmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
+            nmap <Leader>a=> :Tabularize /=><CR>
+            vmap <Leader>a=> :Tabularize /=><CR>
+            nmap <Leader>a: :Tabularize /:<CR>
+            vmap <Leader>a: :Tabularize /:<CR>
+            nmap <Leader>a:: :Tabularize /:\zs<CR>
+            vmap <Leader>a:: :Tabularize /:\zs<CR>
+            nmap <Leader>a, :Tabularize /,<CR>
+            vmap <Leader>a, :Tabularize /,<CR>
+            nmap <Leader>a,, :Tabularize /,\zs<CR>
+            vmap <Leader>a,, :Tabularize /,\zs<CR>
+            nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+            vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+        endif
+    " }
+
     " }
 
     " Session List {
@@ -577,9 +597,54 @@
     " }
 
     " ctrlp {
+        if isdirectory(expand("~/.vim/viplug/ctrlp.vim/"))
+            let g:ctrlp_map = '<C-p>'
+            let g:ctrlp_cmd = 'CtrlP'
+            let g:ctrlp_working_path_mode = 'ra'
+            nnoremap <leader>cf :CtrlP<CR>
+            nnoremap <leader>fm :CtrlPMRU<CR>
+            let g:ctrlp_custom_ignore = {
+                \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+                \ 'file': '\v[\/]\.(exe|so|dll|pyc)$', 
+            }
+
+            if executable('ag')
+                let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
+            elseif executable('ack-grep')
+                let s:ctrlp_fallback = 'ack-grep %s --nocolor -f'
+            elseif executable('ack')
+                let s:ctrlp_fallback = 'ack %s --nocolor -f'
+            " On Windows use "dir" as fallback command.
+            elseif WINDOWS()
+                let s:ctrlp_fallback = 'dir %s /-n /b /s /a-d'
+            else
+                let s:ctrlp_fallback = 'find %s -type f'
+            endif
+            if exists("g:ctrlp_user_command")
+                unlet g:ctrlp_user_command
+            endif
+            let g:ctrlp_user_command = {
+                \ 'types': {
+                    \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
+                    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+                \ },
+                \ 'fallback': s:ctrlp_fallback
+            \ }
+
+            if isdirectory(expand("~/.vim/viplug/ctrlp-funky/"))
+                " CtrlP extensions
+                let g:ctrlp_extensions = ['funky']
+
+                "funky
+                nnoremap <Leader>fu :CtrlPFunky<Cr>
+            endif
+        endif
     "}
 
     " TagBar {
+        if isdirectory(expand("~/.vim/viplug/tagbar/"))
+            nnoremap <silent> <leader>tt :TagbarToggle<CR>
+        endif
     "}
 
     " Rainbow {
@@ -911,13 +976,63 @@
     " $ `cabal install ghcmod` if missing and ensure
     " ~/.cabal/bin is in your $PATH.
 
+    " Syntastic {
+        if isdirectory(expand("~/.vim/viplug/syntastic/"))
+            set statusline+=%#warningmsg#
+            set statusline+=%{SyntasticStatuslinelineFlag()}
+            set statusline+=%*
+
+            let g:syntastic_always_populate_loc_list = 1
+            let g:syntastic_auto_loc_list = 1
+            let g:syntastic_check_on_open = 1
+            let g:syntastic_check_on_wq = 0
+        endif
+    " }
+
     " UndoTree {
+        if isdirectory(expand("~/.vim/viplug/undotree/"))
+            nnoremap <Leader>u :UndotreeToggle<CR>
+            " If undotree is opened, it is likely one wants to interact with it.
+            let g:undotree_SetFocusWhenToggle=1
+        endif
     " }
 
     " indent_guides {
     " }
 
     " Wildfire {
+    " }
+
+    " vim-multiple-cursors {
+        if isdirectory(expand("~/.vim/viplug/vim-multiple-cursors/"))
+            let g:multi_cursor_use_default_mapping=0
+
+            "Mapping
+            let g:multi_cursor_start_word_key      = '<C-n>'
+            let g:multi_cursor_select_all_word_key = '<A-n>'
+            let g:multi_cursor_start_key           = 'g<C-n>'
+            let g:multi_cursor_select_all_key      = 'g<A-n>'
+            let g:multi_cursor_next_key            = '<C-n>'
+            let g:multi_cursor_prev_key            = '<C-m>'
+            let g:multi_cursor_skip_key            = '<C-x>'
+            let g:multi_cursor_quit_key            = '<Esc>'
+
+            " Default highlighting (see help :highlight and help :highlight-link)
+            highlight multiple_cursors_cursor term=reverse cterm=reverse gui=reverse
+            highlight link multiple_cursors_visual Visual
+
+            function! Multiple_cursors_before()
+              if exists(':NeoCompleteLock')==2
+                exe 'NeoCompleteLock'
+              endif
+            endfunction
+
+            function! Multiple_cursors_after()
+              if exists(':NeoCompleteUnlock')==2
+                exe 'NeoCompleteUnlock'
+             endif
+            endfunction
+        endif
     " }
 
     " vim-airline {
@@ -931,12 +1046,9 @@
 
         " See `:echo g:airline_theme_map` for some more choices
         " Default in terminal vim is 'dark'
-        "
-        "
+        if isdirectory(expand("~/.vim/viplug/vim-airline-themes/"))
         "设置路径显示格式
         let g:airline#extensions#tabline#formatter = 'default'
-
-        if isdirectory(expand("~/.vim/viplug/vim-airline-themes/"))
             if !exists('g:airline_theme')
                 if WINDOWS()
                     let g:airline_theme = 'solarized'

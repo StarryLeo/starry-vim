@@ -97,7 +97,8 @@
             Plug 'scrooloose/nerdtree'
             Plug 'Xuyuanp/nerdtree-git-plugin'
             Plug 'jistr/vim-nerdtree-tabs'
-            Plug 'tpope/vim-fugitive'
+            Plug 'ctrlpvim/ctrlp.vim'
+            Plug 'tacahiroy/ctrlp-funky'
             if (has("python") || has("python3")) && exists('g:starry_use_powerline') && !exists('g:starry_use_old_powerline')
                 Plug 'powerline/powerline', { 'rtp': '/powerline/bindings/vim'}
             elseif exists('g:starry_use_powerline') && exists('g:starry_use_old_powerline')
@@ -108,6 +109,14 @@
             endif
             Plug 'StarryLeo/powerline-symbol-font', { 'do': './install.sh' }
             Plug 'StarryLeo/Consolas-with-Yahei', { 'do': './install.sh' }
+            Plug 'mbbill/undotree'
+            Plug 'tpope/vim-surround'
+            Plug 'tpope/vim-repeat'
+            Plug 'easymotion/vim-easymotion'
+            Plug 'rhysd/conflict-marker.vim'
+            Plug 'jiangmiao/auto-pairs'
+            Plug 'terryma/vim-multiple-cursors'
+            Plug 'bling/vim-bufferline'
         endif
     " }
 
@@ -119,6 +128,12 @@
     " General Programming {
         if count(g:starry_plug_groups, 'programming')
             Plug 'tpope/vim-fugitive'
+            Plug 'scrooloose/nerdcommenter'
+            Plug 'vim-syntastic/syntastic'
+            Plug 'godlygeek/tabular'
+            if executable('ctags')
+                Plug 'majutsushi/tagbar'
+            endif
         endif
     " }
 
