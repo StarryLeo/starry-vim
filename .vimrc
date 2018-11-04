@@ -605,8 +605,8 @@
             nnoremap <leader>fm :CtrlPMRU<CR>
             let g:ctrlp_custom_ignore = {
                 \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-                \ 'file': '\v[\/]\.(exe|so|dll|pyc)$', 
-            }
+                \ 'file': '\v[\/]\.(exe|so|dll|pyc)$',
+                \ }
 
             if executable('ag')
                 let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
