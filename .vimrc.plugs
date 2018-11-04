@@ -107,8 +107,8 @@
                 Plug 'vim-airline/vim-airline'
                 Plug 'vim-airline/vim-airline-themes'
             endif
-            Plug 'StarryLeo/powerline-symbol-font', { 'do': './install.sh' }
-            Plug 'StarryLeo/Consolas-with-Yahei', { 'do': './install.sh' }
+           " Plug 'StarryLeo/powerline-symbol-font', { 'do': './install.sh' }
+           " Plug 'StarryLeo/Consolas-with-Yahei', { 'do': './install.sh' }
             Plug 'mbbill/undotree'
             Plug 'tpope/vim-surround'
             Plug 'tpope/vim-repeat'
@@ -117,6 +117,7 @@
             Plug 'jiangmiao/auto-pairs'
             Plug 'terryma/vim-multiple-cursors'
             Plug 'bling/vim-bufferline'
+            Plug 'vim-scripts/sessionman.vim'
         endif
     " }
 

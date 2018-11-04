@@ -588,6 +588,12 @@
     " }
 
     " Session List {
+        set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
+        if isdirectory(expand("~/.vim/viplug/sessionman.vim/"))
+            nmap <leader>sl :SessionList<CR>
+            nmap <leader>ss :SessionSave<CR>
+            nmap <leader>sc :SessionClose<CR>
+        endif
     " }
 
     " JSON {
