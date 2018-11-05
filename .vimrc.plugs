@@ -118,6 +118,7 @@
             Plug 'terryma/vim-multiple-cursors'
             Plug 'bling/vim-bufferline'
             Plug 'vim-scripts/sessionman.vim'
+            Plug 'nathanaelkane/vim-indent-guides'
         endif
     " }
 
