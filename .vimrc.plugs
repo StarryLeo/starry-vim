@@ -119,6 +119,9 @@
             Plug 'bling/vim-bufferline'
             Plug 'vim-scripts/sessionman.vim'
             Plug 'nathanaelkane/vim-indent-guides'
+            if !exists('g:starry_no_views')
+                Plug 'vim-scripts/restore_view.vim'
+            endif
         endif
     " }
 
