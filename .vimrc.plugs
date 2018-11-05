@@ -122,6 +122,7 @@
             if !exists('g:starry_no_views')
                 Plug 'vim-scripts/restore_view.vim'
             endif
+            Plug 'mhinz/vim-signify'
         endif
     " }
 
