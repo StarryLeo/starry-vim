@@ -125,6 +125,8 @@
             Plug 'mhinz/vim-signify'
             Plug 'tpope/vim-abolish.git'
             Plug 'osyo-manga/vim-over'
+            Plug 'kana/vim-textobj-user'
+            Plug 'kana/vim-textobj-indent'
         endif
     " }
 
