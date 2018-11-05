@@ -588,6 +588,12 @@
     " }
 
     " Session List {
+        set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
+        if isdirectory(expand("~/.vim/viplug/sessionman.vim/"))
+            nmap <leader>sl :SessionList<CR>
+            nmap <leader>ss :SessionSave<CR>
+            nmap <leader>sc :SessionClose<CR>
+        endif
     " }
 
     " JSON {
@@ -605,8 +611,8 @@
             nnoremap <leader>fm :CtrlPMRU<CR>
             let g:ctrlp_custom_ignore = {
                 \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-                \ 'file': '\v[\/]\.(exe|so|dll|pyc)$', 
-            }
+                \ 'file': '\v[\/]\.(exe|so|dll|pyc)$',
+                \ }
 
             if executable('ag')
                 let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
@@ -998,9 +1004,18 @@
     " }
 
     " indent_guides {
+        if isdirectory(expand("~/.vim/viplug/vim-indent-guides/"))
+            let g:indent_guides_enable_on_vim_startup = 1
+            let g:indent_guides_start_level = 2
+            let g:indent_guides_guide_size = 1
+        endif
     " }
 
     " Wildfire {
+    let g:wildfire_objects = {
+                \ "*" : ["i'", 'i"', "i)", "i]", "i}", "ip"],
+                \ "html,xml" : ["at"],
+                \ }
     " }
 
     " vim-multiple-cursors {
