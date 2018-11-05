@@ -124,6 +124,7 @@
             endif
             Plug 'mhinz/vim-signify'
             Plug 'tpope/vim-abolish.git'
+            Plug 'osyo-manga/vim-over'
         endif
     " }
 
