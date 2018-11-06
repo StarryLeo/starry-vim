@@ -1065,45 +1065,41 @@
         "设置路径显示格式
         let g:airline#extensions#tabline#formatter = 'default'
             if !exists('g:airline_theme')
-                if WINDOWS()
-                    let g:airline_theme = 'solarized'
-                else
-                    let g:airline_theme = 'solarized_flood'
-                endif
+                let g:airline_theme = 'solarized'
             endif
-                if !exists('g:airline_symbols')
-                    let g:airline_symbols = {}
+            if !exists('g:airline_symbols')
+                let g:airline_symbols = {}
             endif
-                if !exists('g:airline_powerline_symbol_font')
-                    " unicode symbols
-                    let g:airline_left_sep = '»'
-                    let g:airline_left_sep = '›'
-                    let g:airline_right_sep = '«'
-                    let g:airline_right_sep = '‹'
-                    let g:airline_symbols.crypt = '🔒'
-                    let g:airline_symbols.linenr = '☰'
-                    let g:airline_symbols.linenr = '␊'
-                    let g:airline_symbols.linenr = '␤'
-                    let g:airline_symbols.linenr = '¶'
-                    let g:airline_symbols.maxlinenr = ''
-                    let g:airline_symbols.maxlinenr = '㏑'
-                    let g:airline_symbols.branch = '⎇'
-                    let g:airline_symbols.paste = 'ρ'
-                    let g:airline_symbols.paste = 'Þ'
-                    let g:airline_symbols.paste = '∥'
-                    let g:airline_symbols.spell = 'Ꞩ'
-                    let g:airline_symbols.notexists = 'Ɇ'
-                    let g:airline_symbols.whitespace = 'Ξ'
+            if !exists('g:airline_powerline_symbol_font')
+                " unicode symbols
+                let g:airline_left_sep = '»'
+                let g:airline_left_sep = '›'
+                let g:airline_right_sep = '«'
+                let g:airline_right_sep = '‹'
+                let g:airline_symbols.crypt = '🔒'
+                let g:airline_symbols.linenr = '☰'
+                let g:airline_symbols.linenr = '␊'
+                let g:airline_symbols.linenr = '␤'
+                let g:airline_symbols.linenr = '¶'
+                let g:airline_symbols.maxlinenr = ''
+                let g:airline_symbols.maxlinenr = '㏑'
+                let g:airline_symbols.branch = '⎇'
+                let g:airline_symbols.paste = 'ρ'
+                let g:airline_symbols.paste = 'Þ'
+                let g:airline_symbols.paste = '∥'
+                let g:airline_symbols.spell = 'Ꞩ'
+                let g:airline_symbols.notexists = 'Ɇ'
+                let g:airline_symbols.whitespace = 'Ξ'
             else
-                    " powerline symbols
-                    let g:airline_left_sep = ''
-                    let g:airline_left_alt_sep = ''
-                    let g:airline_right_sep = ''
-                    let g:airline_right_alt_sep = ''
-                    let g:airline_symbols.branch = ''
-                    let g:airline_symbols.readonly = ''
-                    let g:airline_symbols.linenr = '☰'
-                    let g:airline_symbols.maxlinenr = ''
+                " powerline symbols
+                let g:airline_left_sep = ''
+                let g:airline_left_alt_sep = ''
+                let g:airline_right_sep = ''
+                let g:airline_right_alt_sep = ''
+                let g:airline_symbols.branch = ''
+                let g:airline_symbols.readonly = ''
+                let g:airline_symbols.linenr = '☰'
+                let g:airline_symbols.maxlinenr = ''
             endif
     endif
     " }
