@@ -422,7 +422,7 @@ To enable powerline symbols first install one of the [Powerline Fonts] or patch 
 
 ## Additional Syntaxes
 
-spf13-vim ships with a few additional syntaxes:
+starry-vim ships with a few additional syntaxes:
 
 * Markdown (bound to \*.markdown, \*.md, and \*.mk)
 * Twig
@@ -430,7 +430,7 @@ spf13-vim ships with a few additional syntaxes:
 
 ## Amazing Colors
 
-starry-vim includes [solarized] and [StarryLeo vim color pack](https://github.com/StarryLeo/vim-colorschemes/):
+starry-vim includes [solarized8] and [StarryLeo vim color pack](https://github.com/StarryLeo/vim-colorschemes/):
 
 * github
 * onedark
@@ -493,7 +493,7 @@ Here's some tips if you've never used VIM before:
 [Undotree]:https://github.com/mbbill/undotree
 [NERDTree]:https://github.com/scrooloose/nerdtree
 [ctrlp]:https://github.com/kien/ctrlp.vim
-[solarized]:https://github.com/altercation/vim-colors-solarized
+[solarized8]:https://github.com/lifepillar/vim-solarized8
 [neocomplete]:https://github.com/shougo/neocomplete
 [Fugitive]:https://github.com/tpope/vim-fugitive
 [Surround]:https://github.com/tpope/vim-surround
