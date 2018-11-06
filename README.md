@@ -211,3 +211,300 @@ let g:starry_apply_config_mapping='<Leader>sv'
 
 # Plugins
 
+starry-vim contains a curated set of popular vim plugins, colors, snippets and syntaxes. Great care has been made to ensure that these plugins play well together and have optimal configuration.
+
+## Adding new plugins
+
+Create `~/.vimrc.plugs.local` for any additional plugs.
+
+To add a new plug, just add one line for each plug you want to install. The line should start with the word "Plug" followed by a string of either the vim.org project name or the githubusername/githubprojectname. For example, the github project [StarryLeo/vim-colorschemes](https://github.com/StarryLeo/vim-colorschemes) can be added with the following command
+
+```bash
+    echo Plug \'StarryLeo/vim-colorschemes\' >> ~/.vimrc.plugs.local
+```
+
+Once new plugins are added, they have to be installed.
+
+```bash
+    vim +PlugClean! +PlugInstall +q
+```
+
+## Removing (disabling) an included plugin
+
+Create `~/.vimrc.local` if it doesn't already exist.
+
+Add the UnPlug command to this line. It takes the same input as the Plug line, so simply copy the line you want to disable and add 'Un' to the beginning.
+
+For example, disabling the scrooloose/syntastic' plug
+
+```bash
+    echo UnPlug \'scrooloose/syntastic\' >> ~/.vimrc.plugs.local
+```
+
+**Remember to run ':PluginClean!' after this to remove the existing directories**
+
+
+Here are a few of the plugins:
+
+
+## [Undotree]
+
+If you undo changes and then make a new change, in most editors the changes you undid are gone forever, as their undo-history is a simple list.
+Since version 7.0 vim uses an undo-tree instead. If you make a new change after undoing changes, a new branch is created in that tree.
+Combined with persistent undo, this is nearly as flexible and safe as git ;-)
+
+Undotree makes that feature more accessible by creating a visual representation of said undo-tree.
+
+**QuickStart** Launch using `<Leader>u`.
+
+## [NERDTree]
+
+NERDTree is a file explorer plugin that provides "project drawer"
+functionality to your vim editing.  You can learn more about it with
+`:help NERDTree`.
+
+**QuickStart** Launch using `<Leader>e`.
+
+**Customizations**:
+
+* Use `<C-E>` to toggle NERDTree
+* Use `<leader>e` or `<leader>nf` to load NERDTreeFind which opens NERDTree where the current file is located.
+* Hide clutter ('\.pyc', '\.git', '\.hg', '\.svn', '\.bzr')
+* Treat NERDTree more like a panel than a split.
+
+## [ctrlp]
+Ctrlp replaces the Command-T plugin with a 100% viml plugin. It provides an intuitive and fast mechanism to load files from the file system (with regex and fuzzy find), from open buffers, and from recently used files.
+
+**QuickStart** Launch using `<C-p>`.
+
+## [Surround]
+
+This plugin is a tool for dealing with pairs of "surroundings."  Examples
+of surroundings include parentheses, quotes, and HTML tags.  They are
+closely related to what Vim refers to as text-objects.  Provided
+are mappings to allow for removing, changing, and adding surroundings.
+
+Details follow on the exact semantics, but first, consider the following
+examples.  An asterisk (*) is used to denote the cursor position.
+
+      Old text                  Command     New text ~
+      "Hello *world!"           ds"         Hello world!
+      [123+4*56]/2              cs])        (123+456)/2
+      "Look ma, I'm *HTML!"     cs"<q>      <q>Look ma, I'm HTML!</q>
+      if *x>3 {                 ysW(        if ( x>3 ) {
+      my $str = *whee!;         vllllS'     my $str = 'whee!';
+
+For instance, if the cursor was inside `"foo bar"`, you could type
+`cs"'` to convert the text to `'foo bar'`.
+
+There's a lot more, check it out at `:help surround`
+
+## [NERDCommenter]
+
+NERDCommenter allows you to wrangle your code comments, regardless of
+filetype. View `help :NERDCommenter` or checkout spf13's post on [NERDCommenter](http://spf13.com/post/vim-plugins-nerd-commenter).
+
+**QuickStart** Toggle comments using `<Leader>c<space>` in Visual or Normal mode.
+
+## [neocomplete]
+
+Neocomplete is an amazing autocomplete plugin with additional support for snippets. It can complete simulatiously from the dictionary, buffer, omnicomplete and snippets. This is the one true plugin that brings Vim autocomplete on par with the best editors.
+
+**QuickStart** Just start typing, it will autocomplete where possible
+
+**Customizations**:
+
+ * Automatically present the autocomplete menu
+ * Support tab and enter for autocomplete
+ * `<C-k>` for completing snippets using [Neosnippet](https://github.com/Shougo/neosnippet.vim).
+
+## [YouCompleteMe]
+
+YouCompleteMe is another amazing completion engine. It is slightly more involved to set up as it contains a binary component that the user needs to compile before it will work. As a result of this however it is very fast.
+
+To enable YouCompleteMe add `youcompleteme` to your list of groups by overriding it in your `.vimrc.before.local` like so: `let g:starry_plug_groups=['general', 'programming', 'misc', 'scala', 'youcompleteme']` This is just an example. Remember to choose the other groups you want here.
+
+Once you have done this you will need to get vim-plug to grab the latest code from git. You can do this by calling `:PluginInstall!`. You should see YouCompleteMe in the list.
+
+You will now have the code in your plugs directory and can proceed to compile the core. Change to the directory it has been downloaded to. If you have a vanilla install then `cd ~/.starry-vim/.vim/viplug/YouCompleteMe/` should do the trick. You should see a file in this directory called install.sh. There are a few options to consider before running the installer:
+
+  * Do you want clang support (if you don't know what this is then you likely don't need it)?
+    * Do you want to link against a local libclang or have the installer download the latest for you?
+  * Do you want support for c# via the omnisharp server?
+
+The plugin is well documented on the site linked above. Be sure to give that a read and make sure you understand the options you require.
+
+For java users wanting to use eclim be sure to add `let g:EclimCompletionMethod = 'omnifunc'` to your .vimrc.local.
+
+## [Syntastic]
+
+Syntastic is a syntax checking plugin that runs buffers through external syntax
+checkers as they are saved and opened. If syntax errors are detected, the user
+is notified and is happy because they didn't have to compile their code or
+execute their script to find them.
+
+## [Fugitive]
+
+Fugitive adds pervasive git support to git directories in vim. For more
+information, use `:help fugitive`
+
+Use `:Gstatus` to view `git status` and type `-` on any file to stage or
+unstage it. Type `p` on a file to enter `git add -p` and stage specific
+hunks in the file.
+
+Use `:Gdiff` on an open file to see what changes have been made to that
+file
+
+**QuickStart** `<leader>gs` to bring up git status
+
+**Customizations**:
+
+ * `<leader>gs` :Gstatus<CR>
+ * `<leader>gd` :Gdiff<CR>
+ * `<leader>gc` :Gcommit<CR>
+ * `<leader>gb` :Gblame<CR>
+ * `<leader>gl` :Glog<CR>
+ * `<leader>gp` :Git push<CR>
+ * `<leader>gw` :Gwrite<CR>
+ * :Git ___ will pass anything along to git.
+
+## [Ack.vim]
+
+Ack.vim uses ack to search inside the current directory for a pattern.
+You can learn more about it with `:help Ack`
+
+**QuickStart** :Ack
+
+## [Tabularize]
+
+Tabularize lets you align statements on their equal signs and other characters
+
+**Customizations**:
+
+ * `<Leader>a= :Tabularize /=<CR>`
+ * `<Leader>a: :Tabularize /:<CR>`
+ * `<Leader>a:: :Tabularize /:\zs<CR>`
+ * `<Leader>a, :Tabularize /,<CR>`
+ * `<Leader>a<Bar> :Tabularize /<Bar><CR>`
+
+## [Tagbar]
+
+starry-vim includes the Tagbar plugin. This plugin requires exuberant-ctags and will automatically generate tags for your open files. It also provides a panel to navigate easily via tags
+
+**QuickStart** `CTRL-]` while the cursor is on a keyword (such as a function name) to jump to its definition.
+
+**Customizations**: spf13-vim binds `<Leader>tt` to toggle the tagbar panel
+
+**Note**: For full language support, run `brew install ctags` to install
+exuberant-ctags.
+
+**Tip**: Check out `:help ctags` for information about VIM's built-in
+ctag support. Tag navigation creates a stack which can traversed via
+`Ctrl-]` (to find the source of a token) and `Ctrl-T` (to jump back up
+one level).
+
+## [EasyMotion]
+
+EasyMotion provides an interactive way to use motions in Vim.
+
+It quickly maps each possible jump destination to a key allowing very fast and
+straightforward movement.
+
+**QuickStart** EasyMotion is triggered using the normal movements, but prefixing them with `<leader><leader>`
+
+For example this screen shot demonstrates pressing `,,w`
+
+## [Airline]
+
+Airline provides a lightweight themable statusline with no external dependencies. By default this configuration uses the symbols `‹` and `›` as separators for different statusline sections but can be configured to use the same symbols as [Powerline]. An example first without and then with powerline symbols is shown here:
+
+To enable powerline symbols first install one of the [Powerline Fonts] or patch your favorite font using the provided instructions. Configure your terminal, MacVim, or Gvim to use the desired font. Finally add `let g:airline_powerline_symbol_fonts=1` to your `.vimrc.before.local`.
+
+## Additional Syntaxes
+
+spf13-vim ships with a few additional syntaxes:
+
+* Markdown (bound to \*.markdown, \*.md, and \*.mk)
+* Twig
+* Git commits (set your `EDITOR` to `mvim -f`)
+
+## Amazing Colors
+
+starry-vim includes [solarized] and [StarryLeo vim color pack](https://github.com/StarryLeo/vim-colorschemes/):
+
+* github
+* onedark
+* pyte
+
+Use `:color onedark` to switch to a color scheme.
+
+Terminal Vim users will benefit from solarizing their terminal emulators and setting solarized support to 16 colors:
+
+    let g:solarized_termcolors=16
+    color solarized
+
+Terminal emulator colorschemes:
+
+* http://ethanschoonover.com/solarized (iTerm2, Terminal.app)
+* https://github.com/phiggins/konsole-colors-solarized (KDE Konsole)
+* https://github.com/sigurdga/gnome-terminal-colors-solarized (Gnome Terminal)
+
+## Snippets
+
+
+
+# Intro to VIM
+
+Here's some tips if you've never used VIM before:
+
+## Tutorials
+
+* Type `vimtutor` into a shell to go through a brief interactive
+  tutorial inside VIM.
+* Read the slides at [VIM: Walking Without Crutches](https://walking-without-crutches.heroku.com/#1).
+
+## Modes
+
+* VIM has two (common) modes:
+  * insert mode- stuff you type is added to the buffer
+  * normal mode- keys you hit are interpreted as commands
+* To enter insert mode, hit `i`
+* To exit insert mode, hit `<ESC>`
+
+## Useful commands
+
+* Use `:q` to exit vim
+* Certain commands are prefixed with a `<Leader>` key, which by default maps to `\`.
+  starry-vim uses `let mapleader = ","` to change this to `,` which is in a consistent and
+  convenient location.
+* Keyboard [cheat sheet](http://www.viemu.com/vi-vim-cheat-sheet.gif).
+
+
+[Git]:http://git-scm.com
+[Curl]:http://curl.haxx.se
+[Vim]:http://www.vim.org/download.php#pc
+[msysgit]:http://msysgit.github.io
+[MacVim]:https://github.com/macvim-dev/macvim
+[starry-vim]:https://github.com/StarryLeo/starry-vim
+[contributors]:https://github.com/StarryLeo/starry-vim/contributors
+
+[vim-plug]:https://github.com/junegunn/vim-plug
+[NERDCommenter]:https://github.com/scrooloose/nerdcommenter
+[Undotree]:https://github.com/mbbill/undotree
+[NERDTree]:https://github.com/scrooloose/nerdtree
+[ctrlp]:https://github.com/kien/ctrlp.vim
+[solarized]:https://github.com/altercation/vim-colors-solarized
+[neocomplete]:https://github.com/shougo/neocomplete
+[Fugitive]:https://github.com/tpope/vim-fugitive
+[Surround]:https://github.com/tpope/vim-surround
+[Tagbar]:https://github.com/majutsushi/tagbar
+[Syntastic]:https://github.com/scrooloose/syntastic
+[vim-easymotion]:https://github.com/Lokaltog/vim-easymotion
+[YouCompleteMe]:https://github.com/Valloric/YouCompleteMe
+[Tabularize]:https://github.com/godlygeek/tabular
+[EasyMotion]:https://github.com/Lokaltog/vim-easymotion
+[Airline]:https://github.com/bling/vim-airline
+[Powerline]:https://github.com/powerline/powerline
+[Powerline Fonts]:https://github.com/powerline/powerline-fonts
+[Ack.vim]:https://github.com/mileszs/ack.vim
+
