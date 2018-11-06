@@ -126,3 +126,88 @@ I'm always happy to take pull requests from others. A good number of people are 
 
 # A highly optimized .vimrc config file
 
+The .vimrc file is suited to programming. It is extremely well organized and folds in sections.
+Each section is labeled and each option is commented.
+
+It fixes many of the inconveniences of vanilla vim including
+
+ * A single config can be used across Windows, Mac and linux
+ * Eliminates swap and backup files from littering directories, preferring to store in a central location.
+ * Fixes common typos like :W, :Q, etc
+ * Setup a solid set of settings for Formatting (change to meet your needs)
+ * Setup the interface to take advantage of vim's features including
+   * omnicomplete
+   * line numbers
+   * syntax highlighting
+   * A better ruler & status line
+   * & more
+ * Configuring included plugins
+
+## Customization
+
+Create `~/.vimrc.local` and `~/.gvimrc.local` for any local
+customizations.
+
+For example, to override the default color schemes:
+
+```bash
+    echo colorscheme github  >> ~/.vimrc.local
+```
+
+### Before File
+
+Create a `~/.vimrc.before.local` file to define any customizations
+that get loaded *before* the starry-vim `.vimrc`.
+
+For example, to prevent autocd into a file directory:
+```bash
+    echo let g:starry_no_autochdir = 1 >> ~/.vimrc.before.local
+```
+For a list of available starry-vim specific customization options, look at the `~/.vimrc.before` file.
+
+
+### Fork Customization
+
+There is an additional tier of customization available to those who want to maintain a
+fork of starry-vim specialized for a particular group. These users can create `.vimrc.fork`
+and `.vimrc.plugs.fork` files in the root of their fork.  The load order for the configuration is:
+
+1. `.vimrc.before` - starry-vim before configuration
+2. `.vimrc.before.fork` - fork before configuration
+3. `.vimrc.before.local` - before user configuration
+4. `.vimrc.plugs` - starry-vim plug configuration
+5. `.vimrc.plugs.fork` - fork plug configuration
+6. `.vimrc.plugs.local` - local user plug configuration
+6. `.vimrc` - starry-vim vim configuration
+7. `.vimrc.fork` - fork vim configuration
+8. `.vimrc.local` - local user configuration
+
+See `.vimrc.plugs` for specifics on what options can be set to override plug configuration. See `.vimrc.before` for specifics
+on what options can be overridden. Most vim configuration options should be set in your `.vimrc.fork` file, plug configuration
+needs to be set in your `.vimrc.plugs.fork` file.
+
+You can specify the default plugs for your fork using `.vimrc.before.fork` file. Here is how to create an example `.vimrc.before.fork` file
+in a fork repo for the default plugs.
+```bash
+    echo let g:starry_plugs_groups=[\'general\', \'programming\', \'misc\', \'youcompleteme\'] >> .vimrc.before.fork
+```
+Once you have this file in your repo, only the plugs you specified will be installed during the first installation of your fork.
+
+You may also want to update your `README.md` file so that the `bootstrap.sh` link points to your repository and your `bootstrap.sh`
+file to pull down your fork.
+
+### Easily Editing Your Configuration
+
+`<Leader>ev` opens a new tab containing the .vimrc configuration files listed above. This makes it easier to get an overview of your
+configuration and make customizations.
+
+`<Leader>sv` sources the .vimrc file, instantly applying your customizations to the currently running vim instance.
+
+These two mappings can themselves be customized by setting the following in .vimrc.before.local:
+```bash
+let g:starry_edit_config_mapping='<Leader>ev'
+let g:starry_apply_config_mapping='<Leader>sv'
+```
+
+# Plugins
+
