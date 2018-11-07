@@ -140,6 +140,10 @@
 
     " Writing {
         if count(g:starry_plug_groups, 'writing')
+            Plug 'reedes/vim-litecorrect'
+            Plug 'reedes/vim-textobj-sentence'
+            Plug 'reedes/vim-textobj-quote'
+            Plug 'reedes/vim-wordy'
         endif
     " }
 
