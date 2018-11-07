@@ -10,15 +10,18 @@
 ## 中文介绍
 这是我自己的vim配置，Fork自spf13的[spf13-vim](https://github.com/spf13/spf13-vim)项目，由于原配置项目已经有好几年没更新了，所以重开一个Repo更新修改为自己所用。
 
+使用[vim-plug]代替[Vundle]作为vim的插件管理器，提高安装插件的速度，同时[vim-plug]的操作也很简易，与[Vunble]类似。
+
 ## Introduction
 This is a StarryLeo's vim config fork from https://vim.spf13.com
+
 starry-vim is a distribution of vim plugins and resources for Vim, Gvim and [MacVim].
 
 It is a good starting point for anyone intending to use VIM for development running equally well on Windows, Linux, \*nix and Mac.
 
 The distribution is completely customisable using a `~/.vimrc.local`, `~/.vimrc.viplugs.local`, and `~/.vimrc.before.local` Vim RC files.
 
-Unlike traditional VIM plugin structure, which similar to UNIX throws all files into common directories, making updating or disabling plugins a real mess, spf13-vim 3 uses the [vim-plug] plugin management system to have a well organized vim directory (Similar to mac's app folders). vim-plug also ensures that the latest versions of your plugins are installed and makes it easy to keep them up to date.
+Unlike traditional VIM plugin structure, which similar to UNIX throws all files into common directories, making updating or disabling plugins a real mess, starry-vim uses the [vim-plug] plugin management system to have a well organized vim directory (Similar to mac's app folders). vim-plug also ensures that the latest versions of your plugins are installed and makes it easy to keep them up to date.
 
 Great care has been taken to ensure that each plugin plays nicely with others, and optional configuration has been provided for what we believe is the most efficient use.
 
@@ -440,8 +443,8 @@ Use `:color onedark` to switch to a color scheme.
 
 Terminal Vim users will benefit from solarizing their terminal emulators and setting solarized support to 16 colors:
 
-    let g:solarized_termcolors=16
-    color solarized
+    let g:solarized_use16 = 1
+    colorscheme solarized8
 
 Terminal emulator colorschemes:
 
@@ -489,6 +492,7 @@ Here's some tips if you've never used VIM before:
 [contributors]:https://github.com/StarryLeo/starry-vim/contributors
 
 [vim-plug]:https://github.com/junegunn/vim-plug
+[Vundle]:https://github.com/VundleVim/Vundle.vim
 [NERDCommenter]:https://github.com/scrooloose/nerdcommenter
 [Undotree]:https://github.com/mbbill/undotree
 [NERDTree]:https://github.com/scrooloose/nerdtree
