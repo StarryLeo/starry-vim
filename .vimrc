@@ -517,7 +517,15 @@
         endif
     " }
 
-    " PIV {
+    " PHP {
+        if isdirectory(expand("~/.vim/viplug/phpcomplete.vim"))
+            let g:phpcomplete_mappings = {
+               \ 'jump_to_def':             '<C-]>',
+               \ 'jump_to_def_split':  '<C-\><C-]>',
+               \ 'jump_to_def_vsplit': '<C-W><C-\>',
+               \ 'jump_to_def_tabnew': '<C-\><C-[>',
+               \}
+        endif
     " }
 
     " Misc {

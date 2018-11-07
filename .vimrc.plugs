@@ -195,6 +195,9 @@
 
     " PHP {
         if count(g:starry_plug_groups, 'php')
+            Plug 'shawncplus/phpcomplete.vim'
+            Plug 'arnaud-lb/vim-php-namespace'
+            Plug 'lumiliet/vim-twig'
         endif
     " }
 
