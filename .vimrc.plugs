@@ -156,6 +156,8 @@
             if executable('ctags')
                 Plug 'majutsushi/tagbar'
             endif
+            Plug 'mattn/webapi-vim'
+            Plug 'mattn/gist-vim'
         endif
     " }
 
