@@ -58,6 +58,15 @@
         call plug#begin('~/.vim/viplug')
     " }
 
+    " Add an UnPlug command {
+    function! UnPlug(arg)
+      call filter(g:plugs, 'v:val["name_spec"] != "' . a:arg . '"')
+    endfunction
+
+    com! -nargs=+         UnPlug
+    \ call UnPlug(<args>)
+    " }
+
 " Plugs {
 
     " Deps {
