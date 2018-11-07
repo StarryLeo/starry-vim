@@ -212,6 +212,11 @@
 
     " Javascript {
         if count(g:starry_plug_groups, 'javascript')
+            Plug 'elzr/vim-json'
+            Plug 'groenewege/vim-less'
+            Plug 'pangloss/vim-javascript'
+            Plug 'briancollins/vim-jst'
+            Plug 'kchmck/vim-coffee-script'
         endif
     " }
 

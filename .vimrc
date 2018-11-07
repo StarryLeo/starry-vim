@@ -621,6 +621,13 @@
     " }
 
     " JSON {
+        nmap <leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
+        let g:vim_json_syntax_conceal = 0
+        if isdirectory(expand("~/.vim/viplug/vim-javascript"))
+            let g:javascript_plugin_jsdoc = 1
+            let g:javascript_plugin_ngdoc = 1
+            let g:javascript_plugin_flow = 1
+        endif
     " }
 
     " PyMode {
