@@ -158,6 +158,7 @@
             endif
             Plug 'mattn/webapi-vim'
             Plug 'mattn/gist-vim'
+            Plug 'tpope/vim-commentary'
         endif
     " }
 
