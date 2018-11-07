@@ -1011,13 +1011,6 @@
         endif
     " }
 
-    " Wildfire {
-    let g:wildfire_objects = {
-                \ "*" : ["i'", 'i"', "i)", "i]", "i}", "ip"],
-                \ "html,xml" : ["at"],
-                \ }
-    " }
-
     " vim-multiple-cursors {
         if isdirectory(expand("~/.vim/viplug/vim-multiple-cursors/"))
             let g:multi_cursor_use_default_mapping=0
