@@ -492,19 +492,64 @@
 " Plugins {
 
     " GoLang {
-        " }
-
+        if count(g:starry_viplug_groups, 'go')
+            let g:go_highlight_functions = 1
+            let g:go_highlight_methods = 1
+            let g:go_highlight_structs = 1
+            let g:go_highlight_operators = 1
+            let g:go_highlight_build_constraints = 1
+            let g:go_fmt_command = "goimports"
+            let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+            let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+            au FileType go nmap <Leader>s <Plug>(go-implements)
+            au FileType go nmap <Leader>i <Plug>(go-info)
+            au FileType go nmap <Leader>e <Plug>(go-rename)
+            au FileType go nmap <leader>r <Plug>(go-run)
+            au FileType go nmap <leader>b <Plug>(go-build)
+            au FileType go nmap <leader>t <Plug>(go-test)
+            au FileType go nmap <Leader>gd <Plug>(go-doc)
+            au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+            au FileType go nmap <leader>co <Plug>(go-coverage)
+        endif
+    " }
 
     " TextObj Sentence {
+        if count(g:starry_plug_groups, 'writing')
+            augroup textobj_sentence
+              autocmd!
+              autocmd FileType markdown call textobj#sentence#init()
+              autocmd FileType textile call textobj#sentence#init()
+              autocmd FileType text call textobj#sentence#init()
+            augroup END
+        endif
     " }
 
     " TextObj Quote {
+        if count(g:starry_plug_groups, 'writing')
+            augroup textobj_quote
+                autocmd!
+                autocmd FileType markdown call textobj#quote#init()
+                autocmd FileType textile call textobj#quote#init()
+                autocmd FileType text call textobj#quote#init({'educate': 0})
+            augroup END
+        endif
     " }
 
-    " PIV {
+    " PHP {
+        if isdirectory(expand("~/.vim/viplug/phpcomplete.vim"))
+            let g:phpcomplete_mappings = {
+               \ 'jump_to_def':             '<C-]>',
+               \ 'jump_to_def_split':  '<C-\><C-]>',
+               \ 'jump_to_def_vsplit': '<C-W><C-\>',
+               \ 'jump_to_def_tabnew': '<C-\><C-[>',
+               \}
+        endif
     " }
 
     " Misc {
+        if isdirectory(expand("~/.vim/viplug/nerdtree"))
+            let g:NERDShutUp=1
+        endif
     " }
 
     " OmniComplete {
@@ -539,12 +584,55 @@
     " }
 
     " Ctags {
+        set tags=./tags;/,~/.vimtags
+
+        " Make tags placed in .git/tags file available in all levels of a repository
+        let gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
+        if gitroot != ''
+            let &tags = &tags . ',' . gitroot . '/.git/tags'
+        endif
     " }
 
     " AutoCloseTag {
+        nmap <Leader>ac <Plug>ToggleAutoCloseMappings
+        " filenames like *.xml, *.html, *.xhtml, ...
+        " These are the file extensions where this plugin is enabled.
+        "
+        let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
+
+        " filenames like *.xml, *.xhtml, ...
+        " This will make the list of non-closing tags self-closing in the specified files.
+        "
+        let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
+
+        " filetypes like xml, html, xhtml, ...
+        " These are the file types where this plugin is enabled.
+        "
+        let g:closetag_filetypes = 'html,xhtml,phtml'
+
+        " filetypes like xml, xhtml, ...
+        " This will make the list of non-closing tags self-closing in the specified files.
+        "
+        let g:closetag_xhtml_filetypes = 'xhtml,jsx'
+
+        " integer value [0|1]
+        " This will make the list of non-closing tags case-sensitive (e.g. `<Link>` will be closed while `<link>` won't.)
+        "
+        let g:closetag_emptyTags_caseSensitive = 1
+
+        " Shortcut for closing tags, default is '>'
+        "
+        let g:closetag_shortcut = '>'
+
+        " Add > at current position without closing the current tag, default is ''
+        "
+        let g:closetag_close_shortcut = '<leader>>'
     " }
 
     " SnipMate {
+        " Setting the author var
+        " If forking, please overwrite in your .vimrc.local file
+        let g:snips_author = 'StarryLeo <starryskymayuyu@gmail.com>'
     " }
 
     " NerdTree {
@@ -585,8 +673,6 @@
         endif
     " }
 
-    " }
-
     " Session List {
         set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
         if isdirectory(expand("~/.vim/viplug/sessionman.vim/"))
@@ -597,9 +683,27 @@
     " }
 
     " JSON {
+        nmap <leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
+        let g:vim_json_syntax_conceal = 0
+        if isdirectory(expand("~/.vim/viplug/vim-javascript"))
+            let g:javascript_plugin_jsdoc = 1
+            let g:javascript_plugin_ngdoc = 1
+            let g:javascript_plugin_flow = 1
+        endif
     " }
 
     " PyMode {
+        " Disable if python support not present
+        if !has('python') && !has('python3')
+            let g:pymode = 0
+        endif
+
+        if isdirectory(expand("~/.vim/viplug/python-mode"))
+            let g:pymode_lint_checkers = ['pyflakes']
+            let g:pymode_trim_whitespaces = 0
+            let g:pymode_options = 0
+            let g:pymode_rope = 0
+        endif
     " }
 
     " ctrlp {
@@ -654,6 +758,9 @@
     "}
 
     " Rainbow {
+        if isdirectory(expand("~/.vim/viplug/rainbow/"))
+            let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
+        endif
     "}
 
     " Fugitive {
@@ -981,6 +1088,9 @@
     " Haskell post write lint and check with ghcmod
     " $ `cabal install ghcmod` if missing and ensure
     " ~/.cabal/bin is in your $PATH.
+    if !executable("ghcmod")
+        autocmd BufWritePost *.hs GhcModCheckAndLintAsync
+    endif
 
     " Syntastic {
         if isdirectory(expand("~/.vim/viplug/syntastic/"))
@@ -1009,13 +1119,6 @@
             let g:indent_guides_start_level = 2
             let g:indent_guides_guide_size = 1
         endif
-    " }
-
-    " Wildfire {
-    let g:wildfire_objects = {
-                \ "*" : ["i'", 'i"', "i)", "i]", "i}", "ip"],
-                \ "html,xml" : ["at"],
-                \ }
     " }
 
     " vim-multiple-cursors {
@@ -1101,7 +1204,14 @@
                 let g:airline_symbols.linenr = '☰'
                 let g:airline_symbols.maxlinenr = ''
             endif
-    endif
+        endif
+    " }
+
+    " Markdown Preview {
+        nmap <silent> <F8> <Plug>MarkdownPreview
+        imap <silent> <F8> <Plug>MarkdownPreview
+        nmap <silent> <F9> <Plug>StopMarkdownPreview
+        imap <silent> <F9> <Plug>StopMarkdownPreview
     " }
 
 " }

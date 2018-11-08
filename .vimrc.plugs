@@ -135,12 +135,15 @@
             Plug 'osyo-manga/vim-over'
             Plug 'kana/vim-textobj-user'
             Plug 'kana/vim-textobj-indent'
-            Plug 'gcmt/wildfire.vim'
         endif
     " }
 
     " Writing {
         if count(g:starry_plug_groups, 'writing')
+            Plug 'reedes/vim-litecorrect'
+            Plug 'reedes/vim-textobj-sentence'
+            Plug 'reedes/vim-textobj-quote'
+            Plug 'reedes/vim-wordy'
         endif
     " }
 
@@ -153,6 +156,10 @@
             if executable('ctags')
                 Plug 'majutsushi/tagbar'
             endif
+            Plug 'mattn/webapi-vim'
+            Plug 'mattn/gist-vim'
+            Plug 'tpope/vim-commentary'
+            Plug 'luochen1990/rainbow'
         endif
     " }
 
@@ -188,26 +195,110 @@
 
     " PHP {
         if count(g:starry_plug_groups, 'php')
+            Plug 'shawncplus/phpcomplete.vim'
+            Plug 'arnaud-lb/vim-php-namespace'
+            Plug 'lumiliet/vim-twig'
         endif
     " }
 
     " Python {
         if count(g:starry_plug_groups, 'python')
+            " Pick either python-mode or pyflakes & pydoc
+            Plug 'python-mode/python-mode', { 'branch': 'develop' }
+            Plug 'python_match.vim'
+            Plug 'pythoncomplete'
         endif
     " }
 
     " Javascript {
         if count(g:starry_plug_groups, 'javascript')
+            Plug 'elzr/vim-json'
+            Plug 'groenewege/vim-less'
+            Plug 'pangloss/vim-javascript'
+            Plug 'briancollins/vim-jst'
+            Plug 'kchmck/vim-coffee-script'
         endif
     " }
 
     " Scala {
         if count(g:starry_plug_groups, 'scala')
+            Plug 'derekwyatt/vim-scala'
+            Plug 'derekwyatt/vim-sbt'
+            Plug 'drmingdrmer/xptemplate'
         endif
     " }
 
     " Haskell {
         if count(g:starry_plug_groups, 'haskell')
+            Plug 'travitch/hasksyn'
+            Plug 'dag/vim2hs'
+            Plug 'Twinside/vim-haskellConceal'
+            Plug 'Twinside/vim-haskellFold'
+            Plug 'lukerandall/haskellmode-vim'
+            Plug 'eagletmt/neco-ghc'
+            Plug 'eagletmt/ghcmod-vim'
+            Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+            Plug 'adinapoli/cumino'
+            Plug 'bitc/vim-hdevtools'
+        endif
+    " }
+
+    " HTML {
+        if count(g:starry_viplug_groups, 'html')
+            Plug 'alvan/vim-closetag'
+            Plug 'hail2u/vim-css3-syntax'
+            Plug 'gko/vim-coloresque'
+            Plug 'tpope/vim-haml'
+            Plug 'mattn/emmet-vim'
+        endif
+    " }
+
+    " Ruby {
+        if count(g:starry_viplug_groups, 'ruby')
+            Plug 'tpope/vim-rails'
+            let g:rubycomplete_buffer_loading = 1
+            "let g:rubycomplete_classes_in_global = 1
+            "let g:rubycomplete_rails = 1
+        endif
+    " }
+
+    " Puppet {
+        if count(g:starry_viplug_groups, 'puppet')
+            Plug 'rodjek/vim-puppet'
+        endif
+    " }
+
+    " Go Lang {
+        if count(g:starry_viplug_groups, 'go')
+            "Plug 'Blackrush/vim-gocode'
+            Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+        endif
+    " }
+
+    " Elixir {
+        if count(g:starry_viplug_groups, 'elixir')
+            Plug 'elixir-editors/vim-elixir'
+            Plug 'carlosgaldino/elixir-snippets'
+            Plug 'mattreduce/vim-mix'
+        endif
+    " }
+
+    " Markdown {
+        if (has("python") || has("python3")) && has("gui_running")
+            Plug 'plasticboy/vim-markdown'
+            Plug 'iamcco/mathjax-support-for-mkdp'
+            Plug 'iamcco/markdown-preview.vim'
+        else
+            Plug 'tpope/vim-markdown'
+    " }
+
+    " Misc {
+        if count(g:starry_viplug_groups, 'misc')
+            Plug 'rust-lang/rust.vim'
+            Plug 'tpope/vim-cucumber'
+            Plug 'cespare/vim-toml'
+            Plug 'quentindecock/vim-cucumber-align-pipes'
+            Plug 'saltstack/salt-vim'
         endif
     " }
 
