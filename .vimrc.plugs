@@ -271,7 +271,15 @@
     " Go Lang {
         if count(g:starry_viplug_groups, 'go')
             "Plug 'Blackrush/vim-gocode'
-            Plug 'fatih/vim-go'
+            Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+        endif
+    " }
+
+    " Elixir {
+        if count(g:starry_viplug_groups, 'elixir')
+            Plug 'elixir-editors/vim-elixir'
+            Plug 'carlosgaldino/elixir-snippets'
+            Plug 'mattreduce/vim-mix'
         endif
     " }
 
