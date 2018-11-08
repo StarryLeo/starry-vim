@@ -262,6 +262,12 @@
         endif
     " }
 
+    " Puppet {
+        if count(g:starry_viplug_groups, 'puppet')
+            Plug 'rodjek/vim-puppet'
+        endif
+    " }
+
     endif
 
 " }
