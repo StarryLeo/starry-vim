@@ -75,7 +75,7 @@
     endif
 " }
 
-" Use bundles config {
+" Use plugs config {
     if filereadable(expand("~/.vimrc.plugs"))
         source ~/.vimrc.plugs
     endif
