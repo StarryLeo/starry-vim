@@ -189,6 +189,7 @@
             Plug 'Shougo/deoplete.nvim'
             Plug 'roxma/nvim-yarp'
             Plug 'roxma/vim-hug-neovim-rpc'
+            Plug 'SirVer/ultisnips'
             Plug 'honza/vim-snippets'
         endif
     " }
