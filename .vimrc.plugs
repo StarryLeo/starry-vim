@@ -187,7 +187,7 @@
             Plug 'honza/vim-snippets'
         elseif count(g:starry_plug_groups, 'deoplete')
             Plug 'Shougo/deoplete.nvim'
-            Plug 'roxma/nvim-yarp'
+            Plug 'roxma/nvim-yarp', { 'do': 'pip3 install neovim' }
             Plug 'roxma/vim-hug-neovim-rpc'
             Plug 'SirVer/ultisnips'
             Plug 'honza/vim-snippets'
