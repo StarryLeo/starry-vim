@@ -1196,7 +1196,14 @@
                 let g:airline_symbols.linenr = '☰'
                 let g:airline_symbols.maxlinenr = ''
             endif
-    endif
+        endif
+    " }
+
+    " Markdown Preview {
+        nmap <silent> <F8> <Plug>MarkdownPreview
+        imap <silent> <F8> <Plug>MarkdownPreview
+        nmap <silent> <F9> <Plug>StopMarkdownPreview
+        imap <silent> <F9> <Plug>StopMarkdownPreview
     " }
 
 " }

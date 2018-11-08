@@ -283,6 +283,25 @@
         endif
     " }
 
+    " Markdown {
+        if (has("python") || has("python3")) && has("gui_running")
+            Plug 'plasticboy/vim-markdown'
+            Plug 'iamcco/mathjax-support-for-mkdp'
+            Plug 'iamcco/markdown-preview.vim'
+        else
+            Plug 'tpope/vim-markdown'
+    " }
+
+    " Misc {
+        if count(g:starry_viplug_groups, 'misc')
+            Plug 'rust-lang/rust.vim'
+            Plug 'tpope/vim-cucumber'
+            Plug 'cespare/vim-toml'
+            Plug 'quentindecock/vim-cucumber-align-pipes'
+            Plug 'saltstack/salt-vim'
+        endif
+    " }
+
     endif
 
 " }
