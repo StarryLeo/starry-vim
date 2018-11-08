@@ -245,7 +245,7 @@
     " }
 
     " HTML {
-        if count(g:starry_viplug_groups, 'html')
+        if count(g:starry_plug_groups, 'html')
             Plug 'alvan/vim-closetag'
             Plug 'hail2u/vim-css3-syntax'
             Plug 'gko/vim-coloresque'
@@ -255,7 +255,7 @@
     " }
 
     " Ruby {
-        if count(g:starry_viplug_groups, 'ruby')
+        if count(g:starry_plug_groups, 'ruby')
             Plug 'tpope/vim-rails'
             let g:rubycomplete_buffer_loading = 1
             "let g:rubycomplete_classes_in_global = 1
@@ -264,20 +264,20 @@
     " }
 
     " Puppet {
-        if count(g:starry_viplug_groups, 'puppet')
+        if count(g:starry_plug_groups, 'puppet')
             Plug 'rodjek/vim-puppet'
         endif
     " }
 
     " Go Lang {
-        if count(g:starry_viplug_groups, 'go')
+        if count(g:starry_plug_groups, 'go')
             "Plug 'Blackrush/vim-gocode'
             Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
         endif
     " }
 
     " Elixir {
-        if count(g:starry_viplug_groups, 'elixir')
+        if count(g:starry_plug_groups, 'elixir')
             Plug 'elixir-editors/vim-elixir'
             Plug 'carlosgaldino/elixir-snippets'
             Plug 'mattreduce/vim-mix'
@@ -291,10 +291,11 @@
             Plug 'iamcco/markdown-preview.vim'
         else
             Plug 'tpope/vim-markdown'
+        endif
     " }
 
     " Misc {
-        if count(g:starry_viplug_groups, 'misc')
+        if count(g:starry_plug_groups, 'misc')
             Plug 'rust-lang/rust.vim'
             Plug 'tpope/vim-cucumber'
             Plug 'cespare/vim-toml'
