@@ -268,6 +268,13 @@
         endif
     " }
 
+    " Go Lang {
+        if count(g:starry_viplug_groups, 'go')
+            "Plug 'Blackrush/vim-gocode'
+            Plug 'fatih/vim-go'
+        endif
+    " }
+
     endif
 
 " }
