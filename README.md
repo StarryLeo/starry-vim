@@ -454,6 +454,7 @@ Terminal emulator colorschemes:
 
 ## Snippets
 
+It also contains a very complete set of [snippets](https://github.com/scrooloose/snipmate-snippets) for use with snipmate or [neocomplete].
 
 
 # Intro to VIM
