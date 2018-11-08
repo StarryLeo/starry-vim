@@ -492,7 +492,7 @@
 " Plugins {
 
     " GoLang {
-        if count(g:starry_viplug_groups, 'go')
+        if count(g:starry_plug_groups, 'go')
             let g:go_highlight_functions = 1
             let g:go_highlight_methods = 1
             let g:go_highlight_structs = 1
