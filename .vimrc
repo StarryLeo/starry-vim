@@ -547,6 +547,9 @@
     " }
 
     " Misc {
+        if isdirectory(expand("~/.vim/viplug/nerdtree"))
+            let g:NERDShutUp=1
+        endif
     " }
 
     " OmniComplete {
@@ -581,6 +584,13 @@
     " }
 
     " Ctags {
+        set tags=./tags;/,~/.vimtags
+
+        " Make tags placed in .git/tags file available in all levels of a repository
+        let gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
+        if gitroot != ''
+            let &tags = &tags . ',' . gitroot . '/.git/tags'
+        endif
     " }
 
     " AutoCloseTag {
@@ -661,8 +671,6 @@
             nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
             vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
         endif
-    " }
-
     " }
 
     " Session List {
