@@ -206,8 +206,8 @@
         if count(g:starry_plug_groups, 'python')
             " Pick either python-mode or pyflakes & pydoc
             Plug 'python-mode/python-mode', { 'branch': 'develop' }
-            Plug 'python_match.vim'
-            Plug 'pythoncomplete'
+            Plug 'vim-scripts/python_match.vim'
+            Plug 'vim-scripts/pythoncomplete'
         endif
     " }
 
