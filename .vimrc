@@ -822,6 +822,12 @@
         endif
     " }
 
+    " deoplete {
+        if count(g:starry_plug_groups, 'deoplete')
+            let g:deoplete#enable_at_startup = 1
+        endif
+    " }
+
     " neocomplete {
         if count(g:starry_plug_groups, 'neocomplete')
             let g:acp_enableAtStartup = 0
@@ -1035,11 +1041,6 @@
             let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
             let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
             let g:neocomplcache_omni_patterns.go = '\h\w*\.\?'
-    " }
-    " deoplete {
-        if count(g:starry_plug_groups, 'deoplete')
-            let g:deoplete#enable_at_startup = 1
-        endif
     " }
     " Normal Vim omni-completion {
     " To disable omni complete, add the following to your .vimrc.before.local file:
