@@ -1215,6 +1215,12 @@
         imap <silent> <F9> <Plug>StopMarkdownPreview
     " }
 
+    " Verilog {
+        nnoremap <leader>i :VerilogFollowInstance<CR>
+        nnoremap <leader>p :VerilogFollowPort<CR>
+        nnoremap <leader>o :VerilogGotoInstanceStart<CR>
+    " }
+
 " }
 
 " GUI Settings {

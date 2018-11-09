@@ -89,7 +89,7 @@
     "在你的.vimrc.before.local文件中列出你要用的插件组
     "
     if !exists('g:starry_plug_groups')
-        let g:starry_plug_groups=['general', 'writing', 'deoplete', 'programming', 'php', 'ruby', 'python', 'javascript', 'html', 'misc',]
+        let g:starry_plug_groups=['general', 'writing', 'deoplete', 'programming', 'php', 'ruby', 'python', 'javascript', 'html', 'markdown', 'verilog', 'misc',]
     endif
 
     " To override all the included bundles, add the following to your
@@ -285,12 +285,20 @@
     " }
 
     " Markdown {
-        if (has("python") || has("python3")) && has("gui_running")
-            Plug 'plasticboy/vim-markdown'
-            Plug 'iamcco/mathjax-support-for-mkdp'
-            Plug 'iamcco/markdown-preview.vim'
-        else
-            Plug 'tpope/vim-markdown'
+        if count(g:starry_plug_groups, 'markdown')
+            if (has("python") || has("python3")) && has("gui_running")
+                Plug 'plasticboy/vim-markdown'
+                Plug 'iamcco/mathjax-support-for-mkdp'
+                Plug 'iamcco/markdown-preview.vim'
+            else
+                Plug 'tpope/vim-markdown'
+            endif
+        endif
+    " }
+
+    " Verilog {
+        if count(g:starry_plug_groups, 'verilog')
+            Plug 'vhda/verilog_systemverilog.vim'
         endif
     " }
 
