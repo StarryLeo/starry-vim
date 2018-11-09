@@ -10,7 +10,7 @@
 ## 中文介绍
 这是我自己的vim配置，Fork自spf13的[spf13-vim](https://github.com/spf13/spf13-vim)项目，由于原配置项目已经有好几年没更新了，所以重开一个Repo更新修改为自己所用。
 
-使用[vim-plug]代替[Vundle]作为vim的插件管理器，提高安装插件的速度，同时[vim-plug]的操作也很简易，与[Vunble]类似。
+使用[vim-plug]代替[Vundle]作为vim的插件管理器，提高安装插件的速度，同时[vim-plug]的操作也很简易，与[Vundle]类似。
 
 ## Introduction
 This is a StarryLeo's vim config fork from https://vim.spf13.com
@@ -29,13 +29,23 @@ Lastly (and perhaps, most importantly) It is completely cross platform. It works
 
 # Installation
 ## Requirements
-To make all the plugins work, specifically [neocomplete](https://github.com/Shougo/neocomplete.vim), you need [vim with lua](https://github.com/Shougo/neocomplete.vim#requirements).
+To make all the plugins work, specifically [deoplete](https://github.com/Shougo/deoplete.nvim), you need [vim with python3](https://github.com/Shougo/deoplete.nvim#requirements).
+if `:echo has("python3")` rerurns `1`, then you have python 3 support; otherwise, see below.
+You can enable Python3 interface with pip3:
+
+```bash
+
+    pip3 install neovim
+```
+
+For [neocomplete](https://github.com/Shougo/neocomplete.vim), you need [vim with lua](https://github.com/Shougo/neocomplete.vim#requirements).
+if `:echo has("lua")` rerurns `1`, then you have lua support.
 
 ## Linux, \*nix, Mac OSX Installation
 
 The easiest way to install starry-vim is to use our [automatic installer](https://raw.githubusercontent.com/StarryLeo/starry-vim/master/bootstrap.sh) by simply copying and pasting the following line into a terminal. This will install starry-vim and backup your existing vim configuration. If you are upgrading from a prior version this is also the recommended installation.
 
-*Requires Git 1.7+ and Vim 7.3+*
+*Requires Git 1.7+ and Vim 7.3+(For Deoplete: Vim8)*
 
 ```bash
 
