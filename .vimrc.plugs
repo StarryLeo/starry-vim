@@ -299,6 +299,7 @@
     " Verilog {
         if count(g:starry_plug_groups, 'verilog')
             Plug 'vhda/verilog_systemverilog.vim'
+            Plug 'antoinemadec/vim-verilog-instance'
         endif
     " }
 
