@@ -45,7 +45,7 @@ if `:echo has("lua")` rerurns `1`, then you have lua support.
 
 The easiest way to install starry-vim is to use our [automatic installer](https://raw.githubusercontent.com/StarryLeo/starry-vim/master/bootstrap.sh) by simply copying and pasting the following line into a terminal. This will install starry-vim and backup your existing vim configuration. If you are upgrading from a prior version this is also the recommended installation.
 
-*Requires Git 1.7+ and Vim 7.3+(For Deoplete: Vim8)*
+*Requires Git 1.7+ and Vim 8.1+*
 
 ```bash
 

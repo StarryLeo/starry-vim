@@ -286,10 +286,9 @@
 
     " Markdown {
         if count(g:starry_plug_groups, 'markdown')
-            if (has("python") || has("python3")) && has("gui_running")
+            if has("gui_running")
                 Plug 'plasticboy/vim-markdown'
-                Plug 'iamcco/mathjax-support-for-mkdp'
-                Plug 'iamcco/markdown-preview.vim'
+                Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
             else
                 Plug 'tpope/vim-markdown'
             endif
