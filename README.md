@@ -35,7 +35,7 @@ You can enable Python3 interface with pip3:
 
 ```bash
 
-    pip3 install --user neovim
+    pip3 install --user pynvim
 ```
 
 For [neocomplete](https://github.com/Shougo/neocomplete.vim), you need [vim with lua](https://github.com/Shougo/neocomplete.vim#requirements).
