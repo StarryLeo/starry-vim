@@ -89,7 +89,7 @@
         set term=xterm-256color          " Make arrow and other keys work 启用终端256色
     endif
 
-    filetype plugin indent on   " Automatically detect file types. 检测到不同的文件类型加载不同的插件
+    filetype plugin indent on   " Automatically detect file types. 检测到不同的文件类型加载不同的文件类型插件
     syntax on                   " Syntax highlighting 开启代码高亮
     set mouse=a                 " Automatically enable mouse usage 开启鼠标模式
     set mousehide               " Hide the mouse cursor while typing 输入时隐藏鼠标

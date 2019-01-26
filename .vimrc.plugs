@@ -59,12 +59,14 @@
     " }
 
     " Add an UnPlug command {
-    function! UnPlug(arg)
-      call filter(g:plugs, 'v:val["name_spec"] != "' . a:arg . '"')
+    function! s:deregister(repo)
+      let repo = substitute(a:repo, '[\/]\+$', '', '')
+      let name = fnamemodify(repo, ':t:s?\.git$??')
+      call remove(g:plugs, name)
+      call remove(g:plugs_order, index(g:plugs_order, name))
     endfunction
 
-    com! -nargs=+         UnPlug
-    \ call UnPlug(<args>)
+    command! -nargs=+ -bar UnPlug call s:deregister(<args>)
     " }
 
 " Plugs {

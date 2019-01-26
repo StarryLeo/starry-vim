@@ -35,7 +35,7 @@ You can enable Python3 interface with pip3:
 
 ```bash
 
-    pip3 install --user neovim
+    pip3 install --user pynvim
 ```
 
 For [neocomplete](https://github.com/Shougo/neocomplete.vim), you need [vim with lua](https://github.com/Shougo/neocomplete.vim#requirements).
@@ -248,10 +248,10 @@ Create `~/.vimrc.local` if it doesn't already exist.
 
 Add the UnPlug command to this line. It takes the same input as the Plug line, so simply copy the line you want to disable and add 'Un' to the beginning.
 
-For example, disabling the scrooloose/syntastic' plug
+For example, disabling the 'quentindecock/vim-cucumber-align-pipes' plug
 
 ```bash
-    echo UnPlug \'scrooloose/syntastic\' >> ~/.vimrc.plugs.local
+    echo UnPlug \'quentindecock/vim-cucumber-align-pipes\' >> ~/.vimrc.plugs.local
 ```
 
 **Remember to run ':PluginClean!' after this to remove the existing directories**
