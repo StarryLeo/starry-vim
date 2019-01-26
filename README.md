@@ -248,10 +248,10 @@ Create `~/.vimrc.local` if it doesn't already exist.
 
 Add the UnPlug command to this line. It takes the same input as the Plug line, so simply copy the line you want to disable and add 'Un' to the beginning.
 
-For example, disabling the scrooloose/syntastic' plug
+For example, disabling the 'quentindecock/vim-cucumber-align-pipes' plug
 
 ```bash
-    echo UnPlug \'scrooloose/syntastic\' >> ~/.vimrc.plugs.local
+    echo UnPlug \'quentindecock/vim-cucumber-align-pipes\' >> ~/.vimrc.plugs.local
 ```
 
 **Remember to run ':PluginClean!' after this to remove the existing directories**
