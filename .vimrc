@@ -828,6 +828,13 @@
     " deoplete {
         if count(g:starry_plug_groups, 'deoplete')
             let g:deoplete#enable_at_startup = 1
+            " For Vim8
+            if has('python3')
+                set pyxversion=3
+                    if LINUX()
+                        let g:python3_host_prog='/usr/bin/python'
+                    endif
+            endif
         endif
     " }
 

@@ -19,7 +19,7 @@ starry-vim is a distribution of vim plugins and resources for Vim, Gvim and [Mac
 
 It is a good starting point for anyone intending to use VIM for development running equally well on Windows, Linux, \*nix and Mac.
 
-The distribution is completely customisable using a `~/.vimrc.local`, `~/.vimrc.viplugs.local`, and `~/.vimrc.before.local` Vim RC files.
+The distribution is completely customisable using a `~/.vimrc.local`, `~/.vimrc.plugs.local`, and `~/.vimrc.before.local` Vim RC files.
 
 Unlike traditional VIM plugin structure, which similar to UNIX throws all files into common directories, making updating or disabling plugins a real mess, starry-vim uses the [vim-plug] plugin management system to have a well organized vim directory (Similar to mac's app folders). vim-plug also ensures that the latest versions of your plugins are installed and makes it easy to keep them up to date.
 
@@ -31,11 +31,21 @@ Lastly (and perhaps, most importantly) It is completely cross platform. It works
 ## Requirements
 To make all the plugins work, specifically [deoplete](https://github.com/Shougo/deoplete.nvim), you need [vim with python3](https://github.com/Shougo/deoplete.nvim#requirements).
 if `:echo has("python3")` rerurns `1`, then you have python 3 support; otherwise, see below.
+
 You can enable Python3 interface with pip3:
 
 ```bash
 
     pip3 install --user pynvim
+```
+
+For ArchLinux, you should see [roxma/vim-hug-neovim-rpc#28](https://github.com/roxma/vim-hug-neovim-rpc/issues/28).
+
+For Windows, you should create `~/.vimrc.local` and let `g:python3_host_prog` pointed to your python3 executable. Similar to
+
+```bash
+
+    let g:python3_host_prog='C:\Users\HASEE\AppData\Local\Programs\Python\Python37\python.exe'
 ```
 
 For [neocomplete](https://github.com/Shougo/neocomplete.vim), you need [vim with lua](https://github.com/Shougo/neocomplete.vim#requirements).
@@ -71,7 +81,7 @@ After the installation of Vim you must add a new directory to your environment v
 Open Vim and write the following command, it will show the installed directory:
 
     :echo $VIMRUNTIME
-    C:\Program Files (X86)\Vim\vim81
+    C:\Program Files\Vim\vim81
 
 Then you need to add it to your environment variable path. After that try execute `vim` within command prompt (press Win-R, type `cmd`, press Enter) and you’ll see the default vim page.
 
@@ -248,10 +258,11 @@ Create `~/.vimrc.local` if it doesn't already exist.
 
 Add the UnPlug command to this line. It takes the same input as the Plug line, so simply copy the line you want to disable and add 'Un' to the beginning.
 
-For example, disabling the 'quentindecock/vim-cucumber-align-pipes' plug
+For example, disabling the 'quentindecock/vim-cucumber-align-pipes' and 'saltstack/salt-vim' plugins
 
 ```bash
     echo UnPlug \'quentindecock/vim-cucumber-align-pipes\' >> ~/.vimrc.plugs.local
+    echo UnPlug \'saltstack/salt-vim\' >> ~/.vimrc.plugs.local
 ```
 
 **Remember to run ':PluginClean!' after this to remove the existing directories**
