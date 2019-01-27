@@ -4,9 +4,9 @@ REM
 REM    Licensed under the Apache License, Version 2.0 (the "License");
 REM    you may not use this file except in compliance with the License.
 REM    You may obtain a copy of the License at
-REM 
+REM
 REM        http://www.apache.org/licenses/LICENSE-2.0
-REM 
+REM
 REM    Unless required by applicable law or agreed to in writing, software
 REM    distributed under the License is distributed on an "AS IS" BASIS,
 REM    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,12 +42,12 @@ IF NOT EXIST "%APP_PATH%\.vim\viplug" (
     call mkdir "%APP_PATH%\.vim\viplug"
 )
 
-IF NOT EXIST "%HOME%/.vim/autoload" (
-    call git clone https://github.com/junegunn/vim-plug.git "%HOME%/.vim/autoload"
+IF NOT EXIST "%HOME%\.vim\autoload" (
+    call git clone https://github.com/junegunn/vim-plug.git "%HOME%\.vim\autoload"
 ) ELSE (
-  call cd "%HOME%/.vim/autoload"
+  call cd "%HOME%\.vim\autoload"
   call git pull
   call cd %HOME%
 )
 
-call vim -u "%APP_PATH%/.vimrc.plugs" +PlugClean! +PlugInstall +qall
+call vim -u "%APP_PATH%\.vimrc.plugs" +PlugClean! +PlugInstall +qall
