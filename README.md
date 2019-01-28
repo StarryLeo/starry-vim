@@ -70,8 +70,6 @@ If you have a bash-compatible shell you can run the script directly:
 
 ## Installing on Windows
 
-On Windows and \*nix [Git] and [Curl] are required. Also, if you haven't done so already, you'll need to install [Vim].
-
 ### Installing dependencies
 
 #### Install [Vim]
@@ -91,36 +89,6 @@ After installation try running `git --version` within _command prompt_ (press Wi
 
     C:\> git --version
     git version 2.19.1.windows.1
-
-#### Setup [Curl]
-Installing Curl on Windows is easy as [Curl] is bundled with [msysgit]!
-But before it can be used with [vim-plug] it's required make `curl` run in _command prompt_.
-The easiest way is to create `curl.cmd` with [this content](https://gist.github.com/912993)
-
-    @rem Do not use "echo off" to not affect any child calls.
-    @setlocal
-
-    @rem Get the abolute path to the parent directory, which is assumed to be the
-    @rem Git installation root.
-    @for /F "delims=" %%I in ("%~dp0..") do @set git_install_root=%%~fI
-    @set PATH=%git_install_root%\bin;%git_install_root%\mingw64\bin;%PATH%
-
-    @if not exist "%HOME%" @set HOME=%HOMEDRIVE%%HOMEPATH%
-    @if not exist "%HOME%" @set HOME=%USERPROFILE%
-
-    @curl.exe %*
-
-
-And copy it to `C:\Program Files\Git\cmd\curl.cmd`, assuming [msysgit] was installed to `c:\Program Files\Git`
-
-to verify all good, run:
-
-    C:\> curl --version
-    curl 7.55.1 (Windows) libcurl/7.55.1 WinSSL
-    Release-Date: [unreleased]
-    Protocols: dict file ftp ftps http https imap imaps pop3 pop3s smtp smtps telnet tftp
-    Features: AsynchDNS IPv6 Largefile SSPI Kerberos SPNEGO NTLM SSL
-
 
 #### Installing starry-vim on Windows
 
@@ -506,7 +474,6 @@ Here's some tips if you've never used VIM before:
 
 
 [Git]:https://git-scm.com
-[Curl]:https://curl.haxx.se
 [Vim]:https://www.vim.org/download.php#pc
 [msysgit]:https://gitforwindows.org
 [MacVim]:https://github.com/macvim-dev/macvim
