@@ -90,7 +90,7 @@ Then you need to add it to your environment variable path. After that try execut
 After installation try running `git --version` within _command prompt_ (press Win-R,  type `cmd`, press Enter) to make sure all good:
 
     C:\> git --version
-    git version 2.18.0.windows.1
+    git version 2.19.1.windows.1
 
 #### Setup [Curl]
 Installing Curl on Windows is easy as [Curl] is bundled with [msysgit]!
@@ -103,7 +103,7 @@ The easiest way is to create `curl.cmd` with [this content](https://gist.github.
     @rem Get the abolute path to the parent directory, which is assumed to be the
     @rem Git installation root.
     @for /F "delims=" %%I in ("%~dp0..") do @set git_install_root=%%~fI
-    @set PATH=%git_install_root%\bin;%git_install_root%\mingw\bin;%PATH%
+    @set PATH=%git_install_root%\bin;%git_install_root%\mingw64\bin;%PATH%
 
     @if not exist "%HOME%" @set HOME=%HOMEDRIVE%%HOMEPATH%
     @if not exist "%HOME%" @set HOME=%USERPROFILE%
@@ -154,7 +154,7 @@ Each section is labeled and each option is commented.
 
 It fixes many of the inconveniences of vanilla vim including
 
- * A single config can be used across Windows, Mac and linux
+ * A single config can be used across Windows, Mac and Linux
  * Eliminates swap and backup files from littering directories, preferring to store in a central location.
  * Fixes common typos like :W, :Q, etc
  * Setup a solid set of settings for Formatting (change to meet your needs)
@@ -174,7 +174,7 @@ customizations.
 For example, to override the default color schemes:
 
 ```bash
-    echo colorscheme github  >> ~/.vimrc.local
+    echo colorscheme gruvbox >> ~/.vimrc.local
 ```
 
 ### Before File
@@ -212,7 +212,7 @@ needs to be set in your `.vimrc.plugs.fork` file.
 You can specify the default plugs for your fork using `.vimrc.before.fork` file. Here is how to create an example `.vimrc.before.fork` file
 in a fork repo for the default plugs.
 ```bash
-    echo let g:starry_plugs_groups=[\'general\', \'programming\', \'misc\', \'youcompleteme\'] >> .vimrc.before.fork
+    echo let g:starry_plugs_groups=[\'general\', \'programming\', \'neocomplete\', \'misc\'] >> .vimrc.before.fork
 ```
 Once you have this file in your repo, only the plugs you specified will be installed during the first installation of your fork.
 
@@ -456,11 +456,11 @@ starry-vim ships with a few additional syntaxes:
 
 starry-vim includes [solarized8] and [StarryLeo vim color pack](https://github.com/StarryLeo/vim-colorschemes/):
 
-* github
+* gruvbox
 * onedark
-* pyte
+* seoul256
 
-Use `:color onedark` to switch to a color scheme.
+Use `:colorscheme onedark` to switch to a color scheme.
 
 Terminal Vim users will benefit from solarizing their terminal emulators and setting solarized support to 16 colors:
 
@@ -469,7 +469,7 @@ Terminal Vim users will benefit from solarizing their terminal emulators and set
 
 Terminal emulator colorschemes:
 
-* http://ethanschoonover.com/solarized (iTerm2, Terminal.app)
+* https://ethanschoonover.com/solarized (iTerm2, Terminal.app)
 * https://github.com/phiggins/konsole-colors-solarized (KDE Konsole)
 * https://github.com/sigurdga/gnome-terminal-colors-solarized (Gnome Terminal)
 
@@ -505,10 +505,10 @@ Here's some tips if you've never used VIM before:
 * Keyboard [cheat sheet](http://www.viemu.com/vi-vim-cheat-sheet.gif).
 
 
-[Git]:http://git-scm.com
-[Curl]:http://curl.haxx.se
-[Vim]:http://www.vim.org/download.php#pc
-[msysgit]:http://msysgit.github.io
+[Git]:https://git-scm.com
+[Curl]:https://curl.haxx.se
+[Vim]:https://www.vim.org/download.php#pc
+[msysgit]:https://gitforwindows.org
 [MacVim]:https://github.com/macvim-dev/macvim
 [starry-vim]:https://github.com/StarryLeo/starry-vim
 [contributors]:https://github.com/StarryLeo/starry-vim/contributors

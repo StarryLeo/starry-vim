@@ -16,7 +16,8 @@
 "   are loaded and the main .vimrc config is run. Most of these
 "   are for preventing mappings or commands from being created.
 "
-"   You can find spf13 at http://spf13.com
+"   You can find spf13 at https://spf13.com
+"   You can find me at https://starrycat.me
 " }
 
 " starry options {
