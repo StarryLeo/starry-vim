@@ -50,4 +50,4 @@ IF NOT EXIST "%HOME%\.vim\autoload" (
   call cd %HOME%
 )
 
-call vim -u "%APP_PATH%\.vimrc.plugs" +PlugClean! +PlugInstall +qall
+call gvim -u "%APP_PATH%\.vimrc.plugs.default" +PlugClean! +PlugInstall +qall

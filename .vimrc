@@ -14,7 +14,8 @@
 "   While much of it is beneficial for general use, I would
 "   recommend picking out the parts you want and understand.
 "
-"   You can find spf13 at http://spf13.com
+"   You can find spf13 at https://spf13.com
+"   You can find me at https://starrycat.me
 "
 "   Copyright 2014 Steve Francia
 "             2018 StarryLeo
@@ -594,7 +595,6 @@
     " }
 
     " AutoCloseTag {
-        nmap <Leader>ac <Plug>ToggleAutoCloseMappings
         " filenames like *.xml, *.html, *.xhtml, ...
         " These are the file extensions where this plugin is enabled.
         "
@@ -828,6 +828,13 @@
     " deoplete {
         if count(g:starry_plug_groups, 'deoplete')
             let g:deoplete#enable_at_startup = 1
+            " For Vim8
+            if has('python3')
+                set pyxversion=3
+                    if LINUX()
+                        let g:python3_host_prog='/usr/bin/python'
+                    endif
+            endif
         endif
     " }
 

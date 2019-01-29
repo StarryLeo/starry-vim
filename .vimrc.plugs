@@ -14,8 +14,12 @@
 "
 "   This file imports the various plugins of starry. If you
 "   wish to alter which groups are imported, see vimrc.before.
+"   If you wish to add or remove individual plugs, create
+"   ~/.vimrc.plugs.local and `Plug` or `UnPlug` as needed
+"   from there.
 "
 "   You can find spf13 at http://spf13.com
+"   You can find me at https://starrycat.me
 " }
 
 " Environment {
@@ -88,16 +92,16 @@
     " In your .vimrc.before.local file
     " list only the plugin groups you will use
     "
-    "在你的.vimrc.before.local文件中列出你要用的插件组
+    " 在你的.vimrc.before.local文件中列出你要用的插件组
     "
     if !exists('g:starry_plug_groups')
-        let g:starry_plug_groups=['general', 'writing', 'deoplete', 'programming', 'php', 'ruby', 'python', 'javascript', 'html', 'markdown', 'verilog', 'misc',]
+        let g:starry_plug_groups=['general', 'writing', 'markdown', 'programming', 'deoplete', 'python', 'verilog', 'php', 'html', 'javascript', 'ruby', 'misc',]
     endif
 
     " To override all the included bundles, add the following to your
     " .vimrc.plugs.local file:
     "
-    "重写插件组包含的插件，将以下值声明在你的.vimrc.plugs.local
+    " 重写插件组包含的插件，将以下值声明在你的.vimrc.plugs.local文件
     "
     "   let g:override_starry_plugs = 1
     if !exists("g:override_starry_plugs")
@@ -105,9 +109,9 @@
     " General {
         if count(g:starry_plug_groups, 'general')
             Plug 'StarryLeo/vim-colorschemes'
-            Plug 'scrooloose/nerdtree'
-            Plug 'Xuyuanp/nerdtree-git-plugin'
-            Plug 'jistr/vim-nerdtree-tabs'
+            Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeTabsToggle' }
+            Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeTabsToggle' }
+            Plug 'jistr/vim-nerdtree-tabs', { 'on': 'NERDTreeTabsToggle' }
             Plug 'ctrlpvim/ctrlp.vim'
             Plug 'tacahiroy/ctrlp-funky'
             if (has("python") || has("python3")) && exists('g:starry_use_powerline') && !exists('g:starry_use_old_powerline')
@@ -146,6 +150,17 @@
             Plug 'reedes/vim-textobj-sentence'
             Plug 'reedes/vim-textobj-quote'
             Plug 'reedes/vim-wordy'
+        endif
+    " }
+
+    " Markdown {
+        if count(g:starry_plug_groups, 'markdown')
+            if has("gui_running")
+                Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+                Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 'markdown' }
+            else
+                Plug 'tpope/vim-markdown', { 'for': 'markdown' }
+            endif
         endif
     " }
 
@@ -196,14 +211,6 @@
         endif
     " }
 
-    " PHP {
-        if count(g:starry_plug_groups, 'php')
-            Plug 'shawncplus/phpcomplete.vim'
-            Plug 'arnaud-lb/vim-php-namespace'
-            Plug 'lumiliet/vim-twig'
-        endif
-    " }
-
     " Python {
         if count(g:starry_plug_groups, 'python')
             " Pick either python-mode or pyflakes & pydoc
@@ -213,21 +220,54 @@
         endif
     " }
 
+    " Verilog {
+        if count(g:starry_plug_groups, 'verilog')
+            Plug 'vhda/verilog_systemverilog.vim'
+            Plug 'antoinemadec/vim-verilog-instance'
+        endif
+    " }
+
+    " Go Lang {
+        if count(g:starry_plug_groups, 'go')
+            "Plug 'Blackrush/vim-gocode'
+            Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+        endif
+    " }
+
+    " PHP {
+        if count(g:starry_plug_groups, 'php')
+            Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
+            Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' }
+            Plug 'lumiliet/vim-twig', { 'for': 'php' }
+        endif
+    " }
+
+    " HTML {
+        if count(g:starry_plug_groups, 'html')
+            Plug 'alvan/vim-closetag'
+            Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'html', 'xml'] }
+            Plug 'gko/vim-coloresque', { 'for': ['css', 'html', 'xml'] }
+            Plug 'tpope/vim-haml'
+            Plug 'mattn/emmet-vim', { 'for': ['css', 'html', 'xml'] }
+        endif
+    " }
+
     " Javascript {
         if count(g:starry_plug_groups, 'javascript')
             Plug 'elzr/vim-json'
             Plug 'groenewege/vim-less'
-            Plug 'pangloss/vim-javascript'
+            Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
             Plug 'briancollins/vim-jst'
-            Plug 'kchmck/vim-coffee-script'
+            Plug 'kchmck/vim-coffee-script', { 'for': ['javascript', 'coffee'] }
         endif
     " }
 
-    " Scala {
-        if count(g:starry_plug_groups, 'scala')
-            Plug 'derekwyatt/vim-scala'
-            Plug 'derekwyatt/vim-sbt'
-            Plug 'drmingdrmer/xptemplate'
+    " Ruby {
+        if count(g:starry_plug_groups, 'ruby')
+            Plug 'tpope/vim-rails'
+            let g:rubycomplete_buffer_loading = 1
+            "let g:rubycomplete_classes_in_global = 1
+            "let g:rubycomplete_rails = 1
         endif
     " }
 
@@ -246,35 +286,11 @@
         endif
     " }
 
-    " HTML {
-        if count(g:starry_plug_groups, 'html')
-            Plug 'alvan/vim-closetag'
-            Plug 'hail2u/vim-css3-syntax'
-            Plug 'gko/vim-coloresque'
-            Plug 'tpope/vim-haml'
-            Plug 'mattn/emmet-vim'
-        endif
-    " }
-
-    " Ruby {
-        if count(g:starry_plug_groups, 'ruby')
-            Plug 'tpope/vim-rails'
-            let g:rubycomplete_buffer_loading = 1
-            "let g:rubycomplete_classes_in_global = 1
-            "let g:rubycomplete_rails = 1
-        endif
-    " }
-
-    " Puppet {
-        if count(g:starry_plug_groups, 'puppet')
-            Plug 'rodjek/vim-puppet'
-        endif
-    " }
-
-    " Go Lang {
-        if count(g:starry_plug_groups, 'go')
-            "Plug 'Blackrush/vim-gocode'
-            Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+    " Scala {
+        if count(g:starry_plug_groups, 'scala')
+            Plug 'derekwyatt/vim-scala'
+            Plug 'derekwyatt/vim-sbt'
+            Plug 'drmingdrmer/xptemplate'
         endif
     " }
 
@@ -286,21 +302,9 @@
         endif
     " }
 
-    " Markdown {
-        if count(g:starry_plug_groups, 'markdown')
-            if has("gui_running")
-                Plug 'plasticboy/vim-markdown'
-                Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
-            else
-                Plug 'tpope/vim-markdown'
-            endif
-        endif
-    " }
-
-    " Verilog {
-        if count(g:starry_plug_groups, 'verilog')
-            Plug 'vhda/verilog_systemverilog.vim'
-            Plug 'antoinemadec/vim-verilog-instance'
+    " Puppet {
+        if count(g:starry_plug_groups, 'puppet')
+            Plug 'rodjek/vim-puppet'
         endif
     " }
 
