@@ -109,9 +109,9 @@
     " General {
         if count(g:starry_plug_groups, 'general')
             Plug 'StarryLeo/vim-colorschemes'
-            Plug 'scrooloose/nerdtree'
-            Plug 'Xuyuanp/nerdtree-git-plugin'
-            Plug 'jistr/vim-nerdtree-tabs'
+            Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeTabsToggle' }
+            Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeTabsToggle' }
+            Plug 'jistr/vim-nerdtree-tabs', { 'on': 'NERDTreeTabsToggle' }
             Plug 'ctrlpvim/ctrlp.vim'
             Plug 'tacahiroy/ctrlp-funky'
             if (has("python") || has("python3")) && exists('g:starry_use_powerline') && !exists('g:starry_use_old_powerline')
@@ -156,10 +156,10 @@
     " Markdown {
         if count(g:starry_plug_groups, 'markdown')
             if has("gui_running")
-                Plug 'plasticboy/vim-markdown'
-                Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
+                Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+                Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 'markdown' }
             else
-                Plug 'tpope/vim-markdown'
+                Plug 'tpope/vim-markdown', { 'for': 'markdown' }
             endif
         endif
     " }
@@ -236,19 +236,19 @@
 
     " PHP {
         if count(g:starry_plug_groups, 'php')
-            Plug 'shawncplus/phpcomplete.vim'
-            Plug 'arnaud-lb/vim-php-namespace'
-            Plug 'lumiliet/vim-twig'
+            Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
+            Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' }
+            Plug 'lumiliet/vim-twig', { 'for': 'php' }
         endif
     " }
 
     " HTML {
         if count(g:starry_plug_groups, 'html')
             Plug 'alvan/vim-closetag'
-            Plug 'hail2u/vim-css3-syntax'
-            Plug 'gko/vim-coloresque'
+            Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'html', 'xml'] }
+            Plug 'gko/vim-coloresque', { 'for': ['css', 'html', 'xml'] }
             Plug 'tpope/vim-haml'
-            Plug 'mattn/emmet-vim'
+            Plug 'mattn/emmet-vim', { 'for': ['css', 'html', 'xml'] }
         endif
     " }
 
@@ -256,9 +256,9 @@
         if count(g:starry_plug_groups, 'javascript')
             Plug 'elzr/vim-json'
             Plug 'groenewege/vim-less'
-            Plug 'pangloss/vim-javascript'
+            Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
             Plug 'briancollins/vim-jst'
-            Plug 'kchmck/vim-coffee-script'
+            Plug 'kchmck/vim-coffee-script', { 'for': ['javascript', 'coffee'] }
         endif
     " }
 
