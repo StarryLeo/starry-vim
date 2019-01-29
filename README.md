@@ -1,5 +1,11 @@
 # starry-vim
 
+[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows%20%7C%20macOS-4caf50.svg)](https://github.com/StarryLeo/starry-vim/blob/master/README.md)
+[![Repo Size](https://img.shields.io/github/repo-size/StarryLeo/starry-vim.svg)](https://github.com/StarryLeo/starry-vim)
+[![Issues Pr](https://img.shields.io/github/issues-pr/StarryLeo/starry-vim.svg)](https://github.com/StarryLeo/starry-vim/pulls)
+[![Last Commit](https://img.shields.io/github/last-commit/StarryLeo/starry-vim/master.svg)](https://github.com/StarryLeo/starry-vim/commits/master)
+[![Apache-2.0 License](https://img.shields.io/github/license/StarryLeo/starry-vim.svg)](https://github.com/StarryLeo/starry-vim/blob/master/LICENSE)
+
              _                                          _
         ___ | |_  __ _  _ __  _ __  _   _       __   __(_) _ __ ___
        / __|| __|/ _` || '__|| '__|| | | | _____\ \ / /| || '_ ` _ \
@@ -471,6 +477,8 @@ Here's some tips if you've never used VIM before:
   starry-vim uses `let mapleader = ","` to change this to `,` which is in a consistent and
   convenient location.
 * Keyboard [cheat sheet](http://www.viemu.com/vi-vim-cheat-sheet.gif).
+
+[![Analytics](https://ga-beacon.appspot.com/UA-113636786-2/starry-vim/readme)](https://github.com/igrigorik/ga-beacon)
 
 
 [Git]:https://git-scm.com
