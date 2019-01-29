@@ -1,5 +1,11 @@
 # starry-vim
 
+[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows%20%7C%20macOS-4caf50.svg)](https://github.com/StarryLeo/starry-vim/blob/master/README.md)
+[![Repo Size](https://img.shields.io/github/repo-size/StarryLeo/starry-vim.svg)](https://github.com/StarryLeo/starry-vim)
+[![Issues Pr](https://img.shields.io/github/issues-pr/StarryLeo/starry-vim.svg)](https://github.com/StarryLeo/starry-vim/pulls)
+[![Last Commit](https://img.shields.io/github/last-commit/StarryLeo/starry-vim/master.svg)](https://github.com/StarryLeo/starry-vim/commits/master)
+[![Apache-2.0 License](https://img.shields.io/github/license/StarryLeo/starry-vim.svg)](https://github.com/StarryLeo/starry-vim/blob/master/LICENSE)
+
              _                                          _
         ___ | |_  __ _  _ __  _ __  _   _       __   __(_) _ __ ___
        / __|| __|/ _` || '__|| '__|| | | | _____\ \ / /| || '_ ` _ \
