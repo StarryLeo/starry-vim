@@ -157,7 +157,7 @@
         if count(g:starry_plug_groups, 'markdown')
             if has("gui_running")
                 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-                Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 'markdown' }
+                Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
             else
                 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
             endif
