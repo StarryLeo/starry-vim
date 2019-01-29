@@ -472,6 +472,8 @@ Here's some tips if you've never used VIM before:
   convenient location.
 * Keyboard [cheat sheet](http://www.viemu.com/vi-vim-cheat-sheet.gif).
 
+[![Analytics](https://ga-beacon.appspot.com/UA-113636786-2/starry-vim/readme)](https://github.com/igrigorik/ga-beacon)
+
 
 [Git]:https://git-scm.com
 [Vim]:https://www.vim.org/download.php#pc
