@@ -171,7 +171,7 @@
             Plug 'vim-syntastic/syntastic'
             Plug 'godlygeek/tabular'
             if executable('ctags')
-                Plug 'majutsushi/tagbar'
+                Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
             endif
             Plug 'mattn/webapi-vim'
             Plug 'mattn/gist-vim'

@@ -1,8 +1,9 @@
 # starry-vim
 
+[![Build Status](https://travis-ci.org/StarryLeo/starry-vim.svg?branch=master)](https://travis-ci.org/StarryLeo/starry-vim)
 [![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows%20%7C%20macOS-4caf50.svg)](https://github.com/StarryLeo/starry-vim/blob/master/README.md)
 [![Repo Size](https://img.shields.io/github/repo-size/StarryLeo/starry-vim.svg)](https://github.com/StarryLeo/starry-vim)
-[![Issues Pr](https://img.shields.io/github/issues-pr/StarryLeo/starry-vim.svg)](https://github.com/StarryLeo/starry-vim/pulls)
+[![PRs Welcome](https://img.shields.io/badge/pull%20requests-welcome-brightgreen.svg)](https://github.com/StarryLeo/starry-vim/pulls)
 [![Last Commit](https://img.shields.io/github/last-commit/StarryLeo/starry-vim/master.svg)](https://github.com/StarryLeo/starry-vim/commits/master)
 [![Apache-2.0 License](https://img.shields.io/github/license/StarryLeo/starry-vim.svg)](https://github.com/StarryLeo/starry-vim/blob/master/LICENSE)
 
@@ -59,19 +60,19 @@ if `:echo has("lua")` rerurns `1`, then you have lua support.
 
 ## Linux, \*nix, Mac OSX Installation
 
-The easiest way to install starry-vim is to use our [automatic installer](https://raw.githubusercontent.com/StarryLeo/starry-vim/master/bootstrap.sh) by simply copying and pasting the following line into a terminal. This will install starry-vim and backup your existing vim configuration. If you are upgrading from a prior version this is also the recommended installation.
+The easiest way to install starry-vim is to use our [automatic installer](https://git.io/starry-vim) by simply copying and pasting the following line into a terminal. This will install starry-vim and backup your existing vim configuration. If you are upgrading from a prior version this is also the recommended installation.
 
 *Requires Git 1.7+ and Vim 8.1+*
 
 ```bash
 
-    curl https://raw.githubusercontent.com/StarryLeo/starry-vim/master/bootstrap.sh -L > starry-vim.sh && sh starry-vim.sh
+    curl https://git.io/starry-vim -L > starry-vim.sh && sh starry-vim.sh
 ```
 
 If you have a bash-compatible shell you can run the script directly:
 ```bash
 
-    sh <(curl https://raw.githubusercontent.com/StarryLeo/starry-vim/master/bootstrap.sh -L)
+    sh <(curl https://git.io/starry-vim -L)
 ```
 
 ## Installing on Windows
@@ -105,7 +106,7 @@ The simpliest (and safest) way to update is to simply rerun the installer. It wi
 
 ```bash
 
-    curl https://raw.githubusercontent.com/StarryLeo/starry-vim/master/bootstrap.sh -L -o - | sh
+    curl https://git.io/starry-vim -L -o - | sh
 
 ```
 
