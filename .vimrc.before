@@ -52,8 +52,9 @@
     " Disable whitespace stripping
     "   let g:starry_keep_trailing_whitespace = 1
 
-    " Enable powerline symbols
-    "   let g:airline_powerline_symbol_font = 1
+    " Disable powerline symbols
+    " Enable unicode symbols
+    "   let g:airline_no_powerline_symbol_font = 1
 
     " vim files directory
     "   let g:starry_consolidated_directory = <full path to desired directory>
