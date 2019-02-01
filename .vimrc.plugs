@@ -95,7 +95,7 @@
     " 在你的.vimrc.before.local文件中列出你要用的插件组
     "
     if !exists('g:starry_plug_groups')
-        let g:starry_plug_groups=['general', 'writing', 'markdown', 'programming', 'deoplete', 'python', 'verilog', 'php', 'html', 'javascript', 'ruby', 'misc',]
+        let g:starry_plug_groups=['general', 'writing', 'programming', 'markdown', 'deoplete', 'python', 'verilog', 'php', 'html', 'javascript', 'ruby', 'misc',]
     endif
 
     " To override all the included bundles, add the following to your
@@ -153,17 +153,6 @@
         endif
     " }
 
-    " Markdown {
-        if count(g:starry_plug_groups, 'markdown')
-            if has("gui_running")
-                Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-                Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
-            else
-                Plug 'tpope/vim-markdown', { 'for': 'markdown' }
-            endif
-        endif
-    " }
-
     " General Programming {
         if count(g:starry_plug_groups, 'programming')
             Plug 'tpope/vim-fugitive'
@@ -177,6 +166,15 @@
             Plug 'mattn/gist-vim'
             Plug 'tpope/vim-commentary'
             Plug 'luochen1990/rainbow'
+        endif
+    " }
+
+    " Markdown {
+        if count(g:starry_plug_groups, 'markdown')
+            Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+            if (has("python") || has("python3")) && has("gui_running")
+                Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
+            endif
         endif
     " }
 
