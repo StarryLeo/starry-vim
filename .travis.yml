@@ -1,2 +1,98 @@
 language: c
 dist: trusty
+sudo: false
+
+os:
+  - osx
+  - linux
+
+compiler:
+  - clang
+  - gcc
+
+notifications:
+  email:
+    on_success: never # default: change
+    on_failure: never # default: always
+
+cache:
+  bundler: ture
+  directories:
+    - $HOME/cache/
+    - $HOME/deps
+
+env:
+  global:
+    - DEPS=$HOME/deps
+    - PATH=$DEPS/bin:$PATH
+
+addons:
+  apt:
+    sources:
+     # The Travis apt source whitelist can be found here:
+     #   https://github.com/travis-ci/apt-source-whitelist/blob/master/ubuntu.json
+     - ubuntu-toolchain-r-test  # for new libstdc++
+     - george-edison55-precise-backports # for a more recent version of cmake (3.2.3)
+    packages:
+      - autoconf
+      - clang
+      - lcov
+      - libperl-dev
+      - python-dev
+      - python3-dev
+      - liblua5.2-dev
+      - lua5.2
+      - ruby-dev
+      - tcl-dev
+      - cscope
+      - libgtk2.0-dev
+      - cmake-data
+      - cmake
+      # Everything below is a Python build dep (though it depends on Python
+      # version). We need them because pyenv builds Python.
+      - libssl-dev
+      - zlib1g-dev
+      - libbz2-dev
+      - libreadline-dev
+      - libsqlite3-dev
+      - wget
+      - curl
+      - llvm
+      - libncurses5-dev
+      - libncursesw5-dev
+  homebrew:
+    packages:
+      - lua
+    update: true
+
+before_install:
+  - rvm reset
+    # Remove /opt/python/3.x.x/bin from $PATH for using system python3.
+    # ("pyenv global system" doesn't seem to work.)
+  - if [ "$TRAVIS_OS_NAME" = "linux" ] && which python3 | grep '/opt/python' > /dev/null; then export PATH=$(echo $PATH | sed -e "s#$(echo $(which python3) | sed -e 's#/python3$##'):##"); fi
+    # Lua is not installed on Travis OSX
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export LUA_PREFIX=/usr/local; fi
+    # Use llvm-cov instead of gcov when compiler is clang
+  - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$CC" = "clang" ]; then ln -sf $(which llvm-cov) /home/travis/bin/gcov; fi
+
+install: |
+  pip install --user pynvim
+  mkdir -p ${DEPS}/bin
+  C_OPTS="--prefix=$DEPS --with-features=huge --enable-perlinterp --enable-pythoninterp --enable-python3interp --enable-rubyinterp --enable-luainterp --enable-tclinterp "
+
+  git clone --depth=1 https://github.com/vim/vim
+  cd vim
+  ./configure $C_OPTS
+  make
+  make install
+  cd -
+
+# Start virtual framebuffer to be able to test the GUI. Does not work OS X.
+before_script:
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export DISPLAY=:99.0 && sh -e /etc/init.d/xvfb start && sleep 3; fi
+
+script:
+  - echo $(which vim)
+  - vim --version
+  - curl https://git.io/starry-vim -L > starry-vim.sh && sh starry-vim.sh
+  - if [ -n "$err" ]; then exit 1; fi
