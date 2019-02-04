@@ -86,6 +86,8 @@
 
     set background=dark         " Assume a dark background
 
+    set ffs=unix,dos,mac        " Use Unix as standard file type
+
     if !has('gui')
         set term=xterm-256color          " Make arrow and other keys work 启用终端256色
     endif
@@ -306,6 +308,25 @@
         endif
     endfunction
     noremap <leader>bg :call ToggleBG()<CR>
+
+    function! Unix2Dos()
+        :update
+        :e ++ff=dos
+        :w
+        :echo "unix2dos"
+    endfunction
+    function! Dos2Unix()
+        :update
+        :e ++ff=dos
+        :setlocal ff=unix
+        :w
+        :echo "dos2unix"
+    endfunction
+
+    " Convert file from unix to dos encoding
+    nnoremap <leader>fD :call Unix2Dos()<CR>
+    " Convert file from dos to unix encoding
+    nnoremap <leader>fU :call Dos2Unix()<CR>
 
     " The default mappings for editing and applying the starry configuration
     " 编辑和应用starry配置的快捷键分别是
