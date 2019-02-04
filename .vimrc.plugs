@@ -122,7 +122,11 @@
                 Plug 'vim-airline/vim-airline'
                 Plug 'vim-airline/vim-airline-themes'
             endif
-            Plug 'StarryLeo/powerline-symbol-font', { 'do': './install.sh' }
+            if has('win32') || has('win64') && has("gui_running")
+                Plug 'StarryLeo/Consolas-with-Yahei', { 'do': '.\install.cmd' }
+            elseif has("gui_running")
+                Plug 'StarryLeo/Consolas-with-Yahei', { 'do': './install.sh' }
+            endif
             Plug 'mbbill/undotree'
             Plug 'tpope/vim-surround'
             Plug 'tpope/vim-repeat'
