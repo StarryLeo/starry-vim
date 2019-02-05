@@ -15,11 +15,15 @@
                                     |___/
 
 ## 中文介绍
+这个分支用的配置、插件和spf13的基本一样，只有一点点更新。所以这个分支以“3.1”发布，相比spf13的“3.0”分支区别不大。在这之后我会有选择的移除原配置和插件，加入我需要的配置和插件。
+
 这是我自己的vim配置，Fork自spf13的[spf13-vim](https://github.com/spf13/spf13-vim)项目，由于原配置项目已经有好几年没更新了，所以重开一个Repo更新修改为自己所用。
 
 使用[vim-plug]代替[Vundle]作为vim的插件管理器，提高安装插件的速度，同时[vim-plug]的操作也很简易，与[Vundle]类似。
 
 ## Introduction
+This branch uses spf13's configurations and plugins with a little update, so the branch is named "3.1". After that I will remove some configurations and plugins and add something for myself.
+
 This is a StarryLeo's vim config fork from https://vim.spf13.com
 
 starry-vim is a distribution of vim plugins and resources for Vim, Gvim and [MacVim].
