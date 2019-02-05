@@ -299,7 +299,6 @@
     " Elixir {
         if count(g:starry_plug_groups, 'elixir')
             Plug 'elixir-editors/vim-elixir'
-            Plug 'carlosgaldino/elixir-snippets'
         endif
     " }
 
