@@ -316,7 +316,6 @@
             Plug 'tpope/vim-cucumber'
             Plug 'cespare/vim-toml'
             Plug 'quentindecock/vim-cucumber-align-pipes'
-            Plug 'saltstack/salt-vim'
         endif
     " }
 
