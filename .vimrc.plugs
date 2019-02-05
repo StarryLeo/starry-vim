@@ -288,13 +288,6 @@
         endif
     " }
 
-    " Scala {
-        if count(g:starry_plug_groups, 'scala')
-            Plug 'derekwyatt/vim-scala'
-            Plug 'derekwyatt/vim-sbt'
-        endif
-    " }
-
     " Misc {
         if count(g:starry_plug_groups, 'misc')
             Plug 'cespare/vim-toml'
