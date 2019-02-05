@@ -296,12 +296,6 @@
         endif
     " }
 
-    " Elixir {
-        if count(g:starry_plug_groups, 'elixir')
-            Plug 'elixir-editors/vim-elixir'
-        endif
-    " }
-
     " Misc {
         if count(g:starry_plug_groups, 'misc')
             Plug 'cespare/vim-toml'
