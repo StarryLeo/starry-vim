@@ -304,12 +304,6 @@
         endif
     " }
 
-    " Puppet {
-        if count(g:starry_plug_groups, 'puppet')
-            Plug 'rodjek/vim-puppet'
-        endif
-    " }
-
     " Misc {
         if count(g:starry_plug_groups, 'misc')
             Plug 'cespare/vim-toml'
