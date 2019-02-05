@@ -292,7 +292,6 @@
         if count(g:starry_plug_groups, 'scala')
             Plug 'derekwyatt/vim-scala'
             Plug 'derekwyatt/vim-sbt'
-            Plug 'drmingdrmer/xptemplate'
         endif
     " }
 
