@@ -259,7 +259,6 @@
             Plug 'elzr/vim-json'
             Plug 'groenewege/vim-less'
             Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
-            Plug 'briancollins/vim-jst'
             Plug 'kchmck/vim-coffee-script', { 'for': ['javascript', 'coffee'] }
         endif
     " }
