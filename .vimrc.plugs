@@ -95,10 +95,10 @@
     " 在你的.vimrc.before.local文件中列出你要用的插件组
     "
     if !exists('g:starry_plug_groups')
-        let g:starry_plug_groups=['general', 'writing', 'programming', 'markdown', 'deoplete', 'python', 'verilog', 'php', 'html', 'javascript', 'ruby', 'misc',]
+        let g:starry_plug_groups=['general', 'writing', 'programming', 'markdown', 'deoplete', 'python', 'verilog', 'misc',]
     endif
 
-    " To override all the included bundles, add the following to your
+    " To override all the included plugs, add the following to your
     " .vimrc.plugs.local file:
     "
     " 重写插件组包含的插件，将以下值声明在你的.vimrc.plugs.local文件
