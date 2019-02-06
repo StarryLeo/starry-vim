@@ -246,8 +246,6 @@
 
     " Misc {
         if count(g:starry_plug_groups, 'misc')
-            Plug 'cespare/vim-toml'
-            Plug 'quentindecock/vim-cucumber-align-pipes'
         endif
     " }
 
