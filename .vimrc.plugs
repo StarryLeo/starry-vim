@@ -259,64 +259,14 @@
             Plug 'elzr/vim-json'
             Plug 'groenewege/vim-less'
             Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
-            Plug 'briancollins/vim-jst'
             Plug 'kchmck/vim-coffee-script', { 'for': ['javascript', 'coffee'] }
-        endif
-    " }
-
-    " Ruby {
-        if count(g:starry_plug_groups, 'ruby')
-            Plug 'tpope/vim-rails'
-            let g:rubycomplete_buffer_loading = 1
-            "let g:rubycomplete_classes_in_global = 1
-            "let g:rubycomplete_rails = 1
-        endif
-    " }
-
-    " Haskell {
-        if count(g:starry_plug_groups, 'haskell')
-            Plug 'travitch/hasksyn'
-            Plug 'dag/vim2hs'
-            Plug 'Twinside/vim-haskellConceal'
-            Plug 'Twinside/vim-haskellFold'
-            Plug 'lukerandall/haskellmode-vim'
-            Plug 'eagletmt/neco-ghc'
-            Plug 'eagletmt/ghcmod-vim'
-            Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-            Plug 'adinapoli/cumino'
-            Plug 'bitc/vim-hdevtools'
-        endif
-    " }
-
-    " Scala {
-        if count(g:starry_plug_groups, 'scala')
-            Plug 'derekwyatt/vim-scala'
-            Plug 'derekwyatt/vim-sbt'
-            Plug 'drmingdrmer/xptemplate'
-        endif
-    " }
-
-    " Elixir {
-        if count(g:starry_plug_groups, 'elixir')
-            Plug 'elixir-editors/vim-elixir'
-            Plug 'carlosgaldino/elixir-snippets'
-            Plug 'mattreduce/vim-mix'
-        endif
-    " }
-
-    " Puppet {
-        if count(g:starry_plug_groups, 'puppet')
-            Plug 'rodjek/vim-puppet'
         endif
     " }
 
     " Misc {
         if count(g:starry_plug_groups, 'misc')
-            Plug 'rust-lang/rust.vim'
-            Plug 'tpope/vim-cucumber'
             Plug 'cespare/vim-toml'
             Plug 'quentindecock/vim-cucumber-align-pipes'
-            Plug 'saltstack/salt-vim'
         endif
     " }
 
