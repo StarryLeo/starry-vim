@@ -240,7 +240,6 @@
         if count(g:starry_plug_groups, 'php')
             Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
             Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' }
-            Plug 'lumiliet/vim-twig', { 'for': 'php' }
         endif
     " }
 
