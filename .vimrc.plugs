@@ -183,14 +183,7 @@
     " }
 
     " Snippets & AutoComplete {
-        if count(g:starry_plug_groups, 'snipmate')
-            Plug 'garbas/vim-snipmate'
-            Plug 'honza/vim-snippets'
-            " Source support_function.vim to support vim-snippets.
-            if filereadable(expand("~/.vim/viplug/vim-snippets/snippets/support_functions.vim"))
-                source ~/.vim/viplug/vim-snippets/snippets/support_functions.vim
-            endif
-        elseif count(g:starry_plug_groups, 'youcompleteme')
+        if count(g:starry_plug_groups, 'youcompleteme')
             Plug 'Valloric/YouCompleteMe'
             Plug 'SirVer/ultisnips'
             Plug 'honza/vim-snippets'
