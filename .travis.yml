@@ -94,5 +94,5 @@ before_script:
 script:
   - echo $(which vim)
   - vim --version
-  - curl https://git.io/starry-vim -L > starry-vim.sh && sh starry-vim.sh
+  - curl https://github.com/StarryLeo/starry-vim/blob/dev/bootstrap.sh -L > starry-vim.sh && sh starry-vim.sh
   - if [ -n "$err" ]; then exit 1; fi
