@@ -95,10 +95,10 @@
     " 在你的.vimrc.before.local文件中列出你要用的插件组
     "
     if !exists('g:starry_plug_groups')
-        let g:starry_plug_groups=['general', 'writing', 'programming', 'markdown', 'deoplete', 'python', 'verilog', 'php', 'html', 'javascript', 'ruby', 'misc',]
+        let g:starry_plug_groups=['general', 'writing', 'programming', 'markdown', 'deoplete', 'python', 'verilog', 'misc',]
     endif
 
-    " To override all the included bundles, add the following to your
+    " To override all the included plugs, add the following to your
     " .vimrc.plugs.local file:
     "
     " 重写插件组包含的插件，将以下值声明在你的.vimrc.plugs.local文件
@@ -166,8 +166,6 @@
             if executable('ctags')
                 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
             endif
-            Plug 'mattn/webapi-vim'
-            Plug 'mattn/gist-vim'
             Plug 'tpope/vim-commentary'
             Plug 'luochen1990/rainbow'
         endif
@@ -183,14 +181,7 @@
     " }
 
     " Snippets & AutoComplete {
-        if count(g:starry_plug_groups, 'snipmate')
-            Plug 'garbas/vim-snipmate'
-            Plug 'honza/vim-snippets'
-            " Source support_function.vim to support vim-snippets.
-            if filereadable(expand("~/.vim/viplug/vim-snippets/snippets/support_functions.vim"))
-                source ~/.vim/viplug/vim-snippets/snippets/support_functions.vim
-            endif
-        elseif count(g:starry_plug_groups, 'youcompleteme')
+        if count(g:starry_plug_groups, 'youcompleteme')
             Plug 'Valloric/YouCompleteMe'
             Plug 'SirVer/ultisnips'
             Plug 'honza/vim-snippets'
@@ -199,11 +190,6 @@
             Plug 'roxma/nvim-yarp'
             Plug 'roxma/vim-hug-neovim-rpc'
             Plug 'SirVer/ultisnips'
-            Plug 'honza/vim-snippets'
-        elseif count(g:starry_plug_groups, 'neocomplcache')
-            Plug 'Shougo/neocomplcache'
-            Plug 'Shougo/neosnippet'
-            Plug 'Shougo/neosnippet-snippets'
             Plug 'honza/vim-snippets'
         elseif count(g:starry_plug_groups, 'neocomplete')
             Plug 'Shougo/neocomplete.vim'
@@ -215,10 +201,7 @@
 
     " Python {
         if count(g:starry_plug_groups, 'python')
-            " Pick either python-mode or pyflakes & pydoc
             Plug 'python-mode/python-mode', { 'branch': 'develop' }
-            Plug 'vim-scripts/python_match.vim'
-            Plug 'vim-scripts/pythoncomplete'
         endif
     " }
 
@@ -231,7 +214,6 @@
 
     " Go Lang {
         if count(g:starry_plug_groups, 'go')
-            "Plug 'Blackrush/vim-gocode'
             Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
         endif
     " }
@@ -240,7 +222,6 @@
         if count(g:starry_plug_groups, 'php')
             Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
             Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' }
-            Plug 'lumiliet/vim-twig', { 'for': 'php' }
         endif
     " }
 
@@ -265,8 +246,6 @@
 
     " Misc {
         if count(g:starry_plug_groups, 'misc')
-            Plug 'cespare/vim-toml'
-            Plug 'quentindecock/vim-cucumber-align-pipes'
         endif
     " }
 
