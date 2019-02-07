@@ -19,7 +19,7 @@ REM    limitations under the License.
 
 @set APP_PATH=%HOME%\.starry-vim
 IF NOT EXIST "%APP_PATH%" (
-    call git clone -b dev https://github.com/StarryLeo/starry-vim.git "%APP_PATH%"
+    call git clone -b master https://github.com/StarryLeo/starry-vim.git "%APP_PATH%"
 ) ELSE (
     @set ORIGINAL_DIR=%CD%
     echo updating starry-vim
