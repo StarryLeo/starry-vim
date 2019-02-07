@@ -109,9 +109,8 @@
     " General {
         if count(g:starry_plug_groups, 'general')
             Plug 'StarryLeo/vim-colorschemes'
-            Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeTabsToggle' }
-            Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeTabsToggle' }
-            Plug 'jistr/vim-nerdtree-tabs', { 'on': 'NERDTreeTabsToggle' }
+            Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeFind' }
+            Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeFind' }
             Plug 'ctrlpvim/ctrlp.vim'
             Plug 'tacahiroy/ctrlp-funky'
             if (has("python") || has("python3")) && exists('g:starry_use_powerline') && !exists('g:starry_use_old_powerline')
