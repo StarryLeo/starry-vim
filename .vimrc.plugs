@@ -166,7 +166,6 @@
             if executable('ctags')
                 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
             endif
-            Plug 'tpope/vim-commentary'
             Plug 'luochen1990/rainbow'
         endif
     " }

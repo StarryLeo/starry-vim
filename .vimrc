@@ -1070,9 +1070,6 @@
         " See `:echo g:airline_theme_map` for some more choices
         " Default in terminal vim is 'dark'
         if isdirectory(expand("~/.vim/viplug/vim-airline/"))
-            let g:airline#extensions#tabline#enabled = 1
-            let g:airline#extensions#tabline#tab_nr_type = 2
-            let g:airline#extensions#tabline#show_tab_nr = 1
             "设置路径显示格式
             let g:airline#extensions#tabline#formatter = 'default'
 
