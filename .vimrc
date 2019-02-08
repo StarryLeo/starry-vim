@@ -515,8 +515,6 @@
             let g:go_highlight_operators = 1
             let g:go_highlight_build_constraints = 1
             let g:go_fmt_command = "goimports"
-            let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-            let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
             au FileType go nmap <Leader>s <Plug>(go-implements)
             au FileType go nmap <Leader>i <Plug>(go-info)
             au FileType go nmap <Leader>e <Plug>(go-rename)
@@ -994,16 +992,22 @@
         endif
     " }
 
-    " Syntastic {
-        if isdirectory(expand("~/.vim/viplug/syntastic/"))
-            set statusline+=%#warningmsg#
-            set statusline+=%{SyntasticStatuslinelineFlag()}
-            set statusline+=%*
-
-            let g:syntastic_always_populate_loc_list = 1
-            let g:syntastic_auto_loc_list = 1
-            let g:syntastic_check_on_open = 1
-            let g:syntastic_check_on_wq = 0
+    " ALE {
+        if isdirectory(expand("~/.vim/viplug/ale/"))
+            let g:ale_sign_error = '❌'
+            let g:ale_sign_warning = '⚡'
+            " Show errors or warnings in airline
+            let g:airline#extensions#ale#enable = 1
+            " Echo messages
+            " %s is the error message itself
+            " %linter% is the linter name
+            " %severity is the severity type
+            let g:ale_echo_msg_error_str = 'E'
+            let g:ale_echo_msg_warning_str = 'W'
+            let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+            " Moving between warnings and errors quickly.
+            nmap <silent> <leader>ep <Plug>(ale_previous_wrap)
+            nmap <silent> <leader>en <Plug>(ale_next_wrap)
         endif
     " }
 

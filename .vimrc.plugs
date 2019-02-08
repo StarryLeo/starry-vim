@@ -160,7 +160,7 @@
         if count(g:starry_plug_groups, 'programming')
             Plug 'tpope/vim-fugitive'
             Plug 'scrooloose/nerdcommenter'
-            Plug 'vim-syntastic/syntastic'
+            Plug 'w0rp/ale'
             Plug 'godlygeek/tabular'
             if executable('ctags')
                 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
