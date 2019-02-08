@@ -523,28 +523,6 @@
         endif
     " }
 
-    " TextObj Sentence {
-        if count(g:starry_plug_groups, 'writing')
-            augroup textobj_sentence
-              autocmd!
-              autocmd FileType markdown call textobj#sentence#init()
-              autocmd FileType textile call textobj#sentence#init()
-              autocmd FileType text call textobj#sentence#init()
-            augroup END
-        endif
-    " }
-
-    " TextObj Quote {
-        if count(g:starry_plug_groups, 'writing')
-            augroup textobj_quote
-                autocmd!
-                autocmd FileType markdown call textobj#quote#init()
-                autocmd FileType textile call textobj#quote#init()
-                autocmd FileType text call textobj#quote#init({'educate': 0})
-            augroup END
-        endif
-    " }
-
     " PHP {
         if isdirectory(expand("~/.vim/viplug/phpcomplete.vim"))
             let g:phpcomplete_mappings = {
