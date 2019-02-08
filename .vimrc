@@ -479,10 +479,6 @@
     map <leader>ev :vsp %%
     map <leader>et :tabe %%
 
-    "调整窗口为相同大小
-    " Adjust viewports to the same size
-    map <Leader>= <C-w>=
-
     " Map <Leader>ff to display all lines with keyword under cursor
     " and ask which one to jump to
     nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
@@ -1008,6 +1004,12 @@
             " Moving between warnings and errors quickly.
             nmap <silent> <leader>ep <Plug>(ale_previous_wrap)
             nmap <silent> <leader>en <Plug>(ale_next_wrap)
+        endif
+    " }
+
+    " AutoFormat {
+        if isdirectory(expand("~/.vim/viplug/vim-autoformat/"))
+            nnoremap <leader>= :Autoformat<CR>
         endif
     " }
 

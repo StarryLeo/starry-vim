@@ -161,6 +161,7 @@
             Plug 'tpope/vim-fugitive'
             Plug 'scrooloose/nerdcommenter'
             Plug 'w0rp/ale'
+            Plug 'Chiel92/vim-autoformat', { 'on': 'Autoformat' }
             Plug 'godlygeek/tabular'
             if executable('ctags')
                 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
