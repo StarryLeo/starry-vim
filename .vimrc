@@ -98,8 +98,8 @@
     set mousehide               " Hide the mouse cursor while typing 输入时隐藏鼠标
     scriptencoding utf-8
 
-    if has('clipboard')         "设置剪贴板
-        if has('unnamedplus')  " When possible use + register for copy-paste
+    if has('clipboard')         " 设置剪贴板
+        if has('unnamedplus')   " When possible use + register for copy-paste
             set clipboard=unnamed,unnamedplus
         else         " On mac and Windows, use * register for copy-paste
             set clipboard=unnamed
@@ -120,8 +120,8 @@
         " Always switch to the current file directory
     endif
 
-    "set autowrite                       " Automatically write a file when leaving a modified buffer
-    "离开缓冲区自动保存文件
+    "set autowrite                      " Automatically write a file when leaving a modified buffer
+    " 离开缓冲区自动保存文件
     set shortmess+=filmnrxoOtT          " Abbrev. of messages (avoids 'hit enter')
     set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
     set virtualedit=onemore             " Allow for cursor beyond last character
@@ -163,7 +163,7 @@
         augroup END
     endif
 
-    "目录设置
+    " 目录设置
     " Setting up the directories {
         set backup                  " Backups are nice ...
         if has('persistent_undo')
@@ -210,7 +210,7 @@
     endif
 
     if has('statusline')
-        set laststatus=2            "显示状态栏
+        set laststatus=2            " 显示状态栏
 
         " Broken down into easily includeable segments
         set statusline=%<%f\                     " Filename
@@ -438,7 +438,7 @@
     nmap <leader>f8 :set foldlevel=8<CR>
     nmap <leader>f9 :set foldlevel=9<CR>
 
-    "搜索结果高亮切换
+    " 搜索结果高亮切换
     " Most prefer to toggle search highlighting rather than clear the current
     " search results. To clear search highlighting rather than toggle it on
     " and off, add the following to your .vimrc.before.local file:
@@ -449,11 +449,11 @@
         nmap <silent> <leader>/ :set invhlsearch<CR>
     endif
 
-
+    " 查找merge冲突标记
     " Find merge conflict markers
     map <leader>fc /\v^[<\|=>]{7}( .*\|$)<CR>
 
-    "快捷键切换当前文件目录为工作目录
+    " 快捷键切换当前文件目录为工作目录
     " Shortcuts
     " Change Working Directory to that of the current file
     cmap cwd lcd %:p:h
@@ -467,7 +467,7 @@
     " http://stackoverflow.com/a/8064607/127816
     vnoremap . :normal .<CR>
 
-    "编辑只读文件忘记用sudo，使用 :w!! 保存
+    " 编辑只读文件忘记用sudo，使用 :w!! 保存
     " For when you forget to sudo.. Really Write the file.
     cmap w!! w !sudo tee % >/dev/null
 
@@ -490,52 +490,18 @@
     " Easier formatting
     nnoremap <silent> <leader>q gwip
 
-    "安装 wmctrl 可使用F11切换全屏
+    " 安装 wmctrl 可使用F11切换全屏
     " FIXME: Revert this f70be548
     " fullscreen mode for GVIM and Terminal, need 'wmctrl' in you PATH
     map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
 
 
-    "Ctrl+A 全选
+    " Ctrl+A 全选
     map <silent> <C-A> <esc>ggVG
 
 " }
 
 " Plugins {
-
-    " GoLang {
-        if count(g:starry_plug_groups, 'go')
-            let g:go_highlight_functions = 1
-            let g:go_highlight_methods = 1
-            let g:go_highlight_structs = 1
-            let g:go_highlight_operators = 1
-            let g:go_highlight_build_constraints = 1
-            let g:go_fmt_command = "goimports"
-            au FileType go nmap <Leader>s <Plug>(go-implements)
-            au FileType go nmap <Leader>i <Plug>(go-info)
-            au FileType go nmap <Leader>e <Plug>(go-rename)
-            au FileType go nmap <leader>r <Plug>(go-run)
-            au FileType go nmap <leader>b <Plug>(go-build)
-            au FileType go nmap <leader>t <Plug>(go-test)
-            au FileType go nmap <Leader>gd <Plug>(go-doc)
-            au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-            au FileType go nmap <leader>co <Plug>(go-coverage)
-        endif
-    " }
-
-    " PHP {
-        if isdirectory(expand("~/.vim/viplug/phpcomplete.vim"))
-            let g:phpcomplete_mappings = {
-               \ 'jump_to_def':             '<C-]>',
-               \ 'jump_to_def_split':  '<C-\><C-]>',
-               \ 'jump_to_def_vsplit': '<C-W><C-\>',
-               \ 'jump_to_def_tabnew': '<C-\><C-[>',
-               \}
-        endif
-    " }
-
-    " Misc {
-    " }
 
     " OmniComplete {
         " To disable omni complete, add the following to your .vimrc.before.local file:
@@ -568,63 +534,12 @@
         endif
     " }
 
-    " Ctags {
-        set tags=./tags;/,~/.vimtags
-
-        " Make tags placed in .git/tags file available in all levels of a repository
-        let gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
-        if gitroot != ''
-            let &tags = &tags . ',' . gitroot . '/.git/tags'
-        endif
-    " }
-
-    " AutoCloseTag {
-        if isdirectory(expand("~/.vim/viplug/vim-closetag"))
-            " filenames like *.xml, *.html, *.xhtml, ...
-            " These are the file extensions where this plugin is enabled.
-            "
-            let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
-
-            " filenames like *.xml, *.xhtml, ...
-            " This will make the list of non-closing tags self-closing in the specified files.
-            "
-            let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
-
-            " filetypes like xml, html, xhtml, ...
-            " These are the file types where this plugin is enabled.
-            "
-            let g:closetag_filetypes = 'html,xhtml,phtml'
-
-            " filetypes like xml, xhtml, ...
-            " This will make the list of non-closing tags self-closing in the specified files.
-            "
-            let g:closetag_xhtml_filetypes = 'xhtml,jsx'
-
-            " integer value [0|1]
-            " This will make the list of non-closing tags case-sensitive (e.g. `<Link>` will be closed while `<link>` won't.)
-            "
-            let g:closetag_emptyTags_caseSensitive = 1
-
-            " Shortcut for closing tags, default is '>'
-            "
-            let g:closetag_shortcut = '>'
-
-            " Add > at current position without closing the current tag, default is ''
-            "
-            let g:closetag_close_shortcut = '<leader>>'
-        endif
-    " }
-
-    " SnipMate {
-        " Setting the author var
-        " If forking, please overwrite in your .vimrc.local file
-        let g:snips_author = 'StarryLeo <starryskymayuyu@gmail.com>'
-    " }
-
     " NerdTree {
         if isdirectory(expand("~/.vim/viplug/nerdtree"))
-            map <leader>e :NERDTreeFind<CR>                     "查找目录
-            map <C-e> :NERDTreeToggle<CR>                       "Ctrl+e 关闭目录树
+            " 查找目录
+            map <leader>e :NERDTreeFind<CR>
+            " Ctrl+e 关闭目录树
+            map <C-e> :NERDTreeToggle<CR>
 
             let NERDTreeShowBookmarks=1
             let NERDTreeIgnore=['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
@@ -635,64 +550,7 @@
         endif
     " }
 
-    " Tabularize {
-        if isdirectory(expand("~/.vim/viplug/tabular"))
-            nmap <Leader>a& :Tabularize /&<CR>
-            vmap <Leader>a& :Tabularize /&<CR>
-            nmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
-            vmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
-            nmap <Leader>a=> :Tabularize /=><CR>
-            vmap <Leader>a=> :Tabularize /=><CR>
-            nmap <Leader>a: :Tabularize /:<CR>
-            vmap <Leader>a: :Tabularize /:<CR>
-            nmap <Leader>a:: :Tabularize /:\zs<CR>
-            vmap <Leader>a:: :Tabularize /:\zs<CR>
-            nmap <Leader>a, :Tabularize /,<CR>
-            vmap <Leader>a, :Tabularize /,<CR>
-            nmap <Leader>a,, :Tabularize /,\zs<CR>
-            vmap <Leader>a,, :Tabularize /,\zs<CR>
-            nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-            vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-        endif
-    " }
-
-    " Session List {
-        set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
-        if isdirectory(expand("~/.vim/viplug/sessionman.vim/"))
-            nmap <leader>sl :SessionList<CR>
-            nmap <leader>ss :SessionSave<CR>
-            nmap <leader>sc :SessionClose<CR>
-        endif
-    " }
-
-    " JSON {
-        nmap <leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
-        let g:vim_json_syntax_conceal = 0
-        if isdirectory(expand("~/.vim/viplug/vim-javascript"))
-            let g:javascript_plugin_jsdoc = 1
-            let g:javascript_plugin_ngdoc = 1
-            let g:javascript_plugin_flow = 1
-        endif
-    " }
-
-    " PyMode {
-        " Disable if python support not present
-        if !has('python') && !has('python3')
-            let g:pymode = 0
-        endif
-
-        if isdirectory(expand("~/.vim/viplug/python-mode"))
-            if has('python3')
-                let g:pymode_python = 'python3'
-            endif
-            let g:pymode_lint_checkers = ['pyflakes']
-            let g:pymode_trim_whitespaces = 0
-            let g:pymode_options = 0
-            let g:pymode_rope = 0
-        endif
-    " }
-
-    " ctrlp {
+    " CtrlP {
         if isdirectory(expand("~/.vim/viplug/ctrlp.vim/"))
             let g:ctrlp_map = '<C-p>'
             let g:ctrlp_cmd = 'CtrlP'
@@ -731,40 +589,148 @@
                 " CtrlP extensions
                 let g:ctrlp_extensions = ['funky']
 
-                "funky
+                " funky
                 nnoremap <Leader>fu :CtrlPFunky<Cr>
             endif
         endif
     "}
 
-    " TagBar {
-        if isdirectory(expand("~/.vim/viplug/tagbar/"))
-            nnoremap <silent> <leader>tt :TagbarToggle<CR>
-        endif
-    "}
+    " vim-airline {
+        " Set configuration options for the statusline plugin vim-airline.
+        " Use the powerline theme and optionally enable powerline symbols.
+        " Using the symbols , , , , , , , and ¶.in the statusline.
+        " To use unicode symbols in the statusline
+        " segments add the following to your .vimrc.before.local file:
+        "   let g:airline_no_powerline_symbol_font=1
 
-    " Rainbow {
-        if isdirectory(expand("~/.vim/viplug/rainbow/"))
-            let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
-        endif
-    "}
+        " See `:echo g:airline_theme_map` for some more choices
+        " Default in terminal vim is 'dark'
+        if isdirectory(expand("~/.vim/viplug/vim-airline/"))
+            " 设置路径显示格式
+            let g:airline#extensions#tabline#formatter = 'default'
 
-    " Fugitive {
-        if isdirectory(expand("~/.vim/viplug/vim-fugitive/"))
-            nnoremap <silent> <leader>gs :Gstatus<CR>
-            nnoremap <silent> <leader>gd :Gdiff<CR>
-            nnoremap <silent> <leader>gc :Gcommit<CR>
-            nnoremap <silent> <leader>gb :Gblame<CR>
-            nnoremap <silent> <leader>gl :Glog<CR>
-            nnoremap <silent> <leader>gp :Git push<CR>
-            nnoremap <silent> <leader>gr :Gread<CR>
-            nnoremap <silent> <leader>gw :Gwrite<CR>
-            nnoremap <silent> <leader>ge :Gedit<CR>
-            " Mnemonic _i_nteractive
-            nnoremap <silent> <leader>gi :Git add -p %<CR>
-            nnoremap <silent> <leader>gg :SignifyToggle<CR>
+            let g:airline#extensions#tabline#buffer_idx_mode = 1
+            nmap <leader>1 <Plug>AirlineSelectTab1
+            nmap <leader>2 <Plug>AirlineSelectTab2
+            nmap <leader>3 <Plug>AirlineSelectTab3
+            nmap <leader>4 <Plug>AirlineSelectTab4
+            nmap <leader>5 <Plug>AirlineSelectTab5
+            nmap <leader>6 <Plug>AirlineSelectTab6
+            nmap <leader>7 <Plug>AirlineSelectTab7
+            nmap <leader>8 <Plug>AirlineSelectTab8
+            nmap <leader>9 <Plug>AirlineSelectTab9
+            nmap <leader>- <Plug>AirlineSelectPrevTab
+            nmap <leader>+ <Plug>AirlineSelectNextTab
+
+            if isdirectory(expand("~/.vim/viplug/vim-airline-themes/"))
+                if !exists('g:airline_theme')
+                    let g:airline_theme = 'solarized'
+                endif
+            endif
+
+            if !exists('g:airline_symbols')
+                let g:airline_symbols = {}
+            endif
+
+            if !exists('g:airline_no_powerline_symbol_font') && !exists('g:starry_use_old_powerline')
+                " powerline symbols
+                let g:airline_left_sep = ''
+                let g:airline_left_alt_sep = ''
+                let g:airline_right_sep = ''
+                let g:airline_right_alt_sep = ''
+                let g:airline_symbols.branch = ''
+                let g:airline_symbols.readonly = ''
+                let g:airline_symbols.linenr = ''
+                let g:airline_symbols.maxlinenr = '¶'
+            elseif !exists('g:airline_no_powerline_symbol_font')
+                " old vim-powerline symbols
+                let g:airline_left_sep = '⮀'
+                let g:airline_left_alt_sep = '⮁'
+                let g:airline_right_sep = '⮂'
+                let g:airline_right_alt_sep = '⮃'
+                let g:airline_symbols.branch = '⭠'
+                let g:airline_symbols.readonly = '⭤'
+                let g:airline_symbols.linenr = '⭡'
+            else
+                " unicode symbols
+                let g:airline_left_sep = '»'
+                let g:airline_left_sep = '›'
+                let g:airline_right_sep = '«'
+                let g:airline_right_sep = '‹'
+                let g:airline_symbols.crypt = '🔒'
+                let g:airline_symbols.linenr = '㏑'
+                let g:airline_symbols.maxlinenr = '¶'
+                let g:airline_symbols.branch = '⎇'
+                let g:airline_symbols.paste = 'Þ'
+                let g:airline_symbols.spell = 'Ꞩ'
+                let g:airline_symbols.notexists = 'Ɇ'
+                let g:airline_symbols.whitespace = 'Ξ'
+            endif
         endif
-    "}
+    " }
+
+    " UndoTree {
+        if isdirectory(expand("~/.vim/viplug/undotree/"))
+            nnoremap <Leader>u :UndotreeToggle<CR>
+            " If undotree is opened, it is likely one wants to interact with it.
+            let g:undotree_SetFocusWhenToggle=1
+        endif
+    " }
+
+    " vim-multiple-cursors {
+        if isdirectory(expand("~/.vim/viplug/vim-multiple-cursors/"))
+            let g:multi_cursor_use_default_mapping=0
+
+            " Mapping
+            let g:multi_cursor_start_word_key      = '<C-n>'
+            let g:multi_cursor_select_all_word_key = '<A-n>'
+            let g:multi_cursor_start_key           = 'g<C-n>'
+            let g:multi_cursor_select_all_key      = 'g<A-n>'
+            let g:multi_cursor_next_key            = '<C-n>'
+            let g:multi_cursor_prev_key            = '<C-m>'
+            let g:multi_cursor_skip_key            = '<C-x>'
+            let g:multi_cursor_quit_key            = '<Esc>'
+
+            " Default highlighting (see help :highlight and help :highlight-link)
+            highlight multiple_cursors_cursor term=reverse cterm=reverse gui=reverse
+            highlight link multiple_cursors_visual Visual
+
+            function! Multiple_cursors_before()
+              if exists(':NeoCompleteLock')==2
+                exe 'NeoCompleteLock'
+              endif
+            endfunction
+
+            function! Multiple_cursors_after()
+              if exists(':NeoCompleteUnlock')==2
+                exe 'NeoCompleteUnlock'
+             endif
+            endfunction
+        endif
+    " }
+
+    " Session List {
+        set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
+        if isdirectory(expand("~/.vim/viplug/sessionman.vim/"))
+            nmap <leader>sl :SessionList<CR>
+            nmap <leader>ss :SessionSave<CR>
+            nmap <leader>sc :SessionClose<CR>
+        endif
+    " }
+
+    " indent_guides {
+        if isdirectory(expand("~/.vim/viplug/vim-indent-guides/"))
+            let g:indent_guides_enable_on_vim_startup = 1
+            let g:indent_guides_start_level = 2
+            let g:indent_guides_guide_size = 1
+        endif
+    " }
+
+    " SnipMate {
+        " Setting the author var
+        " If forking, please overwrite in your .vimrc.local file
+        let g:snips_author = 'StarryLeo <starryskymayuyu@gmail.com>'
+    " }
 
     " YouCompleteMe {
         if count(g:starry_plug_groups, 'youcompleteme')
@@ -966,6 +932,23 @@
         endif
     " }
 
+    " Fugitive {
+        if isdirectory(expand("~/.vim/viplug/vim-fugitive/"))
+            nnoremap <silent> <leader>gs :Gstatus<CR>
+            nnoremap <silent> <leader>gd :Gdiff<CR>
+            nnoremap <silent> <leader>gc :Gcommit<CR>
+            nnoremap <silent> <leader>gb :Gblame<CR>
+            nnoremap <silent> <leader>gl :Glog<CR>
+            nnoremap <silent> <leader>gp :Git push<CR>
+            nnoremap <silent> <leader>gr :Gread<CR>
+            nnoremap <silent> <leader>gw :Gwrite<CR>
+            nnoremap <silent> <leader>ge :Gedit<CR>
+            " Mnemonic _i_nteractive
+            nnoremap <silent> <leader>gi :Git add -p %<CR>
+            nnoremap <silent> <leader>gg :SignifyToggle<CR>
+        endif
+    "}
+
     " ALE {
         if isdirectory(expand("~/.vim/viplug/ale/"))
             let g:ale_sign_error = '❌'
@@ -991,127 +974,48 @@
         endif
     " }
 
-    " UndoTree {
-        if isdirectory(expand("~/.vim/viplug/undotree/"))
-            nnoremap <Leader>u :UndotreeToggle<CR>
-            " If undotree is opened, it is likely one wants to interact with it.
-            let g:undotree_SetFocusWhenToggle=1
+    " Tabularize {
+        if isdirectory(expand("~/.vim/viplug/tabular"))
+            nmap <Leader>a& :Tabularize /&<CR>
+            vmap <Leader>a& :Tabularize /&<CR>
+            nmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
+            vmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
+            nmap <Leader>a=> :Tabularize /=><CR>
+            vmap <Leader>a=> :Tabularize /=><CR>
+            nmap <Leader>a: :Tabularize /:<CR>
+            vmap <Leader>a: :Tabularize /:<CR>
+            nmap <Leader>a:: :Tabularize /:\zs<CR>
+            vmap <Leader>a:: :Tabularize /:\zs<CR>
+            nmap <Leader>a, :Tabularize /,<CR>
+            vmap <Leader>a, :Tabularize /,<CR>
+            nmap <Leader>a,, :Tabularize /,\zs<CR>
+            vmap <Leader>a,, :Tabularize /,\zs<CR>
+            nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+            vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
         endif
     " }
 
-    " indent_guides {
-        if isdirectory(expand("~/.vim/viplug/vim-indent-guides/"))
-            let g:indent_guides_enable_on_vim_startup = 1
-            let g:indent_guides_start_level = 2
-            let g:indent_guides_guide_size = 1
+    " Ctags {
+        set tags=./tags;/,~/.vimtags
+
+        " Make tags placed in .git/tags file available in all levels of a repository
+        let gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
+        if gitroot != ''
+            let &tags = &tags . ',' . gitroot . '/.git/tags'
         endif
     " }
 
-    " vim-multiple-cursors {
-        if isdirectory(expand("~/.vim/viplug/vim-multiple-cursors/"))
-            let g:multi_cursor_use_default_mapping=0
-
-            "Mapping
-            let g:multi_cursor_start_word_key      = '<C-n>'
-            let g:multi_cursor_select_all_word_key = '<A-n>'
-            let g:multi_cursor_start_key           = 'g<C-n>'
-            let g:multi_cursor_select_all_key      = 'g<A-n>'
-            let g:multi_cursor_next_key            = '<C-n>'
-            let g:multi_cursor_prev_key            = '<C-m>'
-            let g:multi_cursor_skip_key            = '<C-x>'
-            let g:multi_cursor_quit_key            = '<Esc>'
-
-            " Default highlighting (see help :highlight and help :highlight-link)
-            highlight multiple_cursors_cursor term=reverse cterm=reverse gui=reverse
-            highlight link multiple_cursors_visual Visual
-
-            function! Multiple_cursors_before()
-              if exists(':NeoCompleteLock')==2
-                exe 'NeoCompleteLock'
-              endif
-            endfunction
-
-            function! Multiple_cursors_after()
-              if exists(':NeoCompleteUnlock')==2
-                exe 'NeoCompleteUnlock'
-             endif
-            endfunction
+    " TagBar {
+        if isdirectory(expand("~/.vim/viplug/tagbar/"))
+            nnoremap <silent> <leader>tt :TagbarToggle<CR>
         endif
-    " }
+    "}
 
-    " vim-airline {
-        " Set configuration options for the statusline plugin vim-airline.
-        " Use the powerline theme and optionally enable powerline symbols.
-        " Using the symbols , , , , , , , and ¶.in the statusline.
-        " To use unicode symbols in the statusline
-        " segments add the following to your .vimrc.before.local file:
-        "   let g:airline_no_powerline_symbol_font=1
-
-        " See `:echo g:airline_theme_map` for some more choices
-        " Default in terminal vim is 'dark'
-        if isdirectory(expand("~/.vim/viplug/vim-airline/"))
-            "设置路径显示格式
-            let g:airline#extensions#tabline#formatter = 'default'
-
-            let g:airline#extensions#tabline#buffer_idx_mode = 1
-            nmap <leader>1 <Plug>AirlineSelectTab1
-            nmap <leader>2 <Plug>AirlineSelectTab2
-            nmap <leader>3 <Plug>AirlineSelectTab3
-            nmap <leader>4 <Plug>AirlineSelectTab4
-            nmap <leader>5 <Plug>AirlineSelectTab5
-            nmap <leader>6 <Plug>AirlineSelectTab6
-            nmap <leader>7 <Plug>AirlineSelectTab7
-            nmap <leader>8 <Plug>AirlineSelectTab8
-            nmap <leader>9 <Plug>AirlineSelectTab9
-            nmap <leader>- <Plug>AirlineSelectPrevTab
-            nmap <leader>+ <Plug>AirlineSelectNextTab
-
-            if isdirectory(expand("~/.vim/viplug/vim-airline-themes/"))
-                if !exists('g:airline_theme')
-                    let g:airline_theme = 'solarized'
-                endif
-            endif
-
-            if !exists('g:airline_symbols')
-                let g:airline_symbols = {}
-            endif
-
-            if !exists('g:airline_no_powerline_symbol_font') && !exists('g:starry_use_old_powerline')
-                " powerline symbols
-                let g:airline_left_sep = ''
-                let g:airline_left_alt_sep = ''
-                let g:airline_right_sep = ''
-                let g:airline_right_alt_sep = ''
-                let g:airline_symbols.branch = ''
-                let g:airline_symbols.readonly = ''
-                let g:airline_symbols.linenr = ''
-                let g:airline_symbols.maxlinenr = '¶'
-            elseif !exists('g:airline_no_powerline_symbol_font')
-                " old vim-powerline symbols
-                let g:airline_left_sep = '⮀'
-                let g:airline_left_alt_sep = '⮁'
-                let g:airline_right_sep = '⮂'
-                let g:airline_right_alt_sep = '⮃'
-                let g:airline_symbols.branch = '⭠'
-                let g:airline_symbols.readonly = '⭤'
-                let g:airline_symbols.linenr = '⭡'
-            else
-                " unicode symbols
-                let g:airline_left_sep = '»'
-                let g:airline_left_sep = '›'
-                let g:airline_right_sep = '«'
-                let g:airline_right_sep = '‹'
-                let g:airline_symbols.crypt = '🔒'
-                let g:airline_symbols.linenr = '㏑'
-                let g:airline_symbols.maxlinenr = '¶'
-                let g:airline_symbols.branch = '⎇'
-                let g:airline_symbols.paste = 'Þ'
-                let g:airline_symbols.spell = 'Ꞩ'
-                let g:airline_symbols.notexists = 'Ɇ'
-                let g:airline_symbols.whitespace = 'Ξ'
-            endif
+    " Rainbow {
+        if isdirectory(expand("~/.vim/viplug/rainbow/"))
+            let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
         endif
-    " }
+    "}
 
     " Markdown Preview {
         if isdirectory(expand("~/.vim/viplug/markdown-preview.nvim/"))
@@ -1122,12 +1026,110 @@
         endif
     " }
 
+    " PyMode {
+        " Disable if python support not present
+        if !has('python') && !has('python3')
+            let g:pymode = 0
+        endif
+
+        if isdirectory(expand("~/.vim/viplug/python-mode"))
+            if has('python3')
+                let g:pymode_python = 'python3'
+            endif
+            let g:pymode_lint_checkers = ['pyflakes']
+            let g:pymode_trim_whitespaces = 0
+            let g:pymode_options = 0
+            let g:pymode_rope = 0
+        endif
+    " }
+
     " Verilog {
         if isdirectory(expand("~/.vim/viplug/verilog_systemverilog.vim/"))
             nnoremap <leader>i :VerilogFollowInstance<CR>
             nnoremap <leader>p :VerilogFollowPort<CR>
             nnoremap <leader>o :VerilogGotoInstanceStart<CR>
         endif
+    " }
+
+    " GoLang {
+        if count(g:starry_plug_groups, 'go')
+            let g:go_highlight_functions = 1
+            let g:go_highlight_methods = 1
+            let g:go_highlight_structs = 1
+            let g:go_highlight_operators = 1
+            let g:go_highlight_build_constraints = 1
+            let g:go_fmt_command = "goimports"
+            au FileType go nmap <Leader>s <Plug>(go-implements)
+            au FileType go nmap <Leader>i <Plug>(go-info)
+            au FileType go nmap <Leader>e <Plug>(go-rename)
+            au FileType go nmap <leader>r <Plug>(go-run)
+            au FileType go nmap <leader>b <Plug>(go-build)
+            au FileType go nmap <leader>t <Plug>(go-test)
+            au FileType go nmap <Leader>gd <Plug>(go-doc)
+            au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+            au FileType go nmap <leader>co <Plug>(go-coverage)
+        endif
+    " }
+
+    " PHP {
+        if isdirectory(expand("~/.vim/viplug/phpcomplete.vim"))
+            let g:phpcomplete_mappings = {
+               \ 'jump_to_def':             '<C-]>',
+               \ 'jump_to_def_split':  '<C-\><C-]>',
+               \ 'jump_to_def_vsplit': '<C-W><C-\>',
+               \ 'jump_to_def_tabnew': '<C-\><C-[>',
+               \}
+        endif
+    " }
+
+    " AutoCloseTag {
+        if isdirectory(expand("~/.vim/viplug/vim-closetag"))
+            " filenames like *.xml, *.html, *.xhtml, ...
+            " These are the file extensions where this plugin is enabled.
+            "
+            let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
+
+            " filenames like *.xml, *.xhtml, ...
+            " This will make the list of non-closing tags self-closing in the specified files.
+            "
+            let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
+
+            " filetypes like xml, html, xhtml, ...
+            " These are the file types where this plugin is enabled.
+            "
+            let g:closetag_filetypes = 'html,xhtml,phtml'
+
+            " filetypes like xml, xhtml, ...
+            " This will make the list of non-closing tags self-closing in the specified files.
+            "
+            let g:closetag_xhtml_filetypes = 'xhtml,jsx'
+
+            " integer value [0|1]
+            " This will make the list of non-closing tags case-sensitive (e.g. `<Link>` will be closed while `<link>` won't.)
+            "
+            let g:closetag_emptyTags_caseSensitive = 1
+
+            " Shortcut for closing tags, default is '>'
+            "
+            let g:closetag_shortcut = '>'
+
+            " Add > at current position without closing the current tag, default is ''
+            "
+            let g:closetag_close_shortcut = '<leader>>'
+        endif
+    " }
+
+    " JSON {
+        nmap <leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
+        let g:vim_json_syntax_conceal = 0
+        if isdirectory(expand("~/.vim/viplug/vim-javascript"))
+            let g:javascript_plugin_jsdoc = 1
+            let g:javascript_plugin_ngdoc = 1
+            let g:javascript_plugin_flow = 1
+        endif
+    " }
+
+    " Misc {
     " }
 
 " }
