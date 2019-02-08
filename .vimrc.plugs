@@ -95,7 +95,7 @@
     " 在你的.vimrc.before.local文件中列出你要用的插件组
     "
     if !exists('g:starry_plug_groups')
-        let g:starry_plug_groups=['general', 'writing', 'programming', 'markdown', 'deoplete', 'python', 'verilog', 'misc',]
+        let g:starry_plug_groups=['general', 'deoplete', 'programming', 'markdown', 'python', 'verilog', 'misc',]
     endif
 
     " To override all the included plugs, add the following to your
@@ -109,9 +109,8 @@
     " General {
         if count(g:starry_plug_groups, 'general')
             Plug 'StarryLeo/vim-colorschemes'
-            Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeTabsToggle' }
-            Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeTabsToggle' }
-            Plug 'jistr/vim-nerdtree-tabs', { 'on': 'NERDTreeTabsToggle' }
+            Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeFind' }
+            Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeFind' }
             Plug 'ctrlpvim/ctrlp.vim'
             Plug 'tacahiroy/ctrlp-funky'
             if (has("python") || has("python3")) && exists('g:starry_use_powerline') && !exists('g:starry_use_old_powerline')
@@ -148,38 +147,6 @@
         endif
     " }
 
-    " Writing {
-        if count(g:starry_plug_groups, 'writing')
-            Plug 'reedes/vim-litecorrect'
-            Plug 'reedes/vim-textobj-sentence'
-            Plug 'reedes/vim-textobj-quote'
-            Plug 'reedes/vim-wordy'
-        endif
-    " }
-
-    " General Programming {
-        if count(g:starry_plug_groups, 'programming')
-            Plug 'tpope/vim-fugitive'
-            Plug 'scrooloose/nerdcommenter'
-            Plug 'vim-syntastic/syntastic'
-            Plug 'godlygeek/tabular'
-            if executable('ctags')
-                Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-            endif
-            Plug 'tpope/vim-commentary'
-            Plug 'luochen1990/rainbow'
-        endif
-    " }
-
-    " Markdown {
-        if count(g:starry_plug_groups, 'markdown')
-            Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-            if (has("python") || has("python3")) && has("gui_running")
-                Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
-            endif
-        endif
-    " }
-
     " Snippets & AutoComplete {
         if count(g:starry_plug_groups, 'youcompleteme')
             Plug 'Valloric/YouCompleteMe'
@@ -196,6 +163,29 @@
             Plug 'Shougo/neosnippet'
             Plug 'Shougo/neosnippet-snippets'
             Plug 'honza/vim-snippets'
+        endif
+    " }
+
+    " General Programming {
+        if count(g:starry_plug_groups, 'programming')
+            Plug 'tpope/vim-fugitive'
+            Plug 'scrooloose/nerdcommenter'
+            Plug 'w0rp/ale'
+            Plug 'Chiel92/vim-autoformat', { 'on': 'Autoformat' }
+            Plug 'godlygeek/tabular'
+            if executable('ctags')
+                Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+            endif
+            Plug 'luochen1990/rainbow'
+        endif
+    " }
+
+    " Markdown {
+        if count(g:starry_plug_groups, 'markdown')
+            Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+            if (has("python") || has("python3")) && has("gui_running")
+                Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
+            endif
         endif
     " }
 
