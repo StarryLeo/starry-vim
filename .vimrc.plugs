@@ -183,7 +183,7 @@
     " Markdown {
         if count(g:starry_plug_groups, 'markdown')
             Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-            if (has("python") || has("python3")) && has("gui_running")
+            if has("python") || has("python3")
                 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
             endif
         endif
