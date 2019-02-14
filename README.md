@@ -37,7 +37,7 @@ Lastly (and perhaps, most importantly) It is completely cross platform. It works
 # Installation
 ## Requirements
 To make all the plugins work, specifically [deoplete](https://github.com/Shougo/deoplete.nvim), you need [vim with python3](https://github.com/Shougo/deoplete.nvim#requirements).
-if `:echo has("python3")` rerurns `1`, then you have python 3 support; otherwise, see below.
+if `:echo has("python3")` rerurns `1`, then you have python3 support; otherwise, see below.
 
 You can enable Python3 interface with pip3:
 
@@ -48,10 +48,15 @@ You can enable Python3 interface with pip3:
 
 For ArchLinux, you should see [roxma/vim-hug-neovim-rpc#28](https://github.com/roxma/vim-hug-neovim-rpc/issues/28).
 
-For Windows, you should create `~/.vimrc.local` and let `g:python3_host_prog` pointed to your python3 executable. Similar to
+Then, you should create `~/.vimrc.local` and let `g:python3_host_prog` pointed to your python3 executable. Similar to
 
 ```bash
 
+    # Unix
+    let g:python3_host_prog='/usr/bin/python'
+    # Or
+    let g:python3_host_prog='/home/scat/.pyenv/shims/python3.7'
+    # Windows
     let g:python3_host_prog='C:\Users\HASEE\AppData\Local\Programs\Python\Python37\python.exe'
 ```
 

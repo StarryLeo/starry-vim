@@ -771,9 +771,6 @@
             " For Vim8
             if has('python3')
                 set pyxversion=3
-                    if LINUX()
-                        let g:python3_host_prog='/usr/bin/python'
-                    endif
             endif
         endif
     " }
@@ -951,6 +948,8 @@
 
     " ALE {
         if isdirectory(expand("~/.vim/viplug/ale/"))
+            " Keep the sign gutter open
+            let g:ale_sign_column_always = 1
             let g:ale_sign_error = '❌'
             let g:ale_sign_warning = '⚡'
             " Show errors or warnings in airline
