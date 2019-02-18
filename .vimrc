@@ -89,7 +89,7 @@
     set ffs=unix,dos,mac        " Use Unix as standard file type
 
     if !has('gui')
-        set term=xterm-256color          " Make arrow and other keys work 启用终端256色
+        set term=xterm-256color          " Make arrow and other keys work
     endif
 
     filetype plugin indent on   " Automatically detect file types. 检测到不同的文件类型加载不同的文件类型插件
@@ -771,9 +771,6 @@
             " For Vim8
             if has('python3')
                 set pyxversion=3
-                    if LINUX()
-                        let g:python3_host_prog='/usr/bin/python'
-                    endif
             endif
         endif
     " }
@@ -951,6 +948,8 @@
 
     " ALE {
         if isdirectory(expand("~/.vim/viplug/ale/"))
+            " Keep the sign gutter open
+            let g:ale_sign_column_always = 1
             let g:ale_sign_error = '❌'
             let g:ale_sign_warning = '⚡'
             " Show errors or warnings in airline
@@ -1150,9 +1149,17 @@
             endif
         endif
     else
-        if &term == 'xterm' || &term == 'screen'
-            set t_Co=256            " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
+        if has('termguicolors')
+            " Fix bug for vim
+            let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+            let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+
+            " Enable true color
+            set termguicolors
         endif
+        "if &term == 'xterm' || &term == 'screen'
+        "    set t_Co=256            " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
+        "endif
         "set term=builtin_ansi       " Make arrow and other keys work
     endif
 
