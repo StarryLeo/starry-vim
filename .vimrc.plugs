@@ -158,6 +158,7 @@
             Plug 'roxma/vim-hug-neovim-rpc'
             Plug 'SirVer/ultisnips'
             Plug 'honza/vim-snippets'
+            Plug 'Shougo/neco-vim'
         elseif count(g:starry_plug_groups, 'neocomplete')
             Plug 'Shougo/neocomplete.vim'
             Plug 'Shougo/neosnippet'
