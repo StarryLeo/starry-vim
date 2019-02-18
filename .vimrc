@@ -970,6 +970,9 @@
     " AutoFormat {
         if isdirectory(expand("~/.vim/viplug/vim-autoformat/"))
             nnoremap <leader>= :Autoformat<CR>
+            " Python
+            let g:formatters_python = ['yapf','autopep8','black']
+            let g:formatter_yapf_style = 'pep8'
         endif
     " }
 

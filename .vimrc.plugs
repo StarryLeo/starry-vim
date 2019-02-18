@@ -192,6 +192,9 @@
     " Python {
         if count(g:starry_plug_groups, 'python')
             Plug 'python-mode/python-mode', { 'branch': 'develop' }
+            if count(g:starry_plug_groups, 'deoplete')
+                Plug 'deoplete-plugins/deoplete-jedi'
+            endif
         endif
     " }
 
