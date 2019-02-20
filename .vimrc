@@ -1152,17 +1152,21 @@
             endif
         endif
     else
-        if has('termguicolors')
-            " Fix bug for vim
-            let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
-            let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+        " Use 24-bit (true-color) mode in Vim when outside tmux
+        if (empty($TMUX))
+            if has('termguicolors')
+                " Fix bug for vim
+                let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+                let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
 
-            " Enable true color
-            set termguicolors
+                " Enable true color
+                set termguicolors
+            endif
+        else
+            if &term == 'xterm' || &term == 'screen'
+                set t_Co=256            " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
+            endif
         endif
-        "if &term == 'xterm' || &term == 'screen'
-        "    set t_Co=256            " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
-        "endif
         "set term=builtin_ansi       " Make arrow and other keys work
     endif
 
