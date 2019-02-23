@@ -63,21 +63,21 @@
 
     " Arrow Key Fix {
         " https://github.com/spf13/spf13-vim/issues/780
-        if &term[:4] == "xterm" || &term[:5] == 'screen' || &term[:3] == 'rxvt'
-            inoremap <silent> <C-[>OC <RIGHT>
+        if &term[:4] ==? 'xterm' || &term[:5] ==? 'screen' || &term[:3] ==? 'rxvt'
+            inoremap <silent> <C-[>OC <Right>
         endif
     " }
 
 " }
 
 " Use before config if available {
-    if filereadable(expand("~/.vimrc.before"))
+    if filereadable(expand('~/.vimrc.before'))
         source ~/.vimrc.before
     endif
 " }
 
 " Use plugs config {
-    if filereadable(expand("~/.vimrc.plugs"))
+    if filereadable(expand('~/.vimrc.plugs'))
         source ~/.vimrc.plugs
     endif
 " }
@@ -116,12 +116,14 @@
     "   let g:starry_no_autochdir = 1
     "
     if !exists('g:starry_no_autochdir')
-        autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
+        augroup starry_autochdir
+            autocmd!
+            autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
+        augroup END
         " Always switch to the current file directory
     endif
 
-    "set autowrite                      " Automatically write a file when leaving a modified buffer
-    " 离开缓冲区自动保存文件
+    "set autowrite                      " Automatically write a file when leaving a modified buffer 离开缓冲区自动保存文件
     set shortmess+=filmnrxoOtT          " Abbrev. of messages (avoids 'hit enter')
     set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
     set virtualedit=onemore             " Allow for cursor beyond last character
@@ -134,13 +136,16 @@
     set iskeyword-=_                    " '_' is an end of word designator
 
 
-    " Instead of reverting the cursor to the last position in the buffer, we
-    " set it to the first line when editing a git commit message
-    au FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
+    augroup starry_gitcommit
+        autocmd!
+        " Instead of reverting the cursor to the last position in the buffer, we
+        " set it to the first line when editing a git commit message
+        autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
 
-    " add spell checking and automatic wrapping at the recommended 72 columns
-    " to commit messages
-    au Filetype gitcommit setlocal spell textwidth=72
+        " add spell checking and automatic wrapping at the recommended 72 columns
+        " to commit messages
+        autocmd Filetype gitcommit setlocal spell textwidth=72
+    augroup END
 
     " http://vim.wikia.com/wiki/Restore_cursor_to_file_position_in_previous_editing_session
     " Restore cursor to file position in previous editing session
@@ -151,7 +156,7 @@
     "   let g:starry_no_restore_cursor = 1
     if !exists('g:starry_no_restore_cursor')
         function! ResCur()
-            if line("'\"") <= line("$")
+            if line("'\"") <= line('$')
                 silent! normal! g`"
                 return 1
             endif
@@ -187,9 +192,9 @@
 
 " Vim UI {
 
-    if !exists('g:override_starry_plugs') && filereadable(expand("~/.vim/viplug/vim-colorschemes/colors/solarized8.vim"))
+    if !exists('g:override_starry_plugs') && filereadable(expand('~/.vim/viplug/vim-colorschemes/colors/solarized8.vim/'))
         let g:solarized_termtrans=1
-        let g:solarized_visibility="normal"
+        let g:solarized_visibility='normal'
         colorscheme solarized8             " Load a colorscheme
     endif
 
@@ -256,18 +261,24 @@
     set splitbelow                  " Puts new split windows to the bottom of the current
     "set matchpairs+=<:>             " Match, to be used with %
     set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
-    "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks 自动格式化
+    "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks 自动格式化注释
     " Remove trailing whitespaces and ^M chars 移除行尾的空格和^M
     " To disable the stripping of whitespace, add the following to your
     " 如要禁用，声明以下值
     " .vimrc.before.local file:
     "   let g:starry_keep_trailing_whitespace = 1
-    autocmd FileType c,cpp,java,go,php,javascript,python,xml,yml,perl,sql autocmd BufWritePre <buffer> if !exists('g:starry_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
-    "autocmd FileType go autocmd BufWritePre <buffer> Fmt
-    autocmd FileType yml setlocal expandtab shiftwidth=2 softtabstop=2
-    " preceding line best in a plugin but here for now.
+    augroup starry_remove_trailing_whitespace
+        autocmd!
+        autocmd FileType c,cpp,java,go,php,javascript,python,xml,yml,perl,sql autocmd BufWritePre <buffer> if !exists('g:starry_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
+    augroup END
+    augroup starry_File_Type
+        autocmd!
+        "autocmd FileType go autocmd BufWritePre <buffer> Fmt
+        autocmd FileType yml setlocal expandtab shiftwidth=2 softtabstop=2
+        " preceding line best in a plugin but here for now.
 
-    autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+        autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+    augroup END
 
 " }
 
@@ -279,14 +290,14 @@
     "
     " vim默认快捷键“前缀”为“\”，更多人喜欢更改为“,” 这里你可以自定义
     "
-    "   let g:starry_leader="\"
+    "   let g:starry_leader='\'
     if !exists('g:starry_leader')
-        let mapleader = ","
+        let mapleader = ','
     else
         let mapleader=g:starry_leader
     endif
     if !exists('g:starry_localleader')
-        let maplocalleader = ";"
+        let maplocalleader = ';'
     else
         let maplocalleader=g:starry_localleader
     endif
@@ -295,46 +306,46 @@
     function! ToggleBG()
         let s:tbg = &background
         " Inversion
-        if s:tbg == "dark"
+        if s:tbg ==# 'dark'
             set background=light
         else
             set background=dark
         endif
     endfunction
-    noremap <leader>bg :call ToggleBG()<CR>
+    noremap <Leader>bg :call ToggleBG()<CR>
 
     function! Unix2Dos()
         :update
         :e ++ff=dos
         :w
-        :echo "unix2dos"
+        :echo 'unix2dos'
     endfunction
     function! Dos2Unix()
         :update
         :e ++ff=dos
         :setlocal ff=unix
         :w
-        :echo "dos2unix"
+        :echo 'dos2unix'
     endfunction
 
     " Convert file from unix to dos encoding
-    nnoremap <leader>fD :call Unix2Dos()<CR>
+    nnoremap <Leader>fD :call Unix2Dos()<CR>
     " Convert file from dos to unix encoding
-    nnoremap <leader>fU :call Dos2Unix()<CR>
+    nnoremap <Leader>fU :call Dos2Unix()<CR>
 
     " The default mappings for editing and applying the starry configuration
     " 编辑和应用starry配置的快捷键分别是
-    " are <leader>ev and <leader>sv respectively. Change them to your preference
+    " are <Leader>ev and <Leader>sv respectively. Change them to your preference
     " by adding the following to your .vimrc.before.local file:
-    "   let g:starry_edit_config_mapping="<leader>ec"
-    "   let g:starry_apply_config_mapping="<leader>sc"
+    "   let g:starry_edit_config_mapping='<Leader>ec'
+    "   let g:starry_apply_config_mapping='<Leader>sc'
     if !exists('g:starry_edit_config_mapping')
-        let s:starry_edit_config_mapping = "<leader>ev"
+        let s:starry_edit_config_mapping = '<Leader>ev'
     else
         let s:starry_edit_config_mapping = g:starry_edit_config_mapping
     endif
     if !exists('g:starry_apply_config_mapping')
-        let s:starry_apply_config_mapping = "<leader>sv"
+        let s:starry_apply_config_mapping = '<Leader>sv'
     else
         let s:starry_apply_config_mapping = g:starry_apply_config_mapping
     endif
@@ -345,17 +356,17 @@
     " .vimrc.before.local file:
     "   let g:starry_no_easyWindows = 1
     if !exists('g:starry_no_easyWindows')
-        map <C-J> <C-W>j<C-W>_
-        map <C-K> <C-W>k<C-W>_
-        map <C-L> <C-W>l<C-W>_
-        map <C-H> <C-W>h<C-W>_
+        noremap <C-J> <C-W>j<C-W>_
+        noremap <C-K> <C-W>k<C-W>_
+        noremap <C-L> <C-W>l<C-W>_
+        noremap <C-H> <C-W>h<C-W>_
     endif
 
     " Wrapped lines goes down/up to next row, rather than next line in file.
     noremap j gj
     noremap k gk
 
-    "长行自动折行
+    " 长行自动折行
     " End/Start of line motion keys act relative to row/wrap width in the
     " presence of `:set wrap`, and relative to line for `:set nowrap`.
     " Default vim behaviour is to act relative to text line in both cases
@@ -365,14 +376,14 @@
     if !exists('g:starry_no_wrapRelMotion')
         " Same for 0, home, end, etc
         function! WrapRelativeMotion(key, ...)
-            let vis_sel=""
+            let vis_sel=''
             if a:0
-                let vis_sel="gv"
+                let vis_sel='gv'
             endif
             if &wrap
-                execute "normal!" vis_sel . "g" . a:key
+                execute 'normal!' vis_sel . 'g' . a:key
             else
-                execute "normal!" vis_sel . a:key
+                execute 'normal!' vis_sel . a:key
             endif
         endfunction
 
@@ -401,13 +412,13 @@
     " .vimrc.before.local file:
     "   let g:starry_no_fastTabs = 1
     if !exists('g:starry_no_fastTabs')
-        map <S-H> gT
-        map <S-L> gt
+        noremap <S-H> gT
+        noremap <S-L> gt
     endif
 
     " Stupid shift key fixes
     if !exists('g:starry_no_keyfixes')
-        if has("user_commands")
+        if has('user_commands')
             command! -bang -nargs=* -complete=file E e<bang> <args>
             command! -bang -nargs=* -complete=file W w<bang> <args>
             command! -bang -nargs=* -complete=file Wq wq<bang> <args>
@@ -419,7 +430,7 @@
             command! -bang Qa qa<bang>
         endif
 
-        cmap Tabe tabe
+        cnoremap Tabe tabe
     endif
 
     " Yank from the cursor to the end of the line, to be consistent with C and D.
@@ -427,16 +438,16 @@
 
     " Code folding options
     " 代码折叠级别选项
-    nmap <leader>f0 :set foldlevel=0<CR>
-    nmap <leader>f1 :set foldlevel=1<CR>
-    nmap <leader>f2 :set foldlevel=2<CR>
-    nmap <leader>f3 :set foldlevel=3<CR>
-    nmap <leader>f4 :set foldlevel=4<CR>
-    nmap <leader>f5 :set foldlevel=5<CR>
-    nmap <leader>f6 :set foldlevel=6<CR>
-    nmap <leader>f7 :set foldlevel=7<CR>
-    nmap <leader>f8 :set foldlevel=8<CR>
-    nmap <leader>f9 :set foldlevel=9<CR>
+    nnoremap <Leader>f0 :set foldlevel=0<CR>
+    nnoremap <Leader>f1 :set foldlevel=1<CR>
+    nnoremap <Leader>f2 :set foldlevel=2<CR>
+    nnoremap <Leader>f3 :set foldlevel=3<CR>
+    nnoremap <Leader>f4 :set foldlevel=4<CR>
+    nnoremap <Leader>f5 :set foldlevel=5<CR>
+    nnoremap <Leader>f6 :set foldlevel=6<CR>
+    nnoremap <Leader>f7 :set foldlevel=7<CR>
+    nnoremap <Leader>f8 :set foldlevel=8<CR>
+    nnoremap <Leader>f9 :set foldlevel=9<CR>
 
     " 搜索结果高亮切换
     " Most prefer to toggle search highlighting rather than clear the current
@@ -444,20 +455,20 @@
     " and off, add the following to your .vimrc.before.local file:
     "   let g:starry_clear_search_highlight = 1
     if exists('g:starry_clear_search_highlight')
-        nmap <silent> <leader>/ :nohlsearch<CR>
+        nnoremap <silent> <Leader>/ :nohlsearch<CR>
     else
-        nmap <silent> <leader>/ :set invhlsearch<CR>
+        nnoremap <silent> <Leader>/ :set invhlsearch<CR>
     endif
 
     " 查找merge冲突标记
     " Find merge conflict markers
-    map <leader>fc /\v^[<\|=>]{7}( .*\|$)<CR>
+    noremap <Leader>fc /\v^[<\|=>]{7}( .*\|$)<CR>
 
     " 快捷键切换当前文件目录为工作目录
     " Shortcuts
     " Change Working Directory to that of the current file
-    cmap cwd lcd %:p:h
-    cmap cd. lcd %:p:h
+    cnoremap cwd lcd %:p:h
+    cnoremap cd. lcd %:p:h
 
     " Visual shifting (does not exit Visual mode)
     vnoremap < <gv
@@ -469,35 +480,35 @@
 
     " 编辑只读文件忘记用sudo，使用 :w!! 保存
     " For when you forget to sudo.. Really Write the file.
-    cmap w!! w !sudo tee % >/dev/null
+    cnoremap w!! w !sudo tee % >/dev/null
 
     " Some helpers to edit mode
     " http://vimcasts.org/e/14
-    cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
-    map <leader>ew :e %%
-    map <leader>es :sp %%
-    map <leader>ev :vsp %%
-    map <leader>et :tabe %%
+    cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<CR>
+    noremap <Leader>ew :e %%
+    noremap <Leader>es :sp %%
+    noremap <Leader>ev :vsp %%
+    noremap <Leader>et :tabe %%
 
     " Map <Leader>ff to display all lines with keyword under cursor
     " and ask which one to jump to
-    nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+    nnoremap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 
     " Easier horizontal scrolling
-    map zl zL
-    map zh zH
+    noremap zl zL
+    noremap zh zH
 
     " Easier formatting
-    nnoremap <silent> <leader>q gwip
+    nnoremap <silent> <Leader>q gwip
 
     " 安装 wmctrl 可使用F11切换全屏
     " FIXME: Revert this f70be548
     " fullscreen mode for GVIM and Terminal, need 'wmctrl' in you PATH
-    map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
+    noremap <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
 
 
     " Ctrl+A 全选
-    map <silent> <C-A> <esc>ggVG
+    noremap <silent> <C-A> <Esc>ggVG
 
 " }
 
@@ -507,11 +518,14 @@
         " To disable omni complete, add the following to your .vimrc.before.local file:
         "   let g:starry_no_omni_complete = 1
         if !exists('g:starry_no_omni_complete')
-            if has("autocmd") && exists("+omnifunc")
-                autocmd Filetype *
-                    \if &omnifunc == "" |
-                    \setlocal omnifunc=syntaxcomplete#Complete |
-                    \endif
+            if has('autocmd') && exists('+omnifunc')
+                augroup starry_omni_complete
+                    autocmd!
+                    autocmd Filetype *
+                        \if &omnifunc == "" |
+                        \setlocal omnifunc=syntaxcomplete#Complete |
+                        \endif
+                augroup END
             endif
 
             hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
@@ -519,27 +533,30 @@
             hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
 
             " Some convenient mappings
-            "inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
+            "inoremap <expr> <Esc>      pumvisible() ? "\<C-E>" : "\<Esc>"
             if exists('g:starry_map_cr_omni_complete')
-                inoremap <expr> <CR>     pumvisible() ? "\<C-y>" : "\<CR>"
+                inoremap <expr> <CR>     pumvisible() ? "\<C-Y>" : "\<CR>"
             endif
-            inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-            inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-            inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
-            inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
+            inoremap <expr> <Down>     pumvisible() ? "\<C-N>" : "\<Down>"
+            inoremap <expr> <Up>       pumvisible() ? "\<C-P>" : "\<Up>"
+            inoremap <expr> <C-D>      pumvisible() ? "\<PageDown>\<C-P>\<C-N>" : "\<C-D>"
+            inoremap <expr> <C-U>      pumvisible() ? "\<PageUp>\<C-P>\<C-N>" : "\<C-U>"
 
-            " Automatically open and close the popup menu / preview window
-            au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+            augroup starry_Popup_Menu
+                autocmd!
+                " Automatically open and close the popup menu / preview window
+                autocmd CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+            augroup END
             set completeopt=menu,preview,longest
         endif
     " }
 
     " NerdTree {
-        if isdirectory(expand("~/.vim/viplug/nerdtree"))
+        if isdirectory(expand('~/.vim/viplug/nerdtree/'))
             " 查找目录
-            map <leader>e :NERDTreeFind<CR>
-            " Ctrl+e 关闭目录树
-            map <C-e> :NERDTreeToggle<CR>
+            noremap <Leader>e :NERDTreeFind<CR>
+            " Ctrl+E 关闭目录树
+            noremap <C-E> :NERDTreeToggle<CR>
 
             let NERDTreeShowBookmarks=1
             let NERDTreeIgnore=['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
@@ -551,12 +568,12 @@
     " }
 
     " CtrlP {
-        if isdirectory(expand("~/.vim/viplug/ctrlp.vim/"))
-            let g:ctrlp_map = '<C-p>'
+        if isdirectory(expand('~/.vim/viplug/ctrlp.vim/'))
+            let g:ctrlp_map = '<C-P>'
             let g:ctrlp_cmd = 'CtrlP'
             let g:ctrlp_working_path_mode = 'ra'
-            nnoremap <leader>cf :CtrlP<CR>
-            nnoremap <leader>fm :CtrlPMRU<CR>
+            nnoremap <Leader>cf :CtrlP<CR>
+            nnoremap <Leader>fm :CtrlPMRU<CR>
             let g:ctrlp_custom_ignore = {
                 \ 'dir':  '\v[\/]\.(git|hg|svn)$',
                 \ 'file': '\v[\/]\.(exe|so|dll|pyc)$',
@@ -574,7 +591,7 @@
             else
                 let s:ctrlp_fallback = 'find %s -type f'
             endif
-            if exists("g:ctrlp_user_command")
+            if exists('g:ctrlp_user_command')
                 unlet g:ctrlp_user_command
             endif
             let g:ctrlp_user_command = {
@@ -585,12 +602,12 @@
                 \ 'fallback': s:ctrlp_fallback
             \ }
 
-            if isdirectory(expand("~/.vim/viplug/ctrlp-funky/"))
+            if isdirectory(expand('~/.vim/viplug/ctrlp-funky/'))
                 " CtrlP extensions
                 let g:ctrlp_extensions = ['funky']
 
                 " funky
-                nnoremap <Leader>fu :CtrlPFunky<Cr>
+                nnoremap <Leader>fu :CtrlPFunky<CR>
             endif
         endif
     "}
@@ -605,24 +622,24 @@
 
         " See `:echo g:airline_theme_map` for some more choices
         " Default in terminal vim is 'dark'
-        if isdirectory(expand("~/.vim/viplug/vim-airline/"))
+        if isdirectory(expand('~/.vim/viplug/vim-airline/'))
             " 设置路径显示格式
             let g:airline#extensions#tabline#formatter = 'default'
 
             let g:airline#extensions#tabline#buffer_idx_mode = 1
-            nmap <leader>1 <Plug>AirlineSelectTab1
-            nmap <leader>2 <Plug>AirlineSelectTab2
-            nmap <leader>3 <Plug>AirlineSelectTab3
-            nmap <leader>4 <Plug>AirlineSelectTab4
-            nmap <leader>5 <Plug>AirlineSelectTab5
-            nmap <leader>6 <Plug>AirlineSelectTab6
-            nmap <leader>7 <Plug>AirlineSelectTab7
-            nmap <leader>8 <Plug>AirlineSelectTab8
-            nmap <leader>9 <Plug>AirlineSelectTab9
-            nmap <leader>- <Plug>AirlineSelectPrevTab
-            nmap <leader>+ <Plug>AirlineSelectNextTab
+            nnoremap <Leader>1 <Plug>AirlineSelectTab1
+            nnoremap <Leader>2 <Plug>AirlineSelectTab2
+            nnoremap <Leader>3 <Plug>AirlineSelectTab3
+            nnoremap <Leader>4 <Plug>AirlineSelectTab4
+            nnoremap <Leader>5 <Plug>AirlineSelectTab5
+            nnoremap <Leader>6 <Plug>AirlineSelectTab6
+            nnoremap <Leader>7 <Plug>AirlineSelectTab7
+            nnoremap <Leader>8 <Plug>AirlineSelectTab8
+            nnoremap <Leader>9 <Plug>AirlineSelectTab9
+            nnoremap <Leader>- <Plug>AirlineSelectPrevTab
+            nnoremap <Leader>+ <Plug>AirlineSelectNextTab
 
-            if isdirectory(expand("~/.vim/viplug/vim-airline-themes/"))
+            if isdirectory(expand('~/.vim/viplug/vim-airline-themes/'))
                 if !exists('g:airline_theme')
                     let g:airline_theme = 'solarized'
                 endif
@@ -670,7 +687,7 @@
     " }
 
     " UndoTree {
-        if isdirectory(expand("~/.vim/viplug/undotree/"))
+        if isdirectory(expand('~/.vim/viplug/undotree/'))
             nnoremap <Leader>u :UndotreeToggle<CR>
             " If undotree is opened, it is likely one wants to interact with it.
             let g:undotree_SetFocusWhenToggle=1
@@ -678,17 +695,17 @@
     " }
 
     " vim-multiple-cursors {
-        if isdirectory(expand("~/.vim/viplug/vim-multiple-cursors/"))
+        if isdirectory(expand('~/.vim/viplug/vim-multiple-cursors/'))
             let g:multi_cursor_use_default_mapping=0
 
             " Mapping
-            let g:multi_cursor_start_word_key      = '<C-n>'
-            let g:multi_cursor_select_all_word_key = '<A-n>'
-            let g:multi_cursor_start_key           = 'g<C-n>'
-            let g:multi_cursor_select_all_key      = 'g<A-n>'
-            let g:multi_cursor_next_key            = '<C-n>'
-            let g:multi_cursor_prev_key            = '<C-m>'
-            let g:multi_cursor_skip_key            = '<C-x>'
+            let g:multi_cursor_start_word_key      = '<C-N>'
+            let g:multi_cursor_select_all_word_key = '<A-N>'
+            let g:multi_cursor_start_key           = 'g<C-N>'
+            let g:multi_cursor_select_all_key      = 'g<A-N>'
+            let g:multi_cursor_next_key            = '<C-N>'
+            let g:multi_cursor_prev_key            = '<C-M>'
+            let g:multi_cursor_skip_key            = '<C-X>'
             let g:multi_cursor_quit_key            = '<Esc>'
 
             " Default highlighting (see help :highlight and help :highlight-link)
@@ -711,15 +728,15 @@
 
     " Session List {
         set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
-        if isdirectory(expand("~/.vim/viplug/sessionman.vim/"))
-            nmap <leader>sl :SessionList<CR>
-            nmap <leader>ss :SessionSave<CR>
-            nmap <leader>sc :SessionClose<CR>
+        if isdirectory(expand('~/.vim/viplug/sessionman.vim/'))
+            nnoremap <Leader>sl :SessionList<CR>
+            nnoremap <Leader>ss :SessionSave<CR>
+            nnoremap <Leader>sc :SessionClose<CR>
         endif
     " }
 
     " indent_guides {
-        if isdirectory(expand("~/.vim/viplug/vim-indent-guides/"))
+        if isdirectory(expand('~/.vim/viplug/vim-indent-guides/'))
             let g:indent_guides_enable_on_vim_startup = 1
             let g:indent_guides_start_level = 2
             let g:indent_guides_guide_size = 1
@@ -740,19 +757,22 @@
             let g:ycm_collect_identifiers_from_tags_files = 1
 
             " remap Ultisnips for compatibility for YCM
-            let g:UltiSnipsExpandTrigger = '<C-j>'
-            let g:UltiSnipsJumpForwardTrigger = '<C-j>'
-            let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+            let g:UltiSnipsExpandTrigger = '<C-J>'
+            let g:UltiSnipsJumpForwardTrigger = '<C-J>'
+            let g:UltiSnipsJumpBackwardTrigger = '<C-K>'
 
-            " Enable omni completion.
-            autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-            autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-            autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-            autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-            autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+            augroup starry_enable_omni_completion
+                autocmd!
+                " Enable omni completion.
+                autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+                autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+                autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+                autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+                autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+            augroup END
 
             " For snippet_complete marker.
-            if !exists("g:starry_no_conceal")
+            if !exists('g:starry_no_conceal')
                 if has('conceal')
                     set conceallevel=2 concealcursor=i
                 endif
@@ -801,31 +821,31 @@
             " Plugin key-mappings {
                 " These two lines conflict with the default digraph mapping of <C-K>
                 if !exists('g:starry_no_neosnippet_expand')
-                    imap <C-k> <Plug>(neosnippet_expand_or_jump)
-                    smap <C-k> <Plug>(neosnippet_expand_or_jump)
+                    inoremap <C-K> <Plug>(neosnippet_expand_or_jump)
+                    snoremap <C-K> <Plug>(neosnippet_expand_or_jump)
                 endif
                 if exists('g:starry_noninvasive_completion')
                     inoremap <CR> <CR>
-                    " <ESC> takes you out of insert mode
-                    inoremap <expr> <Esc>   pumvisible() ? "\<C-y>\<Esc>" : "\<Esc>"
+                    " <Esc> takes you out of insert mode
+                    inoremap <expr> <Esc>   pumvisible() ? "\<C-Y>\<Esc>" : "\<Esc>"
                     " <CR> accepts first, then sends the <CR>
-                    inoremap <expr> <CR>    pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
+                    inoremap <expr> <CR>    pumvisible() ? "\<C-Y>\<CR>" : "\<CR>"
                     " <Down> and <Up> cycle like <Tab> and <S-Tab>
-                    inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
-                    inoremap <expr> <Up>    pumvisible() ? "\<C-p>" : "\<Up>"
+                    inoremap <expr> <Down>  pumvisible() ? "\<C-N>" : "\<Down>"
+                    inoremap <expr> <Up>    pumvisible() ? "\<C-P>" : "\<Up>"
                     " Jump up and down the list
-                    inoremap <expr> <C-d>   pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
-                    inoremap <expr> <C-u>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
+                    inoremap <expr> <C-D>   pumvisible() ? "\<PageDown>\<C-P>\<C-N>" : "\<C-D>"
+                    inoremap <expr> <C-U>   pumvisible() ? "\<PageUp>\<C-P>\<C-N>" : "\<C-U>"
                 else
-                    " <C-k> Complete Snippet
-                    " <C-k> Jump to next snippet point
-                    imap <silent><expr><C-k> neosnippet#expandable() ?
+                    " <C-K> Complete Snippet
+                    " <C-K> Jump to next snippet point
+                    inoremap <silent><expr><C-K> neosnippet#expandable() ?
                                 \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
-                                \ "\<C-e>" : "\<Plug>(neosnippet_expand_or_jump)")
-                    smap <TAB> <Right><Plug>(neosnippet_jump_or_expand)
+                                \ "\<C-E>" : "\<Plug>(neosnippet_expand_or_jump)")
+                    snoremap <Tab> <Right><Plug>(neosnippet_jump_or_expand)
 
-                    inoremap <expr><C-g> neocomplete#undo_completion()
-                    inoremap <expr><C-l> neocomplete#complete_common_string()
+                    inoremap <expr><C-G> neocomplete#undo_completion()
+                    inoremap <expr><C-L> neocomplete#complete_common_string()
                     "inoremap <expr><CR> neocomplete#complete_common_string()
 
                     " <CR>: close popup
@@ -846,20 +866,20 @@
                     endfunction
 
                     " <CR> close popup and save indent or expand snippet
-                    imap <expr> <CR> CleverCr()
-                    " <C-h>, <BS>: close popup and delete backword char.
-                    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-                    inoremap <expr><C-y> neocomplete#smart_close_popup()
+                    inoremap <expr> <CR> CleverCr()
+                    " <C-H>, <BS>: close popup and delete backword char.
+                    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-H>"
+                    inoremap <expr><C-Y> neocomplete#smart_close_popup()
                 endif
-                " <TAB>: completion.
-                inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-                inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
+                " <Tab>: completion.
+                inoremap <expr><Tab> pumvisible() ? "\<C-N>" : "\<Tab>"
+                inoremap <expr><S-TAB> pumvisible() ? "\<C-P>" : "\<Tab>"
 
                 " Courtesy of Matteo Cavalleri
 
                 function! CleverTab()
                     if pumvisible()
-                        return "\<C-n>"
+                        return "\<C-N>"
                     endif
                     let substr = strpart(getline('.'), 0, col('.') - 1)
                     let substr = matchstr(substr, '[^ \t]*$')
@@ -876,7 +896,7 @@
                     endif
                 endfunction
 
-                imap <expr> <Tab> CleverTab()
+                inoremap <expr> <Tab> CleverTab()
             " }
 
             " Enable heavy omni completion.
@@ -892,12 +912,15 @@
     " To disable omni complete, add the following to your .vimrc.before.local file:
     "   let g:starry_no_omni_complete = 1
         elseif !exists('g:starry_no_omni_complete')
-            " Enable omni-completion.
-            autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-            autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-            autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-            autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-            autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+            augroup starry_enable_omnicompletion
+                autocmd!
+                " Enable omni-completion.
+                autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+                autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+                autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+                autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+                autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+            augroup END
 
         endif
     " }
@@ -913,14 +936,14 @@
             let g:neosnippet#enable_snipmate_compatibility = 1
 
             " For snippet_complete marker.
-            if !exists("g:starry_no_conceal")
+            if !exists('g:starry_no_conceal')
                 if has('conceal')
                     set conceallevel=2 concealcursor=i
                 endif
             endif
 
             " Enable neosnippets when using go
-            let g:go_snippet_engine = "neosnippet"
+            let g:go_snippet_engine = 'neosnippet'
 
             " Disable the neosnippet preview candidate window
             " When enabled, there can be too much visual noise
@@ -930,24 +953,24 @@
     " }
 
     " Fugitive {
-        if isdirectory(expand("~/.vim/viplug/vim-fugitive/"))
-            nnoremap <silent> <leader>gs :Gstatus<CR>
-            nnoremap <silent> <leader>gd :Gdiff<CR>
-            nnoremap <silent> <leader>gc :Gcommit<CR>
-            nnoremap <silent> <leader>gb :Gblame<CR>
-            nnoremap <silent> <leader>gl :Glog<CR>
-            nnoremap <silent> <leader>gp :Git push<CR>
-            nnoremap <silent> <leader>gr :Gread<CR>
-            nnoremap <silent> <leader>gw :Gwrite<CR>
-            nnoremap <silent> <leader>ge :Gedit<CR>
+        if isdirectory(expand('~/.vim/viplug/vim-fugitive/'))
+            nnoremap <silent> <Leader>gs :Gstatus<CR>
+            nnoremap <silent> <Leader>gd :Gdiff<CR>
+            nnoremap <silent> <Leader>gc :Gcommit<CR>
+            nnoremap <silent> <Leader>gb :Gblame<CR>
+            nnoremap <silent> <Leader>gl :Glog<CR>
+            nnoremap <silent> <Leader>gp :Git push<CR>
+            nnoremap <silent> <Leader>gr :Gread<CR>
+            nnoremap <silent> <Leader>gw :Gwrite<CR>
+            nnoremap <silent> <Leader>ge :Gedit<CR>
             " Mnemonic _i_nteractive
-            nnoremap <silent> <leader>gi :Git add -p %<CR>
-            nnoremap <silent> <leader>gg :SignifyToggle<CR>
+            nnoremap <silent> <Leader>gi :Git add -p %<CR>
+            nnoremap <silent> <Leader>gg :SignifyToggle<CR>
         endif
     "}
 
     " ALE {
-        if isdirectory(expand("~/.vim/viplug/ale/"))
+        if isdirectory(expand('~/.vim/viplug/ale/'))
             " Keep the sign gutter open
             let g:ale_sign_column_always = 1
             let g:ale_sign_error = '❌'
@@ -962,14 +985,14 @@
             let g:ale_echo_msg_warning_str = 'W'
             let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
             " Moving between warnings and errors quickly.
-            nmap <silent> <leader>ep <Plug>(ale_previous_wrap)
-            nmap <silent> <leader>en <Plug>(ale_next_wrap)
+            nnoremap <silent> <Leader>ep <Plug>(ale_previous_wrap)
+            nnoremap <silent> <Leader>en <Plug>(ale_next_wrap)
         endif
     " }
 
     " AutoFormat {
-        if isdirectory(expand("~/.vim/viplug/vim-autoformat/"))
-            nnoremap <leader>= :Autoformat<CR>
+        if isdirectory(expand('~/.vim/viplug/vim-autoformat/'))
+            nnoremap <Leader>= :Autoformat<CR>
             " Python
             let g:formatters_python = ['yapf','autopep8','black']
             let g:formatter_yapf_style = 'pep8'
@@ -977,23 +1000,23 @@
     " }
 
     " Tabularize {
-        if isdirectory(expand("~/.vim/viplug/tabular"))
-            nmap <Leader>a& :Tabularize /&<CR>
-            vmap <Leader>a& :Tabularize /&<CR>
-            nmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
-            vmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
-            nmap <Leader>a=> :Tabularize /=><CR>
-            vmap <Leader>a=> :Tabularize /=><CR>
-            nmap <Leader>a: :Tabularize /:<CR>
-            vmap <Leader>a: :Tabularize /:<CR>
-            nmap <Leader>a:: :Tabularize /:\zs<CR>
-            vmap <Leader>a:: :Tabularize /:\zs<CR>
-            nmap <Leader>a, :Tabularize /,<CR>
-            vmap <Leader>a, :Tabularize /,<CR>
-            nmap <Leader>a,, :Tabularize /,\zs<CR>
-            vmap <Leader>a,, :Tabularize /,\zs<CR>
-            nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-            vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+        if isdirectory(expand('~/.vim/viplug/tabular/'))
+            nnoremap <Leader>a& :Tabularize /&<CR>
+            vnoremap <Leader>a& :Tabularize /&<CR>
+            nnoremap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
+            vnoremap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
+            nnoremap <Leader>a=> :Tabularize /=><CR>
+            vnoremap <Leader>a=> :Tabularize /=><CR>
+            nnoremap <Leader>a: :Tabularize /:<CR>
+            vnoremap <Leader>a: :Tabularize /:<CR>
+            nnoremap <Leader>a:: :Tabularize /:\zs<CR>
+            vnoremap <Leader>a:: :Tabularize /:\zs<CR>
+            nnoremap <Leader>a, :Tabularize /,<CR>
+            vnoremap <Leader>a, :Tabularize /,<CR>
+            nnoremap <Leader>a,, :Tabularize /,\zs<CR>
+            vnoremap <Leader>a,, :Tabularize /,\zs<CR>
+            nnoremap <Leader>a<Bar> :Tabularize /<Bar><CR>
+            vnoremap <Leader>a<Bar> :Tabularize /<Bar><CR>
         endif
     " }
 
@@ -1002,29 +1025,29 @@
 
         " Make tags placed in .git/tags file available in all levels of a repository
         let gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
-        if gitroot != ''
+        if gitroot !=? ''
             let &tags = &tags . ',' . gitroot . '/.git/tags'
         endif
     " }
 
     " TagBar {
-        if isdirectory(expand("~/.vim/viplug/tagbar/"))
-            nnoremap <silent> <leader>tt :TagbarToggle<CR>
+        if isdirectory(expand('~/.vim/viplug/tagbar/'))
+            nnoremap <silent> <Leader>tt :TagbarToggle<CR>
         endif
     "}
 
     " Rainbow {
-        if isdirectory(expand("~/.vim/viplug/rainbow/"))
+        if isdirectory(expand('~/.vim/viplug/rainbow/'))
             let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
         endif
     "}
 
     " Markdown Preview {
-        if isdirectory(expand("~/.vim/viplug/markdown-preview.nvim/"))
-            nmap <silent> <F8> <Plug>MarkdownPreview
-            imap <silent> <F8> <Plug>MarkdownPreview
-            nmap <silent> <F9> <Plug>MarkdownPreviewStop
-            imap <silent> <F9> <Plug>MarkdownPreviewStop
+        if isdirectory(expand('~/.vim/viplug/markdown-preview.nvim/'))
+            nnoremap <silent> <F8> <Plug>MarkdownPreview
+            inoremap <silent> <F8> <Plug>MarkdownPreview
+            nnoremap <silent> <F9> <Plug>MarkdownPreviewStop
+            inoremap <silent> <F9> <Plug>MarkdownPreviewStop
         endif
     " }
 
@@ -1034,7 +1057,7 @@
             let g:pymode = 0
         endif
 
-        if isdirectory(expand("~/.vim/viplug/python-mode"))
+        if isdirectory(expand('~/.vim/viplug/python-mode/'))
             if has('python3')
                 let g:pymode_python = 'python3'
             endif
@@ -1046,35 +1069,36 @@
     " }
 
     " Verilog {
-        if isdirectory(expand("~/.vim/viplug/verilog_systemverilog.vim/"))
-            nnoremap <leader>i :VerilogFollowInstance<CR>
-            nnoremap <leader>p :VerilogFollowPort<CR>
-            nnoremap <leader>o :VerilogGotoInstanceStart<CR>
+        if isdirectory(expand('~/.vim/viplug/verilog_systemverilog.vim/'))
+            nnoremap <Leader>i :VerilogFollowInstance<CR>
+            nnoremap <Leader>p :VerilogFollowPort<CR>
+            nnoremap <Leader>o :VerilogGotoInstanceStart<CR>
         endif
     " }
 
     " GoLang {
-        if count(g:starry_plug_groups, 'go')
+        if isdirectory(expand('~/.vim/viplug/vim-go/'))
             let g:go_highlight_functions = 1
-            let g:go_highlight_methods = 1
-            let g:go_highlight_structs = 1
             let g:go_highlight_operators = 1
             let g:go_highlight_build_constraints = 1
-            let g:go_fmt_command = "goimports"
-            au FileType go nmap <Leader>s <Plug>(go-implements)
-            au FileType go nmap <Leader>i <Plug>(go-info)
-            au FileType go nmap <Leader>e <Plug>(go-rename)
-            au FileType go nmap <leader>r <Plug>(go-run)
-            au FileType go nmap <leader>b <Plug>(go-build)
-            au FileType go nmap <leader>t <Plug>(go-test)
-            au FileType go nmap <Leader>gd <Plug>(go-doc)
-            au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-            au FileType go nmap <leader>co <Plug>(go-coverage)
+            let g:go_fmt_command = 'gofmt'
+            augroup starry_vimgolang
+                autocmd!
+                autocmd FileType go nnoremap <Leader>s <Plug>(go-implements)
+                autocmd FileType go nnoremap <Leader>i <Plug>(go-info)
+                autocmd FileType go nnoremap <Leader>e <Plug>(go-rename)
+                autocmd FileType go nnoremap <Leader>r <Plug>(go-run)
+                autocmd FileType go nnoremap <Leader>b <Plug>(go-build)
+                autocmd FileType go nnoremap <Leader>t <Plug>(go-test)
+                autocmd FileType go nnoremap <Leader>gd <Plug>(go-doc)
+                autocmd FileType go nnoremap <Leader>gv <Plug>(go-doc-vertical)
+                autocmd FileType go nnoremap <Leader>co <Plug>(go-coverage)
+            augroup END
         endif
     " }
 
     " PHP {
-        if isdirectory(expand("~/.vim/viplug/phpcomplete.vim"))
+        if isdirectory(expand('~/.vim/viplug/phpcomplete.vim/'))
             let g:phpcomplete_mappings = {
                \ 'jump_to_def':             '<C-]>',
                \ 'jump_to_def_split':  '<C-\><C-]>',
@@ -1085,7 +1109,7 @@
     " }
 
     " AutoCloseTag {
-        if isdirectory(expand("~/.vim/viplug/vim-closetag"))
+        if isdirectory(expand('~/.vim/viplug/vim-closetag/'))
             " filenames like *.xml, *.html, *.xhtml, ...
             " These are the file extensions where this plugin is enabled.
             "
@@ -1117,14 +1141,14 @@
 
             " Add > at current position without closing the current tag, default is ''
             "
-            let g:closetag_close_shortcut = '<leader>>'
+            let g:closetag_close_shortcut = '<Leader>>'
         endif
     " }
 
     " JSON {
-        nmap <leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
+        nnoremap <Leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
         let g:vim_json_syntax_conceal = 0
-        if isdirectory(expand("~/.vim/viplug/vim-javascript"))
+        if isdirectory(expand('~/.vim/viplug/vim-javascript/'))
             let g:javascript_plugin_jsdoc = 1
             let g:javascript_plugin_ngdoc = 1
             let g:javascript_plugin_flow = 1
@@ -1142,12 +1166,12 @@
     if has('gui_running')
         set guioptions-=T           " Remove the toolbar
         set lines=40                " 40 lines of text instead of 24
-        if !exists("g:starry_no_big_font")
-            if LINUX() && has("gui_running")
+        if !exists('g:starry_no_big_font')
+            if LINUX() && has('gui_running')
                 set guifont=Consolas-with-Yahei:h12
-            elseif OSX() && has("gui_running")
+            elseif OSX() && has('gui_running')
                 set guifont=Andale\ Mono\ Regular:h12,Menlo\ Regular:h11,Consolas\ Regular:h12,Courier\ New\ Regular:h14
-            elseif WINDOWS() && has("gui_running")
+            elseif WINDOWS() && has('gui_running')
                 set guifont=Consolas-with-Yahei:h10.5
             endif
         endif
@@ -1163,7 +1187,7 @@
                 set termguicolors
             endif
         else
-            if &term == 'xterm' || &term == 'screen'
+            if &term ==? 'xterm' || &term ==? 'screen'
                 set t_Co=256            " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
             endif
         endif
@@ -1201,17 +1225,17 @@
 
         for [dirname, settingname] in items(dir_list)
             let directory = common_dir . dirname . '/'
-            if exists("*mkdir")
+            if exists('*mkdir')
                 if !isdirectory(directory)
                     call mkdir(directory)
                 endif
             endif
             if !isdirectory(directory)
-                echo "Warning: Unable to create backup directory: " . directory
-                echo "Try: mkdir -p " . directory
+                echo 'Warning: Unable to create backup directory: ' . directory
+                echo 'Try: mkdir -p ' . directory
             else
-                let directory = substitute(directory, " ", "\\\\ ", "g")
-                exec "set " . settingname . "=" . directory
+                let directory = substitute(directory, ' ', "\\\\ ", 'g')
+                exec 'set ' . settingname . '=' . directory
             endif
         endfor
     endfunction
@@ -1223,7 +1247,7 @@
         redir => bufoutput
         buffers!
         redir END
-        let idx = stridx(bufoutput, "NERD_tree")
+        let idx = stridx(bufoutput, 'NERD_tree')
         if idx > -1
             NERDTreeMirror
             NERDTreeFind
@@ -1236,8 +1260,8 @@
     function! StripTrailingWhitespace()
         " Preparation: save last search, and cursor position.
         let _s=@/
-        let l = line(".")
-        let c = col(".")
+        let l = line('.')
+        let c = col('.')
         " do the business:
         %s/\s\+$//e
         " clean up: restore previous search history, and cursor position
@@ -1271,9 +1295,9 @@
 
     function! s:IsStarryFork()
         let s:is_fork = 0
-        let s:fork_files = ["~/.vimrc.fork", "~/.vimrc.before.fork", "~/.vimrc.plugs.fork"]
+        let s:fork_files = ['~/.vimrc.fork', '~/.vimrc.before.fork', '~/.vimrc.plugs.fork']
         for fork_file in s:fork_files
-            if filereadable(expand(fork_file, ":p"))
+            if filereadable(expand(fork_file, ':p'))
                 let s:is_fork = 1
                 break
             endif
@@ -1282,52 +1306,52 @@
     endfunction
 
     function! s:ExpandFilenameAndExecute(command, file)
-        execute a:command . " " . expand(a:file, ":p")
+        execute a:command . ' ' . expand(a:file, ':p')
     endfunction
 
     function! s:EditStarryConfig()
-        call <SID>ExpandFilenameAndExecute("tabedit", "~/.vimrc")
-        call <SID>ExpandFilenameAndExecute("vsplit", "~/.vimrc.before")
-        call <SID>ExpandFilenameAndExecute("vsplit", "~/.vimrc.plugs")
+        call <SID>ExpandFilenameAndExecute('tabedit', '~/.vimrc')
+        call <SID>ExpandFilenameAndExecute('vsplit', '~/.vimrc.before')
+        call <SID>ExpandFilenameAndExecute('vsplit', '~/.vimrc.plugs')
 
-        execute bufwinnr(".vimrc") . "wincmd w"
-        call <SID>ExpandFilenameAndExecute("split", "~/.vimrc.local")
+        execute bufwinnr('.vimrc') . 'wincmd w'
+        call <SID>ExpandFilenameAndExecute('split', '~/.vimrc.local')
         wincmd l
-        call <SID>ExpandFilenameAndExecute("split", "~/.vimrc.before.local")
+        call <SID>ExpandFilenameAndExecute('split', '~/.vimrc.before.local')
         wincmd l
-        call <SID>ExpandFilenameAndExecute("split", "~/.vimrc.plugs.local")
+        call <SID>ExpandFilenameAndExecute('split', '~/.vimrc.plugs.local')
 
         if <SID>IsStarryFork()
-            execute bufwinnr(".vimrc") . "wincmd w"
-            call <SID>ExpandFilenameAndExecute("split", "~/.vimrc.fork")
+            execute bufwinnr('.vimrc') . 'wincmd w'
+            call <SID>ExpandFilenameAndExecute('split', '~/.vimrc.fork')
             wincmd l
-            call <SID>ExpandFilenameAndExecute("split", "~/.vimrc.before.fork")
+            call <SID>ExpandFilenameAndExecute('split', '~/.vimrc.before.fork')
             wincmd l
-            call <SID>ExpandFilenameAndExecute("split", "~/.vimrc.plugs.fork")
+            call <SID>ExpandFilenameAndExecute('split', '~/.vimrc.plugs.fork')
         endif
 
-        execute bufwinnr(".vimrc.local") . "wincmd w"
+        execute bufwinnr('.vimrc.local') . 'wincmd w'
     endfunction
 
-    execute "noremap " . s:starry_edit_config_mapping " :call <SID>EditStarryConfig()<CR>"
-    execute "noremap " . s:starry_apply_config_mapping . " :source ~/.vimrc<CR>"
+    execute 'noremap ' . s:starry_edit_config_mapping ' :call <SID>EditStarryConfig()<CR>'
+    execute 'noremap ' . s:starry_apply_config_mapping . ' :source ~/.vimrc<CR>'
 " }
 
 " Use fork vimrc if available {
-    if filereadable(expand("~/.vimrc.fork"))
+    if filereadable(expand('~/.vimrc.fork'))
         source ~/.vimrc.fork
     endif
 " }
 
 " Use local vimrc if available {
-    if filereadable(expand("~/.vimrc.local"))
+    if filereadable(expand('~/.vimrc.local'))
         source ~/.vimrc.local
     endif
 " }
 
 " Use local gvimrc if available and gui is running {
     if has('gui_running')
-        if filereadable(expand("~/.gvimrc.local"))
+        if filereadable(expand('~/.gvimrc.local'))
             source ~/.gvimrc.local
         endif
     endif

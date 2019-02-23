@@ -37,7 +37,7 @@
 
           " Be nice and check for multi_byte even if the config requires
           " multi_byte support most of the time
-          if has("multi_byte")
+          if has('multi_byte')
             " Windows cmd.exe still uses cp850. If Windows ever moved to
             " Powershell as the primary terminal, this would be utf-8
             set termencoding=cp850
@@ -58,7 +58,7 @@
     " }
     " Setup Plug Support {
         " The next two lines ensure that the ~/.vim/viplug/ system works
-        set rtp+=~/.vim/viplug
+        set runtimepath+=~/.vim/viplug
         call plug#begin('~/.vim/viplug')
     " }
 
@@ -82,7 +82,7 @@
             Plug 'mileszs/ack.vim'
             let g:ackprg = 'ag --nogroup --nocolor --column --smart-case'
         elseif executable('ack-grep')
-            let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+            let g:ackprg='ack-grep -H --nocolor --nogroup --column'
             Plug 'mileszs/ack.vim'
         elseif executable('ack')
             Plug 'mileszs/ack.vim'
@@ -104,7 +104,7 @@
     " 重写插件组包含的插件，将以下值声明在你的.vimrc.plugs.local文件
     "
     "   let g:override_starry_plugs = 1
-    if !exists("g:override_starry_plugs")
+    if !exists('g:override_starry_plugs')
 
     " General {
         if count(g:starry_plug_groups, 'general')
@@ -113,7 +113,7 @@
             Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeFind' }
             Plug 'ctrlpvim/ctrlp.vim'
             Plug 'tacahiroy/ctrlp-funky'
-            if (has("python") || has("python3")) && exists('g:starry_use_powerline') && !exists('g:starry_use_old_powerline')
+            if (has('python') || has('python3')) && exists('g:starry_use_powerline') && !exists('g:starry_use_old_powerline')
                 Plug 'powerline/powerline', { 'rtp': '/powerline/bindings/vim'}
             elseif exists('g:starry_use_powerline') && exists('g:starry_use_old_powerline')
                 Plug 'Lokaltog/vim-powerline'
@@ -121,9 +121,9 @@
                 Plug 'vim-airline/vim-airline'
                 Plug 'vim-airline/vim-airline-themes'
             endif
-            if has('win32') || has('win64') && has("gui_running")
+            if has('win32') || has('win64') && has('gui_running')
                 Plug 'StarryLeo/Consolas-with-Yahei', { 'do': '.\install.cmd' }
-            elseif has("gui_running")
+            elseif has('gui_running')
                 Plug 'StarryLeo/Consolas-with-Yahei', { 'do': './install.sh' }
             endif
             Plug 'mbbill/undotree'
@@ -184,7 +184,7 @@
     " Markdown {
         if count(g:starry_plug_groups, 'markdown')
             Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-            if (has("python") || has("python3")) && has("gui_running")
+            if (has('python') || has('python3')) && has('gui_running')
                 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
             endif
         endif
@@ -248,13 +248,13 @@
 " }
 
 " Use fork plugs config if available {
-    if filereadable(expand("~/.vimrc.plugs.fork"))
+    if filereadable(expand('~/.vimrc.plugs.fork'))
         source ~/.vimrc.plugs.fork
     endif
 " }
 
 " Use local plugs config if available {
-    if filereadable(expand("~/.vimrc.plugs.local"))
+    if filereadable(expand('~/.vimrc.plugs.local'))
         source ~/.vimrc.plugs.local
     endif
 " }

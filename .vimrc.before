@@ -45,7 +45,7 @@
     "   let g:starry_clear_search_highlight = 1
 
     " Disable neosnippet expansion
-    " This maps over <C-k> and does some Supertab
+    " This maps over <C-K> and does some Supertab
     " emulation with snippets
     "   let g:starry_no_neosnippet_expand = 1
 
@@ -61,9 +61,9 @@
     "   eg: let g:starry_consolidated_directory = $HOME . '/.vim/'
 
     " This makes the completion popup strictly passive.
-    " Keypresses acts normally. <ESC> takes you of insert mode, words don't
-    " automatically complete, pressing <CR> inserts a newline, etc. Iff the
-    " menu is open, tab will cycle through it. If a snippet is selected, <C-k>
+    " Keypresses acts normally. <Esc> takes you of insert mode, words don't
+    " automatically complete, pressing <CR> inserts a newline, etc. If the
+    " menu is open, tab will cycle through it. If a snippet is selected, <C-K>
     " expands it and jumps between fields.
     "   let g:starry_noninvasive_completion = 1
 
@@ -81,33 +81,33 @@
     " To set your own font, do it from ~/.vimrc.local
     "   let g:starry_no_big_font = 1
 
-    " Disable  omni complete
+    " Disable omni complete
     "   let g:starry_no_omni_complete = 1
 
     " Don't create default mappings for multicursors
     " See :help multiple-cursors-mappings
     "   let g:multi_cursor_use_default_mapping=0
-    "   let g:multi_cursor_next_key='<C-n>'
-    "   let g:multi_cursor_prev_key='<C-p>'
-    "   let g:multi_cursor_skip_key='<C-x>'
+    "   let g:multi_cursor_next_key='<C-N>'
+    "   let g:multi_cursor_prev_key='<C-P>'
+    "   let g:multi_cursor_skip_key='<C-X>'
     "   let g:multi_cursor_quit_key='<Esc>'
     " Require a special keypress to enter multiple cursors mode
     "   let g:multi_cursor_start_key='+'
 
-    " Mappings for editing/applying spf13 config
-    "   let g:starry_edit_config_mapping='<leader>ev'
-    "   let g:starry_apply_config_mapping='<leader>sv'
+    " Mappings for editing/applying starry config
+    "   let g:starry_edit_config_mapping='<Leader>ev'
+    "   let g:starry_apply_config_mapping='<Leader>sv'
 
 " }
 
 " Use fork before if available {
-    if filereadable(expand("~/.vimrc.before.fork"))
+    if filereadable(expand('~/.vimrc.before.fork'))
         source ~/.vimrc.before.fork
     endif
 " }
 
 " Use local before if available {
-    if filereadable(expand("~/.vimrc.before.local"))
+    if filereadable(expand('~/.vimrc.before.local'))
         source ~/.vimrc.before.local
     endif
 " }
