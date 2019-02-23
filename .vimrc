@@ -1042,7 +1042,13 @@
         endif
     "}
 
-    " Markdown Preview {
+    " Markdown {
+        if isdirectory(expand('~/.vim/viplug/vim-markdown/'))
+            " Disable conceal regardless of conceallevel setting
+            let g:vim_markdown_conceal = 0
+        endif
+
+        " Preview
         if isdirectory(expand('~/.vim/viplug/markdown-preview.nvim/'))
             nnoremap <silent> <F8> <Plug>MarkdownPreview
             inoremap <silent> <F8> <Plug>MarkdownPreview
