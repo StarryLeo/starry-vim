@@ -15,9 +15,11 @@
                                     |___/
 
 ## 中文介绍
-这是我自己的vim配置，Fork自spf13的[spf13-vim](https://github.com/spf13/spf13-vim)项目，由于原配置项目已经有好几年没更新了，所以重开一个Repo更新修改为自己所用。
+这是我个人的 vim 配置，Fork 自 spf13 的 [spf13-vim](https://github.com/spf13/spf13-vim) 项目，由于原配置项目已经有好几年没更新了，所以重开一个 Repo 更新修改为自己所用。
 
-使用[vim-plug]代替[Vundle]作为vim的插件管理器，提高安装插件的速度，同时[vim-plug]的操作也很简易，与[Vundle]类似。
+使用 [vim-plug] 代替 [Vundle] 作为 vim 的插件管理器，提高安装插件的速度，同时 [vim-plug] 的操作也很简易，与 [Vundle] 类似。
+
+对于 vim 初学者可以看我的博客入门：[Vim 入门教程 & 指南](https://starrycat.me/vim-tutorial-guide.html)
 
 ## Introduction
 This is a StarryLeo's vim config fork from https://vim.spf13.com
@@ -32,12 +34,12 @@ Unlike traditional VIM plugin structure, which similar to UNIX throws all files 
 
 Great care has been taken to ensure that each plugin plays nicely with others, and optional configuration has been provided for what we believe is the most efficient use.
 
-Lastly (and perhaps, most importantly) It is completely cross platform. It works well on Windows, Linux and OSX without any modifications or additional configurations. If you are using [MacVim] or Gvim additional features are enabled. So regardless of your environment just clone and run.
+Lastly (and perhaps, most importantly) It is completely cross platform. It works well on Windows, Linux and MacOS without any modifications or additional configurations. If you are using [MacVim] or Gvim additional features are enabled. So regardless of your environment just clone and run.
 
 # Installation
 ## Requirements
-To make all the plugins work, specifically [deoplete](https://github.com/Shougo/deoplete.nvim), you need [vim with python3](https://github.com/Shougo/deoplete.nvim#requirements).
-if `:echo has("python3")` rerurns `1`, then you have python3 support; otherwise, see below.
+To make all the plugins work, specifically [deoplete], you need [vim with python3](https://github.com/Shougo/deoplete.nvim#requirements).
+if `:echo has('python3')` rerurns `1`, then you have python3 support; otherwise, see below.
 
 You can enable Python3 interface with pip3:
 
@@ -61,9 +63,9 @@ Then, you should create `~/.vimrc.local` and let `g:python3_host_prog` pointed t
 ```
 
 For [neocomplete](https://github.com/Shougo/neocomplete.vim), you need [vim with lua](https://github.com/Shougo/neocomplete.vim#requirements).
-if `:echo has("lua")` rerurns `1`, then you have lua support.
+if `:echo has('lua')` rerurns `1`, then you have lua support.
 
-## Linux, \*nix, Mac OSX Installation
+## Linux, \*nix, MacOS Installation
 
 The easiest way to install starry-vim is to use our [automatic installer](https://git.io/starry-vim) by simply copying and pasting the following line into a terminal. This will install starry-vim and backup your existing vim configuration. If you are upgrading from a prior version this is also the recommended installation.
 
@@ -84,18 +86,18 @@ If you have a bash-compatible shell you can run the script directly:
 
 ### Installing dependencies
 
-#### Install [Vim]
+#### Install [Gvim]
 
-After the installation of Vim you must add a new directory to your environment variables path to make it work with the script installation of starry-vim.
+After the installation of Gvim you must add a new directory to your environment variables path to make it work with the script installation of starry-vim.
 
-Open Vim and write the following command, it will show the installed directory:
+Open Gvim and write the following command, it will show the installed directory:
 
     :echo $VIMRUNTIME
     C:\Program Files\Vim\vim81
 
 Then you need to add it to your environment variable path. After that try execute `vim` within command prompt (press Win-R, type `cmd`, press Enter) and you’ll see the default vim page.
 
-#### Install [msysgit]
+#### Install [Git for Windows]
 
 After installation try running `git --version` within _command prompt_ (press Win-R,  type `cmd`, press Enter) to make sure all good:
 
@@ -238,11 +240,11 @@ Create `~/.vimrc.local` if it doesn't already exist.
 
 Add the UnPlug command to this line. It takes the same input as the Plug line, so simply copy the line you want to disable and add 'Un' to the beginning.
 
-For example, disabling the 'quentindecock/vim-cucumber-align-pipes' and 'saltstack/salt-vim' plugins
+For example, disabling the 'w0rp/ale' and 'Chiel92/vim-autoformat' plugins
 
 ```bash
-    echo UnPlug \'quentindecock/vim-cucumber-align-pipes\' >> ~/.vimrc.plugs.local
-    echo UnPlug \'saltstack/salt-vim\' >> ~/.vimrc.plugs.local
+    echo UnPlug \'w0rp/ale\' >> ~/.vimrc.plugs.local
+    echo UnPlug \'Chiel92/vim-autoformat\' >> ~/.vimrc.plugs.local
 ```
 
 **Remember to run ':PluginClean!' after this to remove the existing directories**
@@ -272,14 +274,14 @@ functionality to your vim editing.  You can learn more about it with
 **Customizations**:
 
 * Use `<C-E>` to toggle NERDTree
-* Use `<leader>e` or `<leader>nf` to load NERDTreeFind which opens NERDTree where the current file is located.
+* Use `<Leader>e` to load NERDTreeFind which opens NERDTree where the current file is located.
 * Hide clutter ('\.pyc', '\.git', '\.hg', '\.svn', '\.bzr')
 * Treat NERDTree more like a panel than a split.
 
 ## [ctrlp]
 Ctrlp replaces the Command-T plugin with a 100% viml plugin. It provides an intuitive and fast mechanism to load files from the file system (with regex and fuzzy find), from open buffers, and from recently used files.
 
-**QuickStart** Launch using `<C-p>`.
+**QuickStart** Launch using `<C-P>`.
 
 ## [Surround]
 
@@ -306,9 +308,9 @@ There's a lot more, check it out at `:help surround`
 ## [NERDCommenter]
 
 NERDCommenter allows you to wrangle your code comments, regardless of
-filetype. View `help :NERDCommenter` or checkout spf13's post on [NERDCommenter](http://spf13.com/post/vim-plugins-nerd-commenter).
+filetype. View `help :NERDCommenter`.
 
-**QuickStart** Toggle comments using `<Leader>c<space>` in Visual or Normal mode.
+**QuickStart** Toggle comments using `<Leader>c<Space>` in Visual or Normal mode.
 
 ## [neocomplete]
 
@@ -320,7 +322,21 @@ Neocomplete is an amazing autocomplete plugin with additional support for snippe
 
  * Automatically present the autocomplete menu
  * Support tab and enter for autocomplete
- * `<C-k>` for completing snippets using [Neosnippet](https://github.com/Shougo/neosnippet.vim).
+ * `<C-K>` for completing snippets using [Neosnippet](https://github.com/Shougo/neosnippet.vim).
+
+## [deoplete]
+
+Deoplete is the generation completion framework for Vim 8 after neocomplete.
+
+Here are some [completion sources](https://github.com/Shougo/deoplete.nvim/wiki/Completion-Sources) specifically made for deoplete.
+
+**QuickStart** Just start typing, it will autocomplete where possible
+
+**Customizations**:
+
+ * Automatically present the autocomplete menu
+ * Use tab and enter for autocomplete
+ * `<C-K>` for completing snippets using [Neosnippet](https://github.com/Shougo/neosnippet.vim).
 
 ## [YouCompleteMe]
 
@@ -340,12 +356,11 @@ The plugin is well documented on the site linked above. Be sure to give that a r
 
 For java users wanting to use eclim be sure to add `let g:EclimCompletionMethod = 'omnifunc'` to your .vimrc.local.
 
-## [Syntastic]
+## [ALE]
 
-Syntastic is a syntax checking plugin that runs buffers through external syntax
-checkers as they are saved and opened. If syntax errors are detected, the user
-is notified and is happy because they didn't have to compile their code or
-execute their script to find them.
+ALE(Asynchronous Lint Engine) is a plugin for providing real-time linting(checking syntax and semantics through running external linters) in Vim 8 while you edit your text files, and acts as a Vim [Language Server Protocol](https//langserver.org) client. This allows for displaying warnings and errors in files being edited in Vim before files have been saved back to a filesystem.
+
+ALE support a wide variety of languages and tools. See the [full list](https://github.com/w0rp/ale/blob/master/supported-tools.md).
 
 ## [Fugitive]
 
@@ -359,18 +374,18 @@ hunks in the file.
 Use `:Gdiff` on an open file to see what changes have been made to that
 file
 
-**QuickStart** `<leader>gs` to bring up git status
+**QuickStart** `<Leader>gs` to bring up git status
 
 **Customizations**:
 
- * `<leader>gs` :Gstatus<CR>
- * `<leader>gd` :Gdiff<CR>
- * `<leader>gc` :Gcommit<CR>
- * `<leader>gb` :Gblame<CR>
- * `<leader>gl` :Glog<CR>
- * `<leader>gp` :Git push<CR>
- * `<leader>gw` :Gwrite<CR>
- * :Git ___ will pass anything along to git.
+ * `<Leader>gs` :Gstatus<CR>
+ * `<Leader>gd` :Gdiff<CR>
+ * `<Leader>gc` :Gcommit<CR>
+ * `<Leader>gb` :Gblame<CR>
+ * `<Leader>gl` :Glog<CR>
+ * `<Leader>gp` :Git push<CR>
+ * `<Leader>gw` :Gwrite<CR>
+ * `:Git` will pass anything along to git.
 
 ## [Ack.vim]
 
@@ -397,7 +412,7 @@ starry-vim includes the Tagbar plugin. This plugin requires exuberant-ctags and 
 
 **QuickStart** `CTRL-]` while the cursor is on a keyword (such as a function name) to jump to its definition.
 
-**Customizations**: spf13-vim binds `<Leader>tt` to toggle the tagbar panel
+**Customizations**: starry-vim binds `<Leader>tt` to toggle the tagbar panel
 
 **Note**: For full language support, run `brew install ctags` to install
 exuberant-ctags.
@@ -414,7 +429,7 @@ EasyMotion provides an interactive way to use motions in Vim.
 It quickly maps each possible jump destination to a key allowing very fast and
 straightforward movement.
 
-**QuickStart** EasyMotion is triggered using the normal movements, but prefixing them with `<leader><leader>`
+**QuickStart** EasyMotion is triggered using the normal movements, but prefixing them with `<Leader><Leader>`
 
 For example this screen shot demonstrates pressing `,,w`
 
@@ -429,7 +444,6 @@ To enable powerline symbols first install one of the [Powerline Fonts] or patch 
 starry-vim ships with a few additional syntaxes:
 
 * Markdown (bound to \*.markdown, \*.md, and \*.mk)
-* Twig
 * Git commits (set your `EDITOR` to `mvim -f`)
 
 ## Amazing Colors
@@ -474,7 +488,7 @@ Here's some tips if you've never used VIM before:
   * insert mode- stuff you type is added to the buffer
   * normal mode- keys you hit are interpreted as commands
 * To enter insert mode, hit `i`
-* To exit insert mode, hit `<ESC>`
+* To exit insert mode, hit `<Esc>`
 
 ## Useful commands
 
@@ -488,8 +502,8 @@ Here's some tips if you've never used VIM before:
 
 
 [Git]:https://git-scm.com
-[Vim]:https://www.vim.org/download.php#pc
-[msysgit]:https://gitforwindows.org
+[Gvim]:https://www.github.com/vim/vim-win32-installer/releases
+[Git for Windows]:https://gitforwindows.org
 [MacVim]:https://github.com/macvim-dev/macvim
 [starry-vim]:https://github.com/StarryLeo/starry-vim
 [contributors]:https://github.com/StarryLeo/starry-vim/contributors
@@ -502,10 +516,11 @@ Here's some tips if you've never used VIM before:
 [ctrlp]:https://github.com/kien/ctrlp.vim
 [solarized8]:https://github.com/lifepillar/vim-solarized8
 [neocomplete]:https://github.com/shougo/neocomplete
+[deoplete]:https://github.com/shougo/deoplete.nvim
 [Fugitive]:https://github.com/tpope/vim-fugitive
 [Surround]:https://github.com/tpope/vim-surround
 [Tagbar]:https://github.com/majutsushi/tagbar
-[Syntastic]:https://github.com/scrooloose/syntastic
+[ALE]:https://github.com/w0rp/ale
 [vim-easymotion]:https://github.com/Lokaltog/vim-easymotion
 [YouCompleteMe]:https://github.com/Valloric/YouCompleteMe
 [Tabularize]:https://github.com/godlygeek/tabular

@@ -792,6 +792,11 @@
             if has('python3')
                 set pyxversion=3
             endif
+            " Plugin key-mappings {
+                " <Tab>: completion.
+                inoremap <expr> <Tab> pumvisible() ? "\<C-N>" : "\<Tab>"
+                inoremap <expr> <S-Tab> pumvisible() ? "\<C-P>" : "\<Tab>"
+            " }
         endif
     " }
 
@@ -839,18 +844,18 @@
                 else
                     " <C-K> Complete Snippet
                     " <C-K> Jump to next snippet point
-                    inoremap <silent><expr><C-K> neosnippet#expandable() ?
+                    inoremap <silent><expr> <C-K> neosnippet#expandable() ?
                                 \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
                                 \ "\<C-E>" : "\<Plug>(neosnippet_expand_or_jump)")
                     snoremap <Tab> <Right><Plug>(neosnippet_jump_or_expand)
 
-                    inoremap <expr><C-G> neocomplete#undo_completion()
-                    inoremap <expr><C-L> neocomplete#complete_common_string()
+                    inoremap <expr> <C-G> neocomplete#undo_completion()
+                    inoremap <expr> <C-L> neocomplete#complete_common_string()
                     "inoremap <expr><CR> neocomplete#complete_common_string()
 
                     " <CR>: close popup
                     " <s-CR>: close popup and save indent.
-                    inoremap <expr><s-CR> pumvisible() ? neocomplete#smart_close_popup()."\<CR>" : "\<CR>"
+                    inoremap <expr> <S-CR> pumvisible() ? neocomplete#smart_close_popup()."\<CR>" : "\<CR>"
 
                     function! CleverCr()
                         if pumvisible()
@@ -868,12 +873,12 @@
                     " <CR> close popup and save indent or expand snippet
                     inoremap <expr> <CR> CleverCr()
                     " <C-H>, <BS>: close popup and delete backword char.
-                    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-H>"
-                    inoremap <expr><C-Y> neocomplete#smart_close_popup()
+                    inoremap <expr> <BS> neocomplete#smart_close_popup()."\<C-H>"
+                    inoremap <expr> <C-Y> neocomplete#smart_close_popup()
                 endif
                 " <Tab>: completion.
-                inoremap <expr><Tab> pumvisible() ? "\<C-N>" : "\<Tab>"
-                inoremap <expr><S-TAB> pumvisible() ? "\<C-P>" : "\<Tab>"
+                inoremap <expr> <Tab> pumvisible() ? "\<C-N>" : "\<Tab>"
+                inoremap <expr> <S-Tab> pumvisible() ? "\<C-P>" : "\<Tab>"
 
                 " Courtesy of Matteo Cavalleri
 
