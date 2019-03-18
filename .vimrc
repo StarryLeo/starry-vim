@@ -228,6 +228,7 @@
         set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
     endif
 
+    set spelllang+=cjk              " Do not check cjk spelling 不检查 cjk 字符拼写
     set backspace=indent,eol,start  " Backspace for dummies
     set linespace=0                 " No extra spaces between rows 行间没有多余空格
     set number                      " Line numbers on 显示行号
@@ -751,17 +752,28 @@
 
     " YouCompleteMe {
         if count(g:starry_plug_groups, 'youcompleteme')
-            let g:acp_enableAtStartup = 0
+            let g:ycm_filetype_whitelist = {
+            \       'c'  : 1,
+            \       'cpp': 1,
+            \}
 
-            " enable completion from tags
-            let g:ycm_collect_identifiers_from_tags_files = 1
+            let g:ycm_global_ycm_extra_conf = '~/.vim/viplug/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
+            let g:ycm_show_diagnostics_ui = 0
+
+            noremap <C-Z> <Nop>
+            let g:ycm_key_invoke_completion = '<C-Z>'
+
+            let g:ycm_semantic_triggers = {
+            \       'c'  : ['re!\w{2,}'],
+            \       'cpp': ['re!\w{2,}'],
+            \}
 
             " remap Ultisnips for compatibility for YCM
             let g:UltiSnipsExpandTrigger = '<C-J>'
             let g:UltiSnipsJumpForwardTrigger = '<C-J>'
             let g:UltiSnipsJumpBackwardTrigger = '<C-K>'
 
-            augroup starry_enable_omni_completion
+            augroup starry_enable_omnicompletion
                 autocmd!
                 " Enable omni completion.
                 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -787,16 +799,32 @@
 
     " deoplete {
         if count(g:starry_plug_groups, 'deoplete')
-            let g:deoplete#enable_at_startup = 1
+            if &filetype !=? 'c' && &filetype !=? 'cpp'
+                let g:deoplete#enable_at_startup = 1
+            endif
+
             " For Vim8
             if has('python3')
                 set pyxversion=3
             endif
+
             " Plugin key-mappings {
                 " <Tab>: completion.
                 inoremap <expr> <Tab> pumvisible() ? "\<C-N>" : "\<Tab>"
                 inoremap <expr> <S-Tab> pumvisible() ? "\<C-P>" : "\<Tab>"
+
+                " remap Ultisnips for compatibility for deoplete
+                let g:UltiSnipsExpandTrigger = '<C-J>'
+                let g:UltiSnipsJumpForwardTrigger = '<C-J>'
+                let g:UltiSnipsJumpBackwardTrigger = '<C-K>'
             " }
+
+            " For snippet_complete marker.
+            if !exists('g:starry_no_conceal')
+                if has('conceal')
+                    set conceallevel=2 concealcursor=i
+                endif
+            endif
         endif
     " }
 
@@ -957,6 +985,34 @@
         endif
     " }
 
+    " AsyncRun {
+        if isdirectory(expand('~/.vim/viplug/asyncrun.vim/'))
+            " Open quickfix window automatically at 8 lines height after command starts
+            let g:asyncrun_open = 8
+            " Use F10 to toggle quickfix window rapidly
+            nnoremap <F10> :call asyncrun#quickfix_toggle(8)<CR>
+
+            function! s:CompileAndRun()
+                let l:cmd = {
+                \   'c'     : "gcc % -o %<; time ./%<",
+                \   'cpp'   : "g++ -std=c++11 % -o %<; time ./%<",
+                \   'java'  : "javac %; time java %<",
+                \   'python': "time python %",
+                \   'sh'    : "time bash %",
+                \}
+                let l:ft = &filetype
+                if has_key(l:cmd, l:ft)
+                    exec 'w'
+                    exec "AsyncRun! " . l:cmd[l:ft]
+                else
+                    echom 'CompileAndRun not supported in current filetype!'
+                endif
+            endfunction
+            " Quick run via F5
+            nnoremap <F5> :call <SID>CompileAndRun()<CR>
+        endif
+    " }
+
     " Fugitive {
         if isdirectory(expand('~/.vim/viplug/vim-fugitive/'))
             nnoremap <silent> <Leader>gs :Gstatus<CR>
@@ -989,6 +1045,19 @@
             let g:ale_echo_msg_error_str = 'E'
             let g:ale_echo_msg_warning_str = 'W'
             let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+            " Check buffers only on TextChanged(normal mode) or leaving insert mode
+            let g:ale_lint_on_text_changed = 'normal'
+            let g:ale_lint_on_insert_leave = 1
+            let g:ale_lint_delay = 500
+            let g:ale_completion_delay = 500
+            let g:ale_echo_delay = 20
+
+            let g:ale_linters = {
+            \   'c'     : ['gcc', 'cppcheck'],
+            \   'cpp'   : ['gcc', 'cppcheck'],
+            \   'python': ['flake8', 'pylint'],
+            \}
+
             " Moving between warnings and errors quickly.
             nnoremap <silent> <Leader>ep <Plug>(ale_previous_wrap)
             nnoremap <silent> <Leader>en <Plug>(ale_next_wrap)
@@ -999,7 +1068,7 @@
         if isdirectory(expand('~/.vim/viplug/vim-autoformat/'))
             nnoremap <Leader>= :Autoformat<CR>
             " Python
-            let g:formatters_python = ['yapf','autopep8','black']
+            let g:formatters_python = ['yapf', 'autopep8', 'black']
             let g:formatter_yapf_style = 'pep8'
         endif
     " }
@@ -1062,20 +1131,20 @@
         endif
     " }
 
-    " PyMode {
-        " Disable if python support not present
-        if !has('python') && !has('python3')
-            let g:pymode = 0
+    " C/C++ {
+        if isdirectory(expand('~/.vim/viplug/vim-cpp-enhanced-highlight/'))
+            let g:cpp_class_scope_highlight = 1
+            let g:cpp_member_variable_highlight = 1
+            let g:cpp_class_decl_highlight = 1
+            let g:cpp_experimental_simple_template_highlight = 1
+            let g:cpp_concepts_highlight = 1
+            let g:cpp_no_function_highlight = 1
         endif
+    " }
 
-        if isdirectory(expand('~/.vim/viplug/python-mode/'))
-            if has('python3')
-                let g:pymode_python = 'python3'
-            endif
-            let g:pymode_lint_checkers = ['pyflakes']
-            let g:pymode_trim_whitespaces = 0
-            let g:pymode_options = 0
-            let g:pymode_rope = 0
+    " Python {
+        if isdirectory(expand('~/.vim/viplug/python-syntax/'))
+            let g:python_highlight_all = 1
         endif
     " }
 
@@ -1279,29 +1348,6 @@
         let @/=_s
         call cursor(l, c)
     endfunction
-    " }
-
-    " Shell command {
-    function! s:RunShellCommand(cmdline)
-        botright new
-
-        setlocal buftype=nofile
-        setlocal bufhidden=delete
-        setlocal nobuflisted
-        setlocal noswapfile
-        setlocal nowrap
-        setlocal filetype=shell
-        setlocal syntax=shell
-
-        call setline(1, a:cmdline)
-        call setline(2, substitute(a:cmdline, '.', '=', 'g'))
-        execute 'silent $read !' . escape(a:cmdline, '%#')
-        setlocal nomodifiable
-        1
-    endfunction
-
-    command! -complete=file -nargs=+ Shell call s:RunShellCommand(<q-args>)
-    " e.g. Grep current file for <search_term>: Shell grep -Hn <search_term> %
     " }
 
     function! s:IsStarryFork()

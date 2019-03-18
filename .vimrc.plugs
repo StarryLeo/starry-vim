@@ -95,7 +95,7 @@
     " 在你的.vimrc.before.local文件中列出你要用的插件组
     "
     if !exists('g:starry_plug_groups')
-        let g:starry_plug_groups=['general', 'deoplete', 'programming', 'markdown', 'python', 'verilog', 'misc',]
+        let g:starry_plug_groups=['general', 'youcompleteme', 'deoplete', 'programming', 'markdown', 'cpp', 'python', 'verilog', 'misc',]
     endif
 
     " To override all the included plugs, add the following to your
@@ -109,8 +109,8 @@
     " General {
         if count(g:starry_plug_groups, 'general')
             Plug 'StarryLeo/vim-colorschemes'
-            Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeFind' }
-            Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeFind' }
+            Plug 'scrooloose/nerdtree', { 'on': 'NERDTree', 'NERDTreeToggle', 'NERDTreeFocus', 'NERDTreeFind', 'NERDTreeCWD' }
+            Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTree', 'NERDTreeToggle', 'NERDTreeFocus', 'NERDTreeFind', 'NERDTreeCWD' }
             Plug 'ctrlpvim/ctrlp.vim'
             Plug 'tacahiroy/ctrlp-funky'
             if (has('python') || has('python3')) && exists('g:starry_use_powerline') && !exists('g:starry_use_old_powerline')
@@ -149,16 +149,16 @@
 
     " Snippets & AutoComplete {
         if count(g:starry_plug_groups, 'youcompleteme')
-            Plug 'Valloric/YouCompleteMe'
+            Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer', 'for': ['c', 'cpp'] }
             Plug 'SirVer/ultisnips'
             Plug 'honza/vim-snippets'
         elseif count(g:starry_plug_groups, 'deoplete')
             Plug 'Shougo/deoplete.nvim'
             Plug 'roxma/nvim-yarp'
             Plug 'roxma/vim-hug-neovim-rpc'
+            Plug 'Shougo/neco-vim'
             Plug 'SirVer/ultisnips'
             Plug 'honza/vim-snippets'
-            Plug 'Shougo/neco-vim'
         elseif count(g:starry_plug_groups, 'neocomplete')
             Plug 'Shougo/neocomplete.vim'
             Plug 'Shougo/neosnippet'
@@ -169,11 +169,12 @@
 
     " General Programming {
         if count(g:starry_plug_groups, 'programming')
+            Plug 'skywind3000/asyncrun.vim'
             Plug 'tpope/vim-fugitive'
             Plug 'scrooloose/nerdcommenter'
             Plug 'w0rp/ale'
             Plug 'Chiel92/vim-autoformat', { 'on': 'Autoformat' }
-            Plug 'godlygeek/tabular'
+            Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
             if executable('ctags')
                 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
             endif
@@ -190,11 +191,16 @@
         endif
     " }
 
+    " C/C++ {
+        if count(g:starry_plug_groups, 'cpp')
+            Plug 'octol/vim-cpp-enhanced-highlight', { 'for': ['c', 'cpp'] }
+        endif
+    " }
     " Python {
         if count(g:starry_plug_groups, 'python')
-            Plug 'python-mode/python-mode', { 'branch': 'develop' }
+            Plug 'vim-python/python-syntax', { 'for': 'python' }
             if count(g:starry_plug_groups, 'deoplete')
-                Plug 'deoplete-plugins/deoplete-jedi'
+                Plug 'deoplete-plugins/deoplete-jedi', { 'for': 'python' }
             endif
         endif
     " }
