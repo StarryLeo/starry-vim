@@ -114,12 +114,12 @@ The simpliest (and safest) way to update is to simply rerun the installer. It wi
 ```bash
 
     curl https://git.io/starry-vim -L -o - | sh
-
 ```
 
 Alternatively you can manually perform the following steps. If anything has changed with the structure of the configuration you will need to create the appropriate symlinks.
 
 ```bash
+
     cd $HOME/to/starry-vim/
     git pull
     vim  +PluginClean! +PlugInstall +q
@@ -156,6 +156,7 @@ customizations.
 For example, to override the default color schemes:
 
 ```bash
+
     echo colorscheme gruvbox >> ~/.vimrc.local
 ```
 
@@ -166,6 +167,7 @@ that get loaded *before* the starry-vim `.vimrc`.
 
 For example, to prevent autocd into a file directory:
 ```bash
+
     echo let g:starry_no_autochdir = 1 >> ~/.vimrc.before.local
 ```
 For a list of available starry-vim specific customization options, look at the `~/.vimrc.before` file.
@@ -194,6 +196,7 @@ needs to be set in your `.vimrc.plugs.fork` file.
 You can specify the default plugs for your fork using `.vimrc.before.fork` file. Here is how to create an example `.vimrc.before.fork` file
 in a fork repo for the default plugs.
 ```bash
+
     echo let g:starry_plugs_groups=[\'general\', \'programming\', \'neocomplete\', \'misc\'] >> .vimrc.before.fork
 ```
 Once you have this file in your repo, only the plugs you specified will be installed during the first installation of your fork.
@@ -210,8 +213,9 @@ configuration and make customizations.
 
 These two mappings can themselves be customized by setting the following in .vimrc.before.local:
 ```bash
-let g:starry_edit_config_mapping='<Leader>ev'
-let g:starry_apply_config_mapping='<Leader>sv'
+
+    let g:starry_edit_config_mapping='<Leader>ev'
+    let g:starry_apply_config_mapping='<Leader>sv'
 ```
 
 # Plugins
@@ -225,12 +229,14 @@ Create `~/.vimrc.plugs.local` for any additional plugs.
 To add a new plug, just add one line for each plug you want to install. The line should start with the word "Plug" followed by a string of either the vim.org project name or the githubusername/githubprojectname. For example, the github project [StarryLeo/vim-colorschemes](https://github.com/StarryLeo/vim-colorschemes) can be added with the following command
 
 ```bash
+
     echo Plug \'StarryLeo/vim-colorschemes\' >> ~/.vimrc.plugs.local
 ```
 
 Once new plugins are added, they have to be installed.
 
 ```bash
+
     vim +PlugClean! +PlugInstall +q
 ```
 
@@ -243,6 +249,7 @@ Add the UnPlug command to this line. It takes the same input as the Plug line, s
 For example, disabling the 'w0rp/ale' and 'Chiel92/vim-autoformat' plugins
 
 ```bash
+
     echo UnPlug \'w0rp/ale\' >> ~/.vimrc.plugs.local
     echo UnPlug \'Chiel92/vim-autoformat\' >> ~/.vimrc.plugs.local
 ```
@@ -269,19 +276,24 @@ NERDTree is a file explorer plugin that provides "project drawer"
 functionality to your vim editing.  You can learn more about it with
 `:help NERDTree`.
 
-**QuickStart** Launch using `<Leader>e`.
+**QuickStart** Launch using `<Space>tf`.
 
 **Customizations**:
 
-* Use `<C-E>` to toggle NERDTree
-* Use `<Leader>e` to load NERDTreeFind which opens NERDTree where the current file is located.
+* Use `<Space>tt` to toggle NERDTree
+* Use `<Space>tf` to load NERDTreeFind which opens NERDTree where the current file is located.
 * Hide clutter ('\.pyc', '\.git', '\.hg', '\.svn', '\.bzr')
 * Treat NERDTree more like a panel than a split.
+
+## [LeaderF]
+LeaderF replaces the [ctrlp] plugin with a python plugin. It provides an intuitive and fast mechanism to load files from the file system (with regex and fuzzy find), from open buffers, from recently used files, and from tags in large project.
+
+**QuickStart** Launch using `<Leader>ff`.
 
 ## [ctrlp]
 Ctrlp replaces the Command-T plugin with a 100% viml plugin. It provides an intuitive and fast mechanism to load files from the file system (with regex and fuzzy find), from open buffers, and from recently used files.
 
-**QuickStart** Launch using `<C-P>`.
+**QuickStart** Launch using `<C-p>`.
 
 ## [Surround]
 
@@ -322,7 +334,7 @@ Neocomplete is an amazing autocomplete plugin with additional support for snippe
 
  * Automatically present the autocomplete menu
  * Support tab and enter for autocomplete
- * `<C-K>` for completing snippets using [Neosnippet](https://github.com/Shougo/neosnippet.vim).
+ * `<C-k>` for completing snippets using [Neosnippet](https://github.com/Shougo/neosnippet.vim).
 
 ## [deoplete]
 
@@ -336,17 +348,22 @@ Here are some [completion sources](https://github.com/Shougo/deoplete.nvim/wiki/
 
  * Automatically present the autocomplete menu
  * Use tab and enter for autocomplete
- * `<C-K>` for completing snippets using [Neosnippet](https://github.com/Shougo/neosnippet.vim).
+ * `<C-j>` for completing snippets using [ultisnips](https://github.com/SirVer/ultisnips).
 
 ## [YouCompleteMe]
 
 YouCompleteMe is another amazing completion engine. It is slightly more involved to set up as it contains a binary component that the user needs to compile before it will work. As a result of this however it is very fast.
 
-To enable YouCompleteMe add `youcompleteme` to your list of groups by overriding it in your `.vimrc.before.local` like so: `let g:starry_plug_groups=['general', 'programming', 'misc', 'scala', 'youcompleteme']` This is just an example. Remember to choose the other groups you want here.
+To enable YouCompleteMe on Windows, add the following to your `.vimrc.before.local`:
+
+```bash
+
+    let g:starry_enable_ycm_on_windows = 1
+```
 
 Once you have done this you will need to get vim-plug to grab the latest code from git. You can do this by calling `:PluginInstall!`. You should see YouCompleteMe in the list.
 
-You will now have the code in your plugs directory and can proceed to compile the core. Change to the directory it has been downloaded to. If you have a vanilla install then `cd ~/.starry-vim/.vim/viplug/YouCompleteMe/` should do the trick. You should see a file in this directory called install.sh. There are a few options to consider before running the installer:
+You will now have the code in your plugs directory and can proceed to compile the core. Change to the directory it has been downloaded to. If you have a vanilla install then `cd ~/.starry-vim/.vim/viplug/YouCompleteMe/` should do the trick. You should see a file in this directory called install.py. There are a few options to consider before running the installer:
 
   * Do you want clang support (if you don't know what this is then you likely don't need it)?
     * Do you want to link against a local libclang or have the installer download the latest for you?
@@ -361,6 +378,17 @@ For java users wanting to use eclim be sure to add `let g:EclimCompletionMethod 
 ALE(Asynchronous Lint Engine) is a plugin for providing real-time linting(checking syntax and semantics through running external linters) in Vim 8 while you edit your text files, and acts as a Vim [Language Server Protocol](https//langserver.org) client. This allows for displaying warnings and errors in files being edited in Vim before files have been saved back to a filesystem.
 
 ALE support a wide variety of languages and tools. See the [full list](https://github.com/w0rp/ale/blob/master/supported-tools.md).
+
+## [AsyncRun]
+
+AsyncRun takes the advantage of new apis in Vim 8 to enable you to run shell commands in background and read output in the quickfix windows in realtime.
+
+AsyncRun is easy to use, just start your background comments by `:AsyncRun`(just like old "!" cmd).
+
+**Customizations**:
+
+ * `<F5>` : Quickly compile and run current file.
+ * `<F10>` : Toggle quickfix window rapidly.
 
 ## [Fugitive]
 
@@ -406,16 +434,29 @@ Tabularize lets you align statements on their equal signs and other characters
  * `<Leader>a, :Tabularize /,<CR>`
  * `<Leader>a<Bar> :Tabularize /<Bar><CR>`
 
-## [Tagbar]
+## [Gutentags]
 
-starry-vim includes the Tagbar plugin. This plugin requires exuberant-ctags and will automatically generate tags for your open files. It also provides a panel to navigate easily via tags
+starry-vim includes the Gutentags plugin. This plugin requires [ctags]/[gtags] and will automatically (re)generate tags for your open files.
 
-**QuickStart** `CTRL-]` while the cursor is on a keyword (such as a function name) to jump to its definition.
+**Get latest ctags**: Read [The latest built and package](https://github.com/universal-ctags/ctags#the-latest-build-and-package) or [build by yourself](https://github.com/universal-ctags/ctags/blob/master/docs/autotools.rst) on Linux.
+**Get latest gtags**: Go to the [download page](https://www.gnu.org/software/global/download.html) or [build from source](https://ftp.gnu.org/pub/gnu/global) on Linux:
 
-**Customizations**: starry-vim binds `<Leader>tt` to toggle the tagbar panel
+```bash
 
-**Note**: For full language support, run `brew install ctags` to install
-exuberant-ctags.
+    wget https://ftp.gnu.org/pub/gnu/global/global-6.6.3.tar.gz
+    tar -zxv -f global-6.6.3.tar.gz
+    cd global-6.6.3
+    ./configure --with-universal-ctags=/usr/local/bin/ctags # which ctags
+    make
+    sudo make install
+```
+
+**Get more languages support** [gtags] supports C, C++, Yacc, Java, PHP and assembly by built-in parser, to get more languages support by [pygments] + [ctags] plug-in parser:
+
+```bash
+
+    pip3 install Pygments
+```
 
 **Tip**: Check out `:help ctags` for information about VIM's built-in
 ctag support. Tag navigation creates a stack which can traversed via
@@ -513,14 +554,19 @@ Here's some tips if you've never used VIM before:
 [NERDCommenter]:https://github.com/scrooloose/nerdcommenter
 [Undotree]:https://github.com/mbbill/undotree
 [NERDTree]:https://github.com/scrooloose/nerdtree
-[ctrlp]:https://github.com/kien/ctrlp.vim
+[LeaderF]:https://github.com/Yggdroot/LeaderF
+[ctrlp]:https://github.com/ctrlpvim/ctrlp.vim
 [solarized8]:https://github.com/lifepillar/vim-solarized8
 [neocomplete]:https://github.com/shougo/neocomplete
 [deoplete]:https://github.com/shougo/deoplete.nvim
 [Fugitive]:https://github.com/tpope/vim-fugitive
 [Surround]:https://github.com/tpope/vim-surround
-[Tagbar]:https://github.com/majutsushi/tagbar
+[Gutentags]:https://github.com/ludovicchabant/vim-gutentags
+[ctags]:https://github.com/universal-ctags/ctags
+[gtags]:https://www.gnu.org/software/global
+[pygments]:https://pypi.org/project/Pygments
 [ALE]:https://github.com/w0rp/ale
+[AsyncRun]:https://github.com/skywind3000/asyncrun.vim
 [vim-easymotion]:https://github.com/Lokaltog/vim-easymotion
 [YouCompleteMe]:https://github.com/Valloric/YouCompleteMe
 [Tabularize]:https://github.com/godlygeek/tabular

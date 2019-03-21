@@ -78,9 +78,15 @@
     " Deps {
         Plug 'MarcWeber/vim-addon-mw-utils'
         Plug 'tomtom/tlib_vim'
-        if executable('ag')
+        if executable('rg') && (has('python') || has('python3'))
+            if has('win32') || has('win64')
+                Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
+            else
+                Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+            endif
+        elseif executable('ag')
             Plug 'mileszs/ack.vim'
-            let g:ackprg = 'ag --nogroup --nocolor --column --smart-case'
+            let g:ackprg = 'ag --vimgrep --nogroup --nocolor --column --smart-case'
         elseif executable('ack-grep')
             let g:ackprg='ack-grep -H --nocolor --nogroup --column'
             Plug 'mileszs/ack.vim'
@@ -109,10 +115,20 @@
     " General {
         if count(g:starry_plug_groups, 'general')
             Plug 'StarryLeo/vim-colorschemes'
-            Plug 'scrooloose/nerdtree', { 'on': 'NERDTree', 'NERDTreeToggle', 'NERDTreeFocus', 'NERDTreeFind', 'NERDTreeCWD' }
-            Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTree', 'NERDTreeToggle', 'NERDTreeFocus', 'NERDTreeFind', 'NERDTreeCWD' }
-            Plug 'ctrlpvim/ctrlp.vim'
-            Plug 'tacahiroy/ctrlp-funky'
+            Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeTabsToggle', 'NERDTreeFocusToggle', 'NERDTreeMirrorOpen'] }
+            Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': ['NERDTreeFind', 'NERDTreeTabsToggle', 'NERDTreeFocusToggle', 'NERDTreeMirrorOpen'] }
+            Plug 'jistr/vim-nerdtree-tabs', { 'on': ['NERDTreeFind', 'NERDTreeTabsToggle', 'NERDTreeFocusToggle', 'NERDTreeMirrorOpen'] }
+            Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': ['NERDTreeFind', 'NERDTreeTabsToggle', 'NERDTreeFocusToggle', 'NERDTreeMirrorOpen'] }
+            if has('python') || has('python3')
+                if has('win32') || has('win64')
+                    Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
+                else
+                    Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+                endif
+            else
+                Plug 'ctrlpvim/ctrlp.vim'
+                Plug 'tacahiroy/ctrlp-funky'
+            endif
             if (has('python') || has('python3')) && exists('g:starry_use_powerline') && !exists('g:starry_use_old_powerline')
                 Plug 'powerline/powerline', { 'rtp': '/powerline/bindings/vim'}
             elseif exists('g:starry_use_powerline') && exists('g:starry_use_old_powerline')
@@ -129,6 +145,7 @@
             Plug 'mbbill/undotree'
             Plug 'tpope/vim-surround'
             Plug 'tpope/vim-repeat'
+            Plug 'tpope/vim-unimpaired'
             Plug 'easymotion/vim-easymotion'
             Plug 'rhysd/conflict-marker.vim'
             Plug 'jiangmiao/auto-pairs'
@@ -149,9 +166,11 @@
 
     " Snippets & AutoComplete {
         if count(g:starry_plug_groups, 'youcompleteme')
-            Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer', 'for': ['c', 'cpp'] }
-            Plug 'SirVer/ultisnips'
-            Plug 'honza/vim-snippets'
+            if !(has('win32') || has('win64')) || exists(g:starry_enable_ycm_on_windows)
+                Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer', 'for': ['c', 'cpp'] }
+                Plug 'SirVer/ultisnips'
+                Plug 'honza/vim-snippets'
+            endif
         elseif count(g:starry_plug_groups, 'deoplete')
             Plug 'Shougo/deoplete.nvim'
             Plug 'roxma/nvim-yarp'
@@ -175,8 +194,14 @@
             Plug 'w0rp/ale'
             Plug 'Chiel92/vim-autoformat', { 'on': 'Autoformat' }
             Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
-            if executable('ctags')
-                Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+            if executable('ctags') || (executable('gtags') && executable('gtags-cscope'))
+                Plug 'ludovicchabant/vim-gutentags'
+                Plug 'skywind3000/gutentags_plus'
+                if has('win32') || has('win64')
+                    Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
+                else
+                    Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+                endif
             endif
             Plug 'luochen1990/rainbow'
         endif

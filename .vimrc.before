@@ -84,6 +84,9 @@
     " Disable omni complete
     "   let g:starry_no_omni_complete = 1
 
+    " Enable YouCompleteMe on windows
+    "   let g:starry_enable_ycm_on_windows = 1
+
     " Don't create default mappings for multicursors
     " See :help multiple-cursors-mappings
     "   let g:multi_cursor_use_default_mapping=0

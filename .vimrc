@@ -352,15 +352,15 @@
     endif
 
     " Easier moving in tabs and windows 更好的窗口切换
-    " The lines conflict with the default digraph mapping of <C-K>
+    " The lines conflict with the default digraph mapping of <C-k>
     " If you prefer that functionality, add the following to your
     " .vimrc.before.local file:
     "   let g:starry_no_easyWindows = 1
     if !exists('g:starry_no_easyWindows')
-        noremap <C-J> <C-W>j<C-W>_
-        noremap <C-K> <C-W>k<C-W>_
-        noremap <C-L> <C-W>l<C-W>_
-        noremap <C-H> <C-W>h<C-W>_
+        noremap <C-j> <C-w>j<C-w>_
+        noremap <C-k> <C-w>k<C-w>_
+        noremap <C-l> <C-w>l<C-w>_
+        noremap <C-h> <C-w>h<C-w>_
     endif
 
     " Wrapped lines goes down/up to next row, rather than next line in file.
@@ -400,11 +400,11 @@
         onoremap <End> v:call WrapRelativeMotion("$")<CR>
         " Overwrite the Visual+select mode mappings from above
         " to ensure the correct vis_sel flag is passed to function
-        vnoremap $ :<C-U>call WrapRelativeMotion("$", 1)<CR>
-        vnoremap <End> :<C-U>call WrapRelativeMotion("$", 1)<CR>
-        vnoremap 0 :<C-U>call WrapRelativeMotion("0", 1)<CR>
-        vnoremap <Home> :<C-U>call WrapRelativeMotion("0", 1)<CR>
-        vnoremap ^ :<C-U>call WrapRelativeMotion("^", 1)<CR>
+        vnoremap $ :<C-u>call WrapRelativeMotion("$", 1)<CR>
+        vnoremap <End> :<C-u>call WrapRelativeMotion("$", 1)<CR>
+        vnoremap 0 :<C-u>call WrapRelativeMotion("0", 1)<CR>
+        vnoremap <Home> :<C-u>call WrapRelativeMotion("0", 1)<CR>
+        vnoremap ^ :<C-u>call WrapRelativeMotion("^", 1)<CR>
     endif
 
     " The following two lines conflict with moving to top and
@@ -413,8 +413,8 @@
     " .vimrc.before.local file:
     "   let g:starry_no_fastTabs = 1
     if !exists('g:starry_no_fastTabs')
-        noremap <S-H> gT
-        noremap <S-L> gt
+        noremap <S-h> gT
+        noremap <S-l> gt
     endif
 
     " Stupid shift key fixes
@@ -485,15 +485,15 @@
 
     " Some helpers to edit mode
     " http://vimcasts.org/e/14
-    cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<CR>
+    cnoremap %% <C-r>=fnameescape(expand('%:h')).'/'<CR>
     noremap <Leader>ew :e %%
     noremap <Leader>es :sp %%
     noremap <Leader>ev :vsp %%
     noremap <Leader>et :tabe %%
 
-    " Map <Leader>ff to display all lines with keyword under cursor
+    " Map <Leader>fj to display all lines with keyword under cursor
     " and ask which one to jump to
-    nnoremap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+    nnoremap <Leader>fj [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 
     " Easier horizontal scrolling
     noremap zl zL
@@ -509,7 +509,7 @@
 
 
     " Ctrl+A 全选
-    noremap <silent> <C-A> <Esc>ggVG
+    noremap <silent> <C-a> <Esc>ggVG
 
 " }
 
@@ -534,14 +534,14 @@
             hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
 
             " Some convenient mappings
-            "inoremap <expr> <Esc>      pumvisible() ? "\<C-E>" : "\<Esc>"
+            "inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
             if exists('g:starry_map_cr_omni_complete')
-                inoremap <expr> <CR>     pumvisible() ? "\<C-Y>" : "\<CR>"
+                inoremap <expr> <CR>     pumvisible() ? "\<C-y>" : "\<CR>"
             endif
-            inoremap <expr> <Down>     pumvisible() ? "\<C-N>" : "\<Down>"
-            inoremap <expr> <Up>       pumvisible() ? "\<C-P>" : "\<Up>"
-            inoremap <expr> <C-D>      pumvisible() ? "\<PageDown>\<C-P>\<C-N>" : "\<C-D>"
-            inoremap <expr> <C-U>      pumvisible() ? "\<PageUp>\<C-P>\<C-N>" : "\<C-U>"
+            inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+            inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+            inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
+            inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
 
             augroup starry_Popup_Menu
                 autocmd!
@@ -554,10 +554,11 @@
 
     " NerdTree {
         if isdirectory(expand('~/.vim/viplug/nerdtree/'))
+            noremap <Space>tt <Plug>NERDTreeTabsToggle<CR>
             " 查找目录
-            noremap <Leader>e :NERDTreeFind<CR>
-            " Ctrl+E 关闭目录树
-            noremap <C-E> :NERDTreeToggle<CR>
+            noremap <Space>tf :NERDTreeFind<CR>
+            noremap <Space>to <Plug>NERDTreeFocusToggle<CR>
+            noremap <Space>tm <Plug>NERDTreeMirrorOpen<CR>
 
             let NERDTreeShowBookmarks=1
             let NERDTreeIgnore=['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
@@ -565,12 +566,29 @@
             let NERDTreeQuitOnOpen=1
             let NERDTreeMouseMode=1
             let NERDTreeShowHidden=1
+            let g:nerdtree_tabs_open_on_gui_startup = 0
         endif
     " }
 
+    " LeaderF {
+        if isdirectory(expand('~/.vim/viplug/LeaderF/'))
+            let g:Lf_ShortcutF = '<Leader>ff'
+            let g:Lf_ShortcutB = '<Leader>fb'
+            noremap <Leader>fm :cclose<CR>:Leaderf mru --regexMode<CR>
+            noremap <Leader>fn :cclose<CR>:LeaderfFunction!<CR>
+            noremap <Leader>ft :cclose<CR>:LeaderfBufTag!<CR>
+            noremap <Leader>fo :cclose<CR>:LeaderfTag<CR>
+
+            let g:Lf_RootMarkers += ['.project', '.root']
+            let g:Lf_MruMaxFiles = 1024
+            if !exists('g:airline_no_powerline_symbol_font') && !exists('g:starry_use_old_powerline')
+                let g:Lf_StlSeparator = { 'left': '', 'right': '' }
+            endif
+    " }
+
     " CtrlP {
-        if isdirectory(expand('~/.vim/viplug/ctrlp.vim/'))
-            let g:ctrlp_map = '<C-P>'
+        elseif isdirectory(expand('~/.vim/viplug/ctrlp.vim/'))
+            let g:ctrlp_map = '<C-p>'
             let g:ctrlp_cmd = 'CtrlP'
             let g:ctrlp_working_path_mode = 'ra'
             nnoremap <Leader>cf :CtrlP<CR>
@@ -581,7 +599,7 @@
                 \ }
 
             if executable('ag')
-                let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
+                let s:ctrlp_fallback = 'ag %s --vimgrep --nocolor -l -g ""'
             elseif executable('ack-grep')
                 let s:ctrlp_fallback = 'ack-grep %s --nocolor -f'
             elseif executable('ack')
@@ -700,13 +718,13 @@
             let g:multi_cursor_use_default_mapping=0
 
             " Mapping
-            let g:multi_cursor_start_word_key      = '<C-N>'
-            let g:multi_cursor_select_all_word_key = '<A-N>'
-            let g:multi_cursor_start_key           = 'g<C-N>'
-            let g:multi_cursor_select_all_key      = 'g<A-N>'
-            let g:multi_cursor_next_key            = '<C-N>'
-            let g:multi_cursor_prev_key            = '<C-M>'
-            let g:multi_cursor_skip_key            = '<C-X>'
+            let g:multi_cursor_start_word_key      = '<C-n>'
+            let g:multi_cursor_select_all_word_key = '<A-n>'
+            let g:multi_cursor_start_key           = 'g<C-n>'
+            let g:multi_cursor_select_all_key      = 'g<A-n>'
+            let g:multi_cursor_next_key            = '<C-n>'
+            let g:multi_cursor_prev_key            = '<C-m>'
+            let g:multi_cursor_skip_key            = '<C-x>'
             let g:multi_cursor_quit_key            = '<Esc>'
 
             " Default highlighting (see help :highlight and help :highlight-link)
@@ -752,54 +770,56 @@
 
     " YouCompleteMe {
         if count(g:starry_plug_groups, 'youcompleteme')
-            let g:ycm_filetype_whitelist = {
-            \       'c'  : 1,
-            \       'cpp': 1,
-            \}
+            if !WINDOWS() || exists(g:starry_enable_ycm_on_windows)
+                let g:ycm_filetype_whitelist = {
+                \       'c'  : 1,
+                \       'cpp': 1,
+                \}
 
-            let g:ycm_global_ycm_extra_conf = '~/.vim/viplug/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
-            let g:ycm_show_diagnostics_ui = 0
+                let g:ycm_global_ycm_extra_conf = '~/.vim/viplug/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
+                let g:ycm_show_diagnostics_ui = 0
 
-            noremap <C-Z> <Nop>
-            let g:ycm_key_invoke_completion = '<C-Z>'
+                noremap <C-z> <Nop>
+                let g:ycm_key_invoke_completion = '<C-z>'
 
-            let g:ycm_semantic_triggers = {
-            \       'c'  : ['re!\w{2,}'],
-            \       'cpp': ['re!\w{2,}'],
-            \}
+                let g:ycm_semantic_triggers = {
+                \       'c'  : ['re!\w{2,}'],
+                \       'cpp': ['re!\w{2,}'],
+                \}
 
-            " remap Ultisnips for compatibility for YCM
-            let g:UltiSnipsExpandTrigger = '<C-J>'
-            let g:UltiSnipsJumpForwardTrigger = '<C-J>'
-            let g:UltiSnipsJumpBackwardTrigger = '<C-K>'
+                " remap Ultisnips for compatibility for YCM
+                let g:UltiSnipsExpandTrigger = '<C-j>'
+                let g:UltiSnipsJumpForwardTrigger = '<C-j>'
+                let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 
-            augroup starry_enable_omnicompletion
-                autocmd!
-                " Enable omni completion.
-                autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-                autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-                autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-                autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-                autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-            augroup END
+                augroup starry_enable_omnicompletion
+                    autocmd!
+                    " Enable omni completion.
+                    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+                    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+                    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+                    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+                    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+                augroup END
 
-            " For snippet_complete marker.
-            if !exists('g:starry_no_conceal')
-                if has('conceal')
-                    set conceallevel=2 concealcursor=i
+                " For snippet_complete marker.
+                if !exists('g:starry_no_conceal')
+                    if has('conceal')
+                        set conceallevel=2 concealcursor=i
+                    endif
                 endif
-            endif
 
-            " Disable the neosnippet preview candidate window
-            " When enabled, there can be too much visual noise
-            " especially when splits are used.
-            set completeopt-=preview
+                " Disable the neosnippet preview candidate window
+                " When enabled, there can be too much visual noise
+                " especially when splits are used.
+                set completeopt-=preview
+            endif
         endif
     " }
 
     " deoplete {
         if count(g:starry_plug_groups, 'deoplete')
-            if &filetype !=? 'c' && &filetype !=? 'cpp'
+            if (&filetype !=? 'c' && &filetype !=? 'cpp') || (WINDOWS() && !exists(g:starry_enable_ycm_on_windows))
                 let g:deoplete#enable_at_startup = 1
             endif
 
@@ -810,13 +830,13 @@
 
             " Plugin key-mappings {
                 " <Tab>: completion.
-                inoremap <expr> <Tab> pumvisible() ? "\<C-N>" : "\<Tab>"
-                inoremap <expr> <S-Tab> pumvisible() ? "\<C-P>" : "\<Tab>"
+                inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+                inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<Tab>"
 
                 " remap Ultisnips for compatibility for deoplete
-                let g:UltiSnipsExpandTrigger = '<C-J>'
-                let g:UltiSnipsJumpForwardTrigger = '<C-J>'
-                let g:UltiSnipsJumpBackwardTrigger = '<C-K>'
+                let g:UltiSnipsExpandTrigger = '<C-j>'
+                let g:UltiSnipsJumpForwardTrigger = '<C-j>'
+                let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
             " }
 
             " For snippet_complete marker.
@@ -852,33 +872,33 @@
             let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
             " Plugin key-mappings {
-                " These two lines conflict with the default digraph mapping of <C-K>
+                " These two lines conflict with the default digraph mapping of <C-k>
                 if !exists('g:starry_no_neosnippet_expand')
-                    inoremap <C-K> <Plug>(neosnippet_expand_or_jump)
-                    snoremap <C-K> <Plug>(neosnippet_expand_or_jump)
+                    inoremap <C-k> <Plug>(neosnippet_expand_or_jump)
+                    snoremap <C-k> <Plug>(neosnippet_expand_or_jump)
                 endif
                 if exists('g:starry_noninvasive_completion')
                     inoremap <CR> <CR>
                     " <Esc> takes you out of insert mode
-                    inoremap <expr> <Esc>   pumvisible() ? "\<C-Y>\<Esc>" : "\<Esc>"
+                    inoremap <expr> <Esc>   pumvisible() ? "\<C-y>\<Esc>" : "\<Esc>"
                     " <CR> accepts first, then sends the <CR>
-                    inoremap <expr> <CR>    pumvisible() ? "\<C-Y>\<CR>" : "\<CR>"
+                    inoremap <expr> <CR>    pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
                     " <Down> and <Up> cycle like <Tab> and <S-Tab>
-                    inoremap <expr> <Down>  pumvisible() ? "\<C-N>" : "\<Down>"
-                    inoremap <expr> <Up>    pumvisible() ? "\<C-P>" : "\<Up>"
+                    inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
+                    inoremap <expr> <Up>    pumvisible() ? "\<C-p>" : "\<Up>"
                     " Jump up and down the list
-                    inoremap <expr> <C-D>   pumvisible() ? "\<PageDown>\<C-P>\<C-N>" : "\<C-D>"
-                    inoremap <expr> <C-U>   pumvisible() ? "\<PageUp>\<C-P>\<C-N>" : "\<C-U>"
+                    inoremap <expr> <C-d>   pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
+                    inoremap <expr> <C-u>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
                 else
-                    " <C-K> Complete Snippet
-                    " <C-K> Jump to next snippet point
-                    inoremap <silent><expr> <C-K> neosnippet#expandable() ?
+                    " <C-k> Complete Snippet
+                    " <C-k> Jump to next snippet point
+                    inoremap <silent><expr> <C-k> neosnippet#expandable() ?
                                 \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
-                                \ "\<C-E>" : "\<Plug>(neosnippet_expand_or_jump)")
+                                \ "\<C-e>" : "\<Plug>(neosnippet_expand_or_jump)")
                     snoremap <Tab> <Right><Plug>(neosnippet_jump_or_expand)
 
-                    inoremap <expr> <C-G> neocomplete#undo_completion()
-                    inoremap <expr> <C-L> neocomplete#complete_common_string()
+                    inoremap <expr> <C-g> neocomplete#undo_completion()
+                    inoremap <expr> <C-l> neocomplete#complete_common_string()
                     "inoremap <expr><CR> neocomplete#complete_common_string()
 
                     " <CR>: close popup
@@ -900,19 +920,19 @@
 
                     " <CR> close popup and save indent or expand snippet
                     inoremap <expr> <CR> CleverCr()
-                    " <C-H>, <BS>: close popup and delete backword char.
-                    inoremap <expr> <BS> neocomplete#smart_close_popup()."\<C-H>"
-                    inoremap <expr> <C-Y> neocomplete#smart_close_popup()
+                    " <C-h>, <BS>: close popup and delete backword char.
+                    inoremap <expr> <BS> neocomplete#smart_close_popup()."\<C-h>"
+                    inoremap <expr> <C-y> neocomplete#smart_close_popup()
                 endif
                 " <Tab>: completion.
-                inoremap <expr> <Tab> pumvisible() ? "\<C-N>" : "\<Tab>"
-                inoremap <expr> <S-Tab> pumvisible() ? "\<C-P>" : "\<Tab>"
+                inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+                inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<Tab>"
 
                 " Courtesy of Matteo Cavalleri
 
                 function! CleverTab()
                     if pumvisible()
-                        return "\<C-N>"
+                        return "\<C-n>"
                     endif
                     let substr = strpart(getline('.'), 0, col('.') - 1)
                     let substr = matchstr(substr, '[^ \t]*$')
@@ -1094,19 +1114,34 @@
         endif
     " }
 
-    " Ctags {
-        set tags=./tags;/,~/.vimtags
-
-        " Make tags placed in .git/tags file available in all levels of a repository
-        let gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
-        if gitroot !=? ''
-            let &tags = &tags . ',' . gitroot . '/.git/tags'
-        endif
+    " Ctags / Gtags {
+        set tags=./.tags;,.tags
+        let $GTAGSLABEL = 'native-pygments'
     " }
 
-    " TagBar {
-        if isdirectory(expand('~/.vim/viplug/tagbar/'))
-            nnoremap <silent> <Leader>tt :TagbarToggle<CR>
+    " Gutentags {
+        if isdirectory(expand('~/.vim/viplug/vim-gutentags/'))
+            let g:gutentags_modules = []
+            if executable('ctags')
+                let g:gutentags_modules += ['ctags']
+            endif
+            if executable('gtags') && executable('gtags-cscope')
+                let g:gutentags_modules += ['gtags-cscope']
+            endif
+
+            let g:gutentags_project_root = ['.svn', '.project', '.root']
+            let g:gutentags_ctags_tagfile = '.tags'
+            if !isdirectory(expand('~/.cache/tags'))
+                silent! call mkdir('~/.cache/tags', 'p')
+            endif
+            let g:gutentags_cache_dir = expand('~/.cache/tags')
+
+            let g:gutentags_ctags_extra_args = []
+            let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+            let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
+            let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+
+            let g:gutentags_auto_add_gtags_cscope = 0
         endif
     "}
 
@@ -1131,7 +1166,7 @@
         endif
     " }
 
-    " C/C++ {
+    " C / C++ {
         if isdirectory(expand('~/.vim/viplug/vim-cpp-enhanced-highlight/'))
             let g:cpp_class_scope_highlight = 1
             let g:cpp_member_variable_highlight = 1
@@ -1182,7 +1217,7 @@
             let g:phpcomplete_mappings = {
                \ 'jump_to_def':             '<C-]>',
                \ 'jump_to_def_split':  '<C-\><C-]>',
-               \ 'jump_to_def_vsplit': '<C-W><C-\>',
+               \ 'jump_to_def_vsplit': '<C-w><C-\>',
                \ 'jump_to_def_tabnew': '<C-\><C-[>',
                \}
         endif
