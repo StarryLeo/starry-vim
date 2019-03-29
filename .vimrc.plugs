@@ -32,12 +32,13 @@
     " Windows Compatible {
         " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
         " across (heterogeneous) systems easier.
+        " XXX: DO NOT USE WINDOWS() LINUX() OSX() HERE! NO THEM DURING UPDATING STARRY-VIM!
         if has('win32') || has('win64')
-          set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+            set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 
-          " Be nice and check for multi_byte even if the config requires
-          " multi_byte support most of the time
-          if has('multi_byte')
+            " Be nice and check for multi_byte even if the config requires
+            " multi_byte support most of the time
+            if has('multi_byte')
             " Windows cmd.exe still uses cp850. If Windows ever moved to
             " Powershell as the primary terminal, this would be utf-8
             set termencoding=cp850
@@ -51,7 +52,7 @@
             set fileencodings=ucs-bom,utf-8,utf-16le,cp1252,iso-8859-15
           endif
         else
-            " set default encoding to utf-8
+            " Set default encoding to utf-8
             set encoding=utf-8
             set termencoding=utf-8
         endif
@@ -85,20 +86,20 @@
                 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
             endif
         elseif executable('ag')
-            Plug 'mileszs/ack.vim'
+            Plug 'mileszs/ack.vim', { 'on': 'Ack' }
             let g:ackprg = 'ag --vimgrep --nogroup --nocolor --column --smart-case'
         elseif executable('ack-grep')
+            Plug 'mileszs/ack.vim', { 'on': 'Ack' }
             let g:ackprg='ack-grep -H --nocolor --nogroup --column'
-            Plug 'mileszs/ack.vim'
         elseif executable('ack')
-            Plug 'mileszs/ack.vim'
+            Plug 'mileszs/ack.vim', { 'on': 'Ack' }
         endif
     " }
 
     " In your .vimrc.before.local file
     " list only the plugin groups you will use
     "
-    " 在你的.vimrc.before.local文件中列出你要用的插件组
+    " 在你的 .vimrc.before.local 文件中列出你要用的插件组
     "
     if !exists('g:starry_plug_groups')
         let g:starry_plug_groups=['general', 'youcompleteme', 'deoplete', 'programming', 'markdown', 'cpp', 'python', 'verilog', 'misc',]
@@ -107,18 +108,18 @@
     " To override all the included plugs, add the following to your
     " .vimrc.plugs.local file:
     "
-    " 重写插件组包含的插件，将以下值声明在你的.vimrc.plugs.local文件
+    " 重写插件组包含的插件，将以下值声明在你的 .vimrc.plugs.local 文件
     "
     "   let g:override_starry_plugs = 1
+    "
     if !exists('g:override_starry_plugs')
 
     " General {
         if count(g:starry_plug_groups, 'general')
             Plug 'StarryLeo/vim-colorschemes'
             Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeTabsToggle', 'NERDTreeFocusToggle', 'NERDTreeMirrorOpen'] }
-            Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': ['NERDTreeFind', 'NERDTreeTabsToggle', 'NERDTreeFocusToggle', 'NERDTreeMirrorOpen'] }
-            Plug 'jistr/vim-nerdtree-tabs', { 'on': ['NERDTreeFind', 'NERDTreeTabsToggle', 'NERDTreeFocusToggle', 'NERDTreeMirrorOpen'] }
-            Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': ['NERDTreeFind', 'NERDTreeTabsToggle', 'NERDTreeFocusToggle', 'NERDTreeMirrorOpen'] }
+            Plug 'Xuyuanp/nerdtree-git-plugin'
+            Plug 'jistr/vim-nerdtree-tabs'
             if has('python') || has('python3')
                 if has('win32') || has('win64')
                     Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
@@ -126,16 +127,17 @@
                     Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
                 endif
             else
-                Plug 'ctrlpvim/ctrlp.vim'
+                Plug 'ctrlpvim/ctrlp.vim', { 'on': ['CtrlP', 'CtrlPMRU', 'CtrlPFunky'] }
                 Plug 'tacahiroy/ctrlp-funky'
             endif
-            if (has('python') || has('python3')) && exists('g:starry_use_powerline') && !exists('g:starry_use_old_powerline')
+            if (has('python') || has('python3')) && exists('g:starry_use_powerline')
                 Plug 'powerline/powerline', { 'rtp': '/powerline/bindings/vim'}
-            elseif exists('g:starry_use_powerline') && exists('g:starry_use_old_powerline')
-                Plug 'Lokaltog/vim-powerline'
             else
                 Plug 'vim-airline/vim-airline'
                 Plug 'vim-airline/vim-airline-themes'
+                if !exists('g:starry_airline_tabline')
+                    Plug 'bling/vim-bufferline'
+                endif
             endif
             if has('win32') || has('win64') && has('gui_running')
                 Plug 'StarryLeo/Consolas-with-Yahei', { 'do': '.\install.cmd' }
@@ -147,18 +149,13 @@
             Plug 'tpope/vim-repeat'
             Plug 'tpope/vim-unimpaired'
             Plug 'easymotion/vim-easymotion'
-            Plug 'rhysd/conflict-marker.vim'
             Plug 'jiangmiao/auto-pairs'
             Plug 'terryma/vim-multiple-cursors'
-            Plug 'bling/vim-bufferline'
             Plug 'vim-scripts/sessionman.vim'
             Plug 'nathanaelkane/vim-indent-guides'
             if !exists('g:starry_no_views')
                 Plug 'vim-scripts/restore_view.vim'
             endif
-            Plug 'mhinz/vim-signify'
-            Plug 'tpope/vim-abolish'
-            Plug 'osyo-manga/vim-over'
             Plug 'kana/vim-textobj-user'
             Plug 'kana/vim-textobj-indent'
         endif
@@ -171,7 +168,8 @@
                 Plug 'SirVer/ultisnips'
                 Plug 'honza/vim-snippets'
             endif
-        elseif count(g:starry_plug_groups, 'deoplete')
+        endif
+        if count(g:starry_plug_groups, 'deoplete')
             Plug 'Shougo/deoplete.nvim'
             Plug 'roxma/nvim-yarp'
             Plug 'roxma/vim-hug-neovim-rpc'
@@ -188,9 +186,14 @@
 
     " General Programming {
         if count(g:starry_plug_groups, 'programming')
-            Plug 'skywind3000/asyncrun.vim'
+            Plug 'skywind3000/asyncrun.vim', { 'on': 'AsyncRun' }
             Plug 'tpope/vim-fugitive'
-            Plug 'scrooloose/nerdcommenter'
+            if !exists('g:starry_more_scm_diff')
+                Plug 'airblade/vim-gitgutter'
+            else
+                Plug 'mhinz/vim-signify'
+            endif
+            Plug 'scrooloose/nerdcommenter', { 'on': 'NERDComToggleComment' }
             Plug 'w0rp/ale'
             Plug 'Chiel92/vim-autoformat', { 'on': 'Autoformat' }
             Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
@@ -211,7 +214,7 @@
         if count(g:starry_plug_groups, 'markdown')
             Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
             if (has('python') || has('python3')) && has('gui_running')
-                Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
+                Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'on': 'MarkdownPreview' }
             endif
         endif
     " }
@@ -232,14 +235,14 @@
 
     " Verilog {
         if count(g:starry_plug_groups, 'verilog')
-            Plug 'vhda/verilog_systemverilog.vim'
-            Plug 'antoinemadec/vim-verilog-instance'
+            Plug 'vhda/verilog_systemverilog.vim', { 'for': 'verilog' }
+            Plug 'antoinemadec/vim-verilog-instance', { 'for': 'verilog' }
         endif
     " }
 
     " Go Lang {
         if count(g:starry_plug_groups, 'go')
-            Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+            Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
         endif
     " }
 
@@ -252,10 +255,10 @@
 
     " HTML {
         if count(g:starry_plug_groups, 'html')
-            Plug 'alvan/vim-closetag'
+            Plug 'alvan/vim-closetag', { 'for': ['css', 'html', 'xml', 'xhtml', 'php'] }
             Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'html', 'xml'] }
             Plug 'gko/vim-coloresque', { 'for': ['css', 'html', 'xml'] }
-            Plug 'tpope/vim-haml'
+            Plug 'tpope/vim-haml', { 'for': ['haml', 'sass','scss','css', 'html', 'xml'] }
             Plug 'mattn/emmet-vim', { 'for': ['css', 'html', 'xml'] }
         endif
     " }

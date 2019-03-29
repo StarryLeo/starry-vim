@@ -22,15 +22,28 @@
 
 " starry options {
 
+    " Prevent using Unix as standard file type by default
+    "   let g:starry_no_auto_unix = 1
+
     " Prevent automatically changing to open file directory
     "   let g:starry_no_autochdir = 1
+
+    " Prevent restoring cursor to file position in previous editing session
+    "   let g:starry_no_restore_cursor = 1
 
     " Disable views
     "   let g:starry_no_views = 1
 
+    " Disable whitespace stripping
+    "   let g:starry_keep_trailing_whitespace = 1
+
     " Leader keys
     "   let g:starry_leader='\'
     "   let g:starry_localleader='_'
+
+    " Mappings for editing/applying starry config
+    "   let g:starry_edit_config_mapping='<Leader>ev'
+    "   let g:starry_apply_config_mapping='<Leader>sv'
 
     " Disable easier moving in tabs and windows
     "   let g:starry_no_easyWindows = 1
@@ -41,34 +54,46 @@
     " Disable fast tab navigation
     "   let g:starry_no_fastTabs = 1
 
+    " Disable key fixes
+    "   let g:starry_no_keyfixes = 1
+
     " Clear search highlighting
     "   let g:starry_clear_search_highlight = 1
 
-    " Disable neosnippet expansion
-    " This maps over <C-K> and does some Supertab
-    " emulation with snippets
-    "   let g:starry_no_neosnippet_expand = 1
-
-    " Disable whitespace stripping
-    "   let g:starry_keep_trailing_whitespace = 1
+    " Disable omni complete
+    "   let g:starry_no_omni_complete = 1
 
     " Disable powerline symbols
     " Enable unicode symbols
-    "   let g:airline_no_powerline_symbol_font = 1
+    "   let g:starry_no_powerline_symbols = 1
 
-    " vim files directory
-    "   let g:starry_consolidated_directory = <full path to desired directory>
-    "   eg: let g:starry_consolidated_directory = $HOME . '/.vim/'
+    " Enable airline tabline
+    " Disable airline bufferline
+    "   let g:starry_airline_tabline = 1
+
+    " Enable YouCompleteMe on windows
+    "   let g:starry_enable_ycm_on_windows = 1
 
     " This makes the completion popup strictly passive.
     " Keypresses acts normally. <Esc> takes you of insert mode, words don't
     " automatically complete, pressing <CR> inserts a newline, etc. If the
-    " menu is open, tab will cycle through it. If a snippet is selected, <C-K>
+    " menu is open, tab will cycle through it. If a snippet is selected, <C-j>
     " expands it and jumps between fields.
     "   let g:starry_noninvasive_completion = 1
 
     " Don't turn conceallevel or concealcursor
     "   let g:starry_no_conceal = 1
+
+    " Enable signify with more SCM
+    "   let g:starry_more_scm_diff = 1
+
+    " Leave the default font and size in GVim
+    " To set your own font, do it from ~/.vimrc.local
+    "   let g:starry_no_big_font = 1
+
+    " vim files directory
+    "   let g:starry_consolidated_directory = <full path to desired directory>
+    "   eg: let g:starry_consolidated_directory = $HOME . '/.vim/'
 
     " For some colorschemes, autocolor will not work (eg: 'desert', 'ir_black')
     " Indent guides will attempt to set your colors smartly. If you
@@ -76,16 +101,6 @@
     "   let g:indent_guides_auto_colors = 0
     "   autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#212121 ctermbg=233
     "   autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#404040 ctermbg=234
-
-    " Leave the default font and size in GVim
-    " To set your own font, do it from ~/.vimrc.local
-    "   let g:starry_no_big_font = 1
-
-    " Disable omni complete
-    "   let g:starry_no_omni_complete = 1
-
-    " Enable YouCompleteMe on windows
-    "   let g:starry_enable_ycm_on_windows = 1
 
     " Don't create default mappings for multicursors
     " See :help multiple-cursors-mappings
@@ -96,10 +111,6 @@
     "   let g:multi_cursor_quit_key='<Esc>'
     " Require a special keypress to enter multiple cursors mode
     "   let g:multi_cursor_start_key='+'
-
-    " Mappings for editing/applying starry config
-    "   let g:starry_edit_config_mapping='<Leader>ev'
-    "   let g:starry_apply_config_mapping='<Leader>sv'
 
 " }
 

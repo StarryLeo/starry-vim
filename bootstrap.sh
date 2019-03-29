@@ -20,8 +20,10 @@ app_name='starry-vim'
 [ -z "$APP_PATH" ] && APP_PATH="$HOME/.starry-vim"
 [ -z "$REPO_URL" ] && REPO_URL='https://github.com/StarryLeo/starry-vim.git'
 [ -z "$REPO_BRANCH" ] && REPO_BRANCH='dev'
+update_mode=$1
 debug_mode='0'
 fork_maintainer='0'
+backup_time='31557600'
 [ -z "$PLUG_URL" ] && PLUG_URL="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 
 ############################  BASIC SETUP TOOLS
@@ -81,18 +83,43 @@ lnif() {
     debug
 }
 
+successful() {
+    if [ "$ret" -eq '0' ]; then
+        msg "\33[32m${1}${2}\33[0m "
+    fi
+}
+
 ############################ SETUP FUNCTIONS
 
 do_backup() {
     if [ -e "$1" ] || [ -e "$2" ] || [ -e "$3" ]; then
-        msg "Attempting to back up your original vim configuration."
         today=`date +%Y%m%d_%s`
-        for i in "$1" "$2" "$3"; do
-            [ -e "$i" ] && [ ! -L "$i" ] && mv -v "$i" "$i.$today";
-        done
-        ret="$?"
-        success "Your original vim configuration has been backed up."
-        debug
+        if [ -e "$4" ]; then
+            today_s=`echo ${today##*_}`
+            old_backup=`echo $4`
+            old_backup_day_s=`echo ${old_backup##*_}`
+            time_c=`expr $today_s - $old_backup_day_s`
+        fi
+        if [ ! -e "$4" ]; then
+            msg "Attempting to back up your original vim configuration."
+            for i in "$1" "$2" "$3"; do
+                    [ -e "$i" ] && [ ! -L "$i" ] && mv -v "$i" "$i.$today";
+            done
+            ret="$?"
+            success "Your original vim configuration has been backed up."
+            debug
+        elif [ "$time_c" -gt "$5" ]; then
+            msg "Last backup $6 was $time_c seconds ago."
+            for i in "$1" "$2" "$3"; do
+                    [ -e "$i" ] && [ ! -L "$i" ] && mv -v "$i" "$i.$today";
+            done
+            [ -e "$6" ] && mv -v "$6" "$6.$today";
+            ret="$?"
+            success "$6 has been backed up."
+            debug
+        else
+            msg "Do not need to back up your original vim configuration."
+        fi
    fi
 }
 
@@ -162,18 +189,36 @@ setup_plug() {
     local system_shell="$SHELL"
     export SHELL='/bin/sh'
 
-    msg "Starting updating/installing plugins"
+    if [ "${update_mode}" = "update" ]; then
+        msg "Starting updating plugins"
 
-    vim \
-        -u "$1" \
-        "+set nomore" \
-        "+PlugClean!" \
-        "+PlugInstall" \
-        "+qall"
+        vim \
+            -u "$1" \
+            "+set nomore" \
+            "+PlugClean!" \
+            "+PlugUpdate" \
+            "+qall"
 
-    export SHELL="$system_shell"
+        export SHELL="$system_shell"
 
-    success "Now updating/installing plugins using vim-plug"
+        ret="$?"
+        success "Now updating plugins using vim-plug"
+    else
+        msg "Starting installing plugins"
+
+        vim \
+            -u "$1" \
+            "+set nomore" \
+            "+PlugClean!" \
+            "+PlugInstall" \
+            "+qall"
+
+        export SHELL="$system_shell"
+
+        ret="$?"
+        success "Now installing plugins using vim-plug"
+    fi
+
     debug
 }
 
@@ -181,9 +226,17 @@ install_vim_plug() {
 
     curl -fLo "$1/plug.vim" --create-dirs "$2"
 
-    success "Successfully installed/updated vim-plug for starry-vim"
+    if [ "${update_mode}" = "update" ]; then
+        ret="$?"
+        success "Successfully updated vim-plug for starry-vim"
+    else
+        ret="$?"
+        success "Successfully installed vim-plug for starry-vim"
+    fi
+
     debug
 }
+
 ############################ MAIN()
 variable_set "$HOME"
 program_must_exist "vim"
@@ -192,7 +245,10 @@ program_must_exist "curl"
 
 do_backup        "$HOME/.vim" \
                  "$HOME/.vimrc" \
-                 "$HOME/.gvimrc"
+                 "$HOME/.gvimrc" \
+                 "$HOME/.vim[12][09][0-9][0-9][01][0-9][0-3][0-9]_[0-9]*" \
+                 "$backup_time" \
+                 "$APP_PATH"
 
 sync_repo        "$APP_PATH" \
                  "$REPO_URL" \
@@ -211,5 +267,20 @@ install_vim_plug "$HOME/.vim/autoload" \
 
 setup_plug       "$APP_PATH/.vimrc.plugs.default"
 
-msg             "\nThanks for installing $app_name."
-msg             "© `date +%Y` https://github.com/StarryLeo/starry-vim"
+ret="$?"
+successful "       _                                          _            "
+successful "  ___ | |_  __ _  _ __  _ __  _   _       __   __(_) _ __ ___  "
+successful " / __|| __|/ _\` || '__|| '__|| | | | _____\ \ / /| || '_ \` _ \ "
+successful " \__ \| |_| (_| || |   | |   | |_| ||_____|\ V / | || | | | | |"
+successful " |___/ \__|\__,_||_|   |_|    \__, |        \_/  |_||_| |_| |_|"
+successful "                              |___/                            "
+successful ""
+if [ "${update_mode}" = "update" ]; then
+successful "...is now updated!"
+else
+successful "...is now installed!"
+fi
+successful ""
+successful "Thanks for installing $app_name."
+successful "© `date +%Y` https://github.com/StarryLeo/starry-vim"
+debug

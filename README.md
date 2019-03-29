@@ -39,20 +39,20 @@ Lastly (and perhaps, most importantly) It is completely cross platform. It works
 # Installation
 ## Requirements
 To make all the plugins work, specifically [deoplete], you need [vim with python3](https://github.com/Shougo/deoplete.nvim#requirements).
-if `:echo has('python3')` rerurns `1`, then you have python3 support; otherwise, see below.
+if `:echo has('python3')` returns `1`, then you have python3 support; otherwise, see below.
 
 You can enable Python3 interface with pip3:
 
 ```bash
 
-    pip3 install --user pynvim
+    pip3 install pynvim
 ```
 
 For ArchLinux, you should see [roxma/vim-hug-neovim-rpc#28](https://github.com/roxma/vim-hug-neovim-rpc/issues/28).
 
 Then, you should create `~/.vimrc.local` and let `g:python3_host_prog` pointed to your python3 executable. Similar to
 
-```bash
+```viml
 
     # Unix
     let g:python3_host_prog='/usr/bin/python'
@@ -62,8 +62,27 @@ Then, you should create `~/.vimrc.local` and let `g:python3_host_prog` pointed t
     let g:python3_host_prog='C:\Users\HASEE\AppData\Local\Programs\Python\Python37\python.exe'
 ```
 
-For [neocomplete](https://github.com/Shougo/neocomplete.vim), you need [vim with lua](https://github.com/Shougo/neocomplete.vim#requirements).
-if `:echo has('lua')` rerurns `1`, then you have lua support.
+For [YouCompleteMe], you need [vim with python/python3](https://github.com/Valloric/YouCompleteMe#full-installation-guide).
+if `:echo has('python') || has('python3')` returns `1`, then you have python/python3 support; otherwise, see below.
+
+To compile the `ycm_core` library, you need:
+
+```bash
+
+    sudo apt install build-essential cmake python-dev python3-dev
+```
+
+If using pyenv, you need to run the command:
+
+```bash
+
+    export PYTHON_CONFIGURE_OPTS="--enable-shared"
+```
+
+before installing a python version.
+
+For [neocomplete], you need [vim with lua](https://github.com/Shougo/neocomplete.vim#requirements).
+if `:echo has('lua')` returns `1`, then you have lua support.
 
 ## Linux, \*nix, MacOS Installation
 
@@ -73,7 +92,7 @@ The easiest way to install starry-vim is to use our [automatic installer](https:
 
 ```bash
 
-    curl https://git.io/starry-vim -L > starry-vim.sh && sh starry-vim.sh
+    curl https://git.io/starry-vim -L > ~/starry-vim.sh && sh ~/starry-vim.sh
 ```
 
 If you have a bash-compatible shell you can run the script directly:
@@ -106,23 +125,23 @@ After installation try running `git --version` within _command prompt_ (press Wi
 
 #### Installing starry-vim on Windows
 
-The easiest way is to download and run the starry-vim-windows-install.cmd file. Remember to run this file in **Administrator Mode** if you want the symlinks to be created successfully.
+The easiest way is to download and run the `starry-vim-windows-install.cmd` file. Remember to run this file in **Administrator Mode** if you want the symlinks to be created successfully.
 
 ## Updating to the latest version
-The simpliest (and safest) way to update is to simply rerun the installer. It will completely and non destructively upgrade to the latest version.
+The simpliest (and safest) way to update is to simply rerun the installer with the `update` parameter. It will completely and non destructively upgrade to the latest version(including all plugins).
 
 ```bash
 
-    curl https://git.io/starry-vim -L -o - | sh
+    curl https://git.io/starry-vim -L > ~/starry-vim.sh && sh ~/starry-vim.sh update
 ```
 
-Alternatively you can manually perform the following steps. If anything has changed with the structure of the configuration you will need to create the appropriate symlinks.
+Or use the command `:Sup` in vim, Alternatively you can manually perform the following steps. If anything has changed with the structure of the configuration you will need to create the appropriate symlinks.
 
 ```bash
 
     cd $HOME/to/starry-vim/
     git pull
-    vim  +PluginClean! +PlugInstall +q
+    vim  +PluginClean! +PlugUpgrade +PlugUpdate +q
 ```
 
 ### Fork me on GitHub
@@ -197,7 +216,7 @@ You can specify the default plugs for your fork using `.vimrc.before.fork` file.
 in a fork repo for the default plugs.
 ```bash
 
-    echo let g:starry_plugs_groups=[\'general\', \'programming\', \'neocomplete\', \'misc\'] >> .vimrc.before.fork
+    echo let g:starry_plugs_groups=[\'general\', \'neocomplete\', \'programming\'] >> .vimrc.before.fork
 ```
 Once you have this file in your repo, only the plugs you specified will be installed during the first installation of your fork.
 
@@ -212,7 +231,7 @@ configuration and make customizations.
 `<Leader>sv` sources the .vimrc file, instantly applying your customizations to the currently running vim instance.
 
 These two mappings can themselves be customized by setting the following in .vimrc.before.local:
-```bash
+```viml
 
     let g:starry_edit_config_mapping='<Leader>ev'
     let g:starry_apply_config_mapping='<Leader>sv'
@@ -254,7 +273,7 @@ For example, disabling the 'w0rp/ale' and 'Chiel92/vim-autoformat' plugins
     echo UnPlug \'Chiel92/vim-autoformat\' >> ~/.vimrc.plugs.local
 ```
 
-**Remember to run ':PluginClean!' after this to remove the existing directories**
+**Remember to run ':PlugClean!' after this to remove the existing directories**
 
 
 Here are a few of the plugins:
@@ -289,6 +308,16 @@ functionality to your vim editing.  You can learn more about it with
 LeaderF replaces the [ctrlp] plugin with a python plugin. It provides an intuitive and fast mechanism to load files from the file system (with regex and fuzzy find), from open buffers, from recently used files, and from tags in large project.
 
 **QuickStart** Launch using `<Leader>ff`.
+
+LeaderF support the search tool [ripgrep(rg)], see more `:Leaderf rg -h`.
+
+**Customizations**:
+
+* Use `<Leader>fb` to search buffers.
+* Use `<Leader>fm` to search recently used files.
+* Use `<Leader>fn` to launch LeaderF to navigate functions or methods in current buffer.
+* Use `<Leader>ft` to launch LeaderF to navigate tags in current buffer.
+* Use `<Leader>fo` to launch LeaderF to navigate tags in all listed buffers.
 
 ## [ctrlp]
 Ctrlp replaces the Command-T plugin with a 100% viml plugin. It provides an intuitive and fast mechanism to load files from the file system (with regex and fuzzy find), from open buffers, and from recently used files.
@@ -334,7 +363,7 @@ Neocomplete is an amazing autocomplete plugin with additional support for snippe
 
  * Automatically present the autocomplete menu
  * Support tab and enter for autocomplete
- * `<C-k>` for completing snippets using [Neosnippet](https://github.com/Shougo/neosnippet.vim).
+ * `<C-j>` for completing snippets using [Neosnippet](https://github.com/Shougo/neosnippet.vim).
 
 ## [deoplete]
 
@@ -356,7 +385,7 @@ YouCompleteMe is another amazing completion engine. It is slightly more involved
 
 To enable YouCompleteMe on Windows, add the following to your `.vimrc.before.local`:
 
-```bash
+```viml
 
     let g:starry_enable_ycm_on_windows = 1
 ```
@@ -476,9 +505,9 @@ For example this screen shot demonstrates pressing `,,w`
 
 ## [Airline]
 
-Airline provides a lightweight themable statusline with no external dependencies. By default this configuration uses the symbols `‹` and `›` as separators for different statusline sections but can be configured to use the same symbols as [Powerline]. An example first without and then with powerline symbols is shown here:
+Airline provides a lightweight themable statusline with no external dependencies. By default this configuration uses the [Powerline] symbols as separators for different statusline sections but can be configured to use the unicode symbols.
 
-To enable powerline symbols first install one of the [Powerline Fonts] or patch your favorite font using the provided instructions. Configure your terminal, MacVim, or Gvim to use the desired font. Finally add `let g:airline_powerline_symbol_fonts=1` to your `.vimrc.before.local`.
+You can also install one of the [Powerline Fonts] or patch your favorite font using the [nerd-font]. If you do not like the [Powerline] symbols, you need to add `let g:starry_no_powerline_symbols=1` to your `.vimrc.before.local`.
 
 ## Additional Syntaxes
 
@@ -489,13 +518,13 @@ starry-vim ships with a few additional syntaxes:
 
 ## Amazing Colors
 
-starry-vim includes [solarized8] and [StarryLeo vim color pack](https://github.com/StarryLeo/vim-colorschemes/):
+starry-vim includes [solarized8] and [StarryLeo vim color pack](https://github.com/StarryLeo/vim-colorschemes):
 
 * gruvbox
-* onedark
+* PaperColor
 * seoul256
 
-Use `:colorscheme onedark` to switch to a color scheme.
+Use `:colorscheme PaperColor` to switch to a color scheme.
 
 Terminal Vim users will benefit from solarizing their terminal emulators and setting solarized support to 16 colors:
 
@@ -510,7 +539,7 @@ Terminal emulator colorschemes:
 
 ## Snippets
 
-It also contains a very complete set of [snippets](https://github.com/scrooloose/snipmate-snippets) for use with snipmate or [neocomplete].
+It also contains a very complete set of [snippets](https://github.com/honza/vim-snippets) for use with [YouCompleteMe]/[deoplete]/[neocomplete].
 
 
 # Intro to VIM
@@ -555,6 +584,7 @@ Here's some tips if you've never used VIM before:
 [Undotree]:https://github.com/mbbill/undotree
 [NERDTree]:https://github.com/scrooloose/nerdtree
 [LeaderF]:https://github.com/Yggdroot/LeaderF
+[ripgrep(rg)]:https://github.com/BurntSushi/ripgrep
 [ctrlp]:https://github.com/ctrlpvim/ctrlp.vim
 [solarized8]:https://github.com/lifepillar/vim-solarized8
 [neocomplete]:https://github.com/shougo/neocomplete
@@ -573,6 +603,7 @@ Here's some tips if you've never used VIM before:
 [EasyMotion]:https://github.com/Lokaltog/vim-easymotion
 [Airline]:https://github.com/bling/vim-airline
 [Powerline]:https://github.com/powerline/powerline
-[Powerline Fonts]:https://github.com/powerline/powerline-fonts
+[Powerline Fonts]:https://github.com/powerline/fonts
+[nerd-fonts]:https://github.com/ryanoasis/nerd-fonts
 [Ack.vim]:https://github.com/mileszs/ack.vim
 
