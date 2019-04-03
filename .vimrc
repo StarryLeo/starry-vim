@@ -683,10 +683,10 @@
             noremap <Leader>fo :cclose<CR>:LeaderfTag<CR>
 
             let g:Lf_RootMarkers = ['.git', '.hg', '.svn', '.project', '.root']
-            if !isdirectory(expand('~/.cache'))
-                silent! call mkdir('~/.cache', 'p')
-            endif
             let g:Lf_CacheDirectory = expand('~/.cache')
+            if !isdirectory(g:Lf_CacheDirectory)
+                silent! call mkdir(g:Lf_CacheDirectory, 'p')
+            endif
             let g:Lf_MruMaxFiles = 1024
             if !exists('g:starry_no_powerline_symbols')
                 let g:Lf_StlSeparator = { 'left': '', 'right': '' }
@@ -875,10 +875,10 @@
             let g:session_autoload = 'no'
             let g:session_autosave = 'no'
             let g:session_command_aliases = 1
-            if !isdirectory(expand('~/.vim/.vimsessions'))
-                silent! call mkdir('~/.vim/.vimsessions', 'p')
-            endif
             let g:session_directory = expand('~/.vim/.vimsessions')
+            if !isdirectory(g:session_directory)
+                silent! call mkdir(g:session_directory, 'p')
+            endif
             nmap <Leader>ss :SessionSave<CR>
             nmap <Leader>so :SessionOpen<CR>
             nmap <Leader>sc :SessionClose<CR>
@@ -1255,10 +1255,10 @@
 
             let g:gutentags_project_root = ['.svn', '.project', '.root']
             let g:gutentags_ctags_tagfile = '.tags'
-            if !isdirectory(expand('~/.cache/tags'))
-                silent! call mkdir('~/.cache/tags', 'p')
-            endif
             let g:gutentags_cache_dir = expand('~/.cache/tags')
+            if !isdirectory(g:gutentags_cache_dir)
+                silent! call mkdir(g:gutentags_cache_dir, 'p')
+            endif
 
             let g:gutentags_ctags_extra_args = []
             let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
@@ -1389,13 +1389,16 @@
         endif
     " }
 
-    " JSON {
-        nmap <Leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
-        let g:vim_json_syntax_conceal = 0
+    " JavaScript {
         if PlugEnable('vim-javascript')
             let g:javascript_plugin_jsdoc = 1
             let g:javascript_plugin_ngdoc = 1
             let g:javascript_plugin_flow = 1
+        endif
+
+        nmap <Leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
+        if PlugEnable('vim-json')
+            let g:vim_json_syntax_conceal = 0
         endif
     " }
 

@@ -33,6 +33,7 @@
         " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
         " across (heterogeneous) systems easier.
         " XXX: DO NOT USE WINDOWS() LINUX() OSX() HERE! NO THEM DURING UPDATING STARRY-VIM!
+        " "&&" takes precedence over "||"
         if has('win32') || has('win64')
             set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 
@@ -57,6 +58,7 @@
             set termencoding=utf-8
         endif
     " }
+
     " Setup Plug Support {
         " The next two lines ensure that the ~/.vim/viplug/ system works
         set runtimepath+=~/.vim/viplug
@@ -139,7 +141,7 @@
                     Plug 'bling/vim-bufferline'
                 endif
             endif
-            if has('win32') || has('win64') && has('gui_running')
+            if (has('win32') || has('win64')) && has('gui_running')
                 Plug 'StarryLeo/Consolas-with-Yahei', { 'do': '.\install.cmd' }
             elseif has('gui_running')
                 Plug 'StarryLeo/Consolas-with-Yahei', { 'do': './install.sh' }
@@ -166,13 +168,15 @@
 
     " Snippets & AutoComplete {
         if count(g:starry_plug_groups, 'youcompleteme')
-            if has('win32') || has('win64') && exists('g:starry_enable_ycm_on_windows')
+            if (has('win32') || has('win64')) && exists('g:starry_enable_ycm_on_windows')
                 Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp'] }
+                Plug 'SirVer/ultisnips'
+                Plug 'honza/vim-snippets'
             else
                 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer', 'for': ['c', 'cpp'] }
+                Plug 'SirVer/ultisnips'
+                Plug 'honza/vim-snippets'
             endif
-            Plug 'SirVer/ultisnips'
-            Plug 'honza/vim-snippets'
         endif
         if count(g:starry_plug_groups, 'deoplete')
             Plug 'Shougo/deoplete.nvim'
@@ -266,7 +270,7 @@
         endif
     " }
 
-    " Javascript {
+    " JavaScript {
         if count(g:starry_plug_groups, 'javascript')
             Plug 'elzr/vim-json'
             Plug 'groenewege/vim-less'
