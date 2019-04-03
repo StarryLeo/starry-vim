@@ -95,4 +95,5 @@ script:
   - echo $(which vim)
   - vim --version
   - curl https://raw.githubusercontent.com/StarryLeo/starry-vim/dev/bootstrap.sh -L > starry-vim.sh && sh starry-vim.sh
+  - vim +PlugStatus +qall
   - if [ -n "$err" ]; then exit 1; fi

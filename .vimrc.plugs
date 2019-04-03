@@ -141,8 +141,10 @@
                     Plug 'bling/vim-bufferline'
                 endif
             endif
-            if (has('win32') || has('win64')) && has('gui_running')
-                Plug 'StarryLeo/Consolas-with-Yahei', { 'do': '.\install.cmd' }
+            if has('win32') || has('win64')
+                if has('gui_running')
+                    Plug 'StarryLeo/Consolas-with-Yahei', { 'do': '.\install.cmd' }
+                endif
             elseif has('gui_running')
                 Plug 'StarryLeo/Consolas-with-Yahei', { 'do': './install.sh' }
             endif
@@ -168,10 +170,12 @@
 
     " Snippets & AutoComplete {
         if count(g:starry_plug_groups, 'youcompleteme')
-            if (has('win32') || has('win64')) && exists('g:starry_enable_ycm_on_windows')
-                Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp'] }
-                Plug 'SirVer/ultisnips'
-                Plug 'honza/vim-snippets'
+            if has('win32') || has('win64')
+                if exists('g:starry_enable_ycm_on_windows')
+                    Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp'] }
+                    Plug 'SirVer/ultisnips'
+                    Plug 'honza/vim-snippets'
+                endif
             else
                 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer', 'for': ['c', 'cpp'] }
                 Plug 'SirVer/ultisnips'
