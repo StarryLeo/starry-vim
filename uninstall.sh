@@ -12,6 +12,7 @@ die() {
 }
 
 rm $HOME/.vimrc
+rm $HOME/.vimrc.before
 rm $HOME/.vimrc.plugs
 rm -rf $HOME/.vim
 

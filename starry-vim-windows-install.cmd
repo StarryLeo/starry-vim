@@ -36,13 +36,12 @@ call mklink "%HOME%\.vimrc.plugs" "%APP_PATH%\.vimrc.plugs"
 call mklink "%HOME%\.vimrc.plugs.fork" "%APP_PATH%\.vimrc.plugs.fork"
 call mklink "%HOME%\.vimrc.before" "%APP_PATH%\.vimrc.before"
 call mklink "%HOME%\.vimrc.before.fork" "%APP_PATH%\.vimrc.before.fork"
-call mklink /J "%HOME%\.vim" "%APP_PATH%\.vim"
 
-IF NOT EXIST "%APP_PATH%\.vim\viplug" (
-    call mkdir "%APP_PATH%\.vim\viplug"
+IF NOT EXIST "%HOME%\.vim\viplug" (
+    call mkdir "%HOME%\.vim\viplug"
 )
 
-IF NOT EXIST "%HOME%\.vim\autoload" (
+IF NOT EXIST "%HOME%\.vim\autoload\plug.vim" (
     call git clone https://github.com/junegunn/vim-plug.git "%HOME%\.vim\autoload"
 ) ELSE (
   call cd "%HOME%\.vim\autoload"
@@ -50,8 +49,4 @@ IF NOT EXIST "%HOME%\.vim\autoload" (
   call cd %HOME%
 )
 
-IF %1 == update (
-    call gvim -u "%APP_PATH%\.vimrc.plugs.default" +PlugClean! +PlugUpdate +qall
-) ELSE (
-    call gvim -u "%APP_PATH%\.vimrc.plugs.default" +PlugClean! +PlugInstall +qall
-)
+call gvim -u "%APP_PATH%\.vimrc.plugs.default" +PlugClean! +PlugUpdate +qall

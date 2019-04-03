@@ -116,7 +116,7 @@
 
     " General {
         if count(g:starry_plug_groups, 'general')
-            Plug 'StarryLeo/vim-colorschemes'
+            Plug 'StarryLeo/starry-vim-colorschemes'
             Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeTabsToggle', 'NERDTreeFocusToggle', 'NERDTreeMirrorOpen'] }
             Plug 'Xuyuanp/nerdtree-git-plugin'
             Plug 'jistr/vim-nerdtree-tabs'
@@ -151,23 +151,28 @@
             Plug 'easymotion/vim-easymotion'
             Plug 'jiangmiao/auto-pairs'
             Plug 'terryma/vim-multiple-cursors'
-            Plug 'vim-scripts/sessionman.vim'
             Plug 'nathanaelkane/vim-indent-guides'
+            Plug 'xolox/vim-misc'
+            Plug 'xolox/vim-session'
             if !exists('g:starry_no_views')
                 Plug 'vim-scripts/restore_view.vim'
             endif
             Plug 'kana/vim-textobj-user'
             Plug 'kana/vim-textobj-indent'
+            Plug 'kana/vim-textobj-entire'
+            Plug 'glts/vim-textobj-comment'
         endif
     " }
 
     " Snippets & AutoComplete {
         if count(g:starry_plug_groups, 'youcompleteme')
-            if !(has('win32') || has('win64')) || exists(g:starry_enable_ycm_on_windows)
+            if has('win32') || has('win64') && exists('g:starry_enable_ycm_on_windows')
+                Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp'] }
+            else
                 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer', 'for': ['c', 'cpp'] }
-                Plug 'SirVer/ultisnips'
-                Plug 'honza/vim-snippets'
             endif
+            Plug 'SirVer/ultisnips'
+            Plug 'honza/vim-snippets'
         endif
         if count(g:starry_plug_groups, 'deoplete')
             Plug 'Shougo/deoplete.nvim'
@@ -193,7 +198,7 @@
             else
                 Plug 'mhinz/vim-signify'
             endif
-            Plug 'scrooloose/nerdcommenter', { 'on': 'NERDComToggleComment' }
+            Plug 'scrooloose/nerdcommenter'
             Plug 'w0rp/ale'
             Plug 'Chiel92/vim-autoformat', { 'on': 'Autoformat' }
             Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
@@ -213,9 +218,7 @@
     " Markdown {
         if count(g:starry_plug_groups, 'markdown')
             Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-            if (has('python') || has('python3')) && has('gui_running')
-                Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'on': 'MarkdownPreview' }
-            endif
+            Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown', 'on': 'MarkdownPreview' }
         endif
     " }
 

@@ -23,7 +23,9 @@ app_name='starry-vim'
 update_mode=$1
 debug_mode='0'
 fork_maintainer='0'
-backup_time='31557600'
+backup_dir="$HOME/.cache/.starry-vim_backup"
+backup_time_s='5184000'
+backup_time_v='20736000'
 [ -z "$PLUG_URL" ] && PLUG_URL="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 
 ############################  BASIC SETUP TOOLS
@@ -94,33 +96,64 @@ successful() {
 do_backup() {
     if [ -e "$1" ] || [ -e "$2" ] || [ -e "$3" ]; then
         today=`date +%Y%m%d_%s`
-        if [ -e "$4" ]; then
+        if [ "${update_mode}" = "update" ]; then
             today_s=`echo ${today##*_}`
-            old_backup=`echo $4`
-            old_backup_day_s=`echo ${old_backup##*_}`
-            time_c=`expr $today_s - $old_backup_day_s`
-        fi
-        if [ ! -e "$4" ]; then
+            if [ -f "$7" ]; then
+                last_update=`sed -n '$p' $7`
+                last_update_day_s=`echo ${last_update##*_}`
+                time_u=`expr $today_s - $last_update_day_s`
+                msg "Last update $4 was $time_u seconds ago."
+                if [ -e "$6" ]; then
+                    for filename in `ls -a $6`
+                    do
+                        last_backup=`echo $filename`
+                    done
+                    last_backup_day_s=`echo ${last_backup##*_}`
+                    time_b=`expr $today_s - $last_backup_day_s`
+                    if [ "$time_b" -gt "$8" ]; then
+                        msg "Last backup $4 was $time_b seconds ago."
+                        msg "Starting backup $4..."
+                        echo "update_backup_$today" >> "$7"
+                        cp -a "$5" "$6/.$4.$today"
+                        cp -a "$1" "$6/.$4.vim.$today"
+                        ret="$?"
+                        success "$4 has been backed up."
+                    elif [ "$time_b" -gt "$9" ]; then
+                        msg "Last backup $4 was $time_b seconds ago."
+                        msg "Starting backup $4..."
+                        echo "update_backup_$today" >> "$7"
+                        cp -a "$5" "$6/.$4.$today"
+                        ret="$?"
+                        success "$4 has been backed up."
+                    else
+                        echo "update_$today" >> "$7"
+                    fi
+                fi
+            else
+                msg "Starting backup $4..."
+                mkdir -p "$6"
+                mkdir -p "$6/.history"
+                touch "$6/.history/update.history"
+                echo "update_backup_$today" >> "$7"
+                cp -a "$5" "$6/.$4.$today"
+                ret="$?"
+                success "$4 has been backed up."
+            fi
+        else
             msg "Attempting to back up your original vim configuration."
+            msg "Starting backup..."
             for i in "$1" "$2" "$3"; do
                     [ -e "$i" ] && [ ! -L "$i" ] && mv -v "$i" "$i.$today";
             done
+            echo ""
             ret="$?"
             success "Your original vim configuration has been backed up."
-            debug
-        elif [ "$time_c" -gt "$5" ]; then
-            msg "Last backup $6 was $time_c seconds ago."
-            for i in "$1" "$2" "$3"; do
-                    [ -e "$i" ] && [ ! -L "$i" ] && mv -v "$i" "$i.$today";
-            done
-            [ -e "$6" ] && mv -v "$6" "$6.$today";
-            ret="$?"
-            success "$6 has been backed up."
-            debug
-        else
-            msg "Do not need to back up your original vim configuration."
         fi
-   fi
+    else
+        msg "Do not need to back up your original vim configuration."
+    fi
+
+    debug
 }
 
 sync_repo() {
@@ -149,13 +182,17 @@ create_symlinks() {
     local source_path="$1"
     local target_path="$2"
 
+    mkdir -p "$2/.vim"
     lnif "$source_path/.vimrc"         "$target_path/.vimrc"
-    lnif "$source_path/.vimrc.plugs" "$target_path/.vimrc.plugs"
+    lnif "$source_path/.vimrc.plugs"   "$target_path/.vimrc.plugs"
     lnif "$source_path/.vimrc.before"  "$target_path/.vimrc.before"
-    lnif "$source_path/.vim"           "$target_path/.vim"
 
     if program_exists "nvim"; then
-        lnif "$source_path/.vim"       "$target_path/.config/nvim"
+        today=`date +%Y%m%d_%s`
+        for i in "$2/.config/nvim" "$2/.config/nvim/init.vim"; do
+                [ -e "$i" ] && [ ! -L "$i" ] && mv -v "$i" "$i.$today";
+        done
+        lnif "$2/.vim"                 "$target_path/.config/nvim"
         lnif "$source_path/.vimrc"     "$target_path/.config/nvim/init.vim"
     fi
 
@@ -171,12 +208,12 @@ setup_fork_mode() {
     local target_path="$3"
 
     if [ "$1" -eq '1' ]; then
-        touch "$target_path/.vimrc.fork"
-        touch "$target_path/.vimrc.plugs.fork"
-        touch "$target_path/.vimrc.before.fork"
+        touch "$source_path/.vimrc.fork"
+        touch "$source_path/.vimrc.plugs.fork"
+        touch "$source_path/.vimrc.before.fork"
 
         lnif "$source_path/.vimrc.fork"         "$target_path/.vimrc.fork"
-        lnif "$source_path/.vimrc.plugs.fork" "$target_path/.vimrc.plugs.fork"
+        lnif "$source_path/.vimrc.plugs.fork"   "$target_path/.vimrc.plugs.fork"
         lnif "$source_path/.vimrc.before.fork"  "$target_path/.vimrc.before.fork"
 
         ret="$?"
@@ -246,9 +283,12 @@ program_must_exist "curl"
 do_backup        "$HOME/.vim" \
                  "$HOME/.vimrc" \
                  "$HOME/.gvimrc" \
-                 "$HOME/.vim[12][09][0-9][0-9][01][0-9][0-3][0-9]_[0-9]*" \
-                 "$backup_time" \
-                 "$APP_PATH"
+                 "$app_name" \
+                 "$APP_PATH" \
+                 "$backup_dir" \
+                 "$backup_dir/.history/update.history" \
+                 "$backup_time_v" \
+                 "$backup_time_s"
 
 sync_repo        "$APP_PATH" \
                  "$REPO_URL" \

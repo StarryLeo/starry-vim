@@ -50,18 +50,6 @@ You can enable Python3 interface with pip3:
 
 For ArchLinux, you should see [roxma/vim-hug-neovim-rpc#28](https://github.com/roxma/vim-hug-neovim-rpc/issues/28).
 
-Then, you should create `~/.vimrc.local` and let `g:python3_host_prog` pointed to your python3 executable. Similar to
-
-```viml
-
-    # Unix
-    let g:python3_host_prog='/usr/bin/python'
-    # Or
-    let g:python3_host_prog='/home/scat/.pyenv/shims/python3.7'
-    # Windows
-    let g:python3_host_prog='C:\Users\HASEE\AppData\Local\Programs\Python\Python37\python.exe'
-```
-
 For [YouCompleteMe], you need [vim with python/python3](https://github.com/Valloric/YouCompleteMe#full-installation-guide).
 if `:echo has('python') || has('python3')` returns `1`, then you have python/python3 support; otherwise, see below.
 
@@ -503,6 +491,18 @@ straightforward movement.
 
 For example this screen shot demonstrates pressing `,,w`
 
+## [TextObj-User]
+
+TextObj-User make it easier to create your own text objects.
+
+There are many text objects written with TextObj-User, see the [list](https://github.com/kana/vim-textobj-user/wiki).
+
+starry-vim includes:
+
+* [vim-textobj-indent]: Text objects for indented blocks of lines.
+* [vim-textobj-entire]: Text objects for entire buffer.
+* [vim-textobj-comment]: Text objects for comments.
+
 ## [Airline]
 
 Airline provides a lightweight themable statusline with no external dependencies. By default this configuration uses the [Powerline] symbols as separators for different statusline sections but can be configured to use the unicode symbols.
@@ -600,7 +600,11 @@ Here's some tips if you've never used VIM before:
 [vim-easymotion]:https://github.com/Lokaltog/vim-easymotion
 [YouCompleteMe]:https://github.com/Valloric/YouCompleteMe
 [Tabularize]:https://github.com/godlygeek/tabular
-[EasyMotion]:https://github.com/Lokaltog/vim-easymotion
+[EasyMotion]:https://github.com/easymotion/vim-easymotion
+[TextObj-User]:https://github.com/kana/vim-textobj-user
+[vim-textobj-indent]:https://github.com/kana/vim-textobj-indent
+[vim-textobj-entire]:https://github.com/kana/vim-textobj-entire
+[vim-textobj-comment]:https://github.com/glts/vim-textobj-comment
 [Airline]:https://github.com/bling/vim-airline
 [Powerline]:https://github.com/powerline/powerline
 [Powerline Fonts]:https://github.com/powerline/fonts

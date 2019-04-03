@@ -61,13 +61,6 @@
         endif
     " }
 
-    " Arrow Key Fix {
-        " https://github.com/spf13/spf13-vim/issues/780
-        if &term[:4] ==? 'xterm' || &term[:5] ==? 'screen' || &term[:3] ==? 'rxvt'
-            inoremap <silent> <C-[>OC <Right>
-        endif
-    " }
-
 " }
 
 " Use before config if available {
@@ -103,7 +96,7 @@
     endif
 
     filetype plugin indent on   " Automatically detect file types 检测到不同的文件类型加载不同的文件类型插件
-    syntax on                   " Syntax highlighting 开启代码高亮
+    syntax enable               " Syntax highlighting 开启语法高亮
     set mouse=a                 " Automatically enable mouse usage 开启鼠标模式
     set mousehide               " Hide the mouse cursor while typing 输入时隐藏鼠标
     scriptencoding utf-8
@@ -144,6 +137,8 @@
     set iskeyword-=.                    " '.' is an end of word designator 设置单词关键字
     set iskeyword-=#                    " '#' is an end of word designator
     set iskeyword-=-                    " '-' is an end of word designator
+    set timeout timeoutlen=1000         " 设置映射超时为 1000ms
+    set ttimeout ttimeoutlen=100        " 设置键码超时为 100ms
 
 
     augroup starry_gitcommit
@@ -221,10 +216,14 @@
 
 " Vim UI {
 
-    if PlugEnable('vim-colorschemes')
-        let g:solarized_termtrans=1
+    if PlugEnable('starry-vim-colorschemes')
         let g:solarized_visibility='normal'
         colorscheme solarized8             " Load a colorscheme 载入主题
+    elseif !exists('g:starry_no_omni_complete')
+        " 设置 OmniComplete 补全菜单颜色
+        hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
+        hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
+        hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
     endif
 
     set tabpagemax=15               " Only show 15 tabs 最多只打开15个标签页
@@ -259,9 +258,9 @@
 
     set backspace=indent,eol,start  " Backspace for dummies 设置退格键
     set linespace=0                 " No extra spaces between rows 行间没有多余空格
-    set number                      " Line numbers on 显示行号
+    set number relativenumber       " Line numbers on 显示行号 / 相对行号
     set showmatch                   " Show matching brackets/parenthesis 显示匹配的括号
-    set incsearch                   " Find as you type search 显示搜索匹配位置
+    set incsearch                   " Find as you type search 实时显示搜索匹配位置
     set hlsearch                    " Highlight search terms 高亮搜索词
     set winminheight=0              " Windows can be 0 line high 设置窗口高度可以为 0 行高
     set ignorecase                  " Case insensitive search 搜索忽略大小写
@@ -271,9 +270,18 @@
     set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too 可行间回绕的键
     set scrolljump=5                " Lines to scroll when cursor leaves screen 光标离开屏幕滚动的最小行数
     set scrolloff=3                 " Minimum lines to keep above and below cursor 光标上下两侧最小保留行数
+    set sidescrolloff=5             " Minimum columns to keep left and right cursor 光标左右两侧最小保留列数
     set foldenable                  " Auto fold code zi 快速切换自动折叠代码
     set list
     set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+    " 插入模式显示绝对行号，普通模式显示相对行号
+    if !exists('g:starry_no_relativenumber')
+        augroup starry_relativenumber
+            autocmd!
+            autocmd InsertEnter * set norelativenumber
+            autocmd InsertLeave * set relativenumber
+        augroup END
+    endif
 
 " }
 
@@ -288,6 +296,8 @@
     set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J) 防止标点后接两个空格
     set splitright                  " Puts new vsplit windows to the right of the current 水平向右新建窗口
     set splitbelow                  " Puts new split windows to the bottom of the current 垂直向下新建窗口
+    set nrformats-=octal            " 00x 增减数字时使用十进制
+    set formatoptions+=j            " 连接多行注释时删除多余注释符号
     "set matchpairs+=<:>             " Match, to be used with % 形成配对的字符，% 跳转
     set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes) 终端中使用 F12 切换粘贴模式
     "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks 自动格式化注释
@@ -308,6 +318,13 @@
             \ if !exists('g:starry_keep_trailing_whitespace')
             \ |     call StripTrailingWhitespace()
             \ | endif
+    augroup END
+
+    augroup starry_Popup_Menu
+        autocmd!
+        " Automatically open and close the popup menu / preview window
+        " 自动打开和关闭弹出的补全菜单 / 预览窗口
+        autocmd CursorMovedI,InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose | endif
     augroup END
 
     augroup starry_File_Type
@@ -479,6 +496,16 @@
     if !exists('g:starry_no_fastTabs')
         map <S-H> gT
         map <S-L> gt
+        nmap <Leader>1 1gt
+        nmap <Leader>2 2gt
+        nmap <Leader>3 3gt
+        nmap <Leader>4 4gt
+        nmap <Leader>5 5gt
+        nmap <Leader>6 6gt
+        nmap <Leader>7 7gt
+        nmap <Leader>8 8gt
+        nmap <Leader>9 9gt
+        nmap <Leader>0 :tablast<CR>
     endif
 
     " Stupid shift key fixes
@@ -587,12 +614,13 @@
     " 更简单的排版 多行变一行 并以空格隔开
     nnoremap <silent> <Leader>q gwip
 
-    " Ctrl+A 全选
-    noremap <silent> <C-a> <Esc>ggVG
-
     " Easier redo
     " 更简单的重做
     nnoremap U <C-r>
+
+    " Quickly get out of insert mode (either use 'jj' or 'jk')
+    " 快速离开插入模式（使用 jj 或 jk ）
+    inoremap jj <Esc>
 
 " }
 
@@ -616,35 +644,26 @@
                 augroup END
             endif
 
-            hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
-            hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
-            hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
-
             inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
             inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
             inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
             inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
             inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
 
-            augroup starry_Popup_Menu
-                autocmd!
-                " Automatically open and close the popup menu / preview window
-                " 自动打开和关闭弹出菜单/预览窗口
-                autocmd CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-            augroup END
             set completeopt=menu,preview,longest
         endif
     " }
 
     " NerdTree {
         if PlugEnable('nerdtree')
-            noremap <Space>tt <Plug>NERDTreeTabsToggle<CR>
+            noremap <Space>t <Plug>NERDTreeTabsToggle<CR>
             " 查找目录
             noremap <Space>tf :NERDTreeFind<CR>
             noremap <Space>to <Plug>NERDTreeFocusToggle<CR>
             noremap <Space>tm <Plug>NERDTreeMirrorOpen<CR>
 
             let NERDTreeShowBookmarks=1
+            let NERDTreeBookmarksFile=expand('~/.cache/.NERDTreeBookmarks')
             let NERDTreeIgnore=['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
             let NERDTreeChDirMode=0
             let NERDTreeQuitOnOpen=1
@@ -656,7 +675,7 @@
 
     " LeaderF {
         if PlugEnable('LeaderF')
-            let g:Lf_ShortcutF = '<Leader>ff'
+            let g:Lf_ShortcutF = '<Leader>f'
             let g:Lf_ShortcutB = '<Leader>fb'
             noremap <Leader>fm :cclose<CR>:Leaderf mru --regexMode<CR>
             noremap <Leader>fn :cclose<CR>:LeaderfFunction!<CR>
@@ -664,6 +683,10 @@
             noremap <Leader>fo :cclose<CR>:LeaderfTag<CR>
 
             let g:Lf_RootMarkers = ['.git', '.hg', '.svn', '.project', '.root']
+            if !isdirectory(expand('~/.cache'))
+                silent! call mkdir('~/.cache', 'p')
+            endif
+            let g:Lf_CacheDirectory = expand('~/.cache')
             let g:Lf_MruMaxFiles = 1024
             if !exists('g:starry_no_powerline_symbols')
                 let g:Lf_StlSeparator = { 'left': '', 'right': '' }
@@ -674,7 +697,6 @@
             let g:ctrlp_map = '<C-p>'
             let g:ctrlp_cmd = 'CtrlP'
             let g:ctrlp_working_path_mode = 'ra'
-            nnoremap <Leader>cf :CtrlP<CR>
             nnoremap <Leader>fm :CtrlPMRU<CR>
             let g:ctrlp_custom_ignore = {
                 \ 'dir':  '\v[\/]\.(git|hg|svn)$',
@@ -762,9 +784,13 @@
                 let g:airline_right_alt_sep = ''
                 let g:airline_symbols.space = ' '
                 let g:airline_symbols.paste = 'Þ'
-                let g:airline_symbols.spell = 'Ꞩ'
+                if WINDOWS() && PlugEnable('Consolas-with-Yahei')
+                    let g:airline_symbols.spell = ''
+                else
+                    let g:airline_symbols.spell = 'Ꞩ'
+                endif
                 let g:airline_symbols.crypt = '🔒'
-                let g:airline_symbols.keymap = 'Keymap:'
+                let g:airline_symbols.keymap = ''
                 let g:airline_symbols.modified = '+'
                 let g:airline_symbols.ellipsis = '...'
                 let g:airline_symbols.notexists = 'Ɇ'
@@ -784,7 +810,11 @@
                 let g:airline_symbols.maxlinenr = '¶'
                 let g:airline_symbols.branch = '⎇'
                 let g:airline_symbols.paste = 'Þ'
-                let g:airline_symbols.spell = 'Ꞩ'
+                if WINDOWS() && PlugEnable('Consolas-with-Yahei')
+                    let g:airline_symbols.spell = ''
+                else
+                    let g:airline_symbols.spell = 'Ꞩ'
+                endif
                 let g:airline_symbols.notexists = 'Ɇ'
                 let g:airline_symbols.whitespace = 'Ξ'
             endif
@@ -831,15 +861,6 @@
         endif
     " }
 
-    " Session List {
-        set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
-        if PlugEnable('sessionman.vim')
-            nmap <Leader>sl :SessionList<CR>
-            nmap <Leader>ss :SessionSave<CR>
-            nmap <Leader>sc :SessionClose<CR>
-        endif
-    " }
-
     " indent_guides {
         if PlugEnable('vim-indent-guides')
             let g:indent_guides_enable_on_vim_startup = 1
@@ -848,9 +869,52 @@
         endif
     " }
 
+    " Session List {
+        set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
+        if PlugEnable('vim-session')
+            let g:session_autoload = 'no'
+            let g:session_autosave = 'no'
+            let g:session_command_aliases = 1
+            if !isdirectory(expand('~/.vim/.vimsessions'))
+                silent! call mkdir('~/.vim/.vimsessions', 'p')
+            endif
+            let g:session_directory = expand('~/.vim/.vimsessions')
+            nmap <Leader>ss :SessionSave<CR>
+            nmap <Leader>so :SessionOpen<CR>
+            nmap <Leader>sc :SessionClose<CR>
+            nmap <Leader>sd :SessionDelete<CR>
+            nmap <Leader>tss :SessionTabSave<CR>
+            nmap <Leader>tso :SessionTabOpen<CR>
+            nmap <Leader>tsc :SessionTabClose<CR>
+        endif
+    " }
+
+    " TextObj {
+    " :h textobjs
+    " :h operator
+        "if PlugEnable('vim-textobj-user')
+            "" TextObj Indent {
+                "if PlugEnable('vim-textobj-indent')
+                    "" i :h textobj-indent-introduction
+                    "" I :h textobj-indent-mappings
+                "endif
+            "" }
+            "" TextObj Entire {
+                "if PlugEnable('vim-textobj-entire')
+                    "" e :h textobj-entire-mappings
+                "endif
+            "" }
+            "" TextObj Comment {
+                "if PlugEnable('vim-textobj-comment')
+                    "" c C :h textobj-comment
+                "endif
+            "" }
+        "endif
+    " }
+
     " YouCompleteMe {
         if count(g:starry_plug_groups, 'youcompleteme') &&
-            \ (!WINDOWS() || exists(g:starry_enable_ycm_on_windows))
+            \ (!WINDOWS() || exists('g:starry_enable_ycm_on_windows'))
 
             let g:ycm_filetype_whitelist = {
             \       'c'  : 1,
@@ -874,7 +938,7 @@
                 \       'cpp': ['re!\w+\w+'],
                 \ }
             " }
-
+        endif
     " }
 
     " deoplete {
@@ -886,6 +950,9 @@
                 " For Vim8
                 if has('python3')
                     set pyxversion=3
+                    if WINDOWS() && !strlen(exepath('python3'))
+                        let g:python3_host_prog = exepath('python')
+                    endif
                 endif
 
                 " Plugin key-mappings {
@@ -1095,12 +1162,11 @@
             if executable('rg')
                 let g:gitgutter = 'rg'
             endif
-        endif
     " }
+    " signify {
     " gitgutter only support git
     " If you want get more scm diff support, add the following to your .vimrc.before.local file:
     "   let g:starry_more_scm_diff = 1
-    " signify {
         elseif PlugEnable('vim-signify') && exists('g:starry_more_scm_diff')
             let g:signify_vcs_list = [ 'git', 'hg', 'svn' ]
             let g:signify_sign_change       = '~'
@@ -1225,6 +1291,7 @@
             imap <silent> <F8> <Plug>MarkdownPreview
             nmap <silent> <F9> <Plug>MarkdownPreviewStop
             imap <silent> <F9> <Plug>MarkdownPreviewStop
+            let g:mkdp_page_title = ' ' . '${name}'
         endif
     " }
 
@@ -1341,6 +1408,9 @@
 
     " GVIM- (here instead of .gvimrc)
     if has('gui_running')
+        set guioptions-=L           " Remove the left-hand scrollbar
+        set guioptions-=m           " Remove the menu bar
+        set guioptions-=t           " Remove the tearoff menu items
         set guioptions-=T           " Remove the toolbar
         set lines=40                " 40 lines of text instead of 24
         set columns=82              " 82 columns of text instead of 80
@@ -1387,7 +1457,7 @@
 
     " Initialize directories {
     function! InitializeDirectories()
-        let parent = $HOME
+        let parent = $HOME . '/.vim/'
         let prefix = 'vim'
         let dir_list = {
                     \ 'backup': 'backupdir',
@@ -1404,7 +1474,7 @@
         " your .vimrc.before.local file:
         "
         "   let g:starry_consolidated_directory = <full path to desired directory>
-        "   eg: let g:starry_consolidated_directory = $HOME . '/.vim/'
+        "   eg: let g:starry_consolidated_directory = $HOME
         "
         if exists('g:starry_consolidated_directory')
             let common_dir = g:starry_consolidated_directory . prefix
@@ -1462,7 +1532,7 @@
     " Starry {
     function! s:StarryUpdate()
         if WINDOWS()
-            execute '!\%USERPROFILE\%/.starry-vim/starry-vim-windows-install.cmd update'
+            execute '!\%USERPROFILE\%/.starry-vim/starry-vim-windows-install.cmd'
         else
             execute '!curl https://raw.githubusercontent.com/StarryLeo/starry-vim/master/bootstrap.sh -L > ~/starry-vim.sh && sh starry-vim.sh update'
         endif
