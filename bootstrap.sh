@@ -19,7 +19,7 @@
 app_name='starry-vim'
 [ -z "$APP_PATH" ] && APP_PATH="$HOME/.starry-vim"
 [ -z "$REPO_URL" ] && REPO_URL='https://github.com/StarryLeo/starry-vim.git'
-[ -z "$REPO_BRANCH" ] && REPO_BRANCH='dev'
+[ -z "$REPO_BRANCH" ] && REPO_BRANCH='master'
 update_mode=$1
 debug_mode='0'
 fork_maintainer='0'

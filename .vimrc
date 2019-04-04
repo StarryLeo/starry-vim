@@ -1542,7 +1542,7 @@
         if WINDOWS()
             execute '!\%USERPROFILE\%/.starry-vim/starry-vim-windows-install.cmd'
         else
-            execute '!curl https://raw.githubusercontent.com/StarryLeo/starry-vim/dev/bootstrap.sh -L > ~/starry-vim.sh && sh ~/starry-vim.sh update'
+            execute '!curl https://raw.githubusercontent.com/StarryLeo/starry-vim/master/bootstrap.sh -L > ~/starry-vim.sh && sh ~/starry-vim.sh update'
         endif
         execute 'source ~/.vimrc'
     endfunction
