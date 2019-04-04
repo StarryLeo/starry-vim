@@ -287,7 +287,7 @@ functionality to your vim editing.  You can learn more about it with
 
 **Customizations**:
 
-* Use `<Space>tt` to toggle NERDTree
+* Use `<Space>t` to toggle NERDTree
 * Use `<Space>tf` to load NERDTreeFind which opens NERDTree where the current file is located.
 * Hide clutter ('\.pyc', '\.git', '\.hg', '\.svn', '\.bzr')
 * Treat NERDTree more like a panel than a split.
@@ -295,7 +295,7 @@ functionality to your vim editing.  You can learn more about it with
 ## [LeaderF]
 LeaderF replaces the [ctrlp] plugin with a python plugin. It provides an intuitive and fast mechanism to load files from the file system (with regex and fuzzy find), from open buffers, from recently used files, and from tags in large project.
 
-**QuickStart** Launch using `<Leader>ff`.
+**QuickStart** Launch using `<Leader>f`.
 
 LeaderF support the search tool [ripgrep(rg)], see more `:Leaderf rg -h`.
 

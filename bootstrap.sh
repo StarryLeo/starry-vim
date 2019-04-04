@@ -230,7 +230,7 @@ setup_plug() {
         msg "Starting updating plugins"
 
         vim \
-            -u "$1" \
+            -u "$2" \
             "+set nomore" \
             "+PlugClean!" \
             "+PlugUpdate" \
@@ -305,7 +305,8 @@ setup_fork_mode  "$fork_maintainer" \
 install_vim_plug "$HOME/.vim/autoload" \
                  "$PLUG_URL"
 
-setup_plug       "$APP_PATH/.vimrc.plugs.default"
+setup_plug       "$APP_PATH/.vimrc.plugs.default" \
+                 "$APP_PATH/.vimrc"
 
 ret="$?"
 successful "       _                                          _            "
