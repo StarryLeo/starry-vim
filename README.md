@@ -233,11 +233,11 @@ starry-vim contains a curated set of popular vim plugins, colors, snippets and s
 
 Create `~/.vimrc.plugs.local` for any additional plugs.
 
-To add a new plug, just add one line for each plug you want to install. The line should start with the word "Plug" followed by a string of either the vim.org project name or the githubusername/githubprojectname. For example, the github project [StarryLeo/vim-colorschemes](https://github.com/StarryLeo/vim-colorschemes) can be added with the following command
+To add a new plug, just add one line for each plug you want to install. The line should start with the word "Plug" followed by a string of either the vim.org project name or the githubusername/githubprojectname. For example, the github project [StarryLeo/starry-vim-colorschemes](https://github.com/StarryLeo/starry-vim-colorschemes) can be added with the following command
 
 ```bash
 
-    echo Plug \'StarryLeo/vim-colorschemes\' >> ~/.vimrc.plugs.local
+    echo Plug \'StarryLeo/starry-vim-colorschemes\' >> ~/.vimrc.plugs.local
 ```
 
 Once new plugins are added, they have to be installed.
@@ -518,7 +518,7 @@ starry-vim ships with a few additional syntaxes:
 
 ## Amazing Colors
 
-starry-vim includes [solarized8] and [StarryLeo vim color pack](https://github.com/StarryLeo/vim-colorschemes):
+starry-vim includes [solarized8] and [StarryLeo vim color pack](https://github.com/StarryLeo/starry-vim-colorschemes):
 
 * gruvbox
 * PaperColor

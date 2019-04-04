@@ -168,7 +168,7 @@
         endif
     " }
 
-    " Snippets & AutoComplete {
+    " AutoComplete & Snippets {
         if count(g:starry_plug_groups, 'youcompleteme')
             if has('win32') || has('win64')
                 if exists('g:starry_enable_ycm_on_windows')
@@ -230,11 +230,12 @@
         endif
     " }
 
-    " C/C++ {
+    " C / C++ {
         if count(g:starry_plug_groups, 'cpp')
             Plug 'octol/vim-cpp-enhanced-highlight', { 'for': ['c', 'cpp'] }
         endif
     " }
+
     " Python {
         if count(g:starry_plug_groups, 'python')
             Plug 'vim-python/python-syntax', { 'for': 'python' }

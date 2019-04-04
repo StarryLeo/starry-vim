@@ -56,6 +56,7 @@
     " Windows Compatible {
         " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
         " across (heterogeneous) systems easier.
+        " 在 Windows 上也用 .vim 目录，替代 vimfiles 目录，方便多平台同步
         if WINDOWS()
             set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
         endif
@@ -77,7 +78,7 @@
 
 " General {
 
-    set background=dark         " Assume a dark background
+    set background=dark         " Assume a dark background 启用暗色主题
 
     " Using Unix as standard file type by default; to prevent this behavior, add the following to
     " your .vimrc.before.local file:
@@ -88,11 +89,11 @@
     "   let g:starry_no_auto_unix = 1
     "
     if !exists('g:starry_no_auto_unix')
-        set ffs=unix,dos,mac             " Use Unix as standard file type
+        set ffs=unix,dos,mac             " Use Unix as standard file type 使用 Unix 文件格式作为标准
     endif
 
     if !has('gui')
-        set term=xterm-256color          " Make arrow and other keys work
+        set term=xterm-256color          " Make arrow and other keys work 使箭头和其他按键工作
     endif
 
     filetype plugin indent on   " Automatically detect file types 检测到不同的文件类型加载不同的文件类型插件
@@ -137,8 +138,8 @@
     set iskeyword-=.                    " '.' is an end of word designator 设置单词关键字
     set iskeyword-=#                    " '#' is an end of word designator
     set iskeyword-=-                    " '-' is an end of word designator
-    set timeout timeoutlen=1000         " 设置映射超时为 1000ms
-    set ttimeout ttimeoutlen=100        " 设置键码超时为 100ms
+    set timeout timeoutlen=1000         " 设置映射超时为 1000ms Set the time in milliseconds that is waited for
+    set ttimeout ttimeoutlen=100        " 设置键码超时为 100ms  a key code or mapped key sequence to complete
 
 
     augroup starry_gitcommit
@@ -296,8 +297,8 @@
     set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J) 防止标点后接两个空格
     set splitright                  " Puts new vsplit windows to the right of the current 水平向右新建窗口
     set splitbelow                  " Puts new split windows to the bottom of the current 垂直向下新建窗口
-    set nrformats-=octal            " 00x 增减数字时使用十进制
-    set formatoptions+=j            " 连接多行注释时删除多余注释符号
+    set nrformats-=octal            " 00x 增减数字时使用十进制 numbers that start with 00 will be considered to be decimal than octal
+    set formatoptions+=j            " 连接多行注释时删除多余注释符号 Delete comment character when joining comment lines
     "set matchpairs+=<:>             " Match, to be used with % 形成配对的字符，% 跳转
     set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes) 终端中使用 F12 切换粘贴模式
     "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks 自动格式化注释
@@ -387,6 +388,7 @@
         :echom 'dos2unix'
     endfunction
 
+    " 切换文件格式为 unix 或 dos
     " Convert file from unix to dos encoding
     nnoremap <Leader>fD :call Unix2Dos()<CR>
     " Convert file from dos to unix encoding
@@ -442,10 +444,11 @@
     " If you prefer the default behaviour, add the following to your
     " .vimrc.before.local file:
     "
-    " 行的往开始和往结束动作依赖于 `:set wrap?`
-    " 若 `:setwrap`，则转到当前屏幕行最右侧屏幕上可见的的字符（非文本行的最右侧）
-    " 若 `:set nowrap`，则转到当前屏幕行最右侧的字符（即当前文本行的最右侧）
-    " 而 vim 默认两种情况都是转到当前文本行最右侧的字符
+    " 行的往开始和往结束动作将依赖于 `:set wrap?`
+    " 若 `:set wrap`，则往结束动作转到当前屏幕行最右侧屏幕上可见的的字符（非文本行的最右侧）
+    " 若 `:set nowrap`，则往结束动作转到当前屏幕行最右侧的字符（即当前文本行的最右侧）
+    " 使得两种情况下，移动动作在同一屏幕行进行
+    " 而 vim 默认两种情况都是转到当前文本行最右侧（不一定在同一屏幕行）的字符
     " 如果你更想要 vim 的默认表现，请将以下值声明在 .vimrc.before.local 文件：
     "
     "   let g:starry_no_wrapRelMotion = 1
@@ -948,10 +951,12 @@
                 let g:deoplete#enable_at_startup = 1
 
                 " For Vim8
-                if has('python3')
-                    set pyxversion=3
-                    if WINDOWS() && !strlen(exepath('python3'))
-                        let g:python3_host_prog = exepath('python')
+                if PlugEnable('nvim-yarp') && PlugEnable('vim-hug-neovim-rpc')
+                    if has('python3')
+                        set pyxversion=3
+                        if WINDOWS() && !strlen(exepath('python3'))
+                            let g:python3_host_prog = exepath('python')
+                        endif
                     endif
                 endif
 
