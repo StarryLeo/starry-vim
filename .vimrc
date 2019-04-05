@@ -1540,9 +1540,9 @@
     " Starry {
     function! s:StarryUpdate()
         if WINDOWS()
-            execute '!\%USERPROFILE\%/.starry-vim/starry-vim-windows-install.cmd'
+            execute '!cd "\%USERPROFILE\%/.starry-vim" && git pull && starry-vim-windows-install.cmd'
         else
-            execute '!curl https://raw.githubusercontent.com/StarryLeo/starry-vim/master/bootstrap.sh -L -o - | sh'
+            execute '!curl https://raw.githubusercontent.com/StarryLeo/starry-vim/master/bootstrap.sh -Lo ~/.cache/.starry-vim_backup/.history/starry-vim.sh --create-dirs && sh ~/.cache/.starry-vim_backup/.history/starry-vim.sh'
         endif
         execute 'source ~/.vimrc'
     endfunction

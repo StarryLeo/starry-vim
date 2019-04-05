@@ -120,10 +120,10 @@ The simpliest (and safest) way to update is to simply rerun the installer. It wi
 
 ```bash
 
-    curl https://git.io/starry-vim -L -o - | sh
+    sh <(curl https://git.io/starry-vim -L)
 ```
 
-Or use the command `:Sup` in vim, Alternatively you can manually perform the following steps. If anything has changed with the structure of the configuration you will need to create the appropriate symlinks.
+Or use the command `:Sup` in vim, it supports Unix and Windows. Alternatively you can manually perform the following steps. If anything has changed with the structure of the configuration you will need to create the appropriate symlinks.
 
 ```bash
 

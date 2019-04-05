@@ -91,7 +91,7 @@ successful() {
 }
 
 check_update() {
-    if [ -e "$1"  ]; then
+    if [ -e "$1" ]; then
         update_mode="update"
     else
         update_mode=""
@@ -138,8 +138,12 @@ do_backup() {
                 fi
             else
                 msg "Starting backup $4..."
-                mkdir -p "$6"
-                mkdir -p "$6/.history"
+                if [ ! -e "$6" ]; then
+                    mkdir -p "$6"
+                fi
+                if [ ! -e "$6/.history" ]; then
+                    mkdir -p "$6/.history"
+                fi
                 touch "$6/.history/update.history"
                 echo "update_backup_$today" >> "$7"
                 cp -a "$5" "$6/.$4.$today"

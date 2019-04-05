@@ -94,7 +94,7 @@ before_script:
 script:
   - echo $(which vim)
   - vim --version
-  - curl https://git.io/starry-vim -L > starry-vim.sh && sh starry-vim.sh
+  - curl https://git.io/starry-vim -L > ~/starry-vim.sh && sh ~/starry-vim.sh
     # After installing starry-vim, test PlugStatus on Travis OSX, not work on Travis Linux.
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then vim +PlugStatus +qall; fi
   - if [ -n "$err" ]; then exit 1; fi
