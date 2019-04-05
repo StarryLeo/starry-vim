@@ -116,11 +116,11 @@ After installation try running `git --version` within _command prompt_ (press Wi
 The easiest way is to download and run the `starry-vim-windows-install.cmd` file. Remember to run this file in **Administrator Mode** if you want the symlinks to be created successfully.
 
 ## Updating to the latest version
-The simpliest (and safest) way to update is to simply rerun the installer with the `update` parameter. It will completely and non destructively upgrade to the latest version(including all plugins).
+The simpliest (and safest) way to update is to simply rerun the installer. It will completely and non destructively upgrade to the latest version(including all plugins).
 
 ```bash
 
-    curl https://git.io/starry-vim -L > ~/starry-vim.sh && sh ~/starry-vim.sh update
+    curl https://git.io/starry-vim -L -o - | sh
 ```
 
 Or use the command `:Sup` in vim, Alternatively you can manually perform the following steps. If anything has changed with the structure of the configuration you will need to create the appropriate symlinks.

@@ -20,6 +20,7 @@ REM    limitations under the License.
 @set APP_PATH=%HOME%\.starry-vim
 IF NOT EXIST "%APP_PATH%" (
     call git clone -b master https://github.com/StarryLeo/starry-vim.git "%APP_PATH%"
+    set UPDATE_MODE=""
 ) ELSE (
     @set ORIGINAL_DIR=%CD%
     echo updating starry-vim
@@ -27,6 +28,7 @@ IF NOT EXIST "%APP_PATH%" (
     call git pull
     chdir /d "%ORIGINAL_DIR%"
     call cd "%APP_PATH%"
+    set UPDATE_MODE=update
 )
 
 call mklink "%HOME%\.vimrc" "%APP_PATH%\.vimrc"
@@ -49,4 +51,8 @@ IF NOT EXIST "%HOME%\.vim\autoload\plug.vim" (
   call cd %HOME%
 )
 
-call gvim -u "%APP_PATH%\.vimrc.plugs.default" +PlugClean! +PlugUpdate +qall
+IF "%UPDATE_MODE%" == "update" (
+    call gvim -u "%APP_PATH%\.vimrc" +PlugClean! +PlugUpdate +qall
+) ELSE (
+    call gvim -u "%APP_PATH%\.vimrc.plugs.default" +PlugClean! +PlugInstall +qall
+)

@@ -20,7 +20,6 @@ app_name='starry-vim'
 [ -z "$APP_PATH" ] && APP_PATH="$HOME/.starry-vim"
 [ -z "$REPO_URL" ] && REPO_URL='https://github.com/StarryLeo/starry-vim.git'
 [ -z "$REPO_BRANCH" ] && REPO_BRANCH='master'
-update_mode=$1
 debug_mode='0'
 fork_maintainer='0'
 backup_dir="$HOME/.cache/.starry-vim_backup"
@@ -88,6 +87,14 @@ lnif() {
 successful() {
     if [ "$ret" -eq '0' ]; then
         msg "\33[32m${1}${2}\33[0m "
+    fi
+}
+
+check_update() {
+    if [ -e "$1"  ]; then
+        update_mode="update"
+    else
+        update_mode=""
     fi
 }
 
@@ -279,6 +286,8 @@ variable_set "$HOME"
 program_must_exist "vim"
 program_must_exist "git"
 program_must_exist "curl"
+
+check_update     "$APP_PATH"
 
 do_backup        "$HOME/.vim" \
                  "$HOME/.vimrc" \
