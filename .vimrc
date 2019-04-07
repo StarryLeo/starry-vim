@@ -625,6 +625,10 @@
     " 快速离开插入模式（使用 jj 或 jk ）
     inoremap jj <Esc>
 
+    " Quickly view help for word under the cursor
+    " 快速查看光标下单词的帮助文档
+    nnoremap <Space>h :execute ':help ' . expand('<cword>')<CR>
+
 " }
 
 " Plugins {
@@ -684,6 +688,10 @@
             noremap <Leader>fn :cclose<CR>:LeaderfFunction!<CR>
             noremap <Leader>ft :cclose<CR>:LeaderfBufTag!<CR>
             noremap <Leader>fo :cclose<CR>:LeaderfTag<CR>
+
+            if executable('rg')
+                noremap <Leader>fr :cclose<CR>:Leaderf rg --hidden --regexMode<CR>
+            endif
 
             let g:Lf_RootMarkers = ['.git', '.hg', '.svn', '.project', '.root']
             let g:Lf_CacheDirectory = expand('~/.cache')

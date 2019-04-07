@@ -1,4 +1,4 @@
-# starry-vim
+# starry-vim : Starry Vim Distribution
 
 [![Build Status](https://travis-ci.org/StarryLeo/starry-vim.svg?branch=master)](https://travis-ci.org/StarryLeo/starry-vim)
 [![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows%20%7C%20macOS-4caf50.svg)](https://github.com/StarryLeo/starry-vim/blob/master/README.md)
@@ -129,7 +129,7 @@ Or use the command `:Sup` in vim, it supports Unix and Windows. Alternatively yo
 
     cd $HOME/to/starry-vim/
     git pull
-    vim  +PluginClean! +PlugUpgrade +PlugUpdate +q
+    vim  +PlugClean! +PlugUpgrade +PlugUpdate +q
 ```
 
 ### Fork me on GitHub
@@ -157,8 +157,7 @@ It fixes many of the inconveniences of vanilla vim including
 
 ## Customization
 
-Create `~/.vimrc.local` and `~/.gvimrc.local` for any local
-customizations.
+Create `~/.vimrc.local` and `~/.gvimrc.local` for any local customizations.
 
 For example, to override the default color schemes:
 
@@ -169,8 +168,7 @@ For example, to override the default color schemes:
 
 ### Before File
 
-Create a `~/.vimrc.before.local` file to define any customizations
-that get loaded *before* the starry-vim `.vimrc`.
+Create a `~/.vimrc.before.local` file to define any customizations that get loaded *before* the starry-vim `.vimrc`.
 
 For example, to prevent autocd into a file directory:
 ```bash
@@ -184,7 +182,7 @@ For a list of available starry-vim specific customization options, look at the `
 
 There is an additional tier of customization available to those who want to maintain a
 fork of starry-vim specialized for a particular group. These users can create `.vimrc.fork`
-and `.vimrc.plugs.fork` files in the root of their fork.  The load order for the configuration is:
+and `.vimrc.plugs.fork` files in the root of their fork. The load order for the configuration is:
 
 1. `.vimrc.before` - starry-vim before configuration
 2. `.vimrc.before.fork` - fork before configuration
@@ -218,7 +216,7 @@ configuration and make customizations.
 
 `<Leader>sv` sources the .vimrc file, instantly applying your customizations to the currently running vim instance.
 
-These two mappings can themselves be customized by setting the following in .vimrc.before.local:
+These two mappings can themselves be customized by setting the following in `.vimrc.before.local`:
 ```viml
 
     let g:starry_edit_config_mapping='<Leader>ev'
@@ -297,8 +295,6 @@ LeaderF replaces the [ctrlp] plugin with a python plugin. It provides an intuiti
 
 **QuickStart** Launch using `<Leader>f`.
 
-LeaderF support the search tool [ripgrep(rg)], see more `:Leaderf rg -h`.
-
 **Customizations**:
 
 * Use `<Leader>fb` to search buffers.
@@ -306,6 +302,12 @@ LeaderF support the search tool [ripgrep(rg)], see more `:Leaderf rg -h`.
 * Use `<Leader>fn` to launch LeaderF to navigate functions or methods in current buffer.
 * Use `<Leader>ft` to launch LeaderF to navigate tags in current buffer.
 * Use `<Leader>fo` to launch LeaderF to navigate tags in all listed buffers.
+
+LeaderF support the search tool [ripgrep(rg)], see more `:Leaderf rg -h`.
+
+**Customizations**:
+
+* Use `<Leader>fr` to search in Regex mode.
 
 ## [ctrlp]
 Ctrlp replaces the Command-T plugin with a 100% viml plugin. It provides an intuitive and fast mechanism to load files from the file system (with regex and fuzzy find), from open buffers, and from recently used files.
@@ -365,7 +367,7 @@ Here are some [completion sources](https://github.com/Shougo/deoplete.nvim/wiki/
 
  * Automatically present the autocomplete menu
  * Use tab and enter for autocomplete
- * `<C-j>` for completing snippets using [ultisnips](https://github.com/SirVer/ultisnips).
+ * `<C-j>` for completing snippets using [Ultisnips](https://github.com/SirVer/ultisnips).
 
 ## [YouCompleteMe]
 
@@ -378,9 +380,9 @@ To enable YouCompleteMe on Windows, add the following to your `.vimrc.before.loc
     let g:starry_enable_ycm_on_windows = 1
 ```
 
-Once you have done this you will need to get vim-plug to grab the latest code from git. You can do this by calling `:PluginInstall!`. You should see YouCompleteMe in the list.
+Once you have done this you will need to get vim-plug to grab the latest code from git. You can do this by calling `:PlugInstall`. You should see YouCompleteMe in the list.
 
-You will now have the code in your plugs directory and can proceed to compile the core. Change to the directory it has been downloaded to. If you have a vanilla install then `cd ~/.starry-vim/.vim/viplug/YouCompleteMe/` should do the trick. You should see a file in this directory called install.py. There are a few options to consider before running the installer:
+You will now have the code in your plugs directory and can proceed to compile the core. Change to the directory it has been downloaded to. If you have a vanilla install then `cd ~/.vim/viplug/YouCompleteMe/` should do the trick. You should see a file in this directory called `install.py`. There are a few options to consider before running the installer:
 
   * Do you want clang support (if you don't know what this is then you likely don't need it)?
     * Do you want to link against a local libclang or have the installer download the latest for you?
@@ -388,7 +390,7 @@ You will now have the code in your plugs directory and can proceed to compile th
 
 The plugin is well documented on the site linked above. Be sure to give that a read and make sure you understand the options you require.
 
-For java users wanting to use eclim be sure to add `let g:EclimCompletionMethod = 'omnifunc'` to your .vimrc.local.
+For java users wanting to use eclim be sure to add `let g:EclimCompletionMethod = 'omnifunc'` to your `.vimrc.local`.
 
 ## [ALE]
 
@@ -437,7 +439,7 @@ file
 Ack.vim uses ack to search inside the current directory for a pattern.
 You can learn more about it with `:help Ack`
 
-**QuickStart** :Ack
+**QuickStart** `:Ack`
 
 ## [Tabularize]
 
@@ -456,6 +458,7 @@ Tabularize lets you align statements on their equal signs and other characters
 starry-vim includes the Gutentags plugin. This plugin requires [ctags]/[gtags] and will automatically (re)generate tags for your open files.
 
 **Get latest ctags**: Read [The latest built and package](https://github.com/universal-ctags/ctags#the-latest-build-and-package) or [build by yourself](https://github.com/universal-ctags/ctags/blob/master/docs/autotools.rst) on Linux.
+
 **Get latest gtags**: Go to the [download page](https://www.gnu.org/software/global/download.html) or [build from source](https://ftp.gnu.org/pub/gnu/global) on Linux:
 
 ```bash
@@ -507,7 +510,7 @@ starry-vim includes:
 
 Airline provides a lightweight themable statusline with no external dependencies. By default this configuration uses the [Powerline] symbols as separators for different statusline sections but can be configured to use the unicode symbols.
 
-You can also install one of the [Powerline Fonts] or patch your favorite font using the [nerd-font]. If you do not like the [Powerline] symbols, you need to add `let g:starry_no_powerline_symbols=1` to your `.vimrc.before.local`.
+You can also install one of the [Powerline Fonts] or patch your favorite font using the [nerd-fonts]. If you do not like the [Powerline] symbols, you need to add `let g:starry_no_powerline_symbols = 1` to your `.vimrc.before.local`.
 
 ## Additional Syntaxes
 
@@ -548,9 +551,7 @@ Here's some tips if you've never used VIM before:
 
 ## Tutorials
 
-* Type `vimtutor` into a shell to go through a brief interactive
-  tutorial inside VIM.
-* Read the slides at [VIM: Walking Without Crutches](https://walking-without-crutches.heroku.com/#1).
+* Type `vimtutor` into a shell to go through a brief interactive tutorial inside VIM.
 
 ## Modes
 
@@ -564,7 +565,7 @@ Here's some tips if you've never used VIM before:
 
 * Use `:q` to exit vim
 * Certain commands are prefixed with a `<Leader>` key, which by default maps to `\`.
-  starry-vim uses `let mapleader = ","` to change this to `,` which is in a consistent and
+  starry-vim uses `let mapleader=','` to change this to `,` which is in a consistent and
   convenient location.
 * Keyboard [cheat sheet](http://www.viemu.com/vi-vim-cheat-sheet.gif).
 
