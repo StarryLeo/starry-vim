@@ -286,6 +286,9 @@
 
     " Misc {
         if count(g:starry_plug_groups, 'misc')
+            if (has('win32') || has('win64')) && has('gui_running')
+                Plug 'mattn/vimtweak'
+            endif
         endif
     " }
 

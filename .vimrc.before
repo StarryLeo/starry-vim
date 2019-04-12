@@ -87,6 +87,9 @@
     " Enable signify with more SCM
     "   let g:starry_more_scm_diff = 1
 
+    " Maximized Window at startup
+    "   let g:starry_fullscreen_startup = 1
+
     " Leave the default font and size in GVim
     " To set your own font, do it from ~/.vimrc.local
     "   let g:starry_no_big_font = 1

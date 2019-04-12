@@ -486,19 +486,19 @@
         vnoremap ^ :<C-u>call WrapRelativeMotion("^", 1)<CR>
     endif
 
-    " The following two lines conflict with moving to top and
-    " bottom of the screen
+    " The following two lines conflict with join lines and
+    " run a program to lookup the keyword under the cursor.
     " If you prefer that functionality, add the following to your
     " .vimrc.before.local file:
     "
-    " 以下两行与移动到屏幕顶部和底部冲突
+    " 以下两行与连接行和运行程序查找光标下关键字冲突
     " 如果你更想要原来的功能，请将以下值声明在 .vimrc.before.local 文件：
     "
     "   let g:starry_no_fastTabs = 1
     "
     if !exists('g:starry_no_fastTabs')
-        map <S-H> gT
-        map <S-L> gt
+        map <S-J> gt
+        map <S-K> gT
         nmap <Leader>1 1gt
         nmap <Leader>2 2gt
         nmap <Leader>3 3gt
@@ -608,6 +608,11 @@
     " 使用 <Space>fj 查找跳转光标下单词，并询问跳转到哪一个
     nmap <Space>fj [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 
+    " Go to home and end using capitalized directions
+    " 使用大写字母 H L 移动到行开头和行结尾
+    noremap H ^
+    noremap L $
+
     " Easier horizontal scrolling
     " 更简单的左右滚动
     map zl zL
@@ -621,9 +626,13 @@
     " 更简单的重做
     nnoremap U <C-r>
 
-    " Quickly get out of insert mode (either use 'jj' or 'jk')
-    " 快速离开插入模式（使用 jj 或 jk ）
+    " Quickly get out of insert mode (use 'jj')
+    " 快速离开插入模式（使用 jj）
     inoremap jj <Esc>
+
+    " Quickly get out of insert mode followed leader (use 'jk')
+    " 快速离开插入模式,紧跟着按下 leader 键（使用 jk）
+    imap jk <Esc><Leader>
 
     " Quickly view help for word under the cursor
     " 快速查看光标下单词的帮助文档
@@ -1149,6 +1158,11 @@
             endfunction
             " Quick run via F5
             nnoremap <F5> :call <SID>CompileAndRun()<CR>
+
+            if PlugEnable('vim-airline')
+                let g:asyncrun_status = ''
+                let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
+            endif
         endif
     " }
 
@@ -1416,6 +1430,34 @@
     " }
 
     " Misc {
+        if PlugEnable('vimtweak')
+            " Maximized Window
+            " 最大化窗口
+            if exists('g:starry_fullscreen_startup')
+                augroup starry_fullscreen
+                    autocmd VimEnter * VimTweakEnableMaximize
+                augroup END
+                let g:fullscreenmode = 1
+            else
+                let g:fullscreenmode = 0
+            endif
+
+            map <silent> <F11> :call FullScreenToggle()<CR>
+            function! FullScreenToggle()
+                if g:fullscreenmode
+                    execute 'VimTweakDisableMaximize'
+                    let g:fullscreenmode = 0
+                else
+                    execute 'VimTweakEnableMaximize'
+                    let g:fullscreenmode = 1
+                endif
+            endfunction
+
+            " Alpha Window
+            " 透明窗口
+            map <silent> <Space>a :call libcallnr(g:vimtweak_dll_path, "SetAlpha", 0)<CR>
+            map <silent> <Space>aa :call libcallnr(g:vimtweak_dll_path, "SetAlpha", 255)<CR>
+        endif
     " }
 
 " }
