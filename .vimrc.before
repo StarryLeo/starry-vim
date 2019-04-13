@@ -45,11 +45,11 @@
     "   let g:starry_edit_config_mapping='<Leader>ev'
     "   let g:starry_apply_config_mapping='<Leader>sv'
 
-    " Disable easier moving in tabs and windows
-    "   let g:starry_no_easyWindows = 1
-
     " Disable wrap relative motion for start/end line motions
     "   let g:starry_no_wrapRelMotion = 1
+
+    " Disable easier moving in tabs and windows
+    "   let g:starry_no_easyWindows = 1
 
     " Disable fast tab navigation
     "   let g:starry_no_fastTabs = 1

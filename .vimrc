@@ -343,6 +343,7 @@
 
 " Key (re)Mappings {
 
+    " Leader {
     " The default leader is "\", but many people prefer "," as it's in a standard
     " location. To override this behavior and set it back to "\" (or any other
     " character) add the following to your .vimrc.before.local file:
@@ -361,7 +362,9 @@
     else
         let maplocalleader=g:starry_localleader
     endif
+    " }
 
+    " UI {
     " Allow to trigger background 切换背景色
     function! ToggleBG()
         let s:tbg = &background
@@ -373,7 +376,24 @@
         endif
     endfunction
     noremap <Leader>bg :call ToggleBG()<CR>
+    " }
 
+    " Fold {
+    " Code folding options
+    " 代码折叠级别选项
+    nmap <Leader>z0 :set foldlevel=0<CR>
+    nmap <Leader>z1 :set foldlevel=1<CR>
+    nmap <Leader>z2 :set foldlevel=2<CR>
+    nmap <Leader>z3 :set foldlevel=3<CR>
+    nmap <Leader>z4 :set foldlevel=4<CR>
+    nmap <Leader>z5 :set foldlevel=5<CR>
+    nmap <Leader>z6 :set foldlevel=6<CR>
+    nmap <Leader>z7 :set foldlevel=7<CR>
+    nmap <Leader>z8 :set foldlevel=8<CR>
+    nmap <Leader>z9 :set foldlevel=9<CR>
+    " }
+
+    " File & Directory {
     function! Unix2Dos()
         :update
         :e ++ff=dos
@@ -394,6 +414,14 @@
     " Convert file from dos to unix encoding
     nnoremap <Leader>fU :call Dos2Unix()<CR>
 
+    " 快捷键切换当前文件目录为工作目录
+    " Shortcuts
+    " Change Working Directory to that of the current file
+    cmap cwd lcd %:p:h
+    cmap cd. lcd %:p:h
+    " }
+
+    " Edit {
     " The default mappings for editing and applying the starry configuration
     " are <Leader>ev and <Leader>sv respectively. Change them to your preference
     " by adding the following to your .vimrc.before.local file:
@@ -415,24 +443,53 @@
         let s:starry_apply_config_mapping=g:starry_apply_config_mapping
     endif
 
-    " Easier moving in tabs and windows
-    " The lines conflict with the default digraph mapping of <C-k>
-    " If you prefer that functionality, add the following to your
-    " .vimrc.before.local file:
-    "
-    " 更好的标签页和窗口切换
-    " 下面的几行会和原用来输入二合字母的 <C-k> 映射冲突
-    " 如果你更想要原来的功能，请将以下值声明在 .vimrc.before.local 文件：
-    "
-    "   let g:starry_no_easyWindows = 1
-    "
-    if !exists('g:starry_no_easyWindows')
-        map <C-j> <C-w>j<C-w>_
-        map <C-k> <C-w>k<C-w>_
-        map <C-l> <C-w>l<C-w>_
-        map <C-h> <C-w>h<C-w>_
-    endif
+    " Yank from the cursor to the end of the line, to be consistent with C and D.
+    " 映射 Y 从当前光标位置复制到行尾，从而表现和 C D 一致
+    nnoremap Y y$
 
+    " Visual shifting (does not exit Visual mode)
+    " 可视化模式下可连续左右移动选中的文本，单次移动距离为 shiftwidth 设置的宽度
+    vnoremap < <gv
+    vnoremap > >gv
+
+    " Allow using the repeat operator with a visual selection (!)
+    " 在可视化模式允许使用重复动作
+    " http://stackoverflow.com/a/8064607/127816
+    vnoremap . :normal .<CR>
+
+    " 编辑只读文件忘记用 sudo，使用 :w!! 保存
+    " For when you forget to sudo.. Really Write the file.
+    cmap w!! w !sudo tee % >/dev/null
+
+    " Some helpers to edit mode
+    " 编辑模式的一些有用帮助
+    " Open Working Directory / in new split windows / in new vsplit windows / in new tab page
+    " 打开工作目录 / 在垂直分割的新窗口 / 在水平分割的新窗口  / 在新标签页
+    " http://vimcasts.org/e/14
+    cnoremap %% <C-r>=fnameescape(expand('%:h')).'/'<CR>
+    map <Space>ew :e %%<CR>
+    map <Space>es :sp %%<CR>
+    map <Space>ev :vsp %%<CR>
+    map <Space>et :tabe %%<CR>
+
+    " Easier formatting
+    " 更简单的排版 多行变一行 并以空格隔开
+    nnoremap <silent> <Leader>q gwip
+
+    " Easier redo
+    " 更简单的重做
+    nnoremap U <C-r>
+
+    " Quickly get out of insert mode (use 'jj')
+    " 快速离开插入模式（使用 jj）
+    inoremap jj <Esc>
+
+    " Quickly get out of insert mode followed leader (use 'jk')
+    " 快速离开插入模式,紧跟着按下 leader 键（使用 jk）
+    imap jk <Esc><Leader>
+    " }
+
+    " Move {
     " Wrapped lines goes down/up to next row, rather than next line in file.
     " 可以在换行的长行中同行间上下移动，而不是文件中行间移动
     noremap j gj
@@ -486,6 +543,36 @@
         vnoremap ^ :<C-u>call WrapRelativeMotion("^", 1)<CR>
     endif
 
+    " Go to home and end using capitalized directions
+    " 使用大写字母 H L 移动到行开头和行结尾
+    noremap H ^
+    noremap L $
+
+    " Easier horizontal scrolling
+    " 更简单的左右滚动
+    map zl zL
+    map zh zH
+    " }
+
+    " Windows & Tabs {
+    " Easier moving in tabs and windows
+    " The lines conflict with the default digraph mapping of <C-k>
+    " If you prefer that functionality, add the following to your
+    " .vimrc.before.local file:
+    "
+    " 更好的标签页和窗口切换
+    " 下面的几行会和原用来输入二合字母的 <C-k> 映射冲突
+    " 如果你更想要原来的功能，请将以下值声明在 .vimrc.before.local 文件：
+    "
+    "   let g:starry_no_easyWindows = 1
+    "
+    if !exists('g:starry_no_easyWindows')
+        map <C-j> <C-w>j<C-w>_
+        map <C-k> <C-w>k<C-w>_
+        map <C-l> <C-w>l<C-w>_
+        map <C-h> <C-w>h<C-w>_
+    endif
+
     " The following two lines conflict with join lines and
     " run a program to lookup the keyword under the cursor.
     " If you prefer that functionality, add the following to your
@@ -510,7 +597,9 @@
         nmap <Leader>9 9gt
         nmap <Leader>0 :tablast<CR>
     endif
+    " }
 
+    " Key Fix {
     " Stupid shift key fixes
     " If you do not need, add the following to your
     " .vimrc.before.local file:
@@ -535,24 +624,9 @@
 
         cmap Tabe tabe
     endif
+    " }
 
-    " Yank from the cursor to the end of the line, to be consistent with C and D.
-    " 映射 Y 从当前光标位置复制到行尾，从而表现和 C D 一致
-    nnoremap Y y$
-
-    " Code folding options
-    " 代码折叠级别选项
-    nmap <Leader>f0 :set foldlevel=0<CR>
-    nmap <Leader>f1 :set foldlevel=1<CR>
-    nmap <Leader>f2 :set foldlevel=2<CR>
-    nmap <Leader>f3 :set foldlevel=3<CR>
-    nmap <Leader>f4 :set foldlevel=4<CR>
-    nmap <Leader>f5 :set foldlevel=5<CR>
-    nmap <Leader>f6 :set foldlevel=6<CR>
-    nmap <Leader>f7 :set foldlevel=7<CR>
-    nmap <Leader>f8 :set foldlevel=8<CR>
-    nmap <Leader>f9 :set foldlevel=9<CR>
-
+    " Search {
     " Most prefer to toggle search highlighting rather than clear the current
     " search results. To clear search highlighting rather than toggle it on
     " and off, add the following to your .vimrc.before.local file:
@@ -572,71 +646,11 @@
     " Find merge conflict markers
     map <Leader>fc /\v^[<\|=>]{7}( .*\|$)<CR>
 
-    " 快捷键切换当前文件目录为工作目录
-    " Shortcuts
-    " Change Working Directory to that of the current file
-    cmap cwd lcd %:p:h
-    cmap cd. lcd %:p:h
-
-    " Visual shifting (does not exit Visual mode)
-    " 可视化模式下可连续左右移动选中的文本，单次移动距离为 shiftwidth 设置的宽度
-    vnoremap < <gv
-    vnoremap > >gv
-
-    " Allow using the repeat operator with a visual selection (!)
-    " 在可视化模式允许使用重复动作
-    " http://stackoverflow.com/a/8064607/127816
-    vnoremap . :normal .<CR>
-
-    " 编辑只读文件忘记用 sudo，使用 :w!! 保存
-    " For when you forget to sudo.. Really Write the file.
-    cmap w!! w !sudo tee % >/dev/null
-
-    " Some helpers to edit mode
-    " 编辑模式的一些有用帮助
-    " Open Working Directory / in new split windows / in new vsplit windows / in new tab page
-    " 打开工作目录 / 在垂直分割的新窗口 / 在水平分割的新窗口  / 在新标签页
-    " http://vimcasts.org/e/14
-    cnoremap %% <C-r>=fnameescape(expand('%:h')).'/'<CR>
-    map <Space>ew :e %%<CR>
-    map <Space>es :sp %%<CR>
-    map <Space>ev :vsp %%<CR>
-    map <Space>et :tabe %%<CR>
-
     " Map <Space>fj to display all lines with keyword under cursor
     " and ask which one to jump to
     " 使用 <Space>fj 查找跳转光标下单词，并询问跳转到哪一个
     nmap <Space>fj [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
-
-    " Go to home and end using capitalized directions
-    " 使用大写字母 H L 移动到行开头和行结尾
-    noremap H ^
-    noremap L $
-
-    " Easier horizontal scrolling
-    " 更简单的左右滚动
-    map zl zL
-    map zh zH
-
-    " Easier formatting
-    " 更简单的排版 多行变一行 并以空格隔开
-    nnoremap <silent> <Leader>q gwip
-
-    " Easier redo
-    " 更简单的重做
-    nnoremap U <C-r>
-
-    " Quickly get out of insert mode (use 'jj')
-    " 快速离开插入模式（使用 jj）
-    inoremap jj <Esc>
-
-    " Quickly get out of insert mode followed leader (use 'jk')
-    " 快速离开插入模式,紧跟着按下 leader 键（使用 jk）
-    imap jk <Esc><Leader>
-
-    " Quickly view help for word under the cursor
-    " 快速查看光标下单词的帮助文档
-    nnoremap <Space>h :execute ':help ' . expand('<cword>')<CR>
+    " }
 
 " }
 
@@ -675,7 +689,7 @@
             noremap <Space>t <Plug>NERDTreeTabsToggle<CR>
             " 查找目录
             noremap <Space>tf :NERDTreeFind<CR>
-            noremap <Space>to <Plug>NERDTreeFocusToggle<CR>
+            noremap <Space>tt <Plug>NERDTreeFocusToggle<CR>
             noremap <Space>tm <Plug>NERDTreeMirrorOpen<CR>
 
             let NERDTreeShowBookmarks=1
@@ -694,7 +708,7 @@
             let g:Lf_ShortcutF = '<Leader>f'
             let g:Lf_ShortcutB = '<Leader>fb'
             noremap <Leader>fm :cclose<CR>:Leaderf mru --regexMode<CR>
-            noremap <Leader>fn :cclose<CR>:LeaderfFunction!<CR>
+            noremap <Leader>ff :cclose<CR>:LeaderfFunction!<CR>
             noremap <Leader>ft :cclose<CR>:LeaderfBufTag!<CR>
             noremap <Leader>fo :cclose<CR>:LeaderfTag<CR>
 

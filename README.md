@@ -299,7 +299,7 @@ LeaderF replaces the [ctrlp] plugin with a python plugin. It provides an intuiti
 
 * Use `<Leader>fb` to search buffers.
 * Use `<Leader>fm` to search recently used files.
-* Use `<Leader>fn` to launch LeaderF to navigate functions or methods in current buffer.
+* Use `<Leader>ff` to launch LeaderF to navigate functions or methods in current buffer.
 * Use `<Leader>ft` to launch LeaderF to navigate tags in current buffer.
 * Use `<Leader>fo` to launch LeaderF to navigate tags in all listed buffers.
 
