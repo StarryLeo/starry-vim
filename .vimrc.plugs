@@ -184,7 +184,7 @@
             endif
         endif
         if count(g:starry_plug_groups, 'deoplete')
-            Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+            Plug 'Shougo/deoplete.nvim'
             Plug 'roxma/nvim-yarp'
             Plug 'roxma/vim-hug-neovim-rpc'
             Plug 'Shougo/neco-vim'
@@ -232,6 +232,7 @@
                     Plug 'Yggdroot/LeaderF', { 'do': './install.sh', 'on': 'Leaderf' }
                 endif
             endif
+            Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
             Plug 'luochen1990/rainbow'
         endif
     " }

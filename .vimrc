@@ -1331,6 +1331,13 @@
         endif
     "}
 
+    " Vista {
+        if PlugEnable('vista.vim')
+            nnoremap <Leader>vt :Vista!!<CR>
+            let g:vista#renderer#enable_icon = 1
+        endif
+    "}
+
     " Rainbow {
         if PlugEnable('rainbow')
             let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
