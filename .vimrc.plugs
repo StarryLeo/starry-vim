@@ -83,9 +83,9 @@
         Plug 'tomtom/tlib_vim'
         if executable('rg') && (has('python') || has('python3'))
             if has('win32') || has('win64')
-                Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
+                Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat', 'on': 'Leaderf' }
             else
-                Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+                Plug 'Yggdroot/LeaderF', { 'do': './install.sh', 'on': 'Leaderf' }
             endif
         elseif executable('ag')
             Plug 'mileszs/ack.vim', { 'on': 'Ack' }
@@ -104,7 +104,7 @@
     " 在你的 .vimrc.before.local 文件中列出你要用的插件组
     "
     if !exists('g:starry_plug_groups')
-        let g:starry_plug_groups=['general', 'youcompleteme', 'deoplete', 'programming', 'markdown', 'cpp', 'python', 'verilog', 'misc',]
+        let g:starry_plug_groups=['general', 'youcompleteme', 'deoplete', 'languageserver', 'programming', 'markdown', 'cpp', 'python', 'verilog', 'misc',]
     endif
 
     " To override all the included plugs, add the following to your
@@ -124,9 +124,9 @@
             Plug 'jistr/vim-nerdtree-tabs'
             if has('python') || has('python3')
                 if has('win32') || has('win64')
-                    Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
+                    Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat', 'on': 'Leaderf' }
                 else
-                    Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+                    Plug 'Yggdroot/LeaderF', { 'do': './install.sh', 'on': 'Leaderf' }
                 endif
             else
                 Plug 'ctrlpvim/ctrlp.vim', { 'on': ['CtrlP', 'CtrlPMRU', 'CtrlPFunky'] }
@@ -143,7 +143,7 @@
             endif
             if has('win32') || has('win64')
                 if has('gui_running')
-                    Plug 'StarryLeo/Consolas-with-Yahei', { 'do': '.\install.cmd' }
+                    Plug 'StarryLeo/Consolas-with-Yahei', { 'do': 'powershell -executionpolicy bypass -File .\install.ps1' }
                 endif
             elseif has('gui_running')
                 Plug 'StarryLeo/Consolas-with-Yahei', { 'do': './install.sh' }
@@ -173,18 +173,18 @@
         if count(g:starry_plug_groups, 'youcompleteme')
             if has('win32') || has('win64')
                 if exists('g:starry_enable_ycm_on_windows')
-                    Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp'] }
+                    Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp', 'cuda'] }
                     Plug 'SirVer/ultisnips'
                     Plug 'honza/vim-snippets'
                 endif
             else
-                Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer', 'for': ['c', 'cpp'] }
+                Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer', 'for': ['c', 'cpp', 'cuda'] }
                 Plug 'SirVer/ultisnips'
                 Plug 'honza/vim-snippets'
             endif
         endif
         if count(g:starry_plug_groups, 'deoplete')
-            Plug 'Shougo/deoplete.nvim'
+            Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
             Plug 'roxma/nvim-yarp'
             Plug 'roxma/vim-hug-neovim-rpc'
             Plug 'Shougo/neco-vim'
@@ -195,6 +195,18 @@
             Plug 'Shougo/neosnippet'
             Plug 'Shougo/neosnippet-snippets'
             Plug 'honza/vim-snippets'
+        endif
+    " }
+
+    "  LanguageServer {
+        if count(g:starry_plug_groups, 'languageserver')
+            if executable('ccls')
+                if has('win32') || has('win64')
+                    Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'powershell -executionpolicy bypass -File install.ps1', 'for': ['c', 'cpp', 'cuda'] }
+                else
+                    Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', 'for': ['c', 'cpp', 'cuda'] }
+                endif
+            endif
         endif
     " }
 
@@ -215,9 +227,9 @@
                 Plug 'ludovicchabant/vim-gutentags'
                 Plug 'skywind3000/gutentags_plus'
                 if has('win32') || has('win64')
-                    Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
+                    Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat', 'on': 'Leaderf' }
                 else
-                    Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+                    Plug 'Yggdroot/LeaderF', { 'do': './install.sh', 'on': 'Leaderf' }
                 endif
             endif
             Plug 'luochen1990/rainbow'
@@ -233,7 +245,7 @@
 
     " C / C++ {
         if count(g:starry_plug_groups, 'cpp')
-            Plug 'octol/vim-cpp-enhanced-highlight', { 'for': ['c', 'cpp'] }
+            Plug 'octol/vim-cpp-enhanced-highlight', { 'for': ['c', 'cpp', 'cuda'] }
         endif
     " }
 
@@ -289,6 +301,7 @@
             if (has('win32') || has('win64')) && has('gui_running')
                 Plug 'mattn/vimtweak'
             endif
+            Plug 'elzr/vim-json', { 'for': 'json' }
         endif
     " }
 

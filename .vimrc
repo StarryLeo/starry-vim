@@ -708,9 +708,9 @@
             let g:Lf_ShortcutF = '<Leader>f'
             let g:Lf_ShortcutB = '<Leader>fb'
             noremap <Leader>fm :cclose<CR>:Leaderf mru --regexMode<CR>
-            noremap <Leader>ff :cclose<CR>:LeaderfFunction!<CR>
-            noremap <Leader>ft :cclose<CR>:LeaderfBufTag!<CR>
-            noremap <Leader>fo :cclose<CR>:LeaderfTag<CR>
+            noremap <Leader>ff :cclose<CR>:Leaderf! function<CR>
+            noremap <Leader>ft :cclose<CR>:Leaderf! bufTag<CR>
+            noremap <Leader>fo :cclose<CR>:Leaderf tag<CR>
 
             if executable('rg')
                 noremap <Leader>fr :cclose<CR>:Leaderf rg --hidden --regexMode<CR>
@@ -802,6 +802,7 @@
                 nmap <Leader>+ <Plug>AirlineSelectNextTab
             else
                 " bufferline
+                let g:bufferline_echo = 0
                 let g:bufferline_fname_mod = ':~'
                 let g:bufferline_pathshorten = 1
             endif
@@ -1144,6 +1145,26 @@
             " When enabled, there can be too much visual noise
             " especially when splits are used.
             set completeopt-=preview
+        endif
+    " }
+
+    " LanguageClient-neovim {
+        if PlugEnable('LanguageClient-neovim')
+            let g:LanguageClient_loadSetting = 1
+            let g:LanguageClient_SettingPath = expand('~/.vim/languageserver/setting.json')
+            let g:LanguageClient_diagnosticsEnable = 0
+            let g:LanguageClient_selectionUI = 'quickfix'
+            let g:LanguageClient_hoverPreview = 'Never'
+            let g:LanguageClient_serverCommands = {
+                \ 'c'   : [ 'ccls', '--log-file=/tmp/ccls.log' ],
+                \ 'cpp' : [ 'ccls', '--log-file=/tmp/ccls.log' ],
+                \ 'cbjc': [ 'ccls', '--log-file=/tmp/ccls.log' ],
+                \ 'cuda': [ 'ccls', '--log-file=/tmp/ccls.log' ],
+                \ }
+
+            nnoremap <silent> <Leader>rd :call LanguageClient#textDocument_definition()<CR>
+            nnoremap <silent> <Leader>rr :call LanguageClient#textDocument_references({'includeDeclaration': v:false})<CR>
+            nnoremap <silent> <Leader>rh :call LanguageClient#textDocument_hover()<CR>
         endif
     " }
 
