@@ -222,9 +222,9 @@
         colorscheme solarized8             " Load a colorscheme 载入主题
     elseif !exists('g:starry_no_omni_complete')
         " 设置 OmniComplete 补全菜单颜色
-        hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
-        hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
-        hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
+        hi Pmenu      guifg=#000000 guibg=#F8F8F8 ctermfg=black     ctermbg=LightGray
+        hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 ctermfg=DarkCyan  ctermbg=LightGray gui=NONE cterm=NONE
+        hi PmenuThumb guifg=#F8F8F8 guibg=#8A95A7 ctermfg=LightGray ctermbg=DarkCyan  gui=NONE cterm=NONE
     endif
 
     set tabpagemax=15               " Only show 15 tabs 最多只打开15个标签页
@@ -236,25 +236,27 @@
     highlight clear LineNr          " Current line number row will have same background color in relative mode
     "highlight clear CursorLineNr    " Remove highlight color from current line number
 
-    if has('cmdline_info')
-        set ruler                   " Show the ruler 显示标尺
-        set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids 标尺格式
-        set showcmd                 " Show partial commands in status line and 显示（部分）命令
-                                    " Selected characters/lines in visual mode
-    endif
-
-    if has('statusline')
-        set laststatus=2            " 显示状态栏
-
-        " Broken down into easily includeable segments 细分状态栏
-        set statusline=%<%f\                     " Filename 文件名
-        set statusline+=%w%h%m%r                 " Options 选项
-        if !exists('g:override_starry_plugs')
-            set statusline+=%{fugitive#statusline()} " Git Hotness Git 信息
+    if !PlugEnable('vim-airline')
+        if has('cmdline_info')
+            set ruler                   " Show the ruler 显示标尺
+            set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids 标尺格式
+            set showcmd                 " Show partial commands in status line and 显示（部分）命令
+                                        " Selected characters/lines in visual mode
         endif
-        set statusline+=\ [%{&ff}/%Y]            " Filetype 文件类型
-        set statusline+=\ [%{getcwd()}]          " Current dir 当前目录
-        set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info 右对齐文件导航信息
+
+        if has('statusline')
+            set laststatus=2            " 显示状态栏
+
+            " Broken down into easily includeable segments 细分状态栏
+            set statusline=%<%f\                     " Filename 文件名
+            set statusline+=%w%h%m%r                 " Options 选项
+            if PlugEnable('vim-fugitive')
+                set statusline+=%{FugitiveStatusline()} " Git Hotness Git 信息
+            endif
+            set statusline+=\ [%{&ff}/%Y]            " Filetype 文件类型
+            set statusline+=\ [%{getcwd()}]          " Current dir 当前目录
+            set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info 右对齐文件导航信息
+        endif
     endif
 
     set backspace=indent,eol,start  " Backspace for dummies 设置退格键
@@ -288,7 +290,7 @@
 
 " Formatting {
 
-    set nowrap                      " Do not wrap long lines 长行不换行
+    set nowrap                      " Do not wrap long lines 长行不折行
     set autoindent                  " Indent at the same level of the previous line 自动对齐缩进
     set shiftwidth=4                " Use indents of 4 spaces 缩进使用4个空格
     set expandtab                   " Tabs are spaces, not tabs 制表符(Tab键)扩展为空格
@@ -361,6 +363,28 @@
         let maplocalleader=';'
     else
         let maplocalleader=g:starry_localleader
+    endif
+    " }
+
+    " Enable Terminal Meta Key Mappings {
+    if !has('gui_running')
+        function! EnableTerminalMeta()
+            function! s:meta_map(char)
+                execute 'set <M-' . a:char . ">=\<Esc>" . a:char
+            endfunction
+            for i in range(10)
+                call <SID>meta_map(nr2char(char2nr('0') + i))
+            endfor
+            for i in range(26)
+                call <SID>meta_map(nr2char(char2nr('a') + i))
+                call <SID>meta_map(nr2char(char2nr('A') + i))
+            endfor
+            let l:char_list = [',', '.', '/', '?', ';', ':', '-', '_', '=', '+', '{', '}', "'"]
+            for c in l:char_list
+                call <SID>meta_map(c)
+            endfor
+        endfunction
+        call EnableTerminalMeta()
     endif
     " }
 
@@ -525,22 +549,22 @@
         endfunction
 
         " Map g* keys in Normal, Operator-pending, and Visual+select
-        noremap $ :call WrapRelativeMotion("$")<CR>
-        noremap <End> :call WrapRelativeMotion("$")<CR>
-        noremap 0 :call WrapRelativeMotion("0")<CR>
+        noremap $      :call WrapRelativeMotion("$")<CR>
+        noremap <End>  :call WrapRelativeMotion("$")<CR>
+        noremap 0      :call WrapRelativeMotion("0")<CR>
         noremap <Home> :call WrapRelativeMotion("0")<CR>
-        noremap ^ :call WrapRelativeMotion("^")<CR>
+        noremap ^      :call WrapRelativeMotion("^")<CR>
         " Overwrite the operator pending $/<End> mappings from above
         " to force inclusive motion with :execute normal!
-        onoremap $ v:call WrapRelativeMotion("$")<CR>
+        onoremap $     v:call WrapRelativeMotion("$")<CR>
         onoremap <End> v:call WrapRelativeMotion("$")<CR>
         " Overwrite the Visual+select mode mappings from above
         " to ensure the correct vis_sel flag is passed to function
-        vnoremap $ :<C-u>call WrapRelativeMotion("$", 1)<CR>
-        vnoremap <End> :<C-u>call WrapRelativeMotion("$", 1)<CR>
-        vnoremap 0 :<C-u>call WrapRelativeMotion("0", 1)<CR>
+        vnoremap $      :<C-u>call WrapRelativeMotion("$", 1)<CR>
+        vnoremap <End>  :<C-u>call WrapRelativeMotion("$", 1)<CR>
+        vnoremap 0      :<C-u>call WrapRelativeMotion("0", 1)<CR>
         vnoremap <Home> :<C-u>call WrapRelativeMotion("0", 1)<CR>
-        vnoremap ^ :<C-u>call WrapRelativeMotion("^", 1)<CR>
+        vnoremap ^      :<C-u>call WrapRelativeMotion("^", 1)<CR>
     endif
 
     " Go to home and end using capitalized directions
@@ -552,6 +576,13 @@
     " 更简单的左右滚动
     map zl zL
     map zh zH
+
+    " Mapping Meta key (Alt key) to move in insert mode
+    " 插入模式中使用 Meta 键（Alt 键）移动
+    inoremap <M-j> <Down>
+    inoremap <M-k> <Up>
+    inoremap <M-h> <Left>
+    inoremap <M-l> <Right>
     " }
 
     " Windows & Tabs {
@@ -567,10 +598,17 @@
     "   let g:starry_no_easyWindows = 1
     "
     if !exists('g:starry_no_easyWindows')
-        map <C-j> <C-w>j<C-w>_
-        map <C-k> <C-w>k<C-w>_
-        map <C-l> <C-w>l<C-w>_
-        map <C-h> <C-w>h<C-w>_
+        map <C-j> <C-w>j
+        map <C-k> <C-w>k
+        map <C-h> <C-w>h
+        map <C-l> <C-w>l
+
+        " Decrease / Increase current window height / width
+        " 增加 / 减少 当前窗口 高度 / 宽度
+        nnoremap <M-j> :resize -3<CR>
+        nnoremap <M-k> :resize +3<CR>
+        nnoremap <M-h> :vertical resize -3<CR>
+        nnoremap <M-l> :vertical resize +3<CR>
     endif
 
     " The following two lines conflict with join lines and
@@ -649,7 +687,7 @@
     " Map <Space>fj to display all lines with keyword under cursor
     " and ask which one to jump to
     " 使用 <Space>fj 查找跳转光标下单词，并询问跳转到哪一个
-    nmap <Space>fj [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+    nmap <Space>fj [I:let nr = input("Which one: ")<Bar>execute "normal " . nr ."[\t"<CR>
     " }
 
 " }
@@ -676,6 +714,7 @@
 
             inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
             inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+            inoremap <expr> <C-m>      pumvisible() ? "\<C-p>" : "\<C-m>"
             inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
             inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
             inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
@@ -692,13 +731,13 @@
             noremap <Space>tt <Plug>NERDTreeFocusToggle<CR>
             noremap <Space>tm <Plug>NERDTreeMirrorOpen<CR>
 
-            let NERDTreeShowBookmarks=1
-            let NERDTreeBookmarksFile=expand('~/.cache/.NERDTreeBookmarks')
-            let NERDTreeIgnore=['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
-            let NERDTreeChDirMode=0
-            let NERDTreeQuitOnOpen=1
-            let NERDTreeMouseMode=1
-            let NERDTreeShowHidden=1
+            let NERDTreeShowBookmarks = 1
+            let NERDTreeBookmarksFile = expand('~/.cache/.NERDTreeBookmarks')
+            let NERDTreeIgnore = ['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
+            let NERDTreeChDirMode = 0
+            let NERDTreeQuitOnOpen = 1
+            let NERDTreeMouseMode = 1
+            let NERDTreeShowHidden = 1
             let g:nerdtree_tabs_open_on_gui_startup = 0
         endif
     " }
@@ -733,7 +772,7 @@
             let g:ctrlp_working_path_mode = 'ra'
             nnoremap <Leader>fm :CtrlPMRU<CR>
             let g:ctrlp_custom_ignore = {
-                \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+                \ 'dir' : '\v[\/]\.(git|hg|svn)$',
                 \ 'file': '\v[\/]\.(exe|so|dll|pyc)$',
                 \ }
 
@@ -756,9 +795,9 @@
                 \ 'types': {
                     \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
                     \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-                \ },
-                \ 'fallback': s:ctrlp_fallback
-            \ }
+                    \ },
+                \ 'fallback': s:ctrlp_fallback,
+                \ }
 
             if PlugEnable('ctrlp-funky')
                 " CtrlP extensions
@@ -813,9 +852,9 @@
 
             if !exists('g:starry_no_powerline_symbols')
                 " powerline symbols
-                let g:airline_left_sep = ''
-                let g:airline_left_alt_sep = ''
-                let g:airline_right_sep = ''
+                let g:airline_left_sep      = ''
+                let g:airline_left_alt_sep  = ''
+                let g:airline_right_sep     = ''
                 let g:airline_right_alt_sep = ''
                 let g:airline_symbols.space = ' '
                 let g:airline_symbols.paste = 'Þ'
@@ -824,33 +863,33 @@
                 else
                     let g:airline_symbols.spell = 'Ꞩ'
                 endif
-                let g:airline_symbols.crypt = '🔒'
-                let g:airline_symbols.keymap = ''
-                let g:airline_symbols.modified = '+'
-                let g:airline_symbols.ellipsis = '...'
-                let g:airline_symbols.notexists = 'Ɇ'
+                let g:airline_symbols.crypt      = '🔒'
+                let g:airline_symbols.keymap     = ''
+                let g:airline_symbols.modified   = '+'
+                let g:airline_symbols.ellipsis   = '...'
+                let g:airline_symbols.notexists  = 'Ɇ'
                 let g:airline_symbols.whitespace = '☲'
-                let g:airline_symbols.branch = ''
-                let g:airline_symbols.readonly = ''
-                let g:airline_symbols.linenr = '¶'
-                let g:airline_symbols.maxlinenr = ''
+                let g:airline_symbols.branch     = ''
+                let g:airline_symbols.readonly   = ''
+                let g:airline_symbols.linenr     = '¶'
+                let g:airline_symbols.maxlinenr  = ''
             else
                 " unicode symbols
-                let g:airline_left_sep = '›'
-                "let g:airline_left_sep = '»'
-                let g:airline_right_sep = '‹'
-                "let g:airline_right_sep = '«'
-                let g:airline_symbols.crypt = '🔒'
-                let g:airline_symbols.linenr = '㏑'
+                let g:airline_left_sep          = '›'
+                "let g:airline_left_sep          = '»'
+                let g:airline_right_sep         = '‹'
+                "let g:airline_right_sep         = '«'
+                let g:airline_symbols.crypt     = '🔒'
+                let g:airline_symbols.linenr    = '㏑'
                 let g:airline_symbols.maxlinenr = '¶'
-                let g:airline_symbols.branch = '⎇'
-                let g:airline_symbols.paste = 'Þ'
+                let g:airline_symbols.branch    = '⎇'
+                let g:airline_symbols.paste     = 'Þ'
                 if WINDOWS() && PlugEnable('Consolas-with-Yahei')
                     let g:airline_symbols.spell = ''
                 else
                     let g:airline_symbols.spell = 'Ꞩ'
                 endif
-                let g:airline_symbols.notexists = 'Ɇ'
+                let g:airline_symbols.notexists  = 'Ɇ'
                 let g:airline_symbols.whitespace = 'Ξ'
             endif
         endif
@@ -870,9 +909,9 @@
 
             " Mapping
             let g:multi_cursor_start_word_key      = '<C-n>'
-            let g:multi_cursor_select_all_word_key = '<A-n>'
+            let g:multi_cursor_select_all_word_key = '<M-n>'
             let g:multi_cursor_start_key           = 'g<C-n>'
-            let g:multi_cursor_select_all_key      = 'g<A-n>'
+            let g:multi_cursor_select_all_key      = 'g<M-n>'
             let g:multi_cursor_next_key            = '<C-n>'
             let g:multi_cursor_prev_key            = '<C-m>'
             let g:multi_cursor_skip_key            = '<C-x>'
@@ -883,15 +922,15 @@
             highlight link multiple_cursors_visual Visual
 
             function! Multiple_cursors_before()
-              if exists(':NeoCompleteLock')==2
-                exe 'NeoCompleteLock'
-              endif
+                if exists(':NeoCompleteLock')==2
+                    execute 'NeoCompleteLock'
+                endif
             endfunction
 
             function! Multiple_cursors_after()
-              if exists(':NeoCompleteUnlock')==2
-                exe 'NeoCompleteUnlock'
-             endif
+                if exists(':NeoCompleteUnlock')==2
+                    execute 'NeoCompleteUnlock'
+                endif
             endfunction
         endif
     " }
@@ -914,10 +953,10 @@
             if !isdirectory(g:session_directory)
                 silent! call mkdir(g:session_directory, 'p')
             endif
-            nmap <Leader>ss :SessionSave<CR>
-            nmap <Leader>so :SessionOpen<CR>
-            nmap <Leader>sc :SessionClose<CR>
-            nmap <Leader>sd :SessionDelete<CR>
+            nmap <Leader>ss  :SessionSave<CR>
+            nmap <Leader>so  :SessionOpen<CR>
+            nmap <Leader>sc  :SessionClose<CR>
+            nmap <Leader>sd  :SessionDelete<CR>
             nmap <Leader>tss :SessionTabSave<CR>
             nmap <Leader>tso :SessionTabOpen<CR>
             nmap <Leader>tsc :SessionTabClose<CR>
@@ -952,34 +991,36 @@
             \ (!WINDOWS() || exists('g:starry_enable_ycm_on_windows'))
 
             let g:ycm_filetype_whitelist = {
-            \       'c'  : 1,
-            \       'cpp': 1,
-            \ }
+                \ 'c'   : 1,
+                \ 'cpp' : 1,
+                \ 'cuda': 1,
+                \ }
 
-            let g:ycm_global_ycm_extra_conf = '~/.vim/viplug/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
+            let g:ycm_global_ycm_extra_conf = expand('~/.vim/viplug/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py')
             let g:ycm_show_diagnostics_ui = 0
 
             " Plugin key-mappings {
                 " completion key
-                let g:ycm_key_list_select_completion = ['<Tab>', '<Down>', '<C-n>']
-                let g:ycm_key_list_previous_completion = ['<S-Tab>', '<Up>', '<C-p>']
-                let g:ycm_key_list_stop_completion = ['<CR>', '<C-y>']
+                let g:ycm_key_list_select_completion   = ['<Tab>', '<Down>', '<C-n>']
+                let g:ycm_key_list_previous_completion = ['<S-Tab>', '<Up>', '<C-p>', '<C-m>']
+                let g:ycm_key_list_stop_completion     = ['<CR>', '<C-y>']
 
                 noremap <C-z> <Nop>
                 let g:ycm_key_invoke_completion = '<C-z>'
 
                 let g:ycm_semantic_triggers = {
-                \       'c'  : ['re!\w+\w+'],
-                \       'cpp': ['re!\w+\w+'],
-                \ }
+                    \ 'c'   : ['re!\w+\w+'],
+                    \ 'cpp' : ['re!\w+\w+'],
+                    \ 'cuda': ['re!\w+\w+'],
+                    \ }
             " }
         endif
     " }
 
     " deoplete {
         if count(g:starry_plug_groups, 'deoplete')
-            if (&filetype !=? 'c' && &filetype !=? 'cpp') ||
-            \ (WINDOWS() && !exists(g:starry_enable_ycm_on_windows))
+            if (&filetype !=? 'c' && &filetype !=? 'cpp' && &filetype !=? 'cuda') ||
+                \ (WINDOWS() && !exists(g:starry_enable_ycm_on_windows))
                 let g:deoplete#enable_at_startup = 1
 
                 " For Vim8
@@ -994,10 +1035,11 @@
 
                 " Plugin key-mappings {
                     " completion key
-                    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+                    inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
                     inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<Tab>"
-                    inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
-                    inoremap <expr> <S-CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
+                    inoremap <expr> <C-m>   pumvisible() ? "\<C-p>" : "\<C-m>"
+                    inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
+                    inoremap <expr> <S-CR>  pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
                 " }
             endif
     " }
@@ -1011,10 +1053,10 @@
 
             " Define dictionary.
             let g:neocomplete#sources#dictionary#dictionaries = {
-                        \ 'default' : '',
-                        \ 'vimshell' : $HOME.'/.vimshell_hist',
-                        \ 'scheme' : $HOME.'/.gosh_completions'
-                        \ }
+                \ 'default' : '',
+                \ 'vimshell': $HOME.'/.vimshell_hist',
+                \ 'scheme'  : $HOME.'/.gosh_completions',
+                \ }
 
             " Define keyword.
             if !exists('g:neocomplete#keyword_patterns')
@@ -1038,6 +1080,7 @@
                     " <Down> and <Up> cycle like <Tab> and <S-Tab>
                     inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
                     inoremap <expr> <Up>    pumvisible() ? "\<C-p>" : "\<Up>"
+                    inoremap <expr> <C-m>   pumvisible() ? "\<C-p>" : "\<C-m>"
                     " Jump up and down the list
                     inoremap <expr> <C-d>   pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
                     inoremap <expr> <C-u>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
@@ -1047,16 +1090,17 @@
 
                     " <CR>: close popup
                     " <S-CR>: close popup and save indent.
-                    inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+                    inoremap <expr> <CR>   pumvisible() ? "\<C-y>" : "\<CR>"
                     inoremap <expr> <S-CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
 
                     " <C-h>, <BS>: close popup and delete backword char.
                     inoremap <expr> <C-h> neocomplete#smart_close_popup() . "\<C-h>"
-                    inoremap <expr> <BS> neocomplete#smart_close_popup() . "\<C-h>"
+                    inoremap <expr> <BS>  neocomplete#smart_close_popup() . "\<C-h>"
                 endif
                 " <Tab>: completion.
-                inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+                inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
                 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<Tab>"
+                inoremap <expr> <C-m>   pumvisible() ? "\<C-p>" : "\<C-m>"
 
                 " Courtesy of Matteo Cavalleri
 
@@ -1086,10 +1130,10 @@
             if !exists('g:neocomplete#sources#omni#input_patterns')
                 let g:neocomplete#sources#omni#input_patterns = {}
             endif
-            let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+            let g:neocomplete#sources#omni#input_patterns.php  = '[^. \t]->\h\w*\|\h\w*::'
             let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-            let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-            let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+            let g:neocomplete#sources#omni#input_patterns.c    = '[^.[:digit:] *\t]\%(\.\|->\)'
+            let g:neocomplete#sources#omni#input_patterns.cpp  = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
     " }
     " Normal Vim omni-completion {
     " To disable omni complete, add the following to your .vimrc.before.local file:
@@ -1098,11 +1142,11 @@
             augroup starry_enable_omnicompletion
                 autocmd!
                 " Enable omni-completion.
-                autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+                autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
                 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-                autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-                autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-                autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+                autocmd FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
+                autocmd FileType python        setlocal omnifunc=pythoncomplete#Complete
+                autocmd FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
             augroup END
 
         endif
@@ -1110,11 +1154,11 @@
 
     " Snippets {
         if count(g:starry_plug_groups, 'youcompleteme') ||
-            \   count(g:starry_plug_groups, 'deoplete')
+            \ count(g:starry_plug_groups, 'deoplete')
 
             " remap Ultisnips for compatibility for YouCompleteMe / deoplete
-            let g:UltiSnipsExpandTrigger = '<C-j>'
-            let g:UltiSnipsJumpForwardTrigger = '<C-j>'
+            let g:UltiSnipsExpandTrigger       = '<C-j>'
+            let g:UltiSnipsJumpForwardTrigger  = '<C-j>'
             let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 
             " For snippet_complete marker.
@@ -1129,7 +1173,7 @@
         elseif count(g:starry_plug_groups, 'neocomplete')
 
             " Use honza's snippets.
-            let g:neosnippet#snippets_directory='~/.vim/viplug/vim-snippets/snippets'
+            let g:neosnippet#snippets_directory = expand('~/.vim/viplug/vim-snippets/snippets')
 
             " For snippet_complete marker.
             if !exists('g:starry_no_conceal')
@@ -1150,12 +1194,12 @@
 
     " LanguageClient-neovim {
         if PlugEnable('LanguageClient-neovim')
-            let g:LanguageClient_loadSetting = 1
-            let g:LanguageClient_SettingPath = expand('~/.vim/languageserver/setting.json')
+            let g:LanguageClient_loadSetting       = 1
+            let g:LanguageClient_SettingPath       = expand('~/.vim/languageserver/setting.json')
             let g:LanguageClient_diagnosticsEnable = 0
-            let g:LanguageClient_selectionUI = 'quickfix'
-            let g:LanguageClient_hoverPreview = 'Never'
-            let g:LanguageClient_serverCommands = {
+            let g:LanguageClient_selectionUI       = 'quickfix'
+            let g:LanguageClient_hoverPreview      = 'Never'
+            let g:LanguageClient_serverCommands    = {
                 \ 'c'   : [ 'ccls', '--log-file=/tmp/ccls.log' ],
                 \ 'cpp' : [ 'ccls', '--log-file=/tmp/ccls.log' ],
                 \ 'cbjc': [ 'ccls', '--log-file=/tmp/ccls.log' ],
@@ -1177,16 +1221,16 @@
 
             function! s:CompileAndRun()
                 let l:cmd = {
-                \   'c'     : "gcc % -o %<; time ./%<",
-                \   'cpp'   : "g++ -std=c++11 % -o %<; time ./%<",
-                \   'java'  : "javac %; time java %<",
-                \   'python': "time python %",
-                \   'sh'    : "time bash %",
-                \ }
+                    \ 'c'     : "gcc % -o %<; time ./%<",
+                    \ 'cpp'   : "g++ -std=c++11 % -o %<; time ./%<",
+                    \ 'java'  : "javac %; time java %<",
+                    \ 'python': "time python %",
+                    \ 'sh'    : "time bash %",
+                    \ }
                 let l:ft = &filetype
                 if has_key(l:cmd, l:ft)
-                    exec 'w'
-                    exec "AsyncRun! " . l:cmd[l:ft]
+                    execute 'w'
+                    execute 'AsyncRun! ' . l:cmd[l:ft]
                 else
                     echom 'CompileAndRun not supported in current filetype!'
                 endif
@@ -1214,7 +1258,11 @@
             nnoremap <silent> <Leader>ge :Gedit<CR>
             " Mnemonic _i_nteractive
             nnoremap <silent> <Leader>gi :Git add -p %<CR>
-            nnoremap <silent> <Leader>gg :SignifyToggle<CR>
+            if PlugEnable('vim-gitgutter')
+                nnoremap <silent> <Leader>gg :GitGutterToggle<CR>
+            elseif PlugEnable('vim-signify') && exists('g:starry_more_scm_diff')
+                nnoremap <silent> <Leader>gg :SignifyToggle<CR>
+            endif
         endif
     "}
 
@@ -1222,7 +1270,7 @@
         if PlugEnable('vim-gitgutter')
             set updatetime=1000
             if executable('rg')
-                let g:gitgutter = 'rg'
+                let g:gitgutter_grep = 'rg'
             endif
     " }
     " signify {
@@ -1230,7 +1278,7 @@
     " If you want get more scm diff support, add the following to your .vimrc.before.local file:
     "   let g:starry_more_scm_diff = 1
         elseif PlugEnable('vim-signify') && exists('g:starry_more_scm_diff')
-            let g:signify_vcs_list = [ 'git', 'hg', 'svn' ]
+            let g:signify_vcs_list          = [ 'git', 'hg', 'svn' ]
             let g:signify_sign_change       = '~'
             let g:signify_sign_changedelete = '~_'
         endif
@@ -1259,10 +1307,10 @@
             let g:ale_echo_delay = 20
 
             let g:ale_linters = {
-            \   'c'     : ['gcc', 'cppcheck'],
-            \   'cpp'   : ['gcc', 'cppcheck'],
-            \   'python': ['flake8', 'pylint'],
-            \ }
+                \ 'c'     : ['gcc', 'cppcheck', 'ccls'],
+                \ 'cpp'   : ['gcc', 'cppcheck', 'ccls'],
+                \ 'python': ['flake8', 'pylint'],
+                \ }
 
             " Moving between warnings and errors quickly.
             nmap <silent> <Space>m <Plug>(ale_previous_wrap)
@@ -1274,27 +1322,27 @@
         if PlugEnable('vim-autoformat')
             noremap <Leader>= :Autoformat<CR>
             " Python
-            let g:formatters_python = ['yapf', 'autopep8', 'black']
+            let g:formatters_python    = ['yapf', 'autopep8', 'black']
             let g:formatter_yapf_style = 'pep8'
         endif
     " }
 
     " Tabularize {
         if PlugEnable('tabular')
-            nmap <Leader>a& :Tabularize /&<CR>
-            vmap <Leader>a& :Tabularize /&<CR>
-            nmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
-            vmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
-            nmap <Leader>a=> :Tabularize /=><CR>
-            vmap <Leader>a=> :Tabularize /=><CR>
-            nmap <Leader>a: :Tabularize /:<CR>
-            vmap <Leader>a: :Tabularize /:<CR>
-            nmap <Leader>a:: :Tabularize /:\zs<CR>
-            vmap <Leader>a:: :Tabularize /:\zs<CR>
-            nmap <Leader>a, :Tabularize /,<CR>
-            vmap <Leader>a, :Tabularize /,<CR>
-            nmap <Leader>a,, :Tabularize /,\zs<CR>
-            vmap <Leader>a,, :Tabularize /,\zs<CR>
+            nmap <Leader>a&     :Tabularize /&<CR>
+            vmap <Leader>a&     :Tabularize /&<CR>
+            nmap <Leader>a=     :Tabularize /^[^=]*\zs=<CR>
+            vmap <Leader>a=     :Tabularize /^[^=]*\zs=<CR>
+            nmap <Leader>a=>    :Tabularize /=><CR>
+            vmap <Leader>a=>    :Tabularize /=><CR>
+            nmap <Leader>a:     :Tabularize /:<CR>
+            vmap <Leader>a:     :Tabularize /:<CR>
+            nmap <Leader>a::    :Tabularize /:\zs<CR>
+            vmap <Leader>a::    :Tabularize /:\zs<CR>
+            nmap <Leader>a,     :Tabularize /,<CR>
+            vmap <Leader>a,     :Tabularize /,<CR>
+            nmap <Leader>a,,    :Tabularize /,\zs<CR>
+            vmap <Leader>a,,    :Tabularize /,\zs<CR>
             nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
             vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
         endif
@@ -1397,12 +1445,12 @@
             let g:go_fmt_command = 'gofmt'
             augroup starry_vimgolang
                 autocmd!
-                autocmd FileType go nnoremap <Leader>s <Plug>(go-implements)
-                autocmd FileType go nnoremap <Leader>i <Plug>(go-info)
-                autocmd FileType go nnoremap <Leader>e <Plug>(go-rename)
-                autocmd FileType go nnoremap <Leader>r <Plug>(go-run)
-                autocmd FileType go nnoremap <Leader>b <Plug>(go-build)
-                autocmd FileType go nnoremap <Leader>t <Plug>(go-test)
+                autocmd FileType go nnoremap <Leader>s  <Plug>(go-implements)
+                autocmd FileType go nnoremap <Leader>i  <Plug>(go-info)
+                autocmd FileType go nnoremap <Leader>e  <Plug>(go-rename)
+                autocmd FileType go nnoremap <Leader>r  <Plug>(go-run)
+                autocmd FileType go nnoremap <Leader>b  <Plug>(go-build)
+                autocmd FileType go nnoremap <Leader>t  <Plug>(go-test)
                 autocmd FileType go nnoremap <Leader>gd <Plug>(go-doc)
                 autocmd FileType go nnoremap <Leader>gv <Plug>(go-doc-vertical)
                 autocmd FileType go nnoremap <Leader>co <Plug>(go-coverage)
@@ -1413,11 +1461,11 @@
     " PHP {
         if PlugEnable('phpcomplete.vim')
             let g:phpcomplete_mappings = {
-               \ 'jump_to_def':             '<C-]>',
-               \ 'jump_to_def_split':  '<C-\><C-]>',
-               \ 'jump_to_def_vsplit': '<C-w><C-\>',
-               \ 'jump_to_def_tabnew': '<C-\><C-[>',
-               \ }
+                \ 'jump_to_def'       : '<C-]>',
+                \ 'jump_to_def_split' : '<C-\><C-]>',
+                \ 'jump_to_def_vsplit': '<C-w><C-\>',
+                \ 'jump_to_def_tabnew': '<C-\><C-[>',
+                \ }
         endif
     " }
 
@@ -1497,7 +1545,7 @@
 
             " Alpha Window
             " 透明窗口
-            map <silent> <Space>a :call libcallnr(g:vimtweak_dll_path, "SetAlpha", 0)<CR>
+            map <silent> <Space>a  :call libcallnr(g:vimtweak_dll_path, "SetAlpha", 0)<CR>
             map <silent> <Space>aa :call libcallnr(g:vimtweak_dll_path, "SetAlpha", 255)<CR>
         endif
     " }
@@ -1560,9 +1608,10 @@
         let parent = $HOME . '/.vim/'
         let prefix = 'vim'
         let dir_list = {
-                    \ 'backup': 'backupdir',
-                    \ 'views': 'viewdir',
-                    \ 'swap': 'directory' }
+            \ 'backup': 'backupdir',
+            \ 'views' : 'viewdir',
+            \ 'swap'  : 'directory',
+            \ }
 
         if has('persistent_undo')
             let dir_list['undo'] = 'undodir'
@@ -1594,7 +1643,7 @@
                 echo 'Try: mkdir -p ' . directory
             else
                 let directory = substitute(directory, ' ', "\\\\ ", 'g')
-                exec 'set ' . settingname . '=' . directory
+                execute 'set ' . settingname . '=' . directory
             endif
         endfor
     endfunction
