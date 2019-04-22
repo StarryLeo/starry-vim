@@ -609,6 +609,10 @@
         nnoremap <M-k> :resize +3<CR>
         nnoremap <M-h> :vertical resize -3<CR>
         nnoremap <M-l> :vertical resize +3<CR>
+
+        " Adjust viewports to the same size
+        " 调整窗口为相同大小
+        map <M-=> <C-w>=
     endif
 
     " The following two lines conflict with join lines and
@@ -714,7 +718,6 @@
 
             inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
             inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-            inoremap <expr> <C-m>      pumvisible() ? "\<C-p>" : "\<C-m>"
             inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
             inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
             inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
@@ -913,7 +916,7 @@
             let g:multi_cursor_start_key           = 'g<C-n>'
             let g:multi_cursor_select_all_key      = 'g<M-n>'
             let g:multi_cursor_next_key            = '<C-n>'
-            let g:multi_cursor_prev_key            = '<C-m>'
+            let g:multi_cursor_prev_key            = '<C-p>'
             let g:multi_cursor_skip_key            = '<C-x>'
             let g:multi_cursor_quit_key            = '<Esc>'
 
@@ -1002,7 +1005,7 @@
             " Plugin key-mappings {
                 " completion key
                 let g:ycm_key_list_select_completion   = ['<Tab>', '<Down>', '<C-n>']
-                let g:ycm_key_list_previous_completion = ['<S-Tab>', '<Up>', '<C-p>', '<C-m>']
+                let g:ycm_key_list_previous_completion = ['<S-Tab>', '<Up>', '<C-p>']
                 let g:ycm_key_list_stop_completion     = ['<CR>', '<C-y>']
 
                 noremap <C-z> <Nop>
@@ -1027,7 +1030,7 @@
                 if PlugEnable('nvim-yarp') && PlugEnable('vim-hug-neovim-rpc')
                     if has('python3')
                         set pyxversion=3
-                        if WINDOWS() && !strlen(exepath('python3'))
+                        if WINDOWS() && exepath('python3') ==? '' && exepath('python') !=? ''
                             let g:python3_host_prog = exepath('python')
                         endif
                     endif
@@ -1037,7 +1040,6 @@
                     " completion key
                     inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
                     inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<Tab>"
-                    inoremap <expr> <C-m>   pumvisible() ? "\<C-p>" : "\<C-m>"
                     inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
                     inoremap <expr> <S-CR>  pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
                 " }
@@ -1080,7 +1082,6 @@
                     " <Down> and <Up> cycle like <Tab> and <S-Tab>
                     inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
                     inoremap <expr> <Up>    pumvisible() ? "\<C-p>" : "\<Up>"
-                    inoremap <expr> <C-m>   pumvisible() ? "\<C-p>" : "\<C-m>"
                     " Jump up and down the list
                     inoremap <expr> <C-d>   pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
                     inoremap <expr> <C-u>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
@@ -1100,7 +1101,6 @@
                 " <Tab>: completion.
                 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
                 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<Tab>"
-                inoremap <expr> <C-m>   pumvisible() ? "\<C-p>" : "\<C-m>"
 
                 " Courtesy of Matteo Cavalleri
 
@@ -1313,8 +1313,8 @@
                 \ }
 
             " Moving between warnings and errors quickly.
-            nmap <silent> <Space>m <Plug>(ale_previous_wrap)
-            nmap <silent> <Space>n <Plug>(ale_next_wrap)
+            nmap <silent> <Space>j <Plug>(ale_next_wrap)
+            nmap <silent> <Space>k <Plug>(ale_previous_wrap)
         endif
     " }
 
