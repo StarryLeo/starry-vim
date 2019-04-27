@@ -129,7 +129,7 @@ Or use the command `:Sup` in vim, it supports Unix and Windows. Alternatively yo
 
     cd $HOME/to/starry-vim/
     git pull
-    vim  +PlugClean! +PlugUpgrade +PlugUpdate +q
+    vim +PlugClean! +PlugUpgrade +PlugUpdate +q
 ```
 
 ### Fork me on GitHub
@@ -529,10 +529,22 @@ starry-vim includes [solarized8] and [StarryLeo vim color pack](https://github.c
 
 Use `:colorscheme PaperColor` to switch to a color scheme.
 
-Terminal Vim users will benefit from solarizing their terminal emulators and setting solarized support to 16 colors:
+Terminal Vim users will benefit from their terminal emulators with true colors support and setting solarized support to true colors:
 
-    let g:solarized_use16 = 1
+    if has('termguicolors')
+        " Fix bug for vim
+        let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+        let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+        " Enable true color
+        set termguicolors
+    endif
+    " If your terminal emulator not support true colors and the colors are wrong,
+    " try to uncomment the following line:
+    "let g:solarized_use16 = 1
     colorscheme solarized8
+
+Check out Terminal emulators with true colors support: https://gist.github.com/XVilka/8346728
 
 Terminal emulator colorschemes:
 

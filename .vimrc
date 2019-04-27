@@ -92,10 +92,6 @@
         set ffs=unix,dos,mac             " Use Unix as standard file type 使用 Unix 文件格式作为标准
     endif
 
-    if !has('gui')
-        set term=xterm-256color          " Make arrow and other keys work 使箭头和其他按键工作
-    endif
-
     filetype plugin indent on   " Automatically detect file types 检测到不同的文件类型加载不同的文件类型插件
     syntax enable               " Syntax highlighting 开启语法高亮
     set mouse=a                 " Automatically enable mouse usage 开启鼠标模式
@@ -121,10 +117,14 @@
     "
     if !exists('g:starry_no_autochdir')
         " Always switch to the current file directory 总是自动切换到文件所在目录
-        augroup starry_autochdir
-            autocmd!
-            autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
-        augroup END
+        if has('autochdir')
+            set autochdir
+        else
+            augroup starry_autochdir
+                autocmd!
+                autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
+            augroup END
+        endif
     endif
 
     "set autowrite                      " Automatically write a file when leaving a modified buffer 离开缓冲区自动保存文件
@@ -206,6 +206,7 @@
     " }
 
     " vim-plug {
+        let g:plug_window = 'vertical topleft 100new'
         " Check plug is enable or disable
         " 检查插件启用还是禁用
         function! PlugEnable(plug)
@@ -218,6 +219,9 @@
 " Vim UI {
 
     if PlugEnable('starry-vim-colorschemes')
+        " If your terminal emulator not support true colors and the colors are wrong,
+        " try to uncomment the following line:
+        "let g:solarized_use16 = 1
         let g:solarized_visibility='normal'
         colorscheme solarized8             " Load a colorscheme 载入主题
     elseif !exists('g:starry_no_omni_complete')
@@ -335,7 +339,7 @@
         " 需要在插件开头处加文件类型检测的可以放在这里
         autocmd!
         "autocmd FileType go autocmd BufWritePre <buffer> Fmt
-        autocmd FileType yml setlocal expandtab shiftwidth=2 softtabstop=2
+        autocmd FileType yml,json setlocal expandtab shiftwidth=2 softtabstop=2
         autocmd FileType css setlocal iskeyword+=-
 
         autocmd BufNewFile,BufRead *.coffee set filetype=coffee
@@ -752,10 +756,10 @@
             noremap <Leader>fm :cclose<CR>:Leaderf mru --regexMode<CR>
             noremap <Leader>ff :cclose<CR>:Leaderf! function<CR>
             noremap <Leader>ft :cclose<CR>:Leaderf! bufTag<CR>
-            noremap <Leader>fo :cclose<CR>:Leaderf tag<CR>
+            noremap <Leader>fo :cclose<CR>:Leaderf tag --stayOpen<CR>
 
             if executable('rg')
-                noremap <Leader>fr :cclose<CR>:Leaderf rg --hidden --regexMode<CR>
+                noremap <Leader>fr :cclose<CR>:Leaderf rg --hidden --regexMode --stayOpen<CR>
             endif
 
             let g:Lf_RootMarkers = ['.git', '.hg', '.svn', '.project', '.root']
@@ -764,6 +768,7 @@
                 silent! call mkdir(g:Lf_CacheDirectory, 'p')
             endif
             let g:Lf_MruMaxFiles = 1024
+            let g:Lf_MaxCount    = 0
             if !exists('g:starry_no_powerline_symbols')
                 let g:Lf_StlSeparator = { 'left': '', 'right': '' }
             endif
@@ -1195,7 +1200,7 @@
     " LanguageClient-neovim {
         if PlugEnable('LanguageClient-neovim')
             let g:LanguageClient_loadSetting       = 1
-            let g:LanguageClient_SettingPath       = expand('~/.vim/languageserver/setting.json')
+            let g:LanguageClient_SettingPath       = expand('~/.vim/lcn-settings.json')
             let g:LanguageClient_diagnosticsEnable = 0
             let g:LanguageClient_selectionUI       = 'quickfix'
             let g:LanguageClient_hoverPreview      = 'Never'
@@ -1217,7 +1222,7 @@
             " Open quickfix window automatically at 8 lines height after command starts
             let g:asyncrun_open = 8
             " Use F10 to toggle quickfix window rapidly
-            nnoremap <F10> :call asyncrun#quickfix_toggle(8)<CR>
+            nnoremap <F10> :call asyncrun#quickfix_toggle(g:asyncrun_open)<CR>
 
             function! s:CompileAndRun()
                 let l:cmd = {
@@ -1397,6 +1402,7 @@
             let g:vim_markdown_folding_style_pythonic = 1
             " Disable conceal regardless of conceallevel setting
             let g:vim_markdown_conceal = 0
+            let g:vim_markdown_conceal_code_blocks = 0
             " Disable math conceal with LaTex math syntax enabled
             "let g:tex_conceal = ""
             "let g:vim_markdown_math = 1
@@ -1525,6 +1531,7 @@
             " 最大化窗口
             if exists('g:starry_fullscreen_startup')
                 augroup starry_fullscreen
+                    autocmd!
                     autocmd VimEnter * VimTweakEnableMaximize
                 augroup END
                 let g:fullscreenmode = 1
@@ -1560,7 +1567,7 @@
         set guioptions-=m           " Remove the menu bar
         set guioptions-=t           " Remove the tearoff menu items
         set guioptions-=T           " Remove the toolbar
-        set lines=40                " 40 lines of text instead of 24
+        set lines=41                " 41 lines of text instead of 24
         set columns=82              " 82 columns of text instead of 80
         " Leave the default font and size in GVim, add the following to your
         " .vimrc.before.local file:
@@ -1581,22 +1588,14 @@
             endif
         endif
     else
-        " Use 24-bit (true-color) mode in Vim when outside tmux
-        if (empty($TMUX))
-            if has('termguicolors')
-                " Fix bug for vim
-                let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
-                let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+        if has('termguicolors')
+            " Fix bug for vim
+            let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+            let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
-                " Enable true color
-                set termguicolors
-            endif
-        else
-            if &term ==? 'xterm' || &term ==? 'screen'
-                set t_Co=256            " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
-            endif
+            " Enable true color
+            set termguicolors
         endif
-        "set term=builtin_ansi       " Make arrow and other keys work
     endif
 
 " }
@@ -1648,20 +1647,6 @@
         endfor
     endfunction
     call InitializeDirectories()
-    " }
-
-    " Initialize NERDTree as needed {
-    function! NERDTreeInitAsNeeded()
-        redir => bufoutput
-        buffers!
-        redir END
-        let idx = stridx(bufoutput, 'NERD_tree')
-        if idx > -1
-            NERDTreeMirror
-            NERDTreeFind
-            wincmd l
-        endif
-    endfunction
     " }
 
     " Strip whitespace {

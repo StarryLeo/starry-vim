@@ -148,14 +148,14 @@
             elseif has('gui_running')
                 Plug 'StarryLeo/Consolas-with-Yahei', { 'do': './install.sh' }
             endif
-            Plug 'mbbill/undotree'
+            Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
             Plug 'tpope/vim-surround'
             Plug 'tpope/vim-repeat'
             Plug 'tpope/vim-unimpaired'
             Plug 'easymotion/vim-easymotion'
             Plug 'jiangmiao/auto-pairs'
             Plug 'terryma/vim-multiple-cursors'
-            Plug 'nathanaelkane/vim-indent-guides'
+            Plug 'StarryLeo/vim-indent-guides'
             Plug 'xolox/vim-misc'
             Plug 'xolox/vim-session'
             if !exists('g:starry_no_views')
@@ -187,11 +187,12 @@
             Plug 'Shougo/deoplete.nvim'
             Plug 'roxma/nvim-yarp'
             Plug 'roxma/vim-hug-neovim-rpc'
-            Plug 'Shougo/neco-vim'
+            Plug 'Shougo/neco-vim', { 'for': 'vim' }
             Plug 'SirVer/ultisnips'
             Plug 'honza/vim-snippets'
         elseif count(g:starry_plug_groups, 'neocomplete')
             Plug 'Shougo/neocomplete.vim'
+            Plug 'Shougo/neco-vim', { 'for': 'vim' }
             Plug 'Shougo/neosnippet'
             Plug 'Shougo/neosnippet-snippets'
             Plug 'honza/vim-snippets'
@@ -240,7 +241,11 @@
     " Markdown {
         if count(g:starry_plug_groups, 'markdown')
             Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-            Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown', 'on': 'MarkdownPreview' }
+            if executable('node') && executable('yarn')
+                Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install', 'for': 'markdown', 'on': 'MarkdownPreview' }
+            else
+                Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown', 'on': 'MarkdownPreview' }
+            endif
         endif
     " }
 
