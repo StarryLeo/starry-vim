@@ -988,7 +988,7 @@
     " }
 
     " YouCompleteMe {
-        if PlugEnable('YouCompleteMe') && (!WINDOWS() || exists('g:starry_enable_ycm_on_windows'))
+        if PlugEnable('YouCompleteMe')
             let g:ycm_filetype_whitelist = {
                 \ 'c'     : 1,
                 \ 'cpp'   : 1,
@@ -1056,7 +1056,7 @@
     " }
     " deoplete {
         elseif PlugEnable('deoplete.nvim')
-            if (index(['c', 'cpp', 'objc', 'objcpp', 'cuda'], &filetype) >= 0) || (WINDOWS() && !exists(g:starry_enable_ycm_on_windows))
+            if (index(['c', 'cpp', 'objc', 'objcpp', 'cuda'], &filetype) < 0) || (WINDOWS() && !PlugEnable('YouCompleteMe'))
                 let g:deoplete#enable_at_startup = 1
 
                 " For Vim8
