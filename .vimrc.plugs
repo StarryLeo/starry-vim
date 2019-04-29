@@ -104,7 +104,7 @@
     " 在你的 .vimrc.before.local 文件中列出你要用的插件组
     "
     if !exists('g:starry_plug_groups')
-        let g:starry_plug_groups=['general', 'youcompleteme', 'deoplete', 'languageserver', 'programming', 'markdown', 'cpp', 'python', 'verilog', 'misc',]
+        let g:starry_plug_groups=['general', 'youcompleteme', 'coc', 'deoplete', 'snippets', 'languageserver', 'programming', 'markdown', 'cpp', 'python', 'verilog', 'misc',]
     endif
 
     " To override all the included plugs, add the following to your
@@ -169,43 +169,50 @@
         endif
     " }
 
-    " AutoComplete & Snippets {
+    " AutoComplete {
         if count(g:starry_plug_groups, 'youcompleteme')
-            if has('win32') || has('win64')
-                if exists('g:starry_enable_ycm_on_windows')
-                    Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp', 'cuda'] }
-                    Plug 'SirVer/ultisnips'
-                    Plug 'honza/vim-snippets'
-                endif
+            if (has('win32') || has('win64')) && exists('g:starry_enable_ycm_on_windows')
+                Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp', 'objc', 'objcpp', 'cuda'] }
             else
-                Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer', 'for': ['c', 'cpp', 'cuda'] }
-                Plug 'SirVer/ultisnips'
-                Plug 'honza/vim-snippets'
+                Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer', 'for': ['c', 'cpp', 'objc', 'objcpp', 'cuda'] }
             endif
         endif
-        if count(g:starry_plug_groups, 'deoplete')
+        if count(g:starry_plug_groups, 'coc') && executable('node') && executable('yarn')
+            Plug 'neoclide/coc.nvim', { 'do': 'yarn install --frozen-lockfile' }
+            Plug 'Shougo/neoinclude.vim'
+            Plug 'jsfaint/coc-neoinclude'
+            Plug 'Shougo/neco-vim', { 'for': 'vim' }
+            Plug 'neoclide/coc-neco', { 'for': 'vim' }
+        elseif count(g:starry_plug_groups, 'deoplete')
             Plug 'Shougo/deoplete.nvim'
             Plug 'roxma/nvim-yarp'
             Plug 'roxma/vim-hug-neovim-rpc'
             Plug 'Shougo/neco-vim', { 'for': 'vim' }
-            Plug 'SirVer/ultisnips'
-            Plug 'honza/vim-snippets'
         elseif count(g:starry_plug_groups, 'neocomplete')
             Plug 'Shougo/neocomplete.vim'
             Plug 'Shougo/neco-vim', { 'for': 'vim' }
-            Plug 'Shougo/neosnippet'
-            Plug 'Shougo/neosnippet-snippets'
+        endif
+    " }
+
+    " Snippets {
+        if count(g:starry_plug_groups, 'snippets')
+            if has('python') || has('python3')
+                Plug 'SirVer/ultisnips'
+            else
+                Plug 'Shougo/neosnippet'
+                Plug 'Shougo/neosnippet-snippets'
+            endif
             Plug 'honza/vim-snippets'
         endif
     " }
 
     "  LanguageServer {
-        if count(g:starry_plug_groups, 'languageserver')
-            if executable('ccls')
+        if count(g:starry_plug_groups, 'languageserver') && (executable('ccls'))
+            if !(count(g:starry_plug_groups, 'coc') && executable('node') && executable('yarn'))
                 if has('win32') || has('win64')
-                    Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'powershell -executionpolicy bypass -File install.ps1', 'for': ['c', 'cpp', 'cuda'] }
+                    Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'powershell -executionpolicy bypass -File install.ps1', 'for': ['c', 'cpp', 'objc', 'objcpp', 'cuda'] }
                 else
-                    Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', 'for': ['c', 'cpp', 'cuda'] }
+                    Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', 'for': ['c', 'cpp', 'objc', 'objcpp', 'cuda'] }
                 endif
             endif
         endif
@@ -251,7 +258,7 @@
 
     " C / C++ {
         if count(g:starry_plug_groups, 'cpp')
-            Plug 'octol/vim-cpp-enhanced-highlight', { 'for': ['c', 'cpp', 'cuda'] }
+            Plug 'octol/vim-cpp-enhanced-highlight', { 'for': ['c', 'cpp', 'objc', 'objcpp', 'cuda'] }
         endif
     " }
 

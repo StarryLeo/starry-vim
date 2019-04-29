@@ -69,6 +69,8 @@ If using pyenv, you need to run the command:
 
 before installing a python version.
 
+For [coc], you need [nodejs] and [yarn] installed, see more: [coc.nvim#table-of-contents](https://github.com/neoclide/coc.nvim#table-of-contents)
+
 For [neocomplete], you need [vim with lua](https://github.com/Shougo/neocomplete.vim#requirements).
 if `:echo has('lua')` returns `1`, then you have lua support.
 
@@ -361,8 +363,6 @@ Deoplete is the generation completion framework for Vim 8 after neocomplete.
 
 Here are some [completion sources](https://github.com/Shougo/deoplete.nvim/wiki/Completion-Sources) specifically made for deoplete.
 
-**QuickStart** Just start typing, it will autocomplete where possible
-
 **Customizations**:
 
  * Automatically present the autocomplete menu
@@ -391,6 +391,34 @@ You will now have the code in your plugs directory and can proceed to compile th
 The plugin is well documented on the site linked above. Be sure to give that a read and make sure you understand the options you require.
 
 For java users wanting to use eclim be sure to add `let g:EclimCompletionMethod = 'omnifunc'` to your `.vimrc.local`.
+
+## [coc]
+
+Coc is a completion framework and language server client which supports [extension features of VSCode](https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions).
+
+**Customizations**:
+
+ * Automatically present the autocomplete menu
+ * Use tab and enter for autocomplete
+ * `<C-j>` for completing snippets using [coc-snippets](https://github.com/neoclide/coc-snippets).
+
+**Language Server Protocol Customizations**:
+
+ * `gd` goto definition
+ * `gc` goto typeDefinition
+ * `gi` goto implementation
+ * `gr` goto references
+ * `K`  show documentation
+
+## [LanguageClient-neovim]
+
+[Language Server Protocol](https://langserver.org) support for vim.
+
+**Language Server Protocol Customizations**:
+
+ * `gd` goto definition
+ * `gr` goto references
+ * `K`  show documentation
 
 ## [ALE]
 
@@ -612,6 +640,10 @@ Here's some tips if you've never used VIM before:
 [AsyncRun]:https://github.com/skywind3000/asyncrun.vim
 [vim-easymotion]:https://github.com/Lokaltog/vim-easymotion
 [YouCompleteMe]:https://github.com/Valloric/YouCompleteMe
+[coc]:https://github.com/neoclide/coc.nvim
+[nodejs]:https://nodejs.org/en/download
+[yarn]:https://github.com/yarnpkg/yarn
+[LanguageClient-neovim]:https://github.com/autozimu/LanguageClient-neovim
 [Tabularize]:https://github.com/godlygeek/tabular
 [EasyMotion]:https://github.com/easymotion/vim-easymotion
 [TextObj-User]:https://github.com/kana/vim-textobj-user

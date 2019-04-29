@@ -62,6 +62,14 @@
         endif
     " }
 
+    " autocmd clean {
+        " To avoid defining autocmd twice when .vimrc is sourced twice.
+        " 避免二次定义自动命令
+        augroup starry
+            autocmd!
+        augroup END
+    " }
+
 " }
 
 " Use before config if available {
@@ -82,7 +90,6 @@
 
     " Using Unix as standard file type by default; to prevent this behavior, add the following to
     " your .vimrc.before.local file:
-    "
     " 默认使用 Unix 格式作为标准文件类型
     " 如要禁用，请将以下值声明在 .vimrc.before.local 文件：
     "
@@ -109,7 +116,6 @@
     " Most prefer to automatically switch to the current file directory when
     " a new buffer is opened; to prevent this behavior, add the following to
     " your .vimrc.before.local file:
-    "
     " 大多数人喜欢自动切换到文件所在目录
     " 如要禁用，请将以下值声明在 .vimrc.before.local 文件：
     "
@@ -120,20 +126,19 @@
         if has('autochdir')
             set autochdir
         else
-            augroup starry_autochdir
-                autocmd!
+            augroup starry
                 autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
             augroup END
         endif
     endif
 
     "set autowrite                      " Automatically write a file when leaving a modified buffer 离开缓冲区自动保存文件
-    set shortmess+=filmnrxoOtT          " Abbrev. of messages (avoids 'hit enter') 设置短消息
+    set shortmess+=cfilmnrxoOtT         " Abbrev. of messages (avoids 'hit enter') 设置短消息
     set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility 更好的兼容性
     set virtualedit=onemore             " Allow for cursor beyond last character 允许光标移动到刚刚超过行尾的位置
     set history=1000                    " Store a ton of history (default is 50) 记录的历史命令数
     set spell                           " Spell checking on 开启拼写检查
-    set spelllang+=cjk                  " Do not check cjk spelling 不检查 cjk 字符拼写
+    set spelllang+=cjk                  " Check cjk spelling 检查 cjk 字符拼写
     set hidden                          " Allow buffer switching without saving 允许切换缓冲区不保存
     set iskeyword-=.                    " '.' is an end of word designator 设置单词关键字
     set iskeyword-=#                    " '#' is an end of word designator
@@ -142,25 +147,9 @@
     set ttimeout ttimeoutlen=100        " 设置键码超时为 100ms  a key code or mapped key sequence to complete
 
 
-    augroup starry_gitcommit
-        autocmd!
-        " Instead of reverting the cursor to the last position in the buffer, we
-        " set it to the first line when editing a git commit message
-        "
-        " 当在编辑 commit 信息时把光标恢复到第一行
-        autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
-
-        " add spell checking and automatic wrapping at the recommended 72 columns
-        " to commit messages
-        "
-        " 当在编辑 commit 信息时，开启拼写检查
-        autocmd Filetype gitcommit setlocal spell textwidth=72
-    augroup END
-
     " http://vim.wikia.com/wiki/Restore_cursor_to_file_position_in_previous_editing_session
     " Restore cursor to file position in previous editing session
     " To disable this, add the following to your .vimrc.before.local file:
-    "
     " 恢复光标到上次编辑会话中的位置
     " 如要禁用，请将以下值声明在.vimrc.before.local文件：
     "
@@ -174,8 +163,7 @@
             endif
         endfunction
 
-        augroup resCur
-            autocmd!
+        augroup starry
             autocmd BufWinEnter * call ResCur()
         augroup END
     endif
@@ -190,7 +178,6 @@
         endif
 
         " To disable views add the following to your .vimrc.before.local file:
-        "
         " 如要禁用视图，请将以下值声明在 .vimrc.before.local 文件：
         "
         "   let g:starry_no_views = 1
@@ -283,8 +270,7 @@
     set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
     " 插入模式显示绝对行号，普通模式显示相对行号
     if !exists('g:starry_no_relativenumber')
-        augroup starry_relativenumber
-            autocmd!
+        augroup starry
             autocmd InsertEnter * set norelativenumber
             autocmd InsertLeave * set relativenumber
         augroup END
@@ -312,14 +298,12 @@
     " Remove trailing whitespaces and ^M chars
     " To disable the stripping of whitespace, add the following to your
     " .vimrc.before.local file:
-    "
     " 移除行尾的空格和 ^M
     " 如要禁用，请将以下值声明在 .vimrc.before.local 文件：
     "
     "   let g:starry_keep_trailing_whitespace = 1
     "
-    augroup starry_remove_trailing_whitespace
-        autocmd!
+    augroup starry
         autocmd FileType c,cpp,java,go,php,javascript,python,xml,yml,perl,sql
             \ autocmd BufWritePre <buffer>
             \ if !exists('g:starry_keep_trailing_whitespace')
@@ -327,20 +311,25 @@
             \ | endif
     augroup END
 
-    augroup starry_Popup_Menu
-        autocmd!
+    augroup starry
         " Automatically open and close the popup menu / preview window
         " 自动打开和关闭弹出的补全菜单 / 预览窗口
         autocmd CursorMovedI,InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose | endif
-    augroup END
 
-    augroup starry_File_Type
         " preceding line best in a plugin but here for now
         " 需要在插件开头处加文件类型检测的可以放在这里
-        autocmd!
         "autocmd FileType go autocmd BufWritePre <buffer> Fmt
         autocmd FileType yml,json setlocal expandtab shiftwidth=2 softtabstop=2
         autocmd FileType css setlocal iskeyword+=-
+
+        " Instead of reverting the cursor to the last position in the buffer, we
+        " set it to the first line when editing a git commit message
+        " 当在编辑 commit 信息时把光标恢复到第一行
+        autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
+        " add spell checking and automatic wrapping at the recommended 72 columns
+        " to commit messages
+        " 当在编辑 commit 信息时，开启拼写检查
+        autocmd Filetype gitcommit setlocal spell textwidth=72
 
         autocmd BufNewFile,BufRead *.coffee set filetype=coffee
     augroup END
@@ -353,7 +342,6 @@
     " The default leader is "\", but many people prefer "," as it's in a standard
     " location. To override this behavior and set it back to "\" (or any other
     " character) add the following to your .vimrc.before.local file:
-    "
     " vim 默认快捷键“前缀”为“\”，更多人喜欢更改为“,”， 你可以在 .vimrc.before.local 中自定义：
     "
     "   let g:starry_leader='\'
@@ -453,7 +441,6 @@
     " The default mappings for editing and applying the starry configuration
     " are <Leader>ev and <Leader>sv respectively. Change them to your preference
     " by adding the following to your .vimrc.before.local file:
-    "
     " 编辑和应用 starry 配置的默认快捷键分别是 <Leader>ev 和 <Leader>sv。
     " 你可以在 .vimrc.before.local 中自定义：
     "
@@ -528,7 +515,6 @@
     " Default vim behaviour is to act relative to text line in both cases
     " If you prefer the default behaviour, add the following to your
     " .vimrc.before.local file:
-    "
     " 行的往开始和往结束动作将依赖于 `:set wrap?`
     " 若 `:set wrap`，则往结束动作转到当前屏幕行最右侧屏幕上可见的的字符（非文本行的最右侧）
     " 若 `:set nowrap`，则往结束动作转到当前屏幕行最右侧的字符（即当前文本行的最右侧）
@@ -591,11 +577,10 @@
 
     " Windows & Tabs {
     " Easier moving in tabs and windows
+    " 更好的标签页和窗口切换
     " The lines conflict with the default digraph mapping of <C-k>
     " If you prefer that functionality, add the following to your
     " .vimrc.before.local file:
-    "
-    " 更好的标签页和窗口切换
     " 下面的几行会和原用来输入二合字母的 <C-k> 映射冲突
     " 如果你更想要原来的功能，请将以下值声明在 .vimrc.before.local 文件：
     "
@@ -619,19 +604,17 @@
         map <M-=> <C-w>=
     endif
 
-    " The following two lines conflict with join lines and
-    " run a program to lookup the keyword under the cursor.
-    " If you prefer that functionality, add the following to your
+    " Faster moving in tabs
+    " If you do not need, add the following to your
     " .vimrc.before.local file:
-    "
-    " 以下两行与连接行和运行程序查找光标下关键字冲突
-    " 如果你更想要原来的功能，请将以下值声明在 .vimrc.before.local 文件：
+    " 更快的标签页切换
+    " 如果不需要，请将以下值声明在 .vimrc.before.local 文件：
     "
     "   let g:starry_no_fastTabs = 1
     "
     if !exists('g:starry_no_fastTabs')
-        map <S-J> gt
-        map <S-K> gT
+        nmap <Leader>+ gt
+        nmap <Leader>- gT
         nmap <Leader>1 1gt
         nmap <Leader>2 2gt
         nmap <Leader>3 3gt
@@ -649,7 +632,6 @@
     " Stupid shift key fixes
     " If you do not need, add the following to your
     " .vimrc.before.local file:
-    "
     " 按键修复
     " 如果不需要，请将以下值声明在 .vimrc.before.local 文件：
     "
@@ -676,7 +658,6 @@
     " Most prefer to toggle search highlighting rather than clear the current
     " search results. To clear search highlighting rather than toggle it on
     " and off, add the following to your .vimrc.before.local file:
-    "
     " 更多人希望搜索结果高亮可以切换，而不是只有清除高亮
     " 如果不需要切换，请将以下值声明在 .vimrc.before.local 文件：
     "
@@ -696,6 +677,20 @@
     " and ask which one to jump to
     " 使用 <Space>fj 查找跳转光标下单词，并询问跳转到哪一个
     nmap <Space>fj [I:let nr = input("Which one: ")<Bar>execute "normal " . nr ."[\t"<CR>
+
+    " Show help doc for the word under the cursor
+    " 查看光标下单词的帮助文档
+    nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+    function! s:show_documentation()
+        if (index(['vim', 'help'], &filetype) >= 0)
+            execute 'h ' . expand('<cword>')
+        elseif PlugEnable('coc.nvim')
+            call CocAction('doHover')
+        elseif PlugEnable('LanguageClient-neovim')
+            call LanguageClient#textDocument_hover()
+        endif
+    endfunction
     " }
 
 " }
@@ -704,15 +699,13 @@
 
     " OmniComplete {
         " To disable omni complete, add the following to your .vimrc.before.local file:
-        "
         " 如果要禁用自带补全，请将以下值声明在 .vimrc.before.local 文件：
         "
         "   let g:starry_no_omni_complete = 1
         "
         if !exists('g:starry_no_omni_complete')
             if has('autocmd') && exists('+omnifunc')
-                augroup starry_omni_complete
-                    autocmd!
+                augroup starry
                     autocmd Filetype *
                         \ if &omnifunc == "" |
                         \     setlocal omnifunc=syntaxcomplete#Complete |
@@ -740,10 +733,10 @@
 
             let NERDTreeShowBookmarks = 1
             let NERDTreeBookmarksFile = expand('~/.cache/.NERDTreeBookmarks')
-            let NERDTreeIgnore = ['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
-            let NERDTreeChDirMode = 0
+            let NERDTreeIgnore     = ['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
+            let NERDTreeChDirMode  = 0
             let NERDTreeQuitOnOpen = 1
-            let NERDTreeMouseMode = 1
+            let NERDTreeMouseMode  = 1
             let NERDTreeShowHidden = 1
             let g:nerdtree_tabs_open_on_gui_startup = 0
         endif
@@ -762,7 +755,7 @@
                 noremap <Leader>fr :cclose<CR>:Leaderf rg --hidden --regexMode --stayOpen<CR>
             endif
 
-            let g:Lf_RootMarkers = ['.git', '.hg', '.svn', '.project', '.root']
+            let g:Lf_RootMarkers    = ['.git', '.hg', '.svn', '.project', '.root']
             let g:Lf_CacheDirectory = expand('~/.cache')
             if !isdirectory(g:Lf_CacheDirectory)
                 silent! call mkdir(g:Lf_CacheDirectory, 'p')
@@ -849,8 +842,8 @@
                 nmap <Leader>+ <Plug>AirlineSelectNextTab
             else
                 " bufferline
-                let g:bufferline_echo = 0
-                let g:bufferline_fname_mod = ':~'
+                let g:bufferline_echo        = 0
+                let g:bufferline_fname_mod   = ':~'
                 let g:bufferline_pathshorten = 1
             endif
 
@@ -947,7 +940,7 @@
         if PlugEnable('vim-indent-guides')
             let g:indent_guides_enable_on_vim_startup = 1
             let g:indent_guides_start_level = 2
-            let g:indent_guides_guide_size = 1
+            let g:indent_guides_guide_size  = 1
         endif
     " }
 
@@ -995,13 +988,13 @@
     " }
 
     " YouCompleteMe {
-        if count(g:starry_plug_groups, 'youcompleteme') &&
-            \ (!WINDOWS() || exists('g:starry_enable_ycm_on_windows'))
-
+        if PlugEnable('YouCompleteMe') && (!WINDOWS() || exists('g:starry_enable_ycm_on_windows'))
             let g:ycm_filetype_whitelist = {
-                \ 'c'   : 1,
-                \ 'cpp' : 1,
-                \ 'cuda': 1,
+                \ 'c'     : 1,
+                \ 'cpp'   : 1,
+                \ 'objc'  : 1,
+                \ 'objcpp': 1,
+                \ 'cuda'  : 1,
                 \ }
 
             let g:ycm_global_ycm_extra_conf = expand('~/.vim/viplug/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py')
@@ -1013,22 +1006,57 @@
                 let g:ycm_key_list_previous_completion = ['<S-Tab>', '<Up>', '<C-p>']
                 let g:ycm_key_list_stop_completion     = ['<CR>', '<C-y>']
 
-                noremap <C-z> <Nop>
+                inoremap <C-z> <Nop>
                 let g:ycm_key_invoke_completion = '<C-z>'
 
                 let g:ycm_semantic_triggers = {
-                    \ 'c'   : ['re!\w+\w+'],
-                    \ 'cpp' : ['re!\w+\w+'],
-                    \ 'cuda': ['re!\w+\w+'],
+                    \ 'c'     : ['re!\w+\w+'],
+                    \ 'cpp'   : ['re!\w+\w+'],
+                    \ 'objc'  : ['re!\w+\w+'],
+                    \ 'objcpp': ['re!\w+\w+'],
+                    \ 'cuda'  : ['re!\w+\w+'],
                     \ }
             " }
         endif
     " }
 
+    " coc {
+        if PlugEnable('coc.nvim')
+            let b:coc_suggest_disable = 0
+            augroup starry
+                autocmd FileType c,cpp,objc,objcpp,cuda let b:coc_suggest_disable = 1
+            augroup END
+            if b:coc_suggest_disable != 1
+                " Plugin key-mappings {
+                    " completion key
+                    inoremap <silent><expr> <Tab>
+                        \ pumvisible() ? "\<C-n>" :
+                        \ <SID>check_back_space() ? "\<Tab>" :
+                        \ coc#refresh()
+                    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<Tab>"
+                    inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+                    inoremap <expr> <S-CR>  pumvisible() ? "\<C-y>\<CR>" : "\<C-g>u\<CR>"
+                    inoremap <C-z> <Nop>
+                    inoremap <silent><expr> <C-z> coc#refresh()
+
+                    function! s:check_back_space() abort
+                        let col = col('.') - 1
+                        return !col || getline('.')[col - 1] =~# '\s'
+                    endfunction
+
+                    " coc-extensions
+                    let g:coc_global_extensions = ['coc-dictionary', 'coc-tag', 'coc-snippets', 'coc-python', 'coc-word']
+
+                    " coc-snippets
+                    imap <C-j> <Plug>(coc-snippets-expand-jump)
+                    vmap <C-j> <Plug>(coc-snippets-select)
+                    let g:coc_snippet_prev = '<C-k>'
+                " }
+            endif
+    " }
     " deoplete {
-        if count(g:starry_plug_groups, 'deoplete')
-            if (&filetype !=? 'c' && &filetype !=? 'cpp' && &filetype !=? 'cuda') ||
-                \ (WINDOWS() && !exists(g:starry_enable_ycm_on_windows))
+        elseif PlugEnable('deoplete.nvim')
+            if (index(['c', 'cpp', 'objc', 'objcpp', 'cuda'], &filetype) >= 0) || (WINDOWS() && !exists(g:starry_enable_ycm_on_windows))
                 let g:deoplete#enable_at_startup = 1
 
                 " For Vim8
@@ -1048,10 +1076,20 @@
                     inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
                     inoremap <expr> <S-CR>  pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
                 " }
+
+                " custom source {
+                    call deoplete#custom#source('omni', 'function', {
+                        \ 'markdown': 'htmlcomplete#CompleteTags',
+                        \ 'html'    : 'htmlcomplete#CompleteTags',
+                        \ 'css'     : 'csscomplete#CompleteCSS',
+                        \ 'xml'     : 'xmlcomplete#CompleteTags',
+                        \ })
+                    call deoplete#custom#source('ale', 'rank', 999)
+                " }
             endif
     " }
     " neocomplete {
-        elseif count(g:starry_plug_groups, 'neocomplete')
+        elseif PlugEnable('neocomplete.vim')
             let g:acp_enableAtStartup = 0
             let g:neocomplete#enable_at_startup = 1
             let g:neocomplete#enable_smart_case = 1
@@ -1072,12 +1110,6 @@
             let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
             " Plugin key-mappings {
-                imap <C-j> <Plug>(neosnippet_expand_or_jump)
-                xmap <C-j> <Plug>(neosnippet_expand_target)
-                smap <expr> <C-j> neosnippet#expandable_or_jumpable() ?
-                    \ "\<Plug>(neosnippet_expand_or_jump)" : "\<C-j>"
-                smap <expr> <Tab> neosnippet#expandable_or_jumpable() ?
-                    \ "\<Plug>(neosnippet_jump_or_expand)" : "\<Tab>"
                 if exists('g:starry_noninvasive_completion')
                     inoremap <CR> <CR>
                     " <Esc> takes you out of insert mode
@@ -1120,7 +1152,7 @@
                         return "\<Tab>"
                     else
                         " existing text matching
-                        if neosnippet#expandable_or_jumpable()
+                        if PlugEnable('neosnippet.vim') && neosnippet#expandable_or_jumpable()
                             return "\<Plug>(neosnippet_expand_or_jump)"
                         else
                             return neocomplete#start_manual_complete()
@@ -1144,8 +1176,7 @@
     " To disable omni complete, add the following to your .vimrc.before.local file:
     "   let g:starry_no_omni_complete = 1
         elseif !exists('g:starry_no_omni_complete')
-            augroup starry_enable_omnicompletion
-                autocmd!
+            augroup starry
                 " Enable omni-completion.
                 autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
                 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -1158,13 +1189,18 @@
     " }
 
     " Snippets {
-        if count(g:starry_plug_groups, 'youcompleteme') ||
-            \ count(g:starry_plug_groups, 'deoplete')
-
-            " remap Ultisnips for compatibility for YouCompleteMe / deoplete
-            let g:UltiSnipsExpandTrigger       = '<C-j>'
-            let g:UltiSnipsJumpForwardTrigger  = '<C-j>'
-            let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+        if PlugEnable('ultisnips')
+            if exists('g:coc_global_extensions') && (index(g:coc_global_extensions, 'coc-snippets') >= 0)
+                " use coc-snippets
+                let g:UltiSnipsExpandTrigger       = '<Nop>'
+                let g:UltiSnipsJumpForwardTrigger  = '<Nop>'
+                let g:UltiSnipsJumpBackwardTrigger = '<Nop>'
+            else
+                " remap Ultisnips for compatibility for YouCompleteMe / deoplete
+                let g:UltiSnipsExpandTrigger       = '<C-j>'
+                let g:UltiSnipsJumpForwardTrigger  = '<C-j>'
+                let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+            endif
 
             " For snippet_complete marker.
             if !exists('g:starry_no_conceal')
@@ -1175,10 +1211,19 @@
 
             " Disable the preview window
             set completeopt-=preview
-        elseif count(g:starry_plug_groups, 'neocomplete')
+        elseif PlugEnable('neosnippet.vim')
+            " remap
+            imap <C-j> <Plug>(neosnippet_expand_or_jump)
+            xmap <C-j> <Plug>(neosnippet_expand_target)
+            smap <expr> <C-j> neosnippet#expandable_or_jumpable() ?
+                \ "\<Plug>(neosnippet_expand_or_jump)" : "\<C-j>"
+            smap <expr> <Tab> neosnippet#expandable_or_jumpable() ?
+                \ "\<Plug>(neosnippet_jump_or_expand)" : "\<Tab>"
 
-            " Use honza's snippets.
-            let g:neosnippet#snippets_directory = expand('~/.vim/viplug/vim-snippets/snippets')
+            if PlugEnable('vim-snippets')
+                " Use honza's snippets.
+                let g:neosnippet#snippets_directory = expand('~/.vim/viplug/vim-snippets/snippets')
+            endif
 
             " For snippet_complete marker.
             if !exists('g:starry_no_conceal')
@@ -1197,23 +1242,34 @@
         endif
     " }
 
-    " LanguageClient-neovim {
-        if PlugEnable('LanguageClient-neovim')
-            let g:LanguageClient_loadSetting       = 1
-            let g:LanguageClient_SettingPath       = expand('~/.vim/lcn-settings.json')
-            let g:LanguageClient_diagnosticsEnable = 0
-            let g:LanguageClient_selectionUI       = 'quickfix'
-            let g:LanguageClient_hoverPreview      = 'Never'
-            let g:LanguageClient_serverCommands    = {
-                \ 'c'   : [ 'ccls', '--log-file=/tmp/ccls.log' ],
-                \ 'cpp' : [ 'ccls', '--log-file=/tmp/ccls.log' ],
-                \ 'cbjc': [ 'ccls', '--log-file=/tmp/ccls.log' ],
-                \ 'cuda': [ 'ccls', '--log-file=/tmp/ccls.log' ],
-                \ }
+    " languageserver {
+        if executable('ccls')
+        " coc-languageserver {
+            if PlugEnable('coc.nvim')
+                nmap <silent> gd <Plug>(coc-definition)
+                nmap <silent> gc <Plug>(coc-type-definition)
+                nmap <silent> gi <Plug>(coc-implementation)
+                nmap <silent> gr <Plug>(coc-references)
+        " }
+        " LanguageClient-neovim {
+            elseif PlugEnable('LanguageClient-neovim')
+                let g:LanguageClient_loadSettings      = 1
+                let g:LanguageClient_settingsPath      = expand('~/.vim/lcn-settings.json')
+                let g:LanguageClient_diagnosticsEnable = 0
+                let g:LanguageClient_selectionUI       = 'quickfix'
+                let g:LanguageClient_hoverPreview      = 'Never'
+                let g:LanguageClient_serverCommands    = {
+                    \ 'c'     : [ 'ccls', '--log-file=/tmp/ccls.log' ],
+                    \ 'cpp'   : [ 'ccls', '--log-file=/tmp/ccls.log' ],
+                    \ 'objc'  : [ 'ccls', '--log-file=/tmp/ccls.log' ],
+                    \ 'objcpp': [ 'ccls', '--log-file=/tmp/ccls.log' ],
+                    \ 'cuda'  : [ 'ccls', '--log-file=/tmp/ccls.log' ],
+                    \ }
 
-            nnoremap <silent> <Leader>rd :call LanguageClient#textDocument_definition()<CR>
-            nnoremap <silent> <Leader>rr :call LanguageClient#textDocument_references({'includeDeclaration': v:false})<CR>
-            nnoremap <silent> <Leader>rh :call LanguageClient#textDocument_hover()<CR>
+                nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+                nnoremap <silent> gr :call LanguageClient#textDocument_references({'includeDeclaration': v:false})<CR>
+            endif
+        " }
         endif
     " }
 
@@ -1293,7 +1349,7 @@
         if PlugEnable('ale')
             " Keep the sign gutter open
             let g:ale_sign_column_always = 1
-            let g:ale_sign_error = '❌'
+            let g:ale_sign_error   = '❌'
             let g:ale_sign_warning = '⚡'
             " Show errors or warnings in airline
             let g:airline#extensions#ale#enable = 1
@@ -1301,9 +1357,9 @@
             " %s is the error message itself
             " %linter% is the linter name
             " %severity is the severity type
-            let g:ale_echo_msg_error_str = 'E'
+            let g:ale_echo_msg_error_str   = 'E'
             let g:ale_echo_msg_warning_str = 'W'
-            let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+            let g:ale_echo_msg_format      = '[%linter%] %s [%severity%]'
             " Check buffers only on TextChanged(normal mode) or leaving insert mode
             let g:ale_lint_on_text_changed = 'normal'
             let g:ale_lint_on_insert_leave = 1
@@ -1314,6 +1370,8 @@
             let g:ale_linters = {
                 \ 'c'     : ['gcc', 'cppcheck', 'ccls'],
                 \ 'cpp'   : ['gcc', 'cppcheck', 'ccls'],
+                \ 'objc'  : ['clang', 'ccls'],
+                \ 'objcpp': ['clang'],
                 \ 'python': ['flake8', 'pylint'],
                 \ }
 
@@ -1368,9 +1426,9 @@
                 let g:gutentags_modules += ['gtags_cscope']
             endif
 
-            let g:gutentags_project_root = ['.svn', '.project', '.root']
+            let g:gutentags_project_root  = ['.svn', '.project', '.root']
             let g:gutentags_ctags_tagfile = '.tags'
-            let g:gutentags_cache_dir = expand('~/.cache/tags')
+            let g:gutentags_cache_dir     = expand('~/.cache/tags')
             if !isdirectory(g:gutentags_cache_dir)
                 silent! call mkdir(g:gutentags_cache_dir, 'p')
             endif
@@ -1420,11 +1478,11 @@
 
     " C / C++ {
         if PlugEnable('vim-cpp-enhanced-highlight')
-            let g:cpp_class_scope_highlight = 1
+            let g:cpp_class_scope_highlight     = 1
             let g:cpp_member_variable_highlight = 1
-            let g:cpp_class_decl_highlight = 1
+            let g:cpp_class_decl_highlight      = 1
             "let g:cpp_experimental_simple_template_highlight = 1
-            let g:cpp_concepts_highlight = 1
+            let g:cpp_concepts_highlight    = 1
             let g:cpp_no_function_highlight = 1
         endif
     " }
@@ -1449,8 +1507,7 @@
             let g:go_highlight_operators = 1
             let g:go_highlight_build_constraints = 1
             let g:go_fmt_command = 'gofmt'
-            augroup starry_vimgolang
-                autocmd!
+            augroup starry
                 autocmd FileType go nnoremap <Leader>s  <Plug>(go-implements)
                 autocmd FileType go nnoremap <Leader>i  <Plug>(go-info)
                 autocmd FileType go nnoremap <Leader>e  <Plug>(go-rename)
@@ -1479,35 +1536,28 @@
         if PlugEnable('vim-closetag')
             " filenames like *.xml, *.html, *.xhtml, ...
             " These are the file extensions where this plugin is enabled.
-            "
             let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
 
             " filenames like *.xml, *.xhtml, ...
             " This will make the list of non-closing tags self-closing in the specified files.
-            "
             let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
 
             " filetypes like xml, html, xhtml, ...
             " These are the file types where this plugin is enabled.
-            "
             let g:closetag_filetypes = 'html,xhtml,phtml'
 
             " filetypes like xml, xhtml, ...
             " This will make the list of non-closing tags self-closing in the specified files.
-            "
             let g:closetag_xhtml_filetypes = 'xhtml,jsx'
 
             " integer value [0|1]
             " This will make the list of non-closing tags case-sensitive (e.g. `<Link>` will be closed while `<link>` won't.)
-            "
             let g:closetag_emptyTags_caseSensitive = 1
 
             " Shortcut for closing tags, default is '>'
-            "
             let g:closetag_shortcut = '>'
 
             " Add > at current position without closing the current tag, default is ''
-            "
             let g:closetag_close_shortcut = '<Leader>>'
         endif
     " }
@@ -1516,7 +1566,7 @@
         if PlugEnable('vim-javascript')
             let g:javascript_plugin_jsdoc = 1
             let g:javascript_plugin_ngdoc = 1
-            let g:javascript_plugin_flow = 1
+            let g:javascript_plugin_flow  = 1
         endif
 
         nmap <Leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
@@ -1530,8 +1580,7 @@
             " Maximized Window
             " 最大化窗口
             if exists('g:starry_fullscreen_startup')
-                augroup starry_fullscreen
-                    autocmd!
+                augroup starry
                     autocmd VimEnter * VimTweakEnableMaximize
                 augroup END
                 let g:fullscreenmode = 1
