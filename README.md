@@ -104,7 +104,7 @@ Open Gvim and write the following command, it will show the installed directory:
     :echo $VIMRUNTIME
     C:\Program Files\Vim\vim81
 
-Then you need to add it to your environment variable path. After that try execute `vim` within command prompt (press Win-R, type `cmd`, press Enter) and you’ll see the default vim page.
+Then you need to add it to your environment variable path. After that try execute `gvim` within command prompt (press Win-R, type `cmd`, press Enter) and you’ll see the default Gvim page.
 
 #### Install [Git for Windows]
 
@@ -341,7 +341,7 @@ There's a lot more, check it out at `:help surround`
 ## [NERDCommenter]
 
 NERDCommenter allows you to wrangle your code comments, regardless of
-filetype. View `help :NERDCommenter`.
+filetype. View `:help NERDCommenter`.
 
 **QuickStart** Toggle comments using `<Leader>c<Space>` in Visual or Normal mode.
 
@@ -426,6 +426,11 @@ ALE(Asynchronous Lint Engine) is a plugin for providing real-time linting(checki
 
 ALE support a wide variety of languages and tools. See the [full list](https://github.com/w0rp/ale/blob/master/supported-tools.md).
 
+**Customizations**:
+
+ * `<Space>j` : jump to next warnings and errors
+ * `<Space>k` : jump to previous warnings and errors
+
 ## [AsyncRun]
 
 AsyncRun takes the advantage of new apis in Vim 8 to enable you to run shell commands in background and read output in the quickfix windows in realtime.
@@ -434,7 +439,7 @@ AsyncRun is easy to use, just start your background comments by `:AsyncRun`(just
 
 **Customizations**:
 
- * `<F5>` : Quickly compile and run current file.
+ * `<F5>`  : Quickly compile and run current file.
  * `<F10>` : Toggle quickfix window rapidly.
 
 ## [Fugitive]
@@ -475,10 +480,10 @@ Tabularize lets you align statements on their equal signs and other characters
 
 **Customizations**:
 
- * `<Leader>a= :Tabularize /=<CR>`
- * `<Leader>a: :Tabularize /:<CR>`
- * `<Leader>a:: :Tabularize /:\zs<CR>`
- * `<Leader>a, :Tabularize /,<CR>`
+ * `<Leader>a=     :Tabularize /=<CR>`
+ * `<Leader>a:     :Tabularize /:<CR>`
+ * `<Leader>a::    :Tabularize /:\zs<CR>`
+ * `<Leader>a,     :Tabularize /,<CR>`
  * `<Leader>a<Bar> :Tabularize /<Bar><CR>`
 
 ## [Gutentags]
@@ -499,7 +504,7 @@ starry-vim includes the Gutentags plugin. This plugin requires [ctags]/[gtags] a
     sudo make install
 ```
 
-**Get more languages support** [gtags] supports C, C++, Yacc, Java, PHP and assembly by built-in parser, to get more languages support by [pygments] + [ctags] plug-in parser:
+**Get more languages support**: [gtags] supports C, C++, Yacc, Java, PHP and assembly by built-in parser, to get more languages support by [pygments] + [ctags] plug-in parser:
 
 ```bash
 
@@ -582,7 +587,7 @@ Terminal emulator colorschemes:
 
 ## Snippets
 
-It also contains a very complete set of [snippets](https://github.com/honza/vim-snippets) for use with [YouCompleteMe]/[deoplete]/[neocomplete].
+It also contains a very complete set of [snippets](https://github.com/honza/vim-snippets) for use with [YouCompleteMe]/[coc]/[deoplete]/[neocomplete].
 
 
 # Intro to VIM

@@ -151,7 +151,6 @@
             Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
             Plug 'tpope/vim-surround'
             Plug 'tpope/vim-repeat'
-            Plug 'tpope/vim-unimpaired'
             Plug 'easymotion/vim-easymotion'
             Plug 'jiangmiao/auto-pairs'
             Plug 'terryma/vim-multiple-cursors'
@@ -161,6 +160,7 @@
             if !exists('g:starry_no_views')
                 Plug 'vim-scripts/restore_view.vim'
             endif
+            Plug 'andymass/vim-matchup'
             Plug 'kana/vim-textobj-user'
             Plug 'kana/vim-textobj-indent'
             Plug 'kana/vim-textobj-entire'
@@ -190,6 +190,9 @@
             Plug 'roxma/nvim-yarp'
             Plug 'roxma/vim-hug-neovim-rpc'
             Plug 'Shougo/neco-vim', { 'for': 'vim' }
+            if count(g:starry_plug_groups, 'python')
+                Plug 'deoplete-plugins/deoplete-jedi', { 'for': 'python' }
+            endif
         elseif count(g:starry_plug_groups, 'neocomplete')
             Plug 'Shougo/neocomplete.vim'
             Plug 'Shougo/neco-vim', { 'for': 'vim' }
@@ -267,9 +270,6 @@
     " Python {
         if count(g:starry_plug_groups, 'python')
             Plug 'vim-python/python-syntax', { 'for': 'python' }
-            if count(g:starry_plug_groups, 'deoplete')
-                Plug 'deoplete-plugins/deoplete-jedi', { 'for': 'python' }
-            endif
         endif
     " }
 

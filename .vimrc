@@ -906,7 +906,7 @@
 
     " vim-multiple-cursors {
         if PlugEnable('vim-multiple-cursors')
-            let g:multi_cursor_use_default_mapping=0
+            let g:multi_cursor_use_default_mapping = 0
 
             " Mapping
             let g:multi_cursor_start_word_key      = '<C-n>'
@@ -961,6 +961,19 @@
             nmap <Leader>tss :SessionTabSave<CR>
             nmap <Leader>tso :SessionTabOpen<CR>
             nmap <Leader>tsc :SessionTabClose<CR>
+        endif
+    " }
+
+    " matchup {
+        if PlugEnable('vim-matchup')
+            let g:loaded_matchit = 1
+            let g:matchup_matchparen_deferred = 1
+            let g:matchup_matchparen_deferred_show_delay = 500
+            let g:matchup_matchparen_deferred_hide_delay = 200
+    " }
+    " matchit {
+        else
+            packadd! matchit
         endif
     " }
 
