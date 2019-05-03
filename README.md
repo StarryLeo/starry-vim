@@ -392,6 +392,12 @@ The plugin is well documented on the site linked above. Be sure to give that a r
 
 For java users wanting to use eclim be sure to add `let g:EclimCompletionMethod = 'omnifunc'` to your `.vimrc.local`.
 
+**Customizations**:
+
+ * Automatically present the autocomplete menu
+ * Use tab and enter for autocomplete
+ * `<C-j>` for completing snippets using [Ultisnips](https://github.com/SirVer/ultisnips).
+
 ## [coc]
 
 Coc is a completion framework and language server client which supports [extension features of VSCode](https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions).
@@ -417,6 +423,8 @@ Coc is a completion framework and language server client which supports [extensi
 **Language Server Protocol Customizations**:
 
  * `gd` goto definition
+ * `gc` goto typeDefinition
+ * `gi` goto implementation
  * `gr` goto references
  * `K`  show documentation
 

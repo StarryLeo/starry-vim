@@ -79,8 +79,6 @@
 " Plugs {
 
     " Deps {
-        Plug 'MarcWeber/vim-addon-mw-utils'
-        Plug 'tomtom/tlib_vim'
         if executable('rg') && (has('python') || has('python3'))
             if has('win32') || has('win64')
                 Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat', 'on': 'Leaderf' }

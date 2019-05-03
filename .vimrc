@@ -49,7 +49,11 @@
     " Basics {
         set nocompatible        " Must be first line 强制使用 vim 模式
         if !WINDOWS()
-            set shell=/bin/sh
+            if $SHELL ==# '/bin/sh'
+                set shell=/bin/sh
+            else
+                set shell=/bin/bash
+            endif
         endif
     " }
 
@@ -321,6 +325,7 @@
         "autocmd FileType go autocmd BufWritePre <buffer> Fmt
         autocmd FileType yml,json setlocal expandtab shiftwidth=2 softtabstop=2
         autocmd FileType css setlocal iskeyword+=-
+        autocmd FileType markdown setlocal nofoldenable
 
         " Instead of reverting the cursor to the last position in the buffer, we
         " set it to the first line when editing a git commit message
@@ -507,8 +512,10 @@
     " Move {
     " Wrapped lines goes down/up to next row, rather than next line in file.
     " 可以在换行的长行中同行间上下移动，而不是文件中行间移动
-    noremap j gj
-    noremap k gk
+    if (&wrap)
+        noremap j gj
+        noremap k gk
+    endif
 
     " End/Start of line motion keys act relative to row/wrap width in the
     " presence of `:set wrap`, and relative to line for `:set nowrap`.
@@ -573,6 +580,23 @@
     inoremap <M-k> <Up>
     inoremap <M-h> <Left>
     inoremap <M-l> <Right>
+    " }
+
+    " [ / ] {
+    " Next and Previous
+    " 下一个 前一个
+    nnoremap <silent> [a :previous<CR>
+    nnoremap <silent> ]a :next<CR>
+    nnoremap <silent> [A :first<CR>
+    nnoremap <silent> ]A :last<CR>
+    nnoremap <silent> [b :bprevious<CR>
+    nnoremap <silent> ]b :bnext<CR>
+    nnoremap <silent> [B :bfirst<CR>
+    nnoremap <silent> ]B :blast<CR>
+    nnoremap <silent> [t :tabprevious<CR>
+    nnoremap <silent> ]t :tabnext<CR>
+    nnoremap <silent> [T :tabfirst<CR>
+    nnoremap <silent> ]T :tablast<CR>
     " }
 
     " Windows & Tabs {
@@ -1270,7 +1294,7 @@
                 let g:LanguageClient_settingsPath      = expand('~/.vim/lcn-settings.json')
                 let g:LanguageClient_diagnosticsEnable = 0
                 let g:LanguageClient_selectionUI       = 'quickfix'
-                let g:LanguageClient_hoverPreview      = 'Never'
+                let g:LanguageClient_hoverPreview      = 'Auto'
                 let g:LanguageClient_serverCommands    = {
                     \ 'c'     : [ 'ccls', '--log-file=/tmp/ccls.log' ],
                     \ 'cpp'   : [ 'ccls', '--log-file=/tmp/ccls.log' ],
@@ -1280,7 +1304,9 @@
                     \ }
 
                 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-                nnoremap <silent> gr :call LanguageClient#textDocument_references({'includeDeclaration': v:false})<CR>
+                nnoremap <silent> gc :call LanguageClient#textDocument_typeDefinition()<CR>
+                nnoremap <silent> gi :call LanguageClient#textDocument_implementation()<CR>
+                nnoremap <silent> gr :call LanguageClient#textDocument_references()<CR>
             endif
         " }
         endif
@@ -1343,9 +1369,6 @@
     " gitgutter {
         if PlugEnable('vim-gitgutter')
             set updatetime=1000
-            if executable('rg')
-                let g:gitgutter_grep = 'rg'
-            endif
     " }
     " signify {
     " gitgutter only support git
