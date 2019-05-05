@@ -416,6 +416,20 @@ Coc is a completion framework and language server client which supports [extensi
  * `gr` goto references
  * `K`  show documentation
 
+**Using configuration file**:
+
+ * Coc use [jsonc](https://code.visualstudio.com/docs/languages/json) which support comment as configuration file format, the same as VSCode.
+ * Use `:CocConfig` to open the user configuration which is named as `coc-settings.json`.
+ * Checkout [schema.json](https://github.com/neoclide/coc.nvim/blob/master/data/schema.json), see the default coc preferences.
+
+My `coc-setings.json` is [StarryLeo/dotfiles#.vim/coc-settings.json](https://github.com/StarryLeo/dotfiles/blob/master/.vim/coc-settings.json), quick use:
+
+```bash
+
+    curl -fLo ~/.vim/coc-settings.json --create-dirs \
+        https://raw.githubusercontent.com/StarryLeo/dotfiles/master/.vim/coc-settings.json
+```
+
 ## [LanguageClient-neovim]
 
 [Language Server Protocol](https://langserver.org) support for vim.
@@ -427,6 +441,16 @@ Coc is a completion framework and language server client which supports [extensi
  * `gi` goto implementation
  * `gr` goto references
  * `K`  show documentation
+
+**Using configuration file**:
+
+My `lcn-setings.json` is [StarryLeo/dotfiles#.vim/lcn-settings.json](https://github.com/StarryLeo/dotfiles/blob/master/.vim/lcn-settings.json), quick use:
+
+```bash
+
+    curl -fLo ~/.vim/lcn-settings.json --create-dirs \
+        https://raw.githubusercontent.com/StarryLeo/dotfiles/master/.vim/lcn-settings.json
+```
 
 ## [ALE]
 

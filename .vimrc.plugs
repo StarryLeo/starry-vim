@@ -90,7 +90,7 @@
             let g:ackprg = 'ag --vimgrep --nogroup --nocolor --column --smart-case'
         elseif executable('ack-grep')
             Plug 'mileszs/ack.vim', { 'on': 'Ack' }
-            let g:ackprg='ack-grep -H --nocolor --nogroup --column'
+            let g:ackprg = 'ack-grep -H --nocolor --nogroup --column'
         elseif executable('ack')
             Plug 'mileszs/ack.vim', { 'on': 'Ack' }
         endif

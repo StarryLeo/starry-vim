@@ -756,7 +756,7 @@
             noremap <Space>tm <Plug>NERDTreeMirrorOpen<CR>
 
             let NERDTreeShowBookmarks = 1
-            let NERDTreeBookmarksFile = expand('~/.cache/.NERDTreeBookmarks')
+            let NERDTreeBookmarksFile = expand('~/.vim/.NERDTreeBookmarks')
             let NERDTreeIgnore     = ['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
             let NERDTreeChDirMode  = 0
             let NERDTreeQuitOnOpen = 1
@@ -779,7 +779,11 @@
                 noremap <Leader>fr :cclose<CR>:Leaderf rg --hidden --regexMode --stayOpen<CR>
             endif
 
-            let g:Lf_RootMarkers    = ['.git', '.hg', '.svn', '.project', '.root']
+            let g:Lf_RootMarkers = ['.git', '.hg', '.svn', '.project', '.root']
+            let g:Lf_WildIgnore  = {
+                \ 'dir' : ['.git', '.hg', '.svn'],
+                \ 'file': ['*.sw?', '~$*', '*.bak', '*.exe', '*.o', '*.so', '*.py[co]'],
+                \ }
             let g:Lf_CacheDirectory = expand('~/.cache')
             if !isdirectory(g:Lf_CacheDirectory)
                 silent! call mkdir(g:Lf_CacheDirectory, 'p')
@@ -898,6 +902,7 @@
                 let g:airline_symbols.readonly   = ''
                 let g:airline_symbols.linenr     = '¶'
                 let g:airline_symbols.maxlinenr  = ''
+                let g:airline_symbols.dirty      = '!'
             else
                 " unicode symbols
                 let g:airline_left_sep          = '›'
@@ -916,6 +921,7 @@
                 endif
                 let g:airline_symbols.notexists  = 'Ɇ'
                 let g:airline_symbols.whitespace = 'Ξ'
+                let g:airline_symbols.dirty      = '!'
             endif
         endif
     " }
@@ -1389,6 +1395,8 @@
             let g:ale_sign_warning = '⚡'
             " Show errors or warnings in airline
             let g:airline#extensions#ale#enable = 1
+            let g:airline#extensions#ale#error_symbol   = '❌'
+            let g:airline#extensions#ale#warning_symbol = '⚡'
             " Echo messages
             " %s is the error message itself
             " %linter% is the linter name
@@ -1504,11 +1512,10 @@
 
         " Preview
         if PlugEnable('markdown-preview.nvim')
-            nmap <silent> <F8> <Plug>MarkdownPreview
-            imap <silent> <F8> <Plug>MarkdownPreview
-            nmap <silent> <F9> <Plug>MarkdownPreviewStop
-            imap <silent> <F9> <Plug>MarkdownPreviewStop
+            nmap <silent> <F8> <Plug>MarkdownPreviewToggle
+            imap <silent> <F8> <Plug>MarkdownPreviewToggle
             let g:mkdp_page_title = ' ' . '${name}'
+            let g:mkdp_auto_close = 0
         endif
     " }
 
