@@ -105,8 +105,6 @@
 
     filetype plugin indent on   " Automatically detect file types 检测到不同的文件类型加载不同的文件类型插件
     syntax enable               " Syntax highlighting 开启语法高亮
-    set mouse=a                 " Automatically enable mouse usage 开启鼠标模式
-    set mousehide               " Hide the mouse cursor while typing 输入时隐藏鼠标
     scriptencoding utf-8
 
     if has('clipboard')         " 设置剪贴板
@@ -136,9 +134,10 @@
         endif
     endif
 
-    "set autowrite                      " Automatically write a file when leaving a modified buffer 离开缓冲区自动保存文件
+    set mouse=a                         " Automatically enable mouse usage 开启鼠标模式
+    set mousehide                       " Hide the mouse cursor while typing 输入时隐藏鼠标
+    set belloff=all                     " Be quiet 保持安静
     set shortmess+=cfilmnrxoOtT         " Abbrev. of messages (avoids 'hit enter') 设置短消息
-    set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility 更好的兼容性
     set virtualedit=onemore             " Allow for cursor beyond last character 允许光标移动到刚刚超过行尾的位置
     set history=1000                    " Store a ton of history (default is 50) 记录的历史命令数
     set spell                           " Spell checking on 开启拼写检查
@@ -147,15 +146,18 @@
     set iskeyword-=.                    " '.' is an end of word designator 设置单词关键字
     set iskeyword-=#                    " '#' is an end of word designator
     set iskeyword-=-                    " '-' is an end of word designator
-    set timeout timeoutlen=1000         " 设置映射超时为 1000ms Set the time in milliseconds that is waited for
-    set ttimeout ttimeoutlen=100        " 设置键码超时为 100ms  a key code or mapped key sequence to complete
+    set ttyfast                         " Indicates a fast terminal connection, send more characters when redrawing 表明使用快速终端连接，屏幕重绘时可以发送更多字符
+    set lazyredraw                      " Improve performance under some conditions 一些情况下可以改善性能
+    set timeout timeoutlen=1000         " Set the time in milliseconds that is waited for 设置映射超时为 1000ms
+    set ttimeout ttimeoutlen=100        " A key code or mapped key sequence to complete 设置键码超时为 100ms
+    set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility 更好的兼容性
 
 
     " http://vim.wikia.com/wiki/Restore_cursor_to_file_position_in_previous_editing_session
     " Restore cursor to file position in previous editing session
     " To disable this, add the following to your .vimrc.before.local file:
     " 恢复光标到上次编辑会话中的位置
-    " 如要禁用，请将以下值声明在.vimrc.before.local文件：
+    " 如要禁用，请将以下值声明在 .vimrc.before.local 文件：
     "
     "   let g:starry_no_restore_cursor = 1
     "
@@ -222,14 +224,14 @@
         hi PmenuThumb guifg=#F8F8F8 guibg=#8A95A7 ctermfg=LightGray ctermbg=DarkCyan  gui=NONE cterm=NONE
     endif
 
-    set tabpagemax=15               " Only show 15 tabs 最多只打开15个标签页
+    set tabpagemax=25               " Only show 25 tabs 最多只打开 25 个标签页
     set showmode                    " Display the current mode 显示当前模式
 
     set cursorline                  " Highlight current line 高亮当前行
+    set colorcolumn=+1              " Highlight column after 'textwidth' 高亮 'textwidth' 后一列
 
     highlight clear SignColumn      " SignColumn should match background 屏蔽特定高亮组
     highlight clear LineNr          " Current line number row will have same background color in relative mode
-    "highlight clear CursorLineNr    " Remove highlight color from current line number
 
     if !PlugEnable('vim-airline')
         if has('cmdline_info')
@@ -240,13 +242,13 @@
         endif
 
         if has('statusline')
-            set laststatus=2            " 显示状态栏
+            set laststatus=2            " Show the statusline 显示状态栏
 
             " Broken down into easily includeable segments 细分状态栏
             set statusline=%<%f\                     " Filename 文件名
             set statusline+=%w%h%m%r                 " Options 选项
             if PlugEnable('vim-fugitive')
-                set statusline+=%{FugitiveStatusline()} " Git Hotness Git 信息
+                set statusline+=%{FugitiveStatusline()} " Git Hotness  Git 信息
             endif
             set statusline+=\ [%{&ff}/%Y]            " Filetype 文件类型
             set statusline+=\ [%{getcwd()}]          " Current dir 当前目录
@@ -257,6 +259,7 @@
     set backspace=indent,eol,start  " Backspace for dummies 设置退格键
     set linespace=0                 " No extra spaces between rows 行间没有多余空格
     set number relativenumber       " Line numbers on 显示行号 / 相对行号
+    set signcolumn=yes              " Always show sign column 显示标号列
     set showmatch                   " Show matching brackets/parenthesis 显示匹配的括号
     set incsearch                   " Find as you type search 实时显示搜索匹配位置
     set hlsearch                    " Highlight search terms 高亮搜索词
@@ -264,14 +267,14 @@
     set ignorecase                  " Case insensitive search 搜索忽略大小写
     set smartcase                   " Case sensitive when uc present 当搜索模式包含大写字符时，区分大小写
     set wildmenu                    " Show list instead of just completing 显示命令行补全列表
-    set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all. <Tab>补全
+    set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.  <Tab> 补全
     set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too 可行间回绕的键
     set scrolljump=5                " Lines to scroll when cursor leaves screen 光标离开屏幕滚动的最小行数
     set scrolloff=3                 " Minimum lines to keep above and below cursor 光标上下两侧最小保留行数
     set sidescrolloff=5             " Minimum columns to keep left and right cursor 光标左右两侧最小保留列数
-    set foldenable                  " Auto fold code zi 快速切换自动折叠代码
+    set foldenable                  " Auto fold code  zi 快速切换自动折叠代码
     set list
-    set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+    set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace 突显特殊的空白
     " 插入模式显示绝对行号，普通模式显示相对行号
     if !exists('g:starry_no_relativenumber')
         augroup starry
@@ -286,19 +289,17 @@
 
     set nowrap                      " Do not wrap long lines 长行不折行
     set autoindent                  " Indent at the same level of the previous line 自动对齐缩进
-    set shiftwidth=4                " Use indents of 4 spaces 缩进使用4个空格
-    set expandtab                   " Tabs are spaces, not tabs 制表符(Tab键)扩展为空格
+    set shiftwidth=4                " Use indents of 4 spaces 缩进使用 4 个空格
+    set expandtab                   " Tabs are spaces, not tabs 制表符（Tab 键）扩展为空格
     set tabstop=4                   " An indentation every four columns 制表符所占空格数
     set softtabstop=4               " Let backspace delete indent 软制表符宽度
     set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J) 防止标点后接两个空格
     set splitright                  " Puts new vsplit windows to the right of the current 水平向右新建窗口
     set splitbelow                  " Puts new split windows to the bottom of the current 垂直向下新建窗口
-    set nrformats-=octal            " 00x 增减数字时使用十进制 numbers that start with 00 will be considered to be decimal than octal
-    set formatoptions+=j            " 连接多行注释时删除多余注释符号 Delete comment character when joining comment lines
-    "set matchpairs+=<:>             " Match, to be used with % 形成配对的字符，% 跳转
+    set nrformats-=octal            " Numbers that start with 00 will be considered to be decimal than octal  00x 增减数字时使用十进制
+    set formatoptions+=j            " Delete comment character when joining comment lines 连接多行注释时删除多余注释符号
     set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes) 终端中使用 F12 切换粘贴模式
-    "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks 自动格式化注释
-    "
+
     " Remove trailing whitespaces and ^M chars
     " To disable the stripping of whitespace, add the following to your
     " .vimrc.before.local file:
@@ -322,7 +323,6 @@
 
         " preceding line best in a plugin but here for now
         " 需要在插件开头处加文件类型检测的可以放在这里
-        "autocmd FileType go autocmd BufWritePre <buffer> Fmt
         autocmd FileType yml,json setlocal expandtab shiftwidth=2 softtabstop=2
         autocmd FileType css setlocal iskeyword+=-
         autocmd FileType markdown setlocal nofoldenable
@@ -435,9 +435,9 @@
     " Convert file from dos to unix encoding
     nnoremap <Leader>fU :call Dos2Unix()<CR>
 
-    " 快捷键切换当前文件目录为工作目录
     " Shortcuts
     " Change Working Directory to that of the current file
+    " 快捷键切换当前文件目录为工作目录
     cmap cwd lcd %:p:h
     cmap cd. lcd %:p:h
     " }
@@ -477,8 +477,8 @@
     " http://stackoverflow.com/a/8064607/127816
     vnoremap . :normal .<CR>
 
-    " 编辑只读文件忘记用 sudo，使用 :w!! 保存
     " For when you forget to sudo.. Really Write the file.
+    " 编辑只读文件忘记用 sudo，使用 :w!! 保存
     cmap w!! w !sudo tee % >/dev/null
 
     " Some helpers to edit mode
@@ -649,6 +649,16 @@
         nmap <Leader>8 8gt
         nmap <Leader>9 9gt
         nmap <Leader>0 :tablast<CR>
+        nmap <M-1> 11gt
+        nmap <M-2> 12gt
+        nmap <M-3> 13gt
+        nmap <M-4> 14gt
+        nmap <M-5> 15gt
+        nmap <M-6> 16gt
+        nmap <M-7> 17gt
+        nmap <M-8> 18gt
+        nmap <M-9> 19gt
+        nmap <M-0> 20gt
     endif
     " }
 
@@ -693,8 +703,8 @@
         nmap <silent> <Leader>/ :set invhlsearch<CR>
     endif
 
-    " 查找merge冲突标记
     " Find merge conflict markers
+    " 查找 merge 冲突标记
     map <Leader>fc /\v^[<\|=>]{7}( .*\|$)<CR>
 
     " Map <Space>fj to display all lines with keyword under cursor
@@ -846,7 +856,7 @@
         " segments add the following to your .vimrc.before.local file:
         "
         "   let g:starry_no_powerline_symbols = 1
-
+        "
         " See `:echo g:airline_theme_map` for some more choices
         " Default in terminal vim is 'dark'
         if PlugEnable('vim-airline')
@@ -902,7 +912,7 @@
                 let g:airline_symbols.readonly   = ''
                 let g:airline_symbols.linenr     = '¶'
                 let g:airline_symbols.maxlinenr  = ''
-                let g:airline_symbols.dirty      = '!'
+                let g:airline_symbols.dirty      = '🔥'
             else
                 " unicode symbols
                 let g:airline_left_sep          = '›'
@@ -1088,12 +1098,13 @@
                     endfunction
 
                     " coc-extensions
-                    let g:coc_global_extensions = ['coc-dictionary', 'coc-tag', 'coc-snippets', 'coc-python', 'coc-word']
-
-                    " coc-snippets
-                    imap <C-j> <Plug>(coc-snippets-expand-jump)
-                    vmap <C-j> <Plug>(coc-snippets-select)
-                    let g:coc_snippet_prev = '<C-k>'
+                    let g:coc_global_extensions = [
+                        \ 'coc-tag',
+                        \ 'coc-word',
+                        \ 'coc-python',
+                        \ 'coc-snippets',
+                        \ 'coc-dictionary',
+                        \ ]
                 " }
             endif
     " }
@@ -1238,6 +1249,10 @@
                 let g:UltiSnipsExpandTrigger       = '<Nop>'
                 let g:UltiSnipsJumpForwardTrigger  = '<Nop>'
                 let g:UltiSnipsJumpBackwardTrigger = '<Nop>'
+                " remap
+                imap <C-j> <Plug>(coc-snippets-expand-jump)
+                vmap <C-j> <Plug>(coc-snippets-select)
+                let g:coc_snippet_prev = '<C-k>'
             else
                 " remap Ultisnips for compatibility for YouCompleteMe / deoplete
                 let g:UltiSnipsExpandTrigger       = '<C-j>'
@@ -1374,7 +1389,7 @@
 
     " gitgutter {
         if PlugEnable('vim-gitgutter')
-            set updatetime=1000
+            set updatetime=700
     " }
     " signify {
     " gitgutter only support git
@@ -1389,14 +1404,12 @@
 
     " ALE {
         if PlugEnable('ale')
-            " Keep the sign gutter open
-            let g:ale_sign_column_always = 1
             let g:ale_sign_error   = '❌'
-            let g:ale_sign_warning = '⚡'
+            let g:ale_sign_warning = '❗'
             " Show errors or warnings in airline
             let g:airline#extensions#ale#enable = 1
             let g:airline#extensions#ale#error_symbol   = '❌'
-            let g:airline#extensions#ale#warning_symbol = '⚡'
+            let g:airline#extensions#ale#warning_symbol = '❗'
             " Echo messages
             " %s is the error message itself
             " %linter% is the linter name
