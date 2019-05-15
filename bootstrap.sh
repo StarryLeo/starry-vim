@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 #   Copyright 2014 Steve Francia
 #             2018 StarryLeo
@@ -25,7 +25,7 @@ fork_maintainer='0'
 backup_dir="$HOME/.cache/.starry-vim_backup"
 backup_time_s='5184000'
 backup_time_v='20736000'
-[ -z "$PLUG_URL" ] && PLUG_URL="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+[ -z "$PLUG_URL" ] && PLUG_URL='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 ############################  BASIC SETUP TOOLS
 msg() {
@@ -173,17 +173,17 @@ sync_repo() {
     local repo_branch="$3"
     local repo_name="$4"
 
-    msg "Trying to update $repo_name"
-
     if [ ! -e "$repo_path" ]; then
+        msg "Trying to clone $repo_name..."
         mkdir -p "$repo_path"
         git clone -b "$repo_branch" "$repo_url" "$repo_path"
         ret="$?"
         success "Successfully cloned $repo_name."
     else
+        msg "Trying to update $repo_name..."
         cd "$repo_path" && git pull origin "$repo_branch"
         ret="$?"
-        success "Successfully updated $repo_name"
+        success "Successfully updated $repo_name."
     fi
 
     debug
@@ -238,7 +238,7 @@ setup_plug() {
     export SHELL='/bin/sh'
 
     if [ "${update_mode}" = "update" ]; then
-        msg "Starting updating plugins"
+        msg "Starting updating plugins..."
 
         vim \
             -u "$2" \
@@ -250,9 +250,9 @@ setup_plug() {
         export SHELL="$system_shell"
 
         ret="$?"
-        success "Now updating plugins using vim-plug"
+        success "Now updating plugins using vim-plug."
     else
-        msg "Starting installing plugins"
+        msg "Starting installing plugins..."
 
         vim \
             -u "$1" \
@@ -264,7 +264,7 @@ setup_plug() {
         export SHELL="$system_shell"
 
         ret="$?"
-        success "Now installing plugins using vim-plug"
+        success "Now installing plugins using vim-plug."
     fi
 
     debug
@@ -276,10 +276,43 @@ install_vim_plug() {
 
     if [ "${update_mode}" = "update" ]; then
         ret="$?"
-        success "Successfully updated vim-plug for starry-vim"
+        success "Successfully updated vim-plug for starry-vim."
     else
         ret="$?"
-        success "Successfully installed vim-plug for starry-vim"
+        success "Successfully installed vim-plug for starry-vim."
+    fi
+
+    debug
+}
+
+setup_json() {
+    local answer="n"
+
+    if [ "${update_mode}" = "update" ]; then
+        printf "\rUpdate the default coc-settings.json and lcn-settings.json?\n"
+        for (( i=10; i>=0; i-- )); do
+            printf "\r[y(es)/n(o), default: n]( ${i}s ): "
+            read -n 1 -t 1 answer
+            if [ "$?" -eq 0 ]; then
+                break
+            fi
+        done
+        if [[ "$answer" =~ ^[yY]$ ]]; then
+            msg "\nBackup the default coc-settings.json and lcn-settings.json."
+            mv -v "$1/coc-settings.json" "$1/coc-settings.json.bak"
+            mv -v "$1/lcn-settings.json" "$1/lcn-settings.json.bak"
+            curl -fLo "$1/coc-settings.json" --create-dirs https://raw.githubusercontent.com/StarryLeo/dotfiles/master/.vim/coc-settings.json
+            curl -fLo "$1/lcn-settings.json" --create-dirs https://raw.githubusercontent.com/StarryLeo/dotfiles/master/.vim/lcn-settings.json
+            ret="$?"
+            success "Successfully updated the default coc-settings.json and lcn-settings.json."
+        else
+            msg "\nThe default coc-settings.json and lcn-settings.json will not update."
+        fi
+    else
+        curl -fLo "$1/coc-settings.json" --create-dirs https://raw.githubusercontent.com/StarryLeo/dotfiles/master/.vim/coc-settings.json
+        curl -fLo "$1/lcn-settings.json" --create-dirs https://raw.githubusercontent.com/StarryLeo/dotfiles/master/.vim/lcn-settings.json
+        ret="$?"
+        success "Successfully setup default coc-settings.json and lcn-settings.json."
     fi
 
     debug
@@ -320,6 +353,8 @@ install_vim_plug "$HOME/.vim/autoload" \
 
 setup_plug       "$APP_PATH/.vimrc.plugs.default" \
                  "$APP_PATH/.vimrc"
+
+setup_json       "$HOME/.vim"
 
 ret="$?"
 successful "       _                                          _            "

@@ -82,13 +82,13 @@ The easiest way to install starry-vim is to use our [automatic installer](https:
 
 ```bash
 
-    curl https://git.io/starry-vim -L > ~/starry-vim.sh && sh ~/starry-vim.sh
+    curl https://git.io/starry-vim -L > ~/starry-vim.sh && bash ~/starry-vim.sh
 ```
 
 If you have a bash-compatible shell you can run the script directly:
 ```bash
 
-    sh <(curl https://git.io/starry-vim -L)
+    bash <(curl https://git.io/starry-vim -L)
 ```
 
 ## Installing on Windows
@@ -122,7 +122,7 @@ The simpliest (and safest) way to update is to simply rerun the installer. It wi
 
 ```bash
 
-    sh <(curl https://git.io/starry-vim -L)
+    bash <(curl https://git.io/starry-vim -L)
 ```
 
 Or use the command `:Sup` in vim, it supports Unix and Windows. Alternatively you can manually perform the following steps. If anything has changed with the structure of the configuration you will need to create the appropriate symlinks.
@@ -422,7 +422,7 @@ Coc is a completion framework and language server client which supports [extensi
  * Use `:CocConfig` to open the user configuration which is named as `coc-settings.json`.
  * Checkout [schema.json](https://github.com/neoclide/coc.nvim/blob/master/data/schema.json), see the default coc preferences.
 
-My `coc-setings.json` is [StarryLeo/dotfiles#.vim/coc-settings.json](https://github.com/StarryLeo/dotfiles/blob/master/.vim/coc-settings.json), quick use:
+My `coc-settings.json` is [StarryLeo/dotfiles#.vim/coc-settings.json](https://github.com/StarryLeo/dotfiles/blob/master/.vim/coc-settings.json), quick use:
 
 ```bash
 
@@ -444,7 +444,7 @@ My `coc-setings.json` is [StarryLeo/dotfiles#.vim/coc-settings.json](https://git
 
 **Using configuration file**:
 
-My `lcn-setings.json` is [StarryLeo/dotfiles#.vim/lcn-settings.json](https://github.com/StarryLeo/dotfiles/blob/master/.vim/lcn-settings.json), quick use:
+My `lcn-settings.json` is [StarryLeo/dotfiles#.vim/lcn-settings.json](https://github.com/StarryLeo/dotfiles/blob/master/.vim/lcn-settings.json), quick use:
 
 ```bash
 

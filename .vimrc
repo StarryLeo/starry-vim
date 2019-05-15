@@ -1773,7 +1773,7 @@
         if WINDOWS()
             execute '!cd "\%USERPROFILE\%/.starry-vim" && git pull && starry-vim-windows-install.cmd'
         else
-            execute '!curl https://raw.githubusercontent.com/StarryLeo/starry-vim/master/bootstrap.sh -Lo ~/.cache/.starry-vim_backup/.history/starry-vim.sh --create-dirs && sh ~/.cache/.starry-vim_backup/.history/starry-vim.sh'
+            execute '!curl https://raw.githubusercontent.com/StarryLeo/starry-vim/master/bootstrap.sh -Lo ~/.cache/.starry-vim_backup/.history/starry-vim.sh --create-dirs && bash ~/.cache/.starry-vim_backup/.history/starry-vim.sh'
         endif
         execute 'source ~/.vimrc'
     endfunction
