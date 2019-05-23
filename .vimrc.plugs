@@ -130,14 +130,10 @@
                 Plug 'ctrlpvim/ctrlp.vim', { 'on': ['CtrlP', 'CtrlPMRU', 'CtrlPFunky'] }
                 Plug 'tacahiroy/ctrlp-funky'
             endif
-            if (has('python') || has('python3')) && exists('g:starry_use_powerline')
-                Plug 'powerline/powerline', { 'rtp': '/powerline/bindings/vim'}
-            else
-                Plug 'vim-airline/vim-airline'
-                Plug 'vim-airline/vim-airline-themes'
-                if !exists('g:starry_airline_tabline')
-                    Plug 'bling/vim-bufferline'
-                endif
+            Plug 'vim-airline/vim-airline'
+            Plug 'vim-airline/vim-airline-themes'
+            if !exists('g:starry_airline_tabline')
+                Plug 'bling/vim-bufferline'
             endif
             if has('win32') || has('win64')
                 if has('gui_running')

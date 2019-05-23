@@ -28,24 +28,29 @@ backup_time_v='20736000'
 [ -z "$PLUG_URL" ] && PLUG_URL='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 ############################  BASIC SETUP TOOLS
+red="\33[31m"
+green="\33[32m"
+blue="\33[34m"
+none="\33[0m"
+
 msg() {
     printf '%b\n' "$1" >&2
 }
 
 success() {
     if [ "$ret" -eq '0' ]; then
-        msg "\33[32m[✔]\33[0m ${1}${2}"
+        msg "${green}[✔]${none} ${1}${2}"
     fi
 }
 
 error() {
-    msg "\33[31m[✘]\33[0m ${1}${2}"
+    msg "${red}[✘]${none} ${1}${2}"
     exit 1
 }
 
 debug() {
     if [ "$debug_mode" -eq '1' ] && [ "$ret" -gt '1' ]; then
-        msg "An error occurred in function \"${FUNCNAME[$i+1]}\" on line ${BASH_LINENO[$i+1]}, we're sorry for that."
+        msg "An error occurred in function \"${red}${FUNCNAME[$i+1]}${none}\" on line ${red}${BASH_LINENO[$i+1]}${none}, we're sorry for that."
     fi
 }
 
@@ -66,13 +71,13 @@ program_must_exist() {
 
     # throw error on non-zero return value
     if [ "$?" -ne 0 ]; then
-        error "You must have '$1' installed to continue."
+        error "You must have '${red}${1}${none}' installed to continue."
     fi
 }
 
 variable_set() {
     if [ -z "$1" ]; then
-        error "You must have your HOME environmental variable set to continue."
+        error "You must have your ${red}HOME${none} environmental variable set to continue."
     fi
 }
 
@@ -86,7 +91,7 @@ lnif() {
 
 successful() {
     if [ "$ret" -eq '0' ]; then
-        msg "\33[32m${1}${2}\33[0m "
+        msg "${green}${1}${2}${none} "
     fi
 }
 
@@ -109,7 +114,7 @@ do_backup() {
                 last_update=`sed -n '$p' $7`
                 last_update_day_s=`echo ${last_update##*_}`
                 time_u=`expr $today_s - $last_update_day_s`
-                msg "Last update $4 was $time_u seconds ago."
+                msg "Last update $4 was ${green}${time_u}${none} seconds ago."
                 if [ -e "$6" ]; then
                     for filename in `ls -a $6`
                     do
@@ -118,7 +123,7 @@ do_backup() {
                     last_backup_day_s=`echo ${last_backup##*_}`
                     time_b=`expr $today_s - $last_backup_day_s`
                     if [ "$time_b" -gt "$8" ]; then
-                        msg "Last backup $4 was $time_b seconds ago."
+                        msg "Last backup $4 was ${green}${time_b}${none} seconds ago."
                         msg "Starting backup $4..."
                         echo "update_backup_$today" >> "$7"
                         cp -a "$5" "$6/.$4.$today"
@@ -126,7 +131,7 @@ do_backup() {
                         ret="$?"
                         success "$4 has been backed up."
                     elif [ "$time_b" -gt "$9" ]; then
-                        msg "Last backup $4 was $time_b seconds ago."
+                        msg "Last backup $4 was ${green}${time_b}${none} seconds ago."
                         msg "Starting backup $4..."
                         echo "update_backup_$today" >> "$7"
                         cp -a "$5" "$6/.$4.$today"
@@ -289,9 +294,9 @@ setup_json() {
     local answer="n"
 
     if [ "${update_mode}" = "update" ]; then
-        printf "\rUpdate the default coc-settings.json and lcn-settings.json?\n"
+        printf "\rUpdate the default ${green}coc-settings.json${none} and ${green}lcn-settings.json${none}?\n"
         for (( i=10; i>=0; i-- )); do
-            printf "\r[y(es)/n(o), default: n]( ${i}s ): "
+            printf "\r[${green}y${none}(es)/${green}n${none}(o), default: ${red}n${none}]( ${red}${i}${none}s ): "
             read -n 1 -t 1 answer
             if [ "$?" -eq 0 ]; then
                 break
@@ -370,6 +375,6 @@ else
 successful "...is now installed!"
 fi
 successful ""
-successful "Thanks for installing $app_name."
-successful "© `date +%Y` https://github.com/StarryLeo/starry-vim"
+msg "${blue}Thanks for installing $app_name.${none}"
+msg "${blue}© `date +%Y` https://github.com/StarryLeo/starry-vim${none}"
 debug
