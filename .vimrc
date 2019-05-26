@@ -215,7 +215,7 @@
         " If your terminal emulator not support true colors and the colors are wrong,
         " try to uncomment the following line:
         "let g:solarized_use16 = 1
-        let g:solarized_visibility='normal'
+        let g:solarized_visibility = 'normal'
         colorscheme solarized8             " Load a colorscheme 载入主题
     elseif !exists('g:starry_no_omni_complete')
         " 设置 OmniComplete 补全菜单颜色
@@ -778,8 +778,10 @@
 
     " LeaderF {
         if PlugEnable('LeaderF')
-            let g:Lf_ShortcutF = '<Leader>f'
-            let g:Lf_ShortcutB = '<Leader>fb'
+            let g:Lf_ShortcutF = ''
+            let g:Lf_ShortcutB = ''
+            noremap <Leader>f  :cclose<CR>:Leaderf file<CR>
+            noremap <Leader>fb :cclose<CR>:Leaderf buffer<CR>
             noremap <Leader>fm :cclose<CR>:Leaderf mru --regexMode<CR>
             noremap <Leader>ff :cclose<CR>:Leaderf! function<CR>
             noremap <Leader>ft :cclose<CR>:Leaderf! bufTag<CR>
@@ -940,7 +942,7 @@
         if PlugEnable('undotree')
             nnoremap <Leader>u :UndotreeToggle<CR>
             " If undotree is opened, it is likely one wants to interact with it.
-            let g:undotree_SetFocusWhenToggle=1
+            let g:undotree_SetFocusWhenToggle = 1
         endif
     " }
 
@@ -1470,7 +1472,7 @@
 
     " Ctags / Gtags {
         set tags=./.tags;,.tags
-        let $GTAGSLABEL = 'native-pygments'
+        let $GTAGSLABEL='native-pygments'
     " }
 
     " Gutentags {
