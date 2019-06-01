@@ -24,7 +24,7 @@
 ## Introduction
 This is a StarryLeo's vim config fork from https://vim.spf13.com
 
-starry-vim is a distribution of vim plugins and resources for Vim, Gvim and [MacVim].
+starry-vim is a distribution of vim plugins and resources for Vim, Gvim, [Neovim] and [MacVim].
 
 It is a good starting point for anyone intending to use VIM for development running equally well on Windows, Linux, \*nix and Mac.
 
@@ -78,7 +78,7 @@ if `:echo has('lua')` returns `1`, then you have lua support.
 
 The easiest way to install starry-vim is to use our [automatic installer](https://git.io/starry-vim) by simply copying and pasting the following line into a terminal. This will install starry-vim and backup your existing vim configuration. If you are upgrading from a prior version this is also the recommended installation.
 
-*Requires Git 1.7+ and Vim 8.1+*
+*Requires Git 1.7+ and Vim 8.1+ or Neovim 0.3.1+*
 
 ```bash
 
@@ -652,6 +652,7 @@ Here's some tips if you've never used VIM before:
 [Git]:https://git-scm.com
 [Gvim]:https://www.github.com/vim/vim-win32-installer/releases
 [Git for Windows]:https://gitforwindows.org
+[Neovim]:https://github.com/neovim/neovim
 [MacVim]:https://github.com/macvim-dev/macvim
 [starry-vim]:https://github.com/StarryLeo/starry-vim
 [contributors]:https://github.com/StarryLeo/starry-vim/contributors

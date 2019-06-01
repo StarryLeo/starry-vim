@@ -14,11 +14,12 @@
 "   While much of it is beneficial for general use, I would
 "   recommend picking out the parts you want and understand.
 "
-"   You can find spf13 at https://spf13.com
+"   You can find spf13 at http://spf13.com
 "   You can find me at https://starrycat.me
 "
 "   Copyright 2014 Steve Francia
 "             2018 StarryLeo
+"
 "   Licensed under the Apache License, Version 2.0 (the "License");
 "   you may not use this file except in compliance with the License.
 "   You may obtain a copy of the License at
@@ -72,6 +73,16 @@
         augroup starry
             autocmd!
         augroup END
+    " }
+
+    " neovim skip python host check {
+        " Less startup time
+        if has('nvim')
+            let g:python_host_skip_check=1
+            let g:python_host_prog=exepath('python')
+            let g:python3_host_skip_check=1
+            let g:python3_host_prog=exepath('python3')
+        endif
     " }
 
 " }
@@ -150,7 +161,6 @@
     set lazyredraw                      " Improve performance under some conditions 一些情况下可以改善性能
     set timeout timeoutlen=1000         " Set the time in milliseconds that is waited for 设置映射超时为 1000ms
     set ttimeout ttimeoutlen=100        " A key code or mapped key sequence to complete 设置键码超时为 100ms
-    set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility 更好的兼容性
 
 
     " http://vim.wikia.com/wiki/Restore_cursor_to_file_position_in_previous_editing_session
@@ -188,6 +198,7 @@
         "
         "   let g:starry_no_views = 1
         "
+        set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility 更好的兼容性
         if !exists('g:starry_no_views')
             " Add exclusions to mkview and loadview
             " 添加视图排除项
@@ -213,7 +224,7 @@
 
     if PlugEnable('starry-vim-colorschemes')
         " If your terminal emulator not support true colors and the colors are wrong,
-        " try to uncomment the following line:
+        " try to uncomment the following line in your .vimrc.local file:
         "let g:solarized_use16 = 1
         let g:solarized_visibility = 'normal'
         colorscheme solarized8             " Load a colorscheme 载入主题
@@ -364,7 +375,7 @@
     " }
 
     " Enable Terminal Meta Key Mappings {
-    if !has('gui_running')
+    if !has('gui_running') && !has('nvim')
         function! EnableTerminalMeta()
             function! s:meta_map(char)
                 execute 'set <M-' . a:char . ">=\<Esc>" . a:char
@@ -505,7 +516,7 @@
     inoremap jj <Esc>
 
     " Quickly get out of insert mode followed leader (use 'jk')
-    " 快速离开插入模式,紧跟着按下 leader 键（使用 jk）
+    " 快速离开插入模式，紧跟着按下 leader 键（使用 jk）
     imap jk <Esc><Leader>
     " }
 
@@ -983,6 +994,13 @@
             let g:indent_guides_enable_on_vim_startup = 1
             let g:indent_guides_start_level = 2
             let g:indent_guides_guide_size  = 1
+            " For some colorschemes, autocolor will not work (eg: 'desert', 'ir_black')
+            " Indent guides will attempt to set your colors smartly.
+            " If you want to control them yourself,
+            " try to uncomment the following line in your .vimrc.local file:
+            "let g:indent_guides_auto_colors = 0
+            "autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#212121 ctermbg=233
+            "autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#404040 ctermbg=234
         endif
     " }
 
@@ -1115,12 +1133,14 @@
             if (index(['c', 'cpp', 'objc', 'objcpp', 'cuda'], &filetype) < 0) || (WINDOWS() && !PlugEnable('YouCompleteMe'))
                 let g:deoplete#enable_at_startup = 1
 
-                " For Vim8
-                if PlugEnable('nvim-yarp') && PlugEnable('vim-hug-neovim-rpc')
-                    if has('python3')
-                        set pyxversion=3
-                        if WINDOWS() && exepath('python3') ==? '' && exepath('python') !=? ''
-                            let g:python3_host_prog = exepath('python')
+                if !has('nvim')
+                    " For Vim8
+                    if PlugEnable('nvim-yarp') && PlugEnable('vim-hug-neovim-rpc')
+                        if has('python3')
+                            set pyxversion=3
+                            if WINDOWS() && exepath('python3') ==? '' && exepath('python') !=? ''
+                                let g:python3_host_prog = exepath('python')
+                            endif
                         endif
                     endif
                 endif
@@ -1361,10 +1381,9 @@
             " Quick run via F5
             nnoremap <F5> :call <SID>CompileAndRun()<CR>
 
-            if PlugEnable('vim-airline')
-                let g:asyncrun_status = ''
-                let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
-            endif
+            " Show AsyncRun job's status in airline
+            let g:asyncrun_status = ''
+            let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
         endif
     " }
 
@@ -1696,9 +1715,11 @@
         endif
     else
         if has('termguicolors')
-            " Fix bug for vim
-            let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-            let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+            if !has('nvim')
+                " Fix bug for vim
+                let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+                let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+            endif
 
             " Enable true color
             set termguicolors

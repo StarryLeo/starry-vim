@@ -178,11 +178,15 @@
             Plug 'Shougo/neoinclude.vim'
             Plug 'jsfaint/coc-neoinclude'
             Plug 'Shougo/neco-vim', { 'for': 'vim' }
-            Plug 'neoclide/coc-neco', { 'for': 'vim' }
+            Plug 'neoclide/coc-neco'
         elseif count(g:starry_plug_groups, 'deoplete')
-            Plug 'Shougo/deoplete.nvim'
-            Plug 'roxma/nvim-yarp'
-            Plug 'roxma/vim-hug-neovim-rpc'
+            if has('nvim')
+                Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+            else
+                Plug 'Shougo/deoplete.nvim'
+                Plug 'roxma/nvim-yarp'
+                Plug 'roxma/vim-hug-neovim-rpc'
+            endif
             Plug 'Shougo/neco-vim', { 'for': 'vim' }
             if count(g:starry_plug_groups, 'python')
                 Plug 'deoplete-plugins/deoplete-jedi', { 'for': 'python' }
@@ -233,11 +237,6 @@
             if executable('ctags') || (executable('gtags') && executable('gtags-cscope'))
                 Plug 'ludovicchabant/vim-gutentags'
                 Plug 'skywind3000/gutentags_plus'
-                if has('win32') || has('win64')
-                    Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat', 'on': 'Leaderf' }
-                else
-                    Plug 'Yggdroot/LeaderF', { 'do': './install.sh', 'on': 'Leaderf' }
-                endif
             endif
             Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
             Plug 'luochen1990/rainbow'
@@ -257,20 +256,20 @@
 
     " C / C++ {
         if count(g:starry_plug_groups, 'cpp')
-            Plug 'octol/vim-cpp-enhanced-highlight', { 'for': ['c', 'cpp', 'objc', 'objcpp', 'cuda'] }
+            Plug 'octol/vim-cpp-enhanced-highlight'
         endif
     " }
 
     " Python {
         if count(g:starry_plug_groups, 'python')
-            Plug 'vim-python/python-syntax', { 'for': 'python' }
+            Plug 'vim-python/python-syntax'
         endif
     " }
 
     " Verilog {
         if count(g:starry_plug_groups, 'verilog')
-            Plug 'vhda/verilog_systemverilog.vim', { 'for': 'verilog' }
-            Plug 'antoinemadec/vim-verilog-instance', { 'for': 'verilog' }
+            Plug 'vhda/verilog_systemverilog.vim', { 'for': ['verilog', 'systemverilog'] }
+            Plug 'antoinemadec/vim-verilog-instance', { 'for': ['verilog', 'systemverilog']}
         endif
     " }
 
@@ -290,7 +289,7 @@
     " HTML {
         if count(g:starry_plug_groups, 'html')
             Plug 'alvan/vim-closetag', { 'for': ['css', 'html', 'xml', 'xhtml', 'php'] }
-            Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'html', 'xml'] }
+            Plug 'hail2u/vim-css3-syntax'
             Plug 'tpope/vim-haml', { 'for': ['haml', 'sass','scss','css', 'html', 'xml'] }
             Plug 'mattn/emmet-vim', { 'for': ['css', 'html', 'xml'] }
         endif

@@ -16,7 +16,7 @@
 "   are loaded and the main .vimrc config is run. Most of these
 "   are for preventing mappings or commands from being created.
 "
-"   You can find spf13 at https://spf13.com
+"   You can find spf13 at http://spf13.com
 "   You can find me at https://starrycat.me
 " }
 
@@ -97,23 +97,6 @@
     " vim files directory
     "   let g:starry_consolidated_directory = <full path to desired directory>
     "   eg: let g:starry_consolidated_directory = $HOME . '/.vim/'
-
-    " For some colorschemes, autocolor will not work (eg: 'desert', 'ir_black')
-    " Indent guides will attempt to set your colors smartly. If you
-    " want to control them yourself, do it here.
-    "   let g:indent_guides_auto_colors = 0
-    "   autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#212121 ctermbg=233
-    "   autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#404040 ctermbg=234
-
-    " Don't create default mappings for multicursors
-    " See :help multiple-cursors-mappings
-    "   let g:multi_cursor_use_default_mapping=0
-    "   let g:multi_cursor_next_key='<C-N>'
-    "   let g:multi_cursor_prev_key='<C-P>'
-    "   let g:multi_cursor_skip_key='<C-X>'
-    "   let g:multi_cursor_quit_key='<Esc>'
-    " Require a special keypress to enter multiple cursors mode
-    "   let g:multi_cursor_start_key='+'
 
 " }
 
