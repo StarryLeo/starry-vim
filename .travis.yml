@@ -71,7 +71,6 @@ addons:
       - ninja-build
       - gettext
       - libtool
-      - libtool-bin
       - pkg-config
       - unzip
   homebrew:

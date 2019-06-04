@@ -135,13 +135,6 @@
             if !exists('g:starry_airline_tabline')
                 Plug 'bling/vim-bufferline'
             endif
-            if has('win32') || has('win64')
-                if has('gui_running')
-                    Plug 'StarryLeo/Consolas-with-Yahei', { 'do': 'powershell -executionpolicy bypass -File .\install.ps1' }
-                endif
-            elseif has('gui_running')
-                Plug 'StarryLeo/Consolas-with-Yahei', { 'do': './install.sh' }
-            endif
             Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
             Plug 'tpope/vim-surround'
             Plug 'tpope/vim-repeat'
@@ -247,9 +240,9 @@
         if count(g:starry_plug_groups, 'markdown')
             Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
             if executable('node') && executable('yarn')
-                Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install', 'for': 'markdown', 'on': 'MarkdownPreview' }
+                Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install', 'for': 'markdown' }
             else
-                Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown', 'on': 'MarkdownPreview' }
+                Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown' }
             endif
         endif
     " }

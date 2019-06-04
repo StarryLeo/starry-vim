@@ -770,11 +770,10 @@
 
     " NerdTree {
         if PlugEnable('nerdtree')
-            noremap <Space>t <Plug>NERDTreeTabsToggle<CR>
-            " 查找目录
+            noremap <Space>t  :NERDTreeTabsToggle<CR>
             noremap <Space>tf :NERDTreeFind<CR>
-            noremap <Space>tt <Plug>NERDTreeFocusToggle<CR>
-            noremap <Space>tm <Plug>NERDTreeMirrorOpen<CR>
+            noremap <Space>tt :NERDTreeFocusToggle<CR>
+            noremap <Space>tm :NERDTreeMirrorOpen<CR>
 
             let NERDTreeShowBookmarks = 1
             let NERDTreeBookmarksFile = expand('~/.vim/.NERDTreeBookmarks')
@@ -910,41 +909,31 @@
                 let g:airline_right_alt_sep = ''
                 let g:airline_symbols.space = ' '
                 let g:airline_symbols.paste = 'Þ'
-                if WINDOWS() && PlugEnable('Consolas-with-Yahei')
-                    let g:airline_symbols.spell = ''
-                else
-                    let g:airline_symbols.spell = 'Ꞩ'
-                endif
-                let g:airline_symbols.crypt      = '🔒'
+                let g:airline_symbols.spell = 'Ꞩ'
+                let g:airline_symbols.crypt = '🔒'
+                let g:airline_symbols.dirty = '🔥'
                 let g:airline_symbols.keymap     = ''
                 let g:airline_symbols.modified   = '+'
-                let g:airline_symbols.ellipsis   = '...'
-                let g:airline_symbols.notexists  = 'Ɇ'
-                let g:airline_symbols.whitespace = '☲'
                 let g:airline_symbols.branch     = ''
+                let g:airline_symbols.notexists  = 'Ɇ'
                 let g:airline_symbols.readonly   = ''
                 let g:airline_symbols.linenr     = '¶'
                 let g:airline_symbols.maxlinenr  = ''
-                let g:airline_symbols.dirty      = '🔥'
+                let g:airline_symbols.whitespace = '☲'
+                let g:airline_symbols.ellipsis   = '...'
             else
                 " unicode symbols
-                let g:airline_left_sep          = '›'
-                "let g:airline_left_sep          = '»'
-                let g:airline_right_sep         = '‹'
-                "let g:airline_right_sep         = '«'
-                let g:airline_symbols.crypt     = '🔒'
-                let g:airline_symbols.linenr    = '㏑'
-                let g:airline_symbols.maxlinenr = '¶'
-                let g:airline_symbols.branch    = '⎇'
-                let g:airline_symbols.paste     = 'Þ'
-                if WINDOWS() && PlugEnable('Consolas-with-Yahei')
-                    let g:airline_symbols.spell = ''
-                else
-                    let g:airline_symbols.spell = 'Ꞩ'
-                endif
-                let g:airline_symbols.notexists  = 'Ɇ'
-                let g:airline_symbols.whitespace = 'Ξ'
+                let g:airline_left_sep           = '›'
+                let g:airline_right_sep          = '‹'
+                let g:airline_symbols.paste      = 'Þ'
+                let g:airline_symbols.spell      = 'Ꞩ'
+                let g:airline_symbols.crypt      = '🔒'
                 let g:airline_symbols.dirty      = '!'
+                let g:airline_symbols.branch     = '⎇'
+                let g:airline_symbols.notexists  = 'Ɇ'
+                let g:airline_symbols.linenr     = '㏑'
+                let g:airline_symbols.maxlinenr  = '¶'
+                let g:airline_symbols.whitespace = 'Ξ'
             endif
         endif
     " }
@@ -970,22 +959,6 @@
             let g:multi_cursor_prev_key            = '<C-p>'
             let g:multi_cursor_skip_key            = '<C-x>'
             let g:multi_cursor_quit_key            = '<Esc>'
-
-            " Default highlighting (see help :highlight and help :highlight-link)
-            highlight multiple_cursors_cursor term=reverse cterm=reverse gui=reverse
-            highlight link multiple_cursors_visual Visual
-
-            function! Multiple_cursors_before()
-                if exists(':NeoCompleteLock')==2
-                    execute 'NeoCompleteLock'
-                endif
-            endfunction
-
-            function! Multiple_cursors_after()
-                if exists(':NeoCompleteUnlock')==2
-                    execute 'NeoCompleteUnlock'
-                endif
-            endfunction
         endif
     " }
 
@@ -1247,6 +1220,21 @@
             let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
             let g:neocomplete#sources#omni#input_patterns.c    = '[^.[:digit:] *\t]\%(\.\|->\)'
             let g:neocomplete#sources#omni#input_patterns.cpp  = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+            " To prevent conflict with vim-multiple-cursors
+            if PlugEnable('vim-multiple-cursors')
+                function! Multiple_cursors_before()
+                    if exists(':NeoCompleteLock')==2
+                        execute 'NeoCompleteLock'
+                    endif
+                endfunction
+
+                function! Multiple_cursors_after()
+                    if exists(':NeoCompleteUnlock')==2
+                        execute 'NeoCompleteUnlock'
+                    endif
+                endfunction
+            endif
     " }
     " Normal Vim omni-completion {
     " To disable omni complete, add the following to your .vimrc.before.local file:
