@@ -15,18 +15,12 @@ notifications:
     on_success: never # default: change
     on_failure: never # default: always
 
-cache:
-  bundler: ture
-  directories:
-    - $HOME/cache/
-    - $HOME/deps
-
 env:
   global:
     - DEPS=$HOME/deps
     - PATH=$DEPS/bin:$PATH
   matrix:
-    - VIM_VERSION=vim-v8.1.0
+    - VIM_VERSION=vim-v8.1.0000
     - VIM_VERSION=vim
     - NVIM_VERSION=nvim-v0.3.1
     - NVIM_VERSION=nvim-nightly
