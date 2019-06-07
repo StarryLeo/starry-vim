@@ -26,9 +26,11 @@ env:
     - DEPS=$HOME/deps
     - PATH=$DEPS/bin:$PATH
   matrix:
+    - VIM_VERSION=vim-v8.1.0
     - VIM_VERSION=vim
-    - VIM_VERSION=nvim
-    - VIM_VERSION=nvim-v0.3.1
+    - NVIM_VERSION=nvim-v0.3.1
+    - NVIM_VERSION=nvim-nightly
+    - NVIM_VERSION=nvim
 
 addons:
   apt:
@@ -106,12 +108,26 @@ before_install:
     fi
 
 install:
-  - RELEASE_VERSION=`echo ${VIM_VERSION##*-}`
+  - VIM_RELEASE_VERSION=`echo ${VIM_VERSION##*-}`
+  - NVIM_RELEASE_VERSION=`echo ${NVIM_VERSION##*-}`
   - pip install --user pynvim
   - mkdir -p ${DEPS}/bin
 
   - |
-    if [ "$VIM_VERSION" = "vim" ]; then
+    if [ -n "$VIM_RELEASE_VERSION" ] && [ "$VIM_RELEASE_VERSION" != "vim" ]; then
+      C_OPTS="--prefix=$DEPS --with-features=huge --enable-perlinterp --enable-pythoninterp --enable-python3interp --enable-rubyinterp --enable-luainterp --enable-tclinterp "
+
+      git clone https://github.com/vim/vim
+      cd vim
+      git checkout $VIM_RELEASE_VERSION
+      ./configure $C_OPTS
+      make
+      make install
+      cd -
+    fi
+
+  - |
+    if [ "$VIM_RELEASE_VERSION" = "vim" ]; then
       C_OPTS="--prefix=$DEPS --with-features=huge --enable-perlinterp --enable-pythoninterp --enable-python3interp --enable-rubyinterp --enable-luainterp --enable-tclinterp "
 
       git clone --depth=1 https://github.com/vim/vim
@@ -123,19 +139,29 @@ install:
     fi
 
   - |
-    if [ "$VIM_VERSION" = "nvim" ]; then
-      git clone --depth=1 https://github.com/neovim/neovim
+    if [ -n "$NVIM_RELEASE_VERSION" ] && [ "$NVIM_RELEASE_VERSION" != "nvim" ] && [ "$NVIM_RELEASE_VERSION" != "nightly" ]; then
+      git clone https://github.com/neovim/neovim
       cd neovim
+      git checkout $NVIM_RELEASE_VERSION
       make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=$DEPS
       make install
       cd -
     fi
 
   - |
-    if [ "$RELEASE_VERSION" != "vim" ] && [ "$RELEASE_VERSION" != "nvim" ]; then
+    if [ "$NVIM_RELEASE_VERSION" = "nightly" ]; then
       git clone https://github.com/neovim/neovim
       cd neovim
-      git checkout $RELEASE_VERSION
+      git checkout nightly
+      make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=$DEPS
+      make install
+      cd -
+    fi
+
+  - |
+    if [ "$NVIM_RELEASE_VERSION" = "nvim" ]; then
+      git clone --depth=1 https://github.com/neovim/neovim
+      cd neovim
       make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=$DEPS
       make install
       cd -
@@ -151,7 +177,7 @@ before_script:
 
 script:
   - |
-    if [ "$VIM_VERSION" = "vim" ]; then
+    if [ -n "$VIM_RELEASE_VERSION" ]; then
       echo $(which vim)
       vim --version
       curl https://git.io/starry-vim -L > ~/starry-vim.sh && bash ~/starry-vim.sh
@@ -163,7 +189,7 @@ script:
     fi
 
   - |
-    if [ "$VIM_VERSION" != "vim" ]; then
+    if [ -n "$NVIM_RELEASE_VERSION" ]; then
       echo $(which nvim)
       nvim --version
       curl https://git.io/starry-vim -L > ~/starry-vim.sh && bash ~/starry-vim.sh
