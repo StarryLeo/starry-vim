@@ -309,6 +309,8 @@
     set splitbelow                  " Puts new split windows to the bottom of the current 垂直向下新建窗口
     set nrformats-=octal            " Numbers that start with 00 will be considered to be decimal than octal  00x 增减数字时使用十进制
     set formatoptions+=j            " Delete comment character when joining comment lines 连接多行注释时删除多余注释符号
+    set formatoptions+=m            " Break a line at multi-byte character above 255  CJK 字符不必等到空格就折行
+    set formatoptions+=B            " Do not insert a space between two multi-byte characters when joining lines 连接多行时不在 CJK 字符之间加空格
     set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes) 终端中使用 F12 切换粘贴模式
 
     " Remove trailing whitespaces and ^M chars
@@ -322,9 +324,9 @@
     augroup starry
         autocmd FileType c,cpp,java,go,php,javascript,python,xml,yml,perl,sql
             \ autocmd BufWritePre <buffer>
-            \ if !exists('g:starry_keep_trailing_whitespace')
-            \ |     call StripTrailingWhitespace()
-            \ | endif
+            \ if !exists('g:starry_keep_trailing_whitespace') |
+            \     call StripTrailingWhitespace() |
+            \ endif
     augroup END
 
     augroup starry
@@ -346,6 +348,9 @@
         " to commit messages
         " 当在编辑 commit 信息时，开启拼写检查
         autocmd Filetype gitcommit setlocal spell textwidth=72
+
+        " quickfix 窗口不显示相对行号
+        autocmd Filetype qf setlocal norelativenumber
 
         autocmd BufNewFile,BufRead *.coffee set filetype=coffee
     augroup END
@@ -946,6 +951,17 @@
         endif
     " }
 
+    " Auto-Pairs {
+        if PlugEnable('auto-pairs')
+            augroup starryAutoPairs
+                autocmd!
+                autocmd CursorHold,CursorMovedI,InsertEnter * call plug#load('auto-pairs') |
+                    \ call AutoPairsInit() |
+                    \ autocmd! starryAutoPairs
+            augroup END
+        endif
+    " }
+
     " vim-multiple-cursors {
         if PlugEnable('vim-multiple-cursors')
             let g:multi_cursor_use_default_mapping = 0
@@ -1011,7 +1027,7 @@
     " }
 
     " TextObj {
-    " :h textobjs
+    " :h text-objects
     " :h operator
         "if PlugEnable('vim-textobj-user')
             "" TextObj Indent {
@@ -1410,6 +1426,13 @@
             let g:signify_sign_changedelete = '~_'
         endif
     " }
+
+    " NERDCommenter {
+        if PlugEnable('nerdcommenter')
+            nmap <Leader>c<Space> <Plug>NERDCommenterToggle
+            vmap <Leader>c<Space> <Plug>NERDCommenterToggle
+        endif
+    "}
 
     " ALE {
         if PlugEnable('ale')

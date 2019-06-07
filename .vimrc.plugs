@@ -139,7 +139,7 @@
             Plug 'tpope/vim-surround'
             Plug 'tpope/vim-repeat'
             Plug 'easymotion/vim-easymotion'
-            Plug 'jiangmiao/auto-pairs'
+            Plug 'jiangmiao/auto-pairs', { 'on': [] }
             Plug 'terryma/vim-multiple-cursors'
             Plug 'StarryLeo/vim-indent-guides'
             Plug 'xolox/vim-misc'
@@ -223,7 +223,7 @@
             else
                 Plug 'mhinz/vim-signify'
             endif
-            Plug 'scrooloose/nerdcommenter'
+            Plug 'scrooloose/nerdcommenter', { 'on': '<Plug>NERDCommenterToggle' }
             Plug 'w0rp/ale'
             Plug 'Chiel92/vim-autoformat', { 'on': 'Autoformat' }
             Plug 'godlygeek/tabular', { 'on': 'Tabularize' }

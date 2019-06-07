@@ -132,7 +132,7 @@ install: |
   if [ "$RELEASE_VERSION" != "vim" ] && [ "$RELEASE_VERSION" != "nvim" ]; then
     git clone https://github.com/neovim/neovim
     cd neovim
-    git checkout $RELEASE_VERSION $RELEASE_VERSION
+    git checkout -b $RELEASE_VERSION $RELEASE_VERSION
     make CMAKE_BUILD_TYPE=RelWithDebInfo
     make install
     cd -

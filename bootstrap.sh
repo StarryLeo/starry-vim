@@ -210,6 +210,7 @@ create_symlinks() {
         done
         lnif "$2/.vim"                 "$target_path/.config/nvim"
         lnif "$source_path/.vimrc"     "$target_path/.config/nvim/init.vim"
+        [ -L "$2/.vim/.vim" ] && rm "$2/.vim/.vim"
     fi
 
     touch  "$target_path/.vimrc.local"
