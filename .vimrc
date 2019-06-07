@@ -797,13 +797,14 @@
             let g:Lf_ShortcutB = ''
             noremap <Leader>f  :cclose<CR>:Leaderf file<CR>
             noremap <Leader>fb :cclose<CR>:Leaderf buffer<CR>
-            noremap <Leader>fm :cclose<CR>:Leaderf mru --regexMode<CR>
+            noremap <Leader>fm :cclose<CR>:Leaderf mru<CR>
             noremap <Leader>ff :cclose<CR>:Leaderf! function<CR>
             noremap <Leader>ft :cclose<CR>:Leaderf! bufTag<CR>
             noremap <Leader>fo :cclose<CR>:Leaderf tag --stayOpen<CR>
 
             if executable('rg')
-                noremap <Leader>fr :cclose<CR>:Leaderf rg --hidden --regexMode --stayOpen<CR>
+                noremap <Leader>fr :cclose<CR>:Leaderf rg --hidden --stayOpen<CR>
+                noremap <Leader>fg :cclose<CR>:<C-u><C-r>=printf("Leaderf! rg -e %s --hidden --stayOpen", expand("<cword>"))<CR><CR>
             endif
 
             let g:Lf_RootMarkers = ['.git', '.hg', '.svn', '.project', '.root']

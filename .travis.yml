@@ -105,38 +105,41 @@ before_install:
       ln -sf $(which llvm-cov) /home/travis/bin/gcov
     fi
 
-install: |
-  RELEASE_VERSION=`echo ${VIM_VERSION##*-}`
-  pip install --user pynvim
-  mkdir -p ${DEPS}/bin
+install:
+  - RELEASE_VERSION=`echo ${VIM_VERSION##*-}`
+  - pip install --user pynvim
+  - mkdir -p ${DEPS}/bin
 
-  if [ "$VIM_VERSION" = "vim" ]; then
-    C_OPTS="--prefix=$DEPS --with-features=huge --enable-perlinterp --enable-pythoninterp --enable-python3interp --enable-rubyinterp --enable-luainterp --enable-tclinterp "
+  - |
+    if [ "$VIM_VERSION" = "vim" ]; then
+      C_OPTS="--prefix=$DEPS --with-features=huge --enable-perlinterp --enable-pythoninterp --enable-python3interp --enable-rubyinterp --enable-luainterp --enable-tclinterp "
 
-    git clone --depth=1 https://github.com/vim/vim
-    cd vim
-    ./configure $C_OPTS
-    make
-    make install
-    cd -
-  fi
+      git clone --depth=1 https://github.com/vim/vim
+      cd vim
+      ./configure $C_OPTS
+      make
+      make install
+      cd -
+    fi
 
-  if [ "$VIM_VERSION" = "nvim" ]; then
-    git clone --depth=1 https://github.com/neovim/neovim
-    cd neovim
-    make CMAKE_BUILD_TYPE=RelWithDebInfo
-    make install
-    cd -
-  fi
+  - |
+    if [ "$VIM_VERSION" = "nvim" ]; then
+      git clone --depth=1 https://github.com/neovim/neovim
+      cd neovim
+      make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=$DEPS
+      make install
+      cd -
+    fi
 
-  if [ "$RELEASE_VERSION" != "vim" ] && [ "$RELEASE_VERSION" != "nvim" ]; then
-    git clone https://github.com/neovim/neovim
-    cd neovim
-    git checkout -b $RELEASE_VERSION $RELEASE_VERSION
-    make CMAKE_BUILD_TYPE=RelWithDebInfo
-    make install
-    cd -
-  fi
+  - |
+    if [ "$RELEASE_VERSION" != "vim" ] && [ "$RELEASE_VERSION" != "nvim" ]; then
+      git clone https://github.com/neovim/neovim
+      cd neovim
+      git checkout $RELEASE_VERSION
+      make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=$DEPS
+      make install
+      cd -
+    fi
 
 before_script:
   # Start virtual framebuffer to be able to test the GUI. Does not work OS X.
@@ -146,29 +149,32 @@ before_script:
       sh -e /etc/init.d/xvfb start && sleep 3
     fi
 
-script: |
-  if [ "$VIM_VERSION" = "vim" ]; then
-    echo $(which vim)
-    vim --version
-    curl https://git.io/starry-vim -L > ~/starry-vim.sh && bash ~/starry-vim.sh
-    # After installing starry-vim, test PlugStatus on Travis OSX, not work on Travis Linux.
-    if [ "$TRAVIS_OS_NAME" = "osx" ]; then
-      export TERM=xterm-256color
-      vim +PlugStatus +qall
+script:
+  - |
+    if [ "$VIM_VERSION" = "vim" ]; then
+      echo $(which vim)
+      vim --version
+      curl https://git.io/starry-vim -L > ~/starry-vim.sh && bash ~/starry-vim.sh
+      # After installing starry-vim, test PlugStatus on Travis OSX, not work on Travis Linux.
+      if [ "$TRAVIS_OS_NAME" = "osx" ]; then
+        export TERM=xterm-256color
+        vim +PlugStatus +qall
+      fi
     fi
-  fi
 
-  if [ "$VIM_VERSION" != "vim" ]; then
-    echo $(which nvim)
-    nvim --version
-    curl https://git.io/starry-vim -L > ~/starry-vim.sh && bash ~/starry-vim.sh
-    # After installing starry-vim, test PlugStatus on Travis OSX, not work on Travis Linux.
-    if [ "$TRAVIS_OS_NAME" = "osx" ]; then
-      export TERM=xterm-256color
-      nvim +PlugStatus +qall
+  - |
+    if [ "$VIM_VERSION" != "vim" ]; then
+      echo $(which nvim)
+      nvim --version
+      curl https://git.io/starry-vim -L > ~/starry-vim.sh && bash ~/starry-vim.sh
+      # After installing starry-vim, test PlugStatus on Travis OSX, not work on Travis Linux.
+      if [ "$TRAVIS_OS_NAME" = "osx" ]; then
+        export TERM=xterm-256color
+        nvim +PlugStatus +qall
+      fi
     fi
-  fi
 
-  if [ -n "$err" ]; then
-    exit 1
-  fi
+  - |
+    if [ -n "$err" ]; then
+      exit 1
+    fi
