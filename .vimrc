@@ -223,10 +223,17 @@
 " Vim UI {
 
     if PlugEnable('starry-vim-colorschemes')
-        " If your terminal emulator not support true colors and the colors are wrong,
-        " try to uncomment the following line in your .vimrc.local file:
-        "let g:solarized_use16 = 1
-        let g:solarized_visibility = 'normal'
+        if has('termguicolors')
+            if !has('nvim')
+                " Fix bug for vim
+                let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+                let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+            endif
+
+            " Enable true color
+            set termguicolors
+        endif
+        let g:solarized_italics = 0
         colorscheme solarized8             " Load a colorscheme 载入主题
     elseif !exists('g:starry_no_omni_complete')
         " 设置 OmniComplete 补全菜单颜色
@@ -1724,17 +1731,6 @@
             elseif WINDOWS() && has('gui_running')
                 set guifont=Consolas-with-Yahei:h10.5,DejaVu\ Sans\ Mono\ Nerd\ Font:h11,Sauce\ Code\ Nerd\ Font:h11
             endif
-        endif
-    else
-        if has('termguicolors')
-            if !has('nvim')
-                " Fix bug for vim
-                let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-                let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-            endif
-
-            " Enable true color
-            set termguicolors
         endif
     endif
 

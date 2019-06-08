@@ -604,9 +604,6 @@ Terminal Vim users will benefit from their terminal emulators with true colors s
         " Enable true color
         set termguicolors
     endif
-    " If your terminal emulator not support true colors and the colors are wrong,
-    " try to uncomment the following line:
-    "let g:solarized_use16 = 1
     colorscheme solarized8
 
 Check out Terminal emulators with true colors support: https://gist.github.com/XVilka/8346728
