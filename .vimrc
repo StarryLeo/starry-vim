@@ -163,27 +163,6 @@
     set ttimeout ttimeoutlen=100        " A key code or mapped key sequence to complete 设置键码超时为 100ms
 
 
-    " http://vim.wikia.com/wiki/Restore_cursor_to_file_position_in_previous_editing_session
-    " Restore cursor to file position in previous editing session
-    " To disable this, add the following to your .vimrc.before.local file:
-    " 恢复光标到上次编辑会话中的位置
-    " 如要禁用，请将以下值声明在 .vimrc.before.local 文件：
-    "
-    "   let g:starry_no_restore_cursor = 1
-    "
-    if !exists('g:starry_no_restore_cursor')
-        function! ResCur()
-            if line("'\"") <= line('$')
-                silent! normal! g`"
-                return 1
-            endif
-        endfunction
-
-        augroup starry
-            autocmd BufWinEnter * call ResCur()
-        augroup END
-    endif
-
     " 目录设置
     " Setting up the directories {
         set backup                  " Backups are nice ... 设置备份
@@ -198,7 +177,7 @@
         "
         "   let g:starry_no_views = 1
         "
-        set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility 更好的兼容性
+        set viewoptions=folds,cursor,unix,slash " Better Unix / Windows compatibility 更好的兼容性
         if !exists('g:starry_no_views')
             " Add exclusions to mkview and loadview
             " 添加视图排除项
@@ -206,6 +185,20 @@
             let g:skipview_files = [
                 \ '\[example pattern\]'
                 \ ]
+        " Restore cursor to file position in previous editing session
+        " To disable this, add the following to your .vimrc.before.local file:
+        " 恢复光标到上次编辑会话中的位置
+        " 如要禁用，请将以下值声明在 .vimrc.before.local 文件：
+        "
+        "   let g:starry_no_restore_cursor = 1
+        "
+        elseif !exists('g:starry_no_restore_cursor')
+                augroup starry
+                    autocmd BufReadPost *
+                        \ if line("'\"") <= line("$") |
+                        \     execute "normal! g`\"" |
+                        \ endif
+                augroup END
         endif
     " }
 
@@ -222,19 +215,30 @@
 
 " Vim UI {
 
-    if PlugEnable('starry-vim-colorschemes')
-        if has('termguicolors')
-            if !has('nvim')
-                " Fix bug for vim
-                let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-                let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-            endif
-
-            " Enable true color
-            set termguicolors
+    if has('termguicolors')
+        if !has('nvim')
+            " Fix bug for vim
+            let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+            let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
         endif
+
+        " Enable true color
+        set termguicolors
+    endif
+    " Chage colorscheme in your .vimrc.before.local file:
+    " eg:
+    " let g:starry_colorscheme = 'gruvbox'
+    "
+    if exists('g:starry_colorscheme')
+        try
+            execute 'colorscheme ' . g:starry_colorscheme
+        catch
+            colorscheme desert
+        endtry
+    elseif PlugEnable('starry-vim-colorschemes')
         let g:solarized_italics = 0
         colorscheme solarized8             " Load a colorscheme 载入主题
+        hi ALEErrorSign guifg=#dc322f guibg=NONE guisp=NONE ctermfg=red ctermbg=NONE gui=bold cterm=bold
     elseif !exists('g:starry_no_omni_complete')
         " 设置 OmniComplete 补全菜单颜色
         hi Pmenu      guifg=#000000 guibg=#F8F8F8 ctermfg=black     ctermbg=LightGray
