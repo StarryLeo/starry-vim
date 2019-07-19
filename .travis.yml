@@ -37,6 +37,7 @@ addons:
       - autoconf
       - clang
       - lcov
+      - gettext
       - libperl-dev
       - python-dev
       - python3-dev
@@ -65,7 +66,6 @@ addons:
       - g++
       - gcc
       - ninja-build
-      - gettext
       - libtool
       - pkg-config
       - unzip
@@ -105,6 +105,7 @@ install:
   - VIM_RELEASE_VERSION=`echo ${VIM_VERSION##*-}`
   - NVIM_RELEASE_VERSION=`echo ${NVIM_VERSION##*-}`
   - pip install --user pynvim
+  - pip install --user vim-vint
   - mkdir -p ${DEPS}/bin
 
   - |
@@ -170,6 +171,7 @@ before_script:
     fi
 
 script:
+  - vint --error .
   - |
     if [ -n "$VIM_RELEASE_VERSION" ]; then
       echo $(which vim)

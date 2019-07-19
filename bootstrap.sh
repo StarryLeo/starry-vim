@@ -1,31 +1,19 @@
 #!/bin/bash
-
-#   Copyright 2014 Steve Francia
-#             2018 StarryLeo
 #
-#   Licensed under the Apache License, Version 2.0 (the "License");
-#   you may not use this file except in compliance with the License.
-#   You may obtain a copy of the License at
-#
-#       http://www.apache.org/licenses/LICENSE-2.0
-#
-#   Unless required by applicable law or agreed to in writing, software
-#   distributed under the License is distributed on an "AS IS" BASIS,
-#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#   See the License for the specific language governing permissions and
-#   limitations under the License.
+# 2019/07/18    StarryLeo
 
 ############################  SETUP PARAMETERS
 app_name='starry-vim'
-[ -z "$APP_PATH" ] && APP_PATH="$HOME/.starry-vim"
-[ -z "$REPO_URL" ] && REPO_URL='https://github.com/StarryLeo/starry-vim.git'
-[ -z "$REPO_BRANCH" ] && REPO_BRANCH='master'
+app_path="$HOME/.starry-vim"
+repo_url='https://github.com/StarryLeo/starry-vim.git'
+repo_branch='master'
+plug_url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
 debug_mode='0'
 fork_maintainer='0'
 backup_dir="$HOME/.cache/.starry-vim_backup"
 backup_time_s='5184000'
 backup_time_v='20736000'
-[ -z "$PLUG_URL" ] && PLUG_URL='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 ############################  BASIC SETUP TOOLS
 red="\33[31m"
@@ -198,10 +186,11 @@ create_symlinks() {
     local source_path="$1"
     local target_path="$2"
 
-    mkdir -p "$2/.vim"
+    if [ ! -e "$2/.vim" ]; then
+        mkdir -p "$2/.vim"
+    fi
+
     lnif "$source_path/.vimrc"         "$target_path/.vimrc"
-    lnif "$source_path/.vimrc.plugs"   "$target_path/.vimrc.plugs"
-    lnif "$source_path/.vimrc.before"  "$target_path/.vimrc.before"
 
     if program_exists "nvim"; then
         today=`date +%Y%m%d_%s`
@@ -213,29 +202,33 @@ create_symlinks() {
         [ -L "$2/.vim/.vim" ] && rm "$2/.vim/.vim"
     fi
 
-    touch  "$target_path/.vimrc.local"
-
     ret="$?"
     success "Setting up vim symlinks."
     debug
 }
 
-setup_fork_mode() {
-    local source_path="$2"
-    local target_path="$3"
-
-    if [ "$1" -eq '1' ]; then
-        touch "$source_path/.vimrc.fork"
-        touch "$source_path/.vimrc.plugs.fork"
-        touch "$source_path/.vimrc.before.fork"
-
-        lnif "$source_path/.vimrc.fork"         "$target_path/.vimrc.fork"
-        lnif "$source_path/.vimrc.plugs.fork"   "$target_path/.vimrc.plugs.fork"
-        lnif "$source_path/.vimrc.before.fork"  "$target_path/.vimrc.before.fork"
-
+generate_dot_starry() {
+    if [ ! -f "$1" ]; then
+        cp $2 $1
         ret="$?"
-        success "Created fork maintainer files."
+        success "Successfully generate .starry in your HOME directory."
         debug
+    fi
+}
+
+setup_fork_mode() {
+    if [ "$1" -eq '1' ]; then
+        if [ ! -e "$2/fork" ]; then
+            mkdir -p "$2/fork"
+
+            touch "$2/fork/config.vim"
+            touch "$2/fork/packages.vim"
+            touch "$2/fork/README.md"
+
+            ret="$?"
+            success "Created fork maintainer files."
+            debug
+        fi
     fi
 }
 
@@ -247,7 +240,6 @@ setup_plug() {
         msg "Starting updating plugins..."
 
         vim \
-            -u "$2" \
             "+set nomore" \
             "+PlugClean!" \
             "+PlugUpdate" \
@@ -261,7 +253,6 @@ setup_plug() {
         msg "Starting installing plugins..."
 
         vim \
-            -u "$1" \
             "+set nomore" \
             "+PlugClean!" \
             "+PlugInstall" \
@@ -330,37 +321,38 @@ program_must_exist "vim"
 program_must_exist "git"
 program_must_exist "curl"
 
-check_update     "$APP_PATH"
+check_update        "$app_path"
 
-do_backup        "$HOME/.vim" \
-                 "$HOME/.vimrc" \
-                 "$HOME/.gvimrc" \
-                 "$app_name" \
-                 "$APP_PATH" \
-                 "$backup_dir" \
-                 "$backup_dir/.history/update.history" \
-                 "$backup_time_v" \
-                 "$backup_time_s"
+do_backup           "$HOME/.vim" \
+                    "$HOME/.vimrc" \
+                    "$HOME/.gvimrc" \
+                    "$app_name" \
+                    "$app_path" \
+                    "$backup_dir" \
+                    "$backup_dir/.history/update.history" \
+                    "$backup_time_v" \
+                    "$backup_time_s"
 
-sync_repo        "$APP_PATH" \
-                 "$REPO_URL" \
-                 "$REPO_BRANCH" \
-                 "$app_name"
+sync_repo           "$app_path" \
+                    "$repo_url" \
+                    "$repo_branch" \
+                    "$app_name"
 
-create_symlinks  "$APP_PATH" \
-                 "$HOME"
+create_symlinks     "$app_path" \
+                    "$HOME"
 
-setup_fork_mode  "$fork_maintainer" \
-                 "$APP_PATH" \
-                 "$HOME"
+generate_dot_starry "$HOME/.starry" \
+                    "$app_path/init.starry"
 
-install_vim_plug "$HOME/.vim/autoload" \
-                 "$PLUG_URL"
+setup_fork_mode     "$fork_maintainer" \
+                    "$app_path"
 
-setup_plug       "$APP_PATH/.vimrc.plugs.default" \
-                 "$APP_PATH/.vimrc"
+install_vim_plug    "$HOME/.vim/autoload" \
+                    "$plug_url"
 
-setup_json       "$HOME/.vim"
+setup_plug
+
+setup_json          "$HOME/.vim"
 
 ret="$?"
 successful "       _                                          _            "

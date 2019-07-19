@@ -1,58 +1,70 @@
-REM    Copyright 2014 Steve Francia
-REM              2018 StarryLeo
-REM
-REM    Licensed under the Apache License, Version 2.0 (the "License");
-REM    you may not use this file except in compliance with the License.
-REM    You may obtain a copy of the License at
-REM
-REM        http://www.apache.org/licenses/LICENSE-2.0
-REM
-REM    Unless required by applicable law or agreed to in writing, software
-REM    distributed under the License is distributed on an "AS IS" BASIS,
-REM    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-REM    See the License for the specific language governing permissions and
-REM    limitations under the License.
+@PowerShell -ExecutionPolicy Bypass -Command Invoke-Expression $('$args=@(^&{$args} %*);'+[String]::Join(';',(Get-Content '%~f0') -notmatch '^^@PowerShell.*EOF$')) & goto :EOF
 
+Push-Location ~
 
-@if not exist "%HOME%" @set HOME=%HOMEDRIVE%%HOMEPATH%
-@if not exist "%HOME%" @set HOME=%USERPROFILE%
+$app_name="starry-vim"
+$app_path="$HOME\.starry-vim"
+$repo_url="https://github.com/StarryLeo/starry-vim.git"
+$repo_branch="master"
+$plug_url="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 
-@set APP_PATH=%HOME%\.starry-vim
-IF NOT EXIST "%APP_PATH%" (
-    call git clone -b master https://github.com/StarryLeo/starry-vim.git "%APP_PATH%"
-    set UPDATE_MODE=""
-) ELSE (
-    @set ORIGINAL_DIR=%CD%
-    echo updating starry-vim
-    chdir /d "%APP_PATH%"
-    call git pull
-    chdir /d "%ORIGINAL_DIR%"
-    call cd "%APP_PATH%"
-    set UPDATE_MODE=update
-)
+echo ""
 
-call mklink "%HOME%\.vimrc" "%APP_PATH%\.vimrc"
-call mklink "%HOME%\_vimrc" "%APP_PATH%\.vimrc"
-call mklink "%HOME%\.vimrc.fork" "%APP_PATH%\.vimrc.fork"
-call mklink "%HOME%\.vimrc.plugs" "%APP_PATH%\.vimrc.plugs"
-call mklink "%HOME%\.vimrc.plugs.fork" "%APP_PATH%\.vimrc.plugs.fork"
-call mklink "%HOME%\.vimrc.before" "%APP_PATH%\.vimrc.before"
-call mklink "%HOME%\.vimrc.before.fork" "%APP_PATH%\.vimrc.before.fork"
+if ((Get-Command "git" -ErrorAction SilentlyContinue) -eq $null)
+{
+    echo "Can not find git in your PATH !!"
+    pause
+    exit
+}
 
-IF NOT EXIST "%HOME%\.vim\viplug" (
-    call mkdir "%HOME%\.vim\viplug"
-)
+if ((Get-Command "gvim" -ErrorAction SilentlyContinue) -eq $null)
+{
+    echo "Can not find gvim in your PATH !!"
+    pause
+    exit
+}
 
-IF NOT EXIST "%HOME%\.vim\autoload\plug.vim" (
-    call git clone https://github.com/junegunn/vim-plug.git "%HOME%\.vim\autoload"
-) ELSE (
-  call cd "%HOME%\.vim\autoload"
-  call git pull
-  call cd %HOME%
-)
+echo ""
 
-IF "%UPDATE_MODE%" == "update" (
-    call gvim -u "%APP_PATH%\.vimrc" +PlugClean! +PlugUpdate +qall
-) ELSE (
-    call gvim -u "%APP_PATH%\.vimrc.plugs.default" +PlugClean! +PlugInstall +qall
-)
+if (Test-Path "$app_path") {
+    $update_mode="update"
+} else {
+    $update_mode=""
+}
+
+echo ""
+
+if ("$update_mode" -eq "update") {
+    echo "Trying to update $app_name..."
+    Push-Location "$app_path"
+    git pull origin "$repo_branch"
+} else {
+    echo "Trying to clone $app_name..."
+    git clone -b "$repo_branch" "$repo_url" "$app_path"
+}
+
+echo ""
+
+cmd /c mklink "$HOME\.vimrc" "$app_path\.vimrc"
+
+if (!(Test-Path "$HOME\.starry"))
+{
+    Copy-Item -Path $app_path\init.starry -Destination $HOME\.starry -Force
+    echo "Successfully generate .starry in your HOME directory."
+}
+
+echo ""
+
+if (!(Test-Path "$HOME\.vim\autoload"))
+{
+    md ~\.vim\autoload
+}
+(New-Object Net.WebClient).DownloadFile("$plug_url", $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath("~\.vim\autoload\plug.vim"))
+
+echo ""
+
+if ("$update_mode" -eq "update") {
+    gvim +PlugClean! +PlugUpdate +qall
+} else {
+    gvim +PlugClean! +PlugInstall +qall
+}
