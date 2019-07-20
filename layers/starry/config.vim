@@ -1,7 +1,5 @@
 scriptencoding utf-8
 
-"let g:vim_default_improved_backup_on = 1
-
 set background=dark             " Assume a dark background 启用暗色主题
 if has('termguicolors')
   if !has('nvim')

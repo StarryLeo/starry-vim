@@ -49,7 +49,8 @@ cmd /c mklink "$HOME\.vimrc" "$app_path\.vimrc"
 
 if (!(Test-Path "$HOME\.starry"))
 {
-    Copy-Item -Path $app_path\init.starry -Destination $HOME\.starry -Force
+    md ~\.starry
+    Copy-Item -Path $app_path\init.vim -Destination $HOME\.starry\init.vim -Force
     echo "Successfully generate .starry in your HOME directory."
 }
 
@@ -64,7 +65,7 @@ if (!(Test-Path "$HOME\.vim\autoload"))
 echo ""
 
 if ("$update_mode" -eq "update") {
-    gvim +PlugClean! +PlugUpdate +qall
+    gvim "+set nomore" +PlugUpdate +qall
 } else {
-    gvim +PlugClean! +PlugInstall +qall
+    gvim "+set nomore" +PlugInstall +qall
 }

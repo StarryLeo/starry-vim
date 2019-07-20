@@ -1,5 +1,8 @@
 " https://github.com/junegunn/vim-plug/wiki/extra#automatically-install-missing-plugins-on-startup
 function! starry#vim#plug#check(...) abort
+  if (&more ==# 'nomore')
+    return
+  endif
   let msg = '[starry-vim] Need to install the missing plugins (y/n): '
   let missing = filter(values(g:plugs), '!isdirectory(v:val.dir)')
   if len(missing)

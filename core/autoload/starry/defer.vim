@@ -16,8 +16,10 @@ endfunction
 function! starry#defer#airline(timer) abort
   call s:lod('vim-airline', 'vim-airline-themes', 'vim-bufferline')
   " Show AsyncRun job's status in airline
-  let g:asyncrun_status = ''
-  let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
+  if exists('*airline#section#create_right')
+    let g:asyncrun_status = ''
+    let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
+  endif
   redraws!
 endfunction
 

@@ -1,3 +1,4 @@
+let s:dot_starry = $HOME.'/.starry'
 function! starry#cache#init() abort
   let g:starry.manifest = {}
 
@@ -13,7 +14,7 @@ function! starry#cache#init() abort
   let fork_root  = g:starry.home . '/fork'
   let fork_dir   = split(globpath(fork_root, '*'), '\n')
   let fork_path  = filter(fork_dir, 'isdirectory(v:val)')
-  let local_root = g:starry.home . '/local'
+  let local_root = s:dot_starry . '/local'
   let local_dir  = split(globpath(local_root, '*'), '\n')
   let local_path = filter(local_dir, 'isdirectory(v:val)')
 

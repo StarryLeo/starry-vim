@@ -14,12 +14,12 @@ let g:starry.layers   = ['starry'] " Enable starry layer by default
 let g:starry.excluded = []
 let g:starry.plugins  = []
 
-let s:plug_options = {}
 let s:dot_starry   = $HOME.'/.starry'
+let s:plug_options = {}
 let s:fork_config    = g:starry.home . '/fork/config.vim'
 let s:fork_packages  = g:starry.home . '/fork/packages.vim'
-let s:local_config   = g:starry.home . '/local/config.vim'
-let s:local_packages = g:starry.home . '/local/packages.vim'
+let s:local_config   = s:dot_starry . '/config.vim'
+let s:local_packages = s:dot_starry . '/packages.vim'
 let s:TYPE = {
   \ 'string':  type(''),
   \ 'list':    type([]),
@@ -35,7 +35,7 @@ endfunction
 function! starry#begin() abort
   call s:define_command()
   call s:cache()
-  call s:check_dot_starry()
+  call s:check_dot_starry_init()
   call s:neovim_skip_python_host_check()
 endfunction
 
@@ -57,14 +57,15 @@ function! s:cache() abort
   endif
 endfunction
 
-function! s:check_dot_starry() abort
-  if filereadable(expand(s:dot_starry))
-    call s:Source(s:dot_starry)
+function! s:check_dot_starry_init() abort
+  let dot_starry_init = s:dot_starry . '/init.vim'
+  if filereadable(expand(dot_starry_init))
+    call s:Source(dot_starry_init)
     call extend(g:starry.layers, get(g:, 'starry_layers', []))
     let g:mapleader      = get(g:, 'starry_leader', ',')
     let g:maplocalleader = get(g:, 'starry_localleader', ';')
   else
-    call starry#logger#error('.starry does not exist! Exiting...')
+    call starry#logger#error('.starry/init.vim does not exist! Exiting...')
   endif
 endfunction
 
@@ -98,7 +99,6 @@ function! starry#end() abort
   silent! runtime! plugin/default-improved.vim
 
   call s:config()
-  if exists('*UserConfig') | call UserConfig() | endif
 
   call s:check_missing_plugins()
 endfunction
@@ -118,7 +118,6 @@ function! s:register_plugin() abort
     call s:filter_and_register(plugin)
   endfor
 
-  if exists('*UserPlugin') | call UserPlugin() | endif
   call plug#end()
 endfunction
 
@@ -143,7 +142,7 @@ function! s:packages() abort
   " Try to load local Layer packages
   if exists('g:starry.local')
     for layer in g:starry.local
-      let layer_packages = g:starry.home . '/local/' . layer . '/packages.vim'
+      let layer_packages = s:dot_starry . '/local/' . layer . '/packages.vim'
       call s:Source(layer_packages)
     endfor
   endif
@@ -220,7 +219,7 @@ function! s:config() abort
   " Try to load local Layer config
   if exists('g:starry.local')
     for layer in g:starry.local
-      let layer_config = g:starry.home . '/local/' . layer . '/config.vim'
+      let layer_config = s:dot_starry . '/local/' . layer . '/config.vim'
       call s:Source(layer_config)
     endfor
   endif
@@ -249,5 +248,3 @@ function! starry#load_any(...) abort
   endfor
   return 0
 endfunction
-
-" vim: sw=2

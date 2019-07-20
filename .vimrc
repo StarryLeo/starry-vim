@@ -39,5 +39,3 @@
   set runtimepath+=$HOME/.starry-vim/core
   call starry#bootstrap()
 " }
-
-" vim: sw=2

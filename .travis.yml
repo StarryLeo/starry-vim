@@ -105,7 +105,7 @@ install:
   - VIM_RELEASE_VERSION=`echo ${VIM_VERSION##*-}`
   - NVIM_RELEASE_VERSION=`echo ${NVIM_VERSION##*-}`
   - pip install --user pynvim
-  - pip install --user vim-vint
+  - pip install --user vim-vint pathlib typing enum34
   - mkdir -p ${DEPS}/bin
 
   - |

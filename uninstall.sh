@@ -9,7 +9,7 @@ rm $HOME/.vimrc
 rm -rf $app_dir
 rm -rf $app_backup_dir
 
-printf "\rRemove the file .starry and dir .vim?\n"
+printf "\rRemove the dir .starry and .vim?\n"
 for (( i=10; i>=0; i-- )); do
     printf "\r[y(es)/n(o), default: n]( ${i}s ): "
     read -n 1 -t 1 answer
@@ -18,7 +18,7 @@ for (( i=10; i>=0; i-- )); do
     fi
 done
 if [[ "$answer" =~ ^[yY]$ ]]; then
-    rm $HOME/.starry
+    rm -rf $HOME/.starry
     rm -rf $HOME/.vim
 fi
 

@@ -35,21 +35,9 @@ let g:starry_languages = [ 'markdown', 'json', ]
 " Maximized Window at startup
 "let g:starry_fullscreen_startup = 1
 
-function! UserPlugin()
-  " Add your own plugin via Plug command.
-  "
-  " Plug 'vim-scripts/restore_view.vim'
-  "
-  " Remove plugins from a layer via Layer command with 'exclude' option.
-  "
-  " Layer 'editing' { 'exclude': ['ap/vim-css-color',] }
-  "
-endfunction
+" vim-plug
+let g:plug_window = 'vertical topleft 100new'
 
-function! UserConfig()
-  " vim-plug {
-    let g:plug_window = 'vertical topleft 100new'
-  " }
-endfunction
+" vim-default-improved
+let g:vim_default_improved_backup_on = 1
 
-" vim: sw=2 ft=vim

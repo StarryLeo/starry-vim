@@ -5,7 +5,7 @@
 [![Repo Size](https://img.shields.io/github/repo-size/StarryLeo/starry-vim.svg)](https://github.com/StarryLeo/starry-vim)
 [![PRs Welcome](https://img.shields.io/badge/pull%20requests-welcome-brightgreen.svg)](https://github.com/StarryLeo/starry-vim/pulls)
 [![Last Commit](https://img.shields.io/github/last-commit/StarryLeo/starry-vim/master.svg)](https://github.com/StarryLeo/starry-vim/commits/master)
-[![Apache-2.0 License](https://img.shields.io/github/license/StarryLeo/starry-vim.svg)](https://github.com/StarryLeo/starry-vim/blob/master/LICENSE)
+[![MIT License](https://img.shields.io/github/license/StarryLeo/starry-vim.svg)](https://github.com/StarryLeo/starry-vim/blob/master/LICENSE)
 
              _                                          _
         ___ | |_  __ _  _ __  _ __  _   _       __   __(_) _ __ ___
@@ -103,9 +103,9 @@ I'm always happy to take pull requests from others. A good number of people are 
 
 # Customization
 
-You can use `~/.starry` to customize starry-vim, you can enable the existing layers, add new plugins and configurations.
+You can use `~/.starry/init.vim` to customize starry-vim, you can enable the existing layers, add new plugins and configurations.
 
-If `~/.starry` does not exist, vanilla vim will be loaded! Refer to [`init.starry`](https://github.com/StarryLeo/starry-vim/init.starry) as an example.
+If `~/.starry/init.vim` does not exist, vanilla vim will be loaded! Refer to [`init.vim`](https://github.com/StarryLeo/starry-vim/init.vim) as an example.
 
 ## Presetting
 
@@ -147,32 +147,38 @@ If `~/.starry` does not exist, vanilla vim will be loaded! Refer to [`init.starr
 
     " Maximized Window at startup
     "let g:starry_fullscreen_startup = 1
+
+    " vim-plug
+    let g:plug_window = 'vertical topleft 100new'
+
+    " vim-default-improved
+    let g:vim_default_improved_backup_on = 1
+
 ```
 
-## UserPlugin() and UserConfig()
+## Adding new plugins
+## Removing (disabling) an included plugin
+
+Create `~/.starry/packages.vim` if it doesn't already exist.
 
 ```viml
 
-    function! UserPlugin()
       " Add your own plugin via Plug command.
       "
-      " Plug 'vim-scripts/restore_view.vim'
+      Plug 'vim-scripts/restore_view.vim'
       "
       " Remove plugins from a layer via Layer command with 'exclude' option.
       "
-      " Layer 'editing' { 'exclude': ['ap/vim-css-color',] }
+      Layer 'editing', { 'exclude': ['ap/vim-css-color',] }
       "
-    endfunction
-
-    function! UserConfig()
-      " vim-plug {
-        let g:plug_window = 'vertical topleft 100new'
-      " }
-    endfunction
 ```
 
-If have a heavy customized configurations, you can organize them in `local` directory with `packages.vim` and `config.vim` too, which will be loaded on startup.
-The `local` directory can be considered as a single layer, i.e., in which you can put packages.vim and config.vim, or a set of multiple layers.
+**Remember to run ':PlugClean!' after this to remove the existing directories**
+
+Create `~/.starry/config.vim` for configurations.
+
+If have a heavy customized configurations, you can organize them as a layer with `packages.vim` and `config.vim` in `~/.starry/local` directory too,
+which will be loaded on startup.
 
 ## Fork Customization
 
@@ -182,10 +188,10 @@ directory in the root of their fork. The load order for the configuration is:
 
 1. `./layers/*/packages.vim` - starry-vim packages configuration
 2. `./fork/*/packages.vim` - fork packages configuration
-3. `./local/*/packages.vim` - local packages configuration
+3. `~/.starry/local/*/packages.vim` - local packages configuration
 4. `./layers/*/config.vim` - starry-vim configuration
 5. `./fork/*/config.vim` - fork configuration
-6. `./local/*/config.vim` - local configuration
+6. `~/.starry/local/*/config.vim` - local configuration
 
 You may also want to update your `README.md` file so that the `bootstrap.sh` link points to your repository and your `bootstrap.sh`
 file to pull down your fork.

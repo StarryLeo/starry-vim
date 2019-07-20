@@ -208,12 +208,24 @@ create_symlinks() {
 }
 
 generate_dot_starry() {
-    if [ ! -f "$1" ]; then
-        cp $2 $1
+    if [ ! -e "$1" ]; then
+        mkdir -p "$1"
+        cp "$2" "$1/init.vim"
+
+        touch "$1/config.vim"
+        touch "$1/packages.vim"
+        touch "$1/README.md"
+
         ret="$?"
         success "Successfully generate .starry in your HOME directory."
-        debug
+    elif [ ! -f "$1/init.vim" ]; then
+        cp "$2" "$1/init.vim"
+
+        ret="$?"
+        success "Successfully generate .starry/init.vim in your HOME directory."
     fi
+
+    debug
 }
 
 setup_fork_mode() {
@@ -241,7 +253,6 @@ setup_plug() {
 
         vim \
             "+set nomore" \
-            "+PlugClean!" \
             "+PlugUpdate" \
             "+qall"
 
@@ -254,7 +265,6 @@ setup_plug() {
 
         vim \
             "+set nomore" \
-            "+PlugClean!" \
             "+PlugInstall" \
             "+qall"
 
@@ -342,7 +352,7 @@ create_symlinks     "$app_path" \
                     "$HOME"
 
 generate_dot_starry "$HOME/.starry" \
-                    "$app_path/init.starry"
+                    "$app_path/init.vim"
 
 setup_fork_mode     "$fork_maintainer" \
                     "$app_path"
