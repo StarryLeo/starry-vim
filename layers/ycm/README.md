@@ -54,5 +54,5 @@ For java users wanting to use eclim be sure to add `let g:EclimCompletionMethod 
  * `<C-j>` for completing snippets using [Ultisnips](https://github.com/SirVer/ultisnips).
 
 
-[YouCompleteMe]: https://github.com/Valloric/YouCompleteMe
+[YouCompleteMe]: https://github.com/ycm-core/YouCompleteMe
 

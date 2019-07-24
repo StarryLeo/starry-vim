@@ -120,6 +120,9 @@ If `~/.starry/init.vim` does not exist, vanilla vim will be loaded! Refer to [`i
     " Uncomment the following line to override the default localleader key ';'.
     "let g:starry_localleader = ','
 
+    " Change color scheme, e.g. gruvbox, another nice color scheme.
+    "let g:starry_colorscheme = 'gruvbox'
+
     " Enable the existing layers in starry-vim.
     let g:starry_layers = [
       \ 'finder', 'editing', 'airline',
@@ -130,6 +133,9 @@ If `~/.starry/init.vim` does not exist, vanilla vim will be loaded! Refer to [`i
 
     " Prevent restoring cursor to file position in previous editing session
     "let g:starry_no_restore_cursor = 1
+
+    " Disable relative line numbers
+    "let g:starry_no_relativenumber = 1
 
     " Disable powerline symbols
     " Enable unicode symbols
@@ -163,14 +169,14 @@ Create `~/.starry/packages.vim` if it doesn't already exist.
 
 ```viml
 
-      " Add your own plugin via Plug command.
-      "
-      Plug 'vim-scripts/restore_view.vim'
-      "
-      " Remove plugins from a layer via Layer command with 'exclude' option.
-      "
-      Layer 'editing', { 'exclude': ['ap/vim-css-color',] }
-      "
+    " Add your own plugin via Plug command.
+    "
+    Plug 'vim-scripts/restore_view.vim'
+    "
+    " Remove plugins from a layer via Layer command with 'exclude' option.
+    "
+    Layer 'editing', { 'exclude': ['ap/vim-css-color',] }
+    "
 ```
 
 **Remember to run ':PlugClean!' after this to remove the existing directories**

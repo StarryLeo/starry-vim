@@ -4,6 +4,7 @@ scriptencoding utf-8
   if (has('python') || has('python3')) && !exists('g:starry_use_ctrlp')
     let g:Lf_ShortcutF = ''
     let g:Lf_ShortcutB = ''
+    let g:Lf_WorkingDirectoryMode = 'Ac'
     noremap <Leader>f  :cclose<CR>:Leaderf file<CR>
     noremap <Leader>fb :cclose<CR>:Leaderf buffer<CR>
     noremap <Leader>fm :cclose<CR>:Leaderf mru<CR>

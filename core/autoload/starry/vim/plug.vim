@@ -10,7 +10,7 @@ function! starry#vim#plug#check(...) abort
     let msg .= string(plugins) . ': '
     let msg = s:truncate(msg)
     if s:ask(msg)
-      PlugInstall --sync | q
+      PlugInstall --sync
     endif
   endif
 endfunction

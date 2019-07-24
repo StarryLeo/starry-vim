@@ -7,6 +7,9 @@
 " Uncomment the following line to override the default localleader key ';'.
 "let g:starry_localleader = ','
 
+" Change color scheme, e.g. gruvbox, another nice color scheme.
+"let g:starry_colorscheme = 'gruvbox'
+
 " Enable the existing layers in starry-vim.
 let g:starry_layers = [
   \ 'finder', 'editing', 'airline',
@@ -17,6 +20,9 @@ let g:starry_languages = [ 'markdown', 'json', ]
 
 " Prevent restoring cursor to file position in previous editing session
 "let g:starry_no_restore_cursor = 1
+
+" Disable relative line numbers
+"let g:starry_no_relativenumber = 1
 
 " Disable powerline symbols
 " Enable unicode symbols

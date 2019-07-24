@@ -10,15 +10,13 @@ $plug_url="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 
 echo ""
 
-if ((Get-Command "git" -ErrorAction SilentlyContinue) -eq $null)
-{
+if ((Get-Command "git" -ErrorAction SilentlyContinue) -eq $null) {
     echo "Can not find git in your PATH !!"
     pause
     exit
 }
 
-if ((Get-Command "gvim" -ErrorAction SilentlyContinue) -eq $null)
-{
+if ((Get-Command "gvim" -ErrorAction SilentlyContinue) -eq $null) {
     echo "Can not find gvim in your PATH !!"
     pause
     exit
@@ -45,10 +43,17 @@ if ("$update_mode" -eq "update") {
 
 echo ""
 
-cmd /c mklink "$HOME\.vimrc" "$app_path\.vimrc"
+if (!(Test-Path "$HOME\.vimrc")) {
+    cmd /c mklink "$HOME\.vimrc" "$app_path\.vimrc"
+}
 
-if (!(Test-Path "$HOME\.starry"))
-{
+if (!(Test-Path "$HOME\_vimrc")) {
+    cmd /c mklink "$HOME\_vimrc" "$app_path\.vimrc"
+}
+
+echo ""
+
+if (!(Test-Path "$HOME\.starry")) {
     md ~\.starry
     Copy-Item -Path $app_path\init.vim -Destination $HOME\.starry\init.vim -Force
     echo "Successfully generate .starry in your HOME directory."
@@ -56,8 +61,7 @@ if (!(Test-Path "$HOME\.starry"))
 
 echo ""
 
-if (!(Test-Path "$HOME\.vim\autoload"))
-{
+if (!(Test-Path "$HOME\.vim\autoload")) {
     md ~\.vim\autoload
 }
 (New-Object Net.WebClient).DownloadFile("$plug_url", $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath("~\.vim\autoload\plug.vim"))

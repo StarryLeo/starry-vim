@@ -2,6 +2,8 @@ scriptencoding utf-8
 
 " Markdown {
   if count(g:starry_languages, 'markdown')
+    " Disable this mapping due to conflict with vim-gitgutter
+    map <Plug> <Plug>Markdown_MoveToCurHeader
     let g:vim_markdown_folding_style_pythonic = 1
     " Disable conceal regardless of conceallevel setting
     let g:vim_markdown_conceal = 0
