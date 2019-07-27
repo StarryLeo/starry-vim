@@ -1,6 +1,5 @@
 language: c
 dist: trusty
-sudo: false
 
 os:
   - osx
@@ -20,7 +19,7 @@ env:
     - DEPS=$HOME/deps
     - PATH=$DEPS/bin:$PATH
   matrix:
-    - VIM_VERSION=vim-v8.1.0000
+    - VIM_VERSION=vim-v8.0.0000
     - VIM_VERSION=vim
     - NVIM_VERSION=nvim-v0.3.1
     - NVIM_VERSION=nvim-nightly
@@ -104,8 +103,8 @@ before_install:
 install:
   - VIM_RELEASE_VERSION=`echo ${VIM_VERSION##*-}`
   - NVIM_RELEASE_VERSION=`echo ${NVIM_VERSION##*-}`
-  - pip install pynvim
-  - pip install vim-vint pathlib typing enum34
+  - sudo pip install pynvim
+  - sudo pip install vim-vint pathlib typing enum34
   - mkdir -p ${DEPS}/bin
 
   - |

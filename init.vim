@@ -18,15 +18,17 @@ let g:starry_layers = [
 " Set the lang layer languages
 let g:starry_languages = [ 'markdown', 'json', ]
 
+" Comment the following line if you do not want to speed up via timer.
+let g:starry_speed_up_via_timer = 1
+
+" Comment the following line if you have no nerd-fonts installed.
+let g:starry_nerd_fonts = 1
+
 " Prevent restoring cursor to file position in previous editing session
 "let g:starry_no_restore_cursor = 1
 
 " Disable relative line numbers
 "let g:starry_no_relativenumber = 1
-
-" Disable powerline symbols
-" Enable unicode symbols
-"let g:starry_no_powerline_symbols = 1
 
 " Enable airline tabline
 " Disable airline bufferline

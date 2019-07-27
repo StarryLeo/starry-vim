@@ -42,7 +42,7 @@ If you are using [MacVim] or Gvim additional features are enabled. So regardless
 The easiest way to install starry-vim is to use our [automatic installer](https://git.io/starry-vim) by simply copying and pasting the following line into a terminal.
 This will install starry-vim and backup your existing vim configuration. If you are upgrading from a prior version this is also the recommended installation.
 
-*Requires Git 1.7+ and Vim 8.1+ or Neovim 0.3.1+*
+*Requires Git 1.7+ and Vim 8.0+ or Neovim 0.3.1+*
 
 ```bash
 
@@ -131,15 +131,17 @@ If `~/.starry/init.vim` does not exist, vanilla vim will be loaded! Refer to [`i
     " Set the lang layer languages
     let g:starry_languages = [ 'markdown', 'json', ]
 
+    " Comment the following line if you do not want to speed up via timer.
+    let g:starry_speed_up_via_timer = 1
+
+    " Comment the following line if you have no nerd-fonts installed.
+    let g:starry_nerd_fonts = 1
+
     " Prevent restoring cursor to file position in previous editing session
     "let g:starry_no_restore_cursor = 1
 
     " Disable relative line numbers
     "let g:starry_no_relativenumber = 1
-
-    " Disable powerline symbols
-    " Enable unicode symbols
-    "let g:starry_no_powerline_symbols = 1
 
     " Enable airline tabline
     " Disable airline bufferline

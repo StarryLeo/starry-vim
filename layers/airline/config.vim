@@ -34,7 +34,7 @@ if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 
-if !exists('g:starry_no_powerline_symbols')
+if get(g:, 'starry_nerd_fonts', 0)
   " powerline symbols
   let g:airline_left_sep      = ''
   let g:airline_left_alt_sep  = ''

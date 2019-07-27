@@ -122,6 +122,8 @@ function! s:register_plugin() abort
 endfunction
 
 function! s:packages() abort
+  let g:starry.timer = exists('*timer_start') && get(g:, 'starry_speed_up_via_timer', 0)
+
   " Load Layer packages
   for layer in g:starry.layers
     try
@@ -231,7 +233,14 @@ function! s:config() abort
 endfunction
 
 function! s:check_missing_plugins() abort
-  call timer_start(1500, 'starry#vim#plug#check')
+  if g:starry.timer
+    call timer_start(1200, 'starry#vim#plug#check')
+  else
+    augroup starryCheckPlug
+      autocmd!
+      autocmd VimEnter * call starry#vim#plug#check()
+    augroup END
+  endif
 endfunction
 
 " Util for config.vim and packages.vim

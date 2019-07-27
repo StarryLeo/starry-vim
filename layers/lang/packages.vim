@@ -1,6 +1,12 @@
 " Markdown {
   if count(g:starry_languages, 'markdown')
-    SPlug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+    if g:starry.timer
+      SPlug 'plasticboy/vim-markdown', { 'on': [] }
+
+      call timer_start(900, 'starry#defer#markdown')
+    else
+      SPlug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+    endif
     if executable('node') && executable('yarn')
       SPlug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install', 'for': 'markdown' }
     else

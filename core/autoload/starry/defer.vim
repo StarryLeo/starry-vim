@@ -14,7 +14,7 @@ endfunction
 
 " 250
 function! starry#defer#airline(timer) abort
-  call s:lod('vim-airline', 'vim-airline-themes', 'vim-bufferline')
+  call s:lod('vim-airline', 'vim-airline-themes', 'vim-bufferline', 'vim-devicons')
   " Show AsyncRun job's status in airline
   if exists('*airline#section#create_right')
     let g:asyncrun_status = ''
@@ -51,4 +51,9 @@ endfunction
 " 800
 function! starry#defer#csscolor(timer) abort
   call s:lod('vim-css-color')
+endfunction
+
+" 900
+function! starry#defer#markdown(timer) abort
+  call s:lod('vim-markdown')
 endfunction

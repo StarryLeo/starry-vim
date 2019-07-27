@@ -28,7 +28,7 @@ scriptencoding utf-8
     endif
     let g:Lf_MruMaxFiles = 1024
     let g:Lf_MaxCount    = 0
-    if !exists('g:starry_no_powerline_symbols')
+    if get(g:, 'starry_nerd_fonts', 0)
       let g:Lf_StlSeparator = { 'left': '', 'right': '' }
     endif
 " }
