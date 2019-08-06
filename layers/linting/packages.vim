@@ -1,7 +1,7 @@
-if g:starry.timer
-  SPlug 'w0rp/ale', { 'on': [] }
+if g:starry.timer['on']
+  SPlug 'dense-analysis/ale', { 'on': [] }
 
-  call timer_start(200, 'starry#defer#ale')
+  call timer_start(g:starry.timer['ale'], 'starry#defer#ale')
 else
-  SPlug 'w0rp/ale'
+  SPlug 'dense-analysis/ale'
 endif

@@ -1,9 +1,9 @@
 " Markdown {
   if count(g:starry_languages, 'markdown')
-    if g:starry.timer
+    if g:starry.timer['on']
       SPlug 'plasticboy/vim-markdown', { 'on': [] }
 
-      call timer_start(900, 'starry#defer#markdown')
+      call timer_start(g:starry.timer['markdown'], 'starry#defer#markdown')
     else
       SPlug 'plasticboy/vim-markdown', { 'for': 'markdown' }
     endif

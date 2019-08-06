@@ -7,8 +7,21 @@
 
 scriptencoding utf-8
 
-let g:starry.info = g:starry.home . '/core/autoload/starry/info.vim'
-let g:starry.tmux = !empty($TMUX)
+let g:starry.info  = g:starry.home . '/core/autoload/starry/info.vim'
+let g:starry.tmux  = !empty($TMUX)
+let g:starry.timer = {
+  \ 'ale':         200,
+  \ 'airline':     250,
+  \ 'csscolor':    300,
+  \ 'git':         350,
+  \ 'programming': 450,
+  \ 'motion':      550,
+  \ 'fugitive':    600,
+  \ 'textobj':     650,
+  \ 'snippets':    700,
+  \ 'markdown':    750,
+  \ 'check':      1000,
+  \ }
 
 let g:starry.layers   = ['starry'] " Enable starry layer by default
 let g:starry.excluded = []
@@ -122,7 +135,7 @@ function! s:register_plugin() abort
 endfunction
 
 function! s:packages() abort
-  let g:starry.timer = exists('*timer_start') && get(g:, 'starry_speed_up_via_timer', 0)
+  let g:starry.timer['on'] = exists('*timer_start') && get(g:, 'starry_speed_up_via_timer', 0)
 
   " Load Layer packages
   for layer in g:starry.layers
@@ -233,8 +246,8 @@ function! s:config() abort
 endfunction
 
 function! s:check_missing_plugins() abort
-  if g:starry.timer
-    call timer_start(1200, 'starry#vim#plug#check')
+  if g:starry.timer['on']
+    call timer_start(g:starry.timer['check'], 'starry#vim#plug#check')
   else
     augroup starryCheckPlug
       autocmd!

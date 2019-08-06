@@ -12,11 +12,13 @@
 
 " Enable the existing layers in starry-vim.
 let g:starry_layers = [
-  \ 'finder', 'editing', 'airline',
+  \ 'finder', 'airline', 'editing', 'nerdtree',
   \ ]
 
 " Set the lang layer languages
-let g:starry_languages = [ 'markdown', 'json', ]
+let g:starry_languages = [
+  \ 'markdown', 'json',
+  \ ]
 
 " Comment the following line if you do not want to speed up via timer.
 let g:starry_speed_up_via_timer = 1

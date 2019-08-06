@@ -17,13 +17,13 @@
 " Starry {
   let g:starry         = get(g:, 'starry', {})
   let g:starry.home    = $HOME.'/.starry-vim'
-  let g:starry.version = '0.0.1'
+  let g:starry.version = '0.0.2'
 " }
 
 " Identify Platform {
   let g:starry.mac     = has('macunix')
   let g:starry.linux   = has('unix') && !has('macunix') && !has('win32unix')
-  let g:starry.windows = (has('win32') || has('win64'))
+  let g:starry.windows = has('win32')
 " }
 
 " Windows Compatible {

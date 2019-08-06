@@ -4,6 +4,33 @@
   let g:undotree_SetFocusWhenToggle = 1
 " }
 
+" Startify {
+  let s:version = starry#vim#version#get()
+  let g:startify_custom_header = [
+    \ '            _                                          _            ',
+    \ '       ___ | |_  __ _  _ __  _ __  _   _       __   __(_) _ __ ___  ',
+    \ "      / __|| __|/ _` || '__|| '__|| | | | _____\\ \\ / /| || '_ ` _ \\",
+    \ '      \__ \| |_| (_| || |   | |   | |_| ||_____|\ V / | || | | | | |',
+    \ '      |___/ \__|\__,_||_|   |_|    \__, |        \_/  |_||_| |_| |_|',
+    \ '                                   |___/                            ',
+    \ '                                         [ starry-vim ' . g:starry.version . ' @' . s:version . ' ]',
+    \ ]
+  let g:startify_lists = [
+    \ { 'header': ['   Recent Files: '      ], 'type': 'files'     },
+    \ { 'header': ['   Project: ' . getcwd()], 'type': 'dir'       },
+    \ { 'header': ['   Sessions: '          ], 'type': 'sessions'  },
+    \ { 'header': ['   Bookmarks: '         ], 'type': 'bookmarks' },
+    \ { 'header': ['   Commands: '          ], 'type': 'commands'  },
+    \ ]
+  let g:startify_session_dir = expand('~/.vim/.vimsessions')
+  if !isdirectory(g:startify_session_dir)
+    silent! call mkdir(g:startify_session_dir, 'p', 0700)
+  endif
+  function! StartifyEntryFormat() abort
+    return '" " . WebDevIconsGetFileTypeSymbol(absolute_path) . " " . entry_path'
+  endfunction
+" }
+
 " vim-multiple-cursors {
   let g:multi_cursor_use_default_mapping = 0
 

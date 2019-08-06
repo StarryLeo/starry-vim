@@ -1,8 +1,8 @@
-if g:starry.timer
+if g:starry.timer['on']
   SPlug 'StarryLeo/vim-indent-guides', { 'on': [] }
   SPlug 'luochen1990/rainbow',         { 'on': [] }
 
-  call timer_start(400, 'starry#defer#programming')
+  call timer_start(g:starry.timer['programming'], 'starry#defer#programming')
 else
   SPlug 'StarryLeo/vim-indent-guides'
   SPlug 'luochen1990/rainbow'

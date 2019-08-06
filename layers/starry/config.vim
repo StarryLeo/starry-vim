@@ -31,27 +31,49 @@ endif
 highlight clear SignColumn      " SignColumn should match background
 highlight clear LineNr          " Current line number row will have same background color in relative mode
 
-" 插入模式显示绝对行号，普通模式显示相对行号
 if !exists('g:starry_no_relativenumber')
   set number relativenumber     " Line numbers on 显示行号 / 相对行号
   augroup starryNumber
     autocmd!
+    " 插入模式显示绝对行号，普通模式显示相对行号
     autocmd InsertEnter * setlocal norelativenumber
     autocmd InsertLeave * setlocal relativenumber
   augroup END
 endif
+
+augroup starryCompletion
+  autocmd!
+  " Automatically open and close the popup menu / preview window
+  " 自动打开和关闭弹出的补全菜单 / 预览窗口
+  autocmd CursorMovedI,InsertLeave,CompleteDone *
+    \ if pumvisible() == 0 |
+    \   silent! pclose |
+    \ endif
+augroup END
 
 augroup starry
   autocmd!
   autocmd BufReadPost * call s:OnBufReadPost()
 augroup END
 
-function! s:OnBufReadPost()
+function! s:OnBufReadPost() abort
   if !exists('g:starry_no_restore_cursor')
     " Restore cursor to file position in previous editing session
     " 恢复光标到上次编辑会话中的位置
     if line("'\"") <= line("$")
       execute "normal! g`\""
+    endif
+    " Instead of reverting the cursor to the last position in the buffer, we
+    " set it to the first line when editing a git commit message
+    " 当在编辑 commit 信息时把光标恢复到第一行
+    if &filetype =~# 'commit'
+      call setpos('.', [0, 1, 1, 0])
+    endif
+    " Instead of reverting the cursor to the last position in the buffer, we
+    " set it to the first diff line in diff mode
+    " 当以 diff 模式打开时把光标恢复到第一更改行
+    if &diff
+      execute 'normal! ' . 'gg]c'
     endif
   endif
 endfunction

@@ -3,15 +3,41 @@ function! starry#vim#plug#check(...) abort
   if (&more ==# 'nomore')
     return
   endif
-  let msg = '[starry-vim] Need to install the missing plugins (y/n): '
+  let msg = '[starry-vim] Need to install the missing plugins (y/N): '
   let missing = filter(values(g:plugs), '!isdirectory(v:val.dir)')
   if len(missing)
     let plugins = map(missing, 'split(v:val.dir, "/")[-1]')
+    if exists('*popup_dialog')
+      call s:popup_dialog(msg, plugins)
+      return
+    endif
     let msg .= string(plugins) . ': '
     let msg = s:truncate(msg)
     if s:ask(msg)
       PlugInstall --sync
     endif
+  endif
+endfunction
+
+function! s:popup_dialog(msg, plugins) abort
+  let winid = popup_dialog(a:msg, #{
+    \ maxwidth: 56,
+    \ zindex: 1000,
+    \ filter: 'popup_filter_yesno',
+    \ callback: function('s:dialog_handler'),
+    \ })
+  let bufnr = winbufnr(winid)
+  let lnx   = 2
+  for plugin in a:plugins
+    call setbufline(bufnr, lnx, plugin)
+    let lnx = lnx + 1
+  endfor
+endfunction
+
+function! s:dialog_handler(id, result) abort
+  if a:result
+    call popup_close(a:id)
+    PlugInstall --sync
   endif
 endfunction
 

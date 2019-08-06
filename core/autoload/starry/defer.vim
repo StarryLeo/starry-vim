@@ -24,16 +24,23 @@ function! starry#defer#airline(timer) abort
 endfunction
 
 " 300
+function! starry#defer#csscolor(timer) abort
+  call s:lod('vim-css-color')
+endfunction
+
+" 350
 function! starry#defer#git(timer) abort
   call s:lod('vim-gitgutter', 'vim-signify')
+  silent! doautocmd gitgutter BufEnter
 endfunction
 
-" 400
+" 450
 function! starry#defer#programming(timer) abort
   call s:lod('vim-indent-guides', 'rainbow')
+  silent! doautocmd indent_guides BufEnter,VimEnter
 endfunction
 
-" 500
+" 550
 function! starry#defer#motion(timer) abort
   call s:lod('vim-easymotion')
 endfunction
@@ -43,17 +50,17 @@ function! starry#defer#fugitive(timer) abort
   call s:lod('vim-fugitive')
 endfunction
 
-" 700
+" 650
 function! starry#defer#textobj(timer) abort
   call s:lod('vim-textobj-user', 'vim-textobj-indent', 'vim-textobj-entire', 'vim-textobj-comment')
 endfunction
 
-" 800
-function! starry#defer#csscolor(timer) abort
-  call s:lod('vim-css-color')
+" 700
+function! starry#defer#snippets(timer) abort
+  call s:lod('ultisnips')
 endfunction
 
-" 900
+" 750
 function! starry#defer#markdown(timer) abort
   call s:lod('vim-markdown')
 endfunction

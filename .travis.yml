@@ -103,8 +103,9 @@ before_install:
 install:
   - VIM_RELEASE_VERSION=`echo ${VIM_VERSION##*-}`
   - NVIM_RELEASE_VERSION=`echo ${NVIM_VERSION##*-}`
-  - sudo pip install pynvim
-  - sudo pip install vim-vint pathlib typing enum34
+  - sudo pip3 install --upgrade pip
+  - sudo pip3 install pynvim
+  - sudo pip3 install vim-vint pathlib typing enum34
   - mkdir -p ${DEPS}/bin
 
   - |

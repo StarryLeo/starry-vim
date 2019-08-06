@@ -1,4 +1,4 @@
-if g:starry.timer
+if g:starry.timer['on'] && argc()
   SPlug 'vim-airline/vim-airline',        { 'on': [] }
   SPlug 'vim-airline/vim-airline-themes', { 'on': [] }
   if !exists('g:starry_airline_tabline')
@@ -8,7 +8,7 @@ if g:starry.timer
     SPlug 'ryanoasis/vim-devicons',       { 'on': [] }
   endif
 
-  call timer_start(250, 'starry#defer#airline')
+  call timer_start(g:starry.timer['airline'], 'starry#defer#airline')
 else
   SPlug 'vim-airline/vim-airline'
   SPlug 'vim-airline/vim-airline-themes'
