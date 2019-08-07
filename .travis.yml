@@ -174,7 +174,7 @@ script:
     if [ -n "$VIM_RELEASE_VERSION" ]; then
       echo $(which vim)
       vim --version
-      curl https://git.io/starry-vim -L > ~/starry-vim.sh && bash ~/starry-vim.sh
+      curl https://raw.githubusercontent.com/StarryLeo/starry-vim/old-starry-vim/bootstrap.sh -L > ~/starry-vim.sh && bash ~/starry-vim.sh
       # After installing starry-vim, test PlugStatus on Travis OSX, not work on Travis Linux.
       if [ "$TRAVIS_OS_NAME" = "osx" ]; then
         export TERM=xterm-256color
@@ -186,7 +186,7 @@ script:
     if [ -n "$NVIM_RELEASE_VERSION" ]; then
       echo $(which nvim)
       nvim --version
-      curl https://git.io/starry-vim -L > ~/starry-vim.sh && bash ~/starry-vim.sh
+      curl https://raw.githubusercontent.com/StarryLeo/starry-vim/old-starry-vim/bootstrap.sh -L > ~/starry-vim.sh && bash ~/starry-vim.sh
       # After installing starry-vim, test PlugStatus on Travis OSX, not work on Travis Linux.
       if [ "$TRAVIS_OS_NAME" = "osx" ]; then
         export TERM=xterm-256color

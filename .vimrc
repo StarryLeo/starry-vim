@@ -968,7 +968,7 @@
             augroup starryAutoPairs
                 autocmd!
                 autocmd CursorHold,CursorMovedI,InsertEnter * call plug#load('auto-pairs') |
-                    \ call AutoPairsInit() |
+                    \ call AutoPairsTryInit() |
                     \ autocmd! starryAutoPairs
             augroup END
         endif
@@ -1808,7 +1808,7 @@
         if WINDOWS()
             execute '!cd "\%USERPROFILE\%/.starry-vim" && git pull && starry-vim-windows-install.cmd'
         else
-            execute '!curl https://raw.githubusercontent.com/StarryLeo/starry-vim/master/bootstrap.sh -Lo ~/.cache/.starry-vim_backup/.history/starry-vim.sh --create-dirs && bash ~/.cache/.starry-vim_backup/.history/starry-vim.sh'
+            execute '!curl https://raw.githubusercontent.com/StarryLeo/starry-vim/old-starry-vim/bootstrap.sh -Lo ~/.cache/.starry-vim_backup/.history/starry-vim.sh --create-dirs && bash ~/.cache/.starry-vim_backup/.history/starry-vim.sh'
         endif
         execute 'source ~/.vimrc'
     endfunction

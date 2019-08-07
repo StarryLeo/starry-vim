@@ -123,6 +123,9 @@ The simpliest (and safest) way to update is to simply rerun the installer. It wi
 ```bash
 
     bash <(curl https://git.io/starry-vim -L)
+
+    # old starry-vim
+    bash <(curl https://raw.githubusercontent.com/StarryLeo/starry-vim/old-starry-vim/bootstrap.sh -L)
 ```
 
 Or use the command `:Sup` in vim, it supports Unix and Windows. Alternatively you can manually perform the following steps. If anything has changed with the structure of the configuration you will need to create the appropriate symlinks.
