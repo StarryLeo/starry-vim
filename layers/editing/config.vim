@@ -27,7 +27,11 @@
     silent! call mkdir(g:startify_session_dir, 'p', 0700)
   endif
   function! StartifyEntryFormat() abort
-    return '" " . WebDevIconsGetFileTypeSymbol(absolute_path) . " " . entry_path'
+    if exists('*WebDevIconsGetFileTypeSymbol')
+      return '" " . WebDevIconsGetFileTypeSymbol(absolute_path) . " " . entry_path'
+    else
+      return '" " . entry_path'
+    endif
   endfunction
 " }
 

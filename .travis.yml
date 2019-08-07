@@ -68,6 +68,8 @@ addons:
       - libtool
       - pkg-config
       - unzip
+      # pip3
+      - python3-pip
   homebrew:
     packages:
       - lua
@@ -103,17 +105,18 @@ before_install:
 install:
   - VIM_RELEASE_VERSION=`echo ${VIM_VERSION##*-}`
   - NVIM_RELEASE_VERSION=`echo ${NVIM_VERSION##*-}`
+  - echo $(which python3)
   - sudo pip3 install --upgrade pip
   - sudo pip3 install pynvim
   - sudo pip3 install vim-vint pathlib typing enum34
-  - mkdir -p ${DEPS}/bin
+  - mkdir -p ${DEPS}/sources
 
   - |
     if [ -n "$VIM_RELEASE_VERSION" ] && [ "$VIM_RELEASE_VERSION" != "vim" ]; then
       C_OPTS="--prefix=$DEPS --with-features=huge --enable-perlinterp --enable-pythoninterp --enable-python3interp --enable-rubyinterp --enable-luainterp --enable-tclinterp "
 
-      git clone https://github.com/vim/vim
-      cd vim
+      git clone https://github.com/vim/vim ${DEPS}/sources/vim
+      cd ${DEPS}/sources/vim
       git checkout $VIM_RELEASE_VERSION
       ./configure $C_OPTS
       make
@@ -125,8 +128,8 @@ install:
     if [ "$VIM_RELEASE_VERSION" = "vim" ]; then
       C_OPTS="--prefix=$DEPS --with-features=huge --enable-perlinterp --enable-pythoninterp --enable-python3interp --enable-rubyinterp --enable-luainterp --enable-tclinterp "
 
-      git clone --depth=1 https://github.com/vim/vim
-      cd vim
+      git clone --depth=1 https://github.com/vim/vim ${DEPS}/sources/vim
+      cd ${DEPS}/sources/vim
       ./configure $C_OPTS
       make
       make install
@@ -135,8 +138,8 @@ install:
 
   - |
     if [ -n "$NVIM_RELEASE_VERSION" ] && [ "$NVIM_RELEASE_VERSION" != "nvim" ] && [ "$NVIM_RELEASE_VERSION" != "nightly" ]; then
-      git clone https://github.com/neovim/neovim
-      cd neovim
+      git clone https://github.com/neovim/neovim ${DEPS}/sources/neovim
+      cd ${DEPS}/sources/neovim
       git checkout $NVIM_RELEASE_VERSION
       make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=$DEPS
       make install
@@ -145,8 +148,8 @@ install:
 
   - |
     if [ "$NVIM_RELEASE_VERSION" = "nightly" ]; then
-      git clone https://github.com/neovim/neovim
-      cd neovim
+      git clone https://github.com/neovim/neovim ${DEPS}/sources/neovim
+      cd ${DEPS}/sources/neovim
       git checkout nightly
       make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=$DEPS
       make install
@@ -155,8 +158,8 @@ install:
 
   - |
     if [ "$NVIM_RELEASE_VERSION" = "nvim" ]; then
-      git clone --depth=1 https://github.com/neovim/neovim
-      cd neovim
+      git clone --depth=1 https://github.com/neovim/neovim ${DEPS}/sources/neovim
+      cd ${DEPS}/sources/neovim
       make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=$DEPS
       make install
       cd -
@@ -169,6 +172,11 @@ before_script:
       export DISPLAY=:99.0
       sh -e /etc/init.d/xvfb start && sleep 3
     fi
+  # More colors for vim
+  - |
+    if [ "$TRAVIS_OS_NAME" = "osx" ]; then
+      export TERM=xterm-256color
+    fi
 
 script:
   - vint --error .
@@ -177,11 +185,13 @@ script:
       echo $(which vim)
       vim --version
       curl https://git.io/starry-vim -L > ~/starry-vim.sh && bash ~/starry-vim.sh
-      # After installing starry-vim, test PlugStatus on Travis OSX, not work on Travis Linux.
-      if [ "$TRAVIS_OS_NAME" = "osx" ]; then
-        export TERM=xterm-256color
-        vim +PlugStatus +qall
-      fi
+      # After installing starry-vim, test PlugStatus
+      vim +PlugStatus +qall
+      # Full install and test
+      echo "let g:starry_layers = [ 'finder', 'airline', 'editing', 'nerdtree', 'coc', 'ycm', 'snippets', 'lsp', 'git', 'formatting', 'programming', 'linting', 'lang', 'misc', ]" >> $HOME/.starry/init.vim
+      echo "let g:starry_languages = [ 'markdown', 'json', 'cpp', 'python', 'verilog', ]" >> $HOME/.starry/init.vim
+      vim +PlugInstall +qall
+      vim +PlugStatus +qall
     fi
 
   - |
@@ -189,11 +199,13 @@ script:
       echo $(which nvim)
       nvim --version
       curl https://git.io/starry-vim -L > ~/starry-vim.sh && bash ~/starry-vim.sh
-      # After installing starry-vim, test PlugStatus on Travis OSX, not work on Travis Linux.
-      if [ "$TRAVIS_OS_NAME" = "osx" ]; then
-        export TERM=xterm-256color
-        nvim +PlugStatus +qall
-      fi
+      # After installing starry-vim, test PlugStatus
+      nvim +PlugStatus +qall
+      # Full install and test
+      echo "let g:starry_layers = [ 'finder', 'airline', 'editing', 'nerdtree', 'coc', 'ycm', 'snippets', 'lsp', 'git', 'formatting', 'programming', 'linting', 'lang', 'misc', ]" >> $HOME/.starry/init.vim
+      echo "let g:starry_languages = [ 'markdown', 'json', 'cpp', 'python', 'verilog', ]" >> $HOME/.starry/init.vim
+      nvim +PlugInstall +qall
+      nvim +PlugStatus +qall
     fi
 
   - |
