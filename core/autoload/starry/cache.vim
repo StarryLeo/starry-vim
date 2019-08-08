@@ -19,13 +19,13 @@ function! starry#cache#init() abort
   let local_path = filter(local_dir, 'isdirectory(v:val)')
 
   let s:cache = g:starry.info
-  call writefile([printf("let g:starry.manifest = %s", g:starry.manifest)], s:cache)
+  call writefile([printf("let g:starry.manifest = %s", string(g:starry.manifest))], s:cache)
   if len(fork_path)
     let g:starry.fork = map(fork_path, 'fnamemodify(v:val, ":t")')
-    call writefile([printf("let g:starry.fork = %s", g:starry.fork)], s:cache, "a")
+    call writefile([printf("let g:starry.fork = %s", string(g:starry.fork))], s:cache, "a")
   endif
   if len(local_path)
     let g:starry.local = map(local_path, 'fnamemodify(v:val, ":t")')
-    call writefile([printf("let g:starry.local = %s", g:starry.local)], s:cache, "a")
+    call writefile([printf("let g:starry.local = %s", string(g:starry.local))], s:cache, "a")
   endif
 endfunction

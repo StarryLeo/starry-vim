@@ -124,7 +124,11 @@ function! s:register_plugin() abort
   " Register non-excluded plugins
   function! s:filter_and_register(plugin) abort
     if index(g:starry.excluded, a:plugin) < 0
-      call plug#(a:plugin, get(s:plug_options, a:plugin, ''))
+      if has_key(s:plug_options, a:plugin)
+        call plug#(a:plugin, s:plug_options[a:plugin])
+      else
+        call plug#(a:plugin)
+      endif
     endif
   endfunction
   for plugin in g:starry.plugins
