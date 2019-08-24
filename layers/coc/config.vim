@@ -1,31 +1,24 @@
-let b:coc_suggest_disable = 0
 augroup starryCoc
   autocmd!
-  autocmd FileType c,cpp,objc,objcpp,cuda let b:coc_suggest_disable = 1
+  if exists('g:starry_enable_ycm_for')
+    execute 'autocmd FileType' join(g:starry_enable_ycm_for, ',') 'let b:coc_suggest_disable = 1'
+  endif
+  if starry#load('deoplete')
+    autocmd FileType * let b:coc_suggest_disable = 1
+  endif
 augroup END
-if b:coc_suggest_disable != 1
-  " completion key
-  inoremap <silent><expr> <Tab>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<Tab>" :
-    \ coc#refresh()
-  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<Tab>"
-  inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-  inoremap <expr> <S-CR>  pumvisible() ? "\<C-y>\<CR>" : "\<C-g>u\<CR>"
-  inoremap <C-z> <Nop>
-  inoremap <silent><expr> <C-z> coc#refresh()
 
-  function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1] =~# '\s'
-  endfunction
+" completion key
+inoremap <silent><expr> <Tab> starry#vim#complete#Tab()
+inoremap <expr> <S-Tab>       starry#vim#complete#STab()
+inoremap <expr> <CR>          starry#vim#complete#CR()
+inoremap <expr> <S-CR>        starry#vim#complete#SCR()
 
-  " coc-extensions
-  let g:coc_global_extensions = [
-    \ 'coc-tag',
-    \ 'coc-word',
-    \ 'coc-python',
-    \ 'coc-snippets',
-    \ 'coc-dictionary',
-    \ ]
-endif
+" coc-extensions
+let g:coc_global_extensions = [
+  \ 'coc-tag',
+  \ 'coc-word',
+  \ 'coc-python',
+  \ 'coc-snippets',
+  \ 'coc-dictionary',
+  \ ]

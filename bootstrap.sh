@@ -97,18 +97,18 @@ do_backup() {
     if [ -e "$1" ] || [ -e "$2" ] || [ -e "$3" ]; then
         today=`date +%Y%m%d_%s`
         if [ "${update_mode}" = "update" ]; then
-            today_s=`echo ${today##*_}`
+            today_s=${today##*_}
             if [ -f "$7" ]; then
                 last_update=`sed -n '$p' $7`
-                last_update_day_s=`echo ${last_update##*_}`
+                last_update_day_s=${last_update##*_}
                 time_u=`expr $today_s - $last_update_day_s`
                 msg "Last update $4 was ${green}${time_u}${none} seconds ago."
                 if [ -e "$6" ]; then
                     for filename in `ls -a $6`
                     do
-                        last_backup=`echo $filename`
+                        last_backup=$filename
                     done
-                    last_backup_day_s=`echo ${last_backup##*_}`
+                    last_backup_day_s=${last_backup##*_}
                     time_b=`expr $today_s - $last_backup_day_s`
                     if [ "$time_b" -gt "$8" ]; then
                         msg "Last backup $4 was ${green}${time_b}${none} seconds ago."

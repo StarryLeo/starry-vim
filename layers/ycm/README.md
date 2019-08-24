@@ -25,11 +25,14 @@ YouCompleteMe is another amazing completion engine.
 It is slightly more involved to set up as it contains a binary component that the user needs to compile before it will work.
 As a result of this however it is very fast.
 
-To enable YouCompleteMe on Windows, add the following to `~/.starry`:
+To enable YouCompleteMe, add `ycm` to `g:starry_layers` in `~/.starry/init.vim`:
 
 ```viml
 
-    let g:starry_enable_ycm_on_windows = 1
+    let g:starry_layers = [
+      \ 'finder', 'airline', 'editing', 'nerdtree',
+      \ 'ycm',
+      \ ]
 ```
 
 Once you have done this you will need to get vim-plug to grab the latest code from git.

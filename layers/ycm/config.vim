@@ -1,26 +1,25 @@
-let g:ycm_filetype_whitelist = {
-  \ 'c'     : 1,
-  \ 'cpp'   : 1,
-  \ 'objc'  : 1,
-  \ 'objcpp': 1,
-  \ 'cuda'  : 1,
-  \ }
+let g:ycm_filetype_whitelist = {}
+for ft in g:starry_enable_ycm_for
+  let g:ycm_filetype_whitelist[ft] = 1
+endfor
 
 let g:ycm_global_ycm_extra_conf = expand('~/.vim/viplug/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py')
 let g:ycm_show_diagnostics_ui = 0
 
 " completion key
-let g:ycm_key_list_select_completion   = ['<Tab>', '<Down>', '<C-n>']
-let g:ycm_key_list_previous_completion = ['<S-Tab>', '<Up>', '<C-p>']
-let g:ycm_key_list_stop_completion     = ['<CR>', '<C-y>']
+inoremap <silent><expr> <Tab> starry#vim#complete#Tab()
+inoremap <expr> <S-Tab>       starry#vim#complete#STab()
+let g:ycm_key_list_select_completion   = []
+let g:ycm_key_list_previous_completion = []
+let g:ycm_key_list_stop_completion     = ['<C-y>']
 
-inoremap <C-z> <Nop>
+noremap <C-z> <Nop>
 let g:ycm_key_invoke_completion = '<C-z>'
 
 let g:ycm_semantic_triggers = {
-  \ 'c'     : ['re!\w+\w+'],
-  \ 'cpp'   : ['re!\w+\w+'],
-  \ 'objc'  : ['re!\w+\w+'],
-  \ 'objcpp': ['re!\w+\w+'],
-  \ 'cuda'  : ['re!\w+\w+'],
+  \ 'c'     : ['re!\w+\w+\w+'],
+  \ 'cpp'   : ['re!\w+\w+\w+'],
+  \ 'objc'  : ['re!\w+\w+\w+'],
+  \ 'objcpp': ['re!\w+\w+\w+'],
+  \ 'cuda'  : ['re!\w+\w+\w+'],
   \ }

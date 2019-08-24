@@ -1,7 +1,2 @@
-if g:starry.windows
-  if exists('g:starry_enable_ycm_on_windows')
-    SPlug 'ycm-core/YouCompleteMe', { 'for': ['c', 'cpp', 'objc', 'objcpp', 'cuda'] }
-  endif
-else
-  SPlug 'ycm-core/YouCompleteMe', { 'do': './install.py --clang-completer', 'for': ['c', 'cpp', 'objc', 'objcpp', 'cuda'] }
-endif
+let g:starry_enable_ycm_for = get(g:, 'starry_enable_ycm_for', [])
+SPlug 'ycm-core/YouCompleteMe', { 'do': function('starry#plug#youcompleteme#build'), 'for': extend(g:starry_enable_ycm_for, ['c', 'cpp', 'objc', 'objcpp', 'cuda'], 0) }

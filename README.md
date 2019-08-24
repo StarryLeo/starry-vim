@@ -149,8 +149,8 @@ If `~/.starry/init.vim` does not exist, vanilla vim will be loaded! Refer to [`i
     " Disable airline bufferline
     "let g:starry_airline_tabline = 1
 
-    " Enable YouCompleteMe on windows
-    "let g:starry_enable_ycm_on_windows = 1
+    " Enable YouCompleteMe for more languages(filetype), such as go language
+    "let g:starry_enable_ycm_for = ['go',]
 
     " Enable signify with more SCM support
     "let g:starry_more_scm_diff = 1
