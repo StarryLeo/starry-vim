@@ -28,15 +28,12 @@ env:
 addons:
   apt:
     sources:
-     # The Travis apt source whitelist can be found here:
-     #   https://github.com/travis-ci/apt-source-whitelist/blob/master/ubuntu.json
-     - ubuntu-toolchain-r-test  # for new libstdc++
-     - george-edison55-precise-backports # for a more recent version of cmake (3.2.3)
     packages:
       - autoconf
       - clang
       - lcov
       - gettext
+      - libcanberra-dev
       - libperl-dev
       - python-dev
       - python3-dev
@@ -45,31 +42,16 @@ addons:
       - ruby-dev
       - tcl-dev
       - cscope
-      - libgtk2.0-dev
-      - cmake-data
-      - cmake
-      # Everything below is a Python build dep (though it depends on Python
-      # version). We need them because pyenv builds Python.
-      - libssl-dev
-      - zlib1g-dev
-      - libbz2-dev
-      - libreadline-dev
-      - libsqlite3-dev
-      - wget
-      - curl
-      - llvm
-      - libncurses5-dev
-      - libncursesw5-dev
       # Neovim
+      - cmake
       - automake
       - g++
-      - gcc
       - ninja-build
       - libtool
       - pkg-config
       - unzip
-      # pip3
-      - python3-pip
+      # for travis no output check, timeout 10m
+      - coreutils
   homebrew:
     packages:
       - lua
@@ -81,15 +63,21 @@ addons:
       - cmake
       - pkg-config
       - gettext
+      # for travis no output check, timeout 10m
+      - coreutils
     update: true
 
 before_install:
   - rvm reset
-  # Remove /opt/python/3.x.x/bin from $PATH for using system python3.
-  # ("pyenv global system" doesn't seem to work.)
+  # Use newer python3 in linux
   - |
-    if [ "$TRAVIS_OS_NAME" = "linux" ] && which python3 | grep '/opt/python' > /dev/null; then
-      export PATH=$(echo $PATH | sed -e "s#$(echo $(which python3) | sed -e 's#/python3$##'):##")
+    if [ "$TRAVIS_OS_NAME" = "linux" ]; then
+      pyenv global 3.6
+    fi
+  # timeout is called gtimeout on Travis OSX
+  - |
+    if [ "$TRAVIS_OS_NAME" = "osx" ]; then
+      alias timeout='gtimeout'
     fi
   # Lua is not installed on Travis OSX
   - |
@@ -106,9 +94,9 @@ install:
   - VIM_RELEASE_VERSION=`echo ${VIM_VERSION##*-}`
   - NVIM_RELEASE_VERSION=`echo ${NVIM_VERSION##*-}`
   - echo $(which python3)
-  - sudo pip3 install --upgrade pip
-  - sudo pip3 install pynvim
-  - sudo pip3 install vim-vint pathlib typing enum34
+  - pip3 install --upgrade pip
+  - pip3 install pynvim
+  - pip3 install vim-vint pathlib typing enum34
   - mkdir -p ${DEPS}/sources
 
   - |
@@ -138,12 +126,17 @@ install:
 
   - |
     if [ -n "$NVIM_RELEASE_VERSION" ] && [ "$NVIM_RELEASE_VERSION" != "nvim" ] && [ "$NVIM_RELEASE_VERSION" != "nightly" ]; then
-      git clone https://github.com/neovim/neovim ${DEPS}/sources/neovim
-      cd ${DEPS}/sources/neovim
-      git checkout $NVIM_RELEASE_VERSION
-      make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=$DEPS
-      make install
-      cd -
+      if [ "$TRAVIS_OS_NAME" = "osx" ]; then
+        curl -LO https://github.com/neovim/neovim/releases/download/v0.3.1/nvim-macos.tar.gz
+        tar -zx -f nvim-macos.tar.gz --strip-components 1 -C ${DEPS}
+      else
+        mkdir -p ${DEPS}/bin
+        cd ${DEPS}/bin
+        curl -LO https://github.com/neovim/neovim/releases/download/v0.3.1/nvim.appimage
+        chmod u+x nvim.appimage
+        ln -sf nvim.appimage nvim
+        cd -
+      fi
     fi
 
   - |
@@ -166,12 +159,6 @@ install:
     fi
 
 before_script:
-  # Start virtual framebuffer to be able to test the GUI. Does not work OS X.
-  - |
-    if [ "$TRAVIS_OS_NAME" = "linux" ]; then
-      export DISPLAY=:99.0
-      sh -e /etc/init.d/xvfb start && sleep 3
-    fi
   # More colors for vim
   - |
     if [ "$TRAVIS_OS_NAME" = "osx" ]; then
@@ -184,13 +171,13 @@ script:
     if [ -n "$VIM_RELEASE_VERSION" ]; then
       echo $(which vim)
       vim --version
-      curl https://git.io/starry-vim -L > ~/starry-vim.sh && bash ~/starry-vim.sh
+      bash <(curl https://git.io/starry-vim -L)
       # After installing starry-vim, test PlugStatus
       vim +PlugStatus +qall
       # Full install and test
-      echo "let g:starry_layers = [ 'finder', 'airline', 'editing', 'nerdtree', 'coc', 'ycm', 'snippets', 'lsp', 'git', 'formatting', 'programming', 'linting', 'lang', 'misc', ]" >> $HOME/.starry/init.vim
+      echo "let g:starry_layers = [ 'finder', 'airline', 'editing', 'nerdtree', 'ycm', 'deoplete', 'coc', 'snippets', 'lsp', 'git', 'formatting', 'programming', 'linting', 'lang', 'misc', ]" >> $HOME/.starry/init.vim
       echo "let g:starry_languages = [ 'markdown', 'json', 'cpp', 'python', 'verilog', ]" >> $HOME/.starry/init.vim
-      vim +PlugInstall +qall
+      timeout --foreground -sKILL 12m vim +PlugInstall +qall
       vim +PlugStatus +qall
     fi
 
@@ -198,17 +185,12 @@ script:
     if [ -n "$NVIM_RELEASE_VERSION" ]; then
       echo $(which nvim)
       nvim --version
-      curl https://git.io/starry-vim -L > ~/starry-vim.sh && bash ~/starry-vim.sh
+      bash <(curl https://git.io/starry-vim -L)
       # After installing starry-vim, test PlugStatus
       nvim +PlugStatus +qall
       # Full install and test
-      echo "let g:starry_layers = [ 'finder', 'airline', 'editing', 'nerdtree', 'coc', 'ycm', 'snippets', 'lsp', 'git', 'formatting', 'programming', 'linting', 'lang', 'misc', ]" >> $HOME/.starry/init.vim
+      echo "let g:starry_layers = [ 'finder', 'airline', 'editing', 'nerdtree', 'ycm', 'deoplete', 'coc', 'snippets', 'lsp', 'git', 'formatting', 'programming', 'linting', 'lang', 'misc', ]" >> $HOME/.starry/init.vim
       echo "let g:starry_languages = [ 'markdown', 'json', 'cpp', 'python', 'verilog', ]" >> $HOME/.starry/init.vim
-      nvim +PlugInstall +qall
+      timeout --foreground -sKILL 12m nvim +PlugInstall +qall
       nvim +PlugStatus +qall
-    fi
-
-  - |
-    if [ -n "$err" ]; then
-      exit 1
     fi

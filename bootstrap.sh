@@ -381,3 +381,5 @@ successful ""
 msg "${blue}Thanks for installing $app_name.${none}"
 msg "${blue}© `date +%Y` https://github.com/StarryLeo/starry-vim${none}"
 debug
+
+exit

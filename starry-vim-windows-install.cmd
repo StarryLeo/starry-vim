@@ -73,3 +73,5 @@ if ("$update_mode" -eq "update") {
 } else {
     gvim "+set nomore" +PlugInstall +qall
 }
+
+pause

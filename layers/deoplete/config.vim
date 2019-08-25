@@ -17,7 +17,6 @@ endif
 
 if !has('nvim')
   " For Vim8
-  set pyxversion=3
   if g:starry.windows && exepath('python3') ==? '' && exepath('python') !=? ''
     let g:python3_host_prog = exepath('python')
   endif
