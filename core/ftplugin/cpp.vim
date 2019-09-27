@@ -3,4 +3,4 @@ if exists('b:did_starry_ftplugin')
 endif
 let b:did_starry_ftplugin = 1
 
-let b:ale_linters = ['gcc', 'cppcheck', 'ccls']
+let b:ale_linters = ['clang', 'cppcheck']

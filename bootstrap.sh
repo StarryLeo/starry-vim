@@ -292,39 +292,6 @@ install_vim_plug() {
     debug
 }
 
-setup_json() {
-    local answer="n"
-
-    if [ "${update_mode}" = "update" ]; then
-        printf "\rUpdate the default ${green}coc-settings.json${none} and ${green}lcn-settings.json${none}?\n"
-        for (( i=10; i>=0; i-- )); do
-            printf "\r[${green}y${none}(es)/${green}n${none}(o), default: ${red}n${none}]( ${red}${i}${none}s ): "
-            read -n 1 -t 1 answer
-            if [ "$?" -eq 0 ]; then
-                break
-            fi
-        done
-        if [[ "$answer" =~ ^[yY]$ ]]; then
-            msg "\nBackup the default coc-settings.json and lcn-settings.json."
-            mv -v "$1/coc-settings.json" "$1/coc-settings.json.bak"
-            mv -v "$1/lcn-settings.json" "$1/lcn-settings.json.bak"
-            curl -fLo "$1/coc-settings.json" --create-dirs https://raw.githubusercontent.com/StarryLeo/dotfiles/master/.vim/coc-settings.json
-            curl -fLo "$1/lcn-settings.json" --create-dirs https://raw.githubusercontent.com/StarryLeo/dotfiles/master/.vim/lcn-settings.json
-            ret="$?"
-            success "Successfully updated the default coc-settings.json and lcn-settings.json."
-        else
-            msg "\nThe default coc-settings.json and lcn-settings.json will not update."
-        fi
-    else
-        curl -fLo "$1/coc-settings.json" --create-dirs https://raw.githubusercontent.com/StarryLeo/dotfiles/master/.vim/coc-settings.json
-        curl -fLo "$1/lcn-settings.json" --create-dirs https://raw.githubusercontent.com/StarryLeo/dotfiles/master/.vim/lcn-settings.json
-        ret="$?"
-        success "Successfully setup default coc-settings.json and lcn-settings.json."
-    fi
-
-    debug
-}
-
 ############################ MAIN()
 variable_set "$HOME"
 program_must_exist "vim"
@@ -361,8 +328,6 @@ install_vim_plug    "$HOME/.vim/autoload" \
                     "$plug_url"
 
 setup_plug
-
-setup_json          "$HOME/.vim"
 
 ret="$?"
 successful "       _                                          _            "

@@ -39,3 +39,9 @@
     SPlug 'elzr/vim-json', { 'for': 'json' }
   endif
 " }
+
+" Qt {
+  if count(g:starry_languages, 'qt')
+    SPlug 'fedorenchik/qt-support.vim'
+  endif
+" }

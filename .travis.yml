@@ -176,7 +176,7 @@ script:
       vim +PlugStatus +qall
       # Full install and test
       echo "let g:starry_layers = [ 'finder', 'airline', 'editing', 'nerdtree', 'ycm', 'deoplete', 'coc', 'snippets', 'lsp', 'git', 'formatting', 'programming', 'linting', 'lang', 'misc', ]" >> $HOME/.starry/init.vim
-      echo "let g:starry_languages = [ 'markdown', 'json', 'cpp', 'python', 'verilog', ]" >> $HOME/.starry/init.vim
+      echo "let g:starry_languages = [ 'markdown', 'json', 'cpp', 'python', 'verilog', 'qt', ]" >> $HOME/.starry/init.vim
       timeout --foreground -sKILL 12m vim +PlugInstall +qall
       vim +PlugStatus +qall
     fi
@@ -190,7 +190,7 @@ script:
       nvim +PlugStatus +qall
       # Full install and test
       echo "let g:starry_layers = [ 'finder', 'airline', 'editing', 'nerdtree', 'ycm', 'deoplete', 'coc', 'snippets', 'lsp', 'git', 'formatting', 'programming', 'linting', 'lang', 'misc', ]" >> $HOME/.starry/init.vim
-      echo "let g:starry_languages = [ 'markdown', 'json', 'cpp', 'python', 'verilog', ]" >> $HOME/.starry/init.vim
+      echo "let g:starry_languages = [ 'markdown', 'json', 'cpp', 'python', 'verilog', 'qt', ]" >> $HOME/.starry/init.vim
       timeout --foreground -sKILL 12m nvim +PlugInstall +qall
       nvim +PlugStatus +qall
     fi

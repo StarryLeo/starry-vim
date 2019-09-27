@@ -8,7 +8,7 @@
 " LanguageClient-neovim {
   else
     let g:LanguageClient_loadSettings      = 1
-    let g:LanguageClient_settingsPath      = expand('~/.vim/lcn-settings.json')
+    let g:LanguageClient_settingsPath      = expand('<sfile>:h') . '/lcn-settings.json'
     let g:LanguageClient_diagnosticsEnable = 0
     let g:LanguageClient_selectionUI       = 'quickfix'
     let g:LanguageClient_hoverPreview      = 'Auto'

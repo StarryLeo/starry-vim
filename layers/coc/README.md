@@ -26,14 +26,6 @@ Coc is a completion framework and language server client which supports [extensi
  * Use `:CocConfig` to open the user configuration which is named as `coc-settings.json`.
  * Checkout [schema.json](https://github.com/neoclide/coc.nvim/blob/master/data/schema.json), see the default coc preferences.
 
-My `coc-settings.json` is [StarryLeo/dotfiles#.vim/coc-settings.json](https://github.com/StarryLeo/dotfiles/blob/master/.vim/coc-settings.json), quick use:
-
-```bash
-
-    curl -fLo ~/.vim/coc-settings.json --create-dirs \
-        https://raw.githubusercontent.com/StarryLeo/dotfiles/master/.vim/coc-settings.json
-```
-
 
 [coc]: https://github.com/neoclide/coc.nvim
 [nodejs]: https://nodejs.org/en/download

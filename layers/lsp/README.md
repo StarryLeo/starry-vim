@@ -12,13 +12,7 @@
 
 **Using configuration file**:
 
-My `lcn-settings.json` is [StarryLeo/dotfiles#.vim/lcn-settings.json](https://github.com/StarryLeo/dotfiles/blob/master/.vim/lcn-settings.json), quick use:
-
-```bash
-
-    curl -fLo ~/.vim/lcn-settings.json --create-dirs \
-        https://raw.githubusercontent.com/StarryLeo/dotfiles/master/.vim/lcn-settings.json
-```
+ * Similar to [coc](https://github.com/StarryLeo/starry-vim/tree/master/layers/coc#coc), see an example [settings.json](https://github.com/autozimu/LanguageClient-neovim/blob/next/.vim/settings.json).
 
 
 [LanguageClient-neovim]: https://github.com/autozimu/LanguageClient-neovim

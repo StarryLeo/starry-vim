@@ -1,0 +1,20 @@
+{
+  "coc.preferences.rootPatterns": [".vim", ".git", ".hg", ".projections.json", ".root"],
+  "diagnostic.enable": false,
+  "snippets.extends": {
+    "cpp": ["c"],
+    "cuda": ["cpp"],
+  },
+  "languageserver": {
+    "ccls": {
+      "command": "ccls",
+      "filetypes": ["c", "cpp", "objc", "objcpp", "cuda"],
+      "rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/", ".root"],
+      "initializationOptions": {
+        "cache": {
+          "directory": "/tmp/ccls-cache"
+        }
+      }
+    }
+  }
+}
