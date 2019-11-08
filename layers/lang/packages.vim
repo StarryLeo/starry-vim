@@ -29,8 +29,8 @@
 
 " Verilog {
   if count(g:starry_languages, 'verilog')
-    SPlug 'vhda/verilog_systemverilog.vim', { 'for': ['verilog', 'systemverilog'] }
-    SPlug 'antoinemadec/vim-verilog-instance', { 'for': ['verilog', 'systemverilog']}
+    SPlug 'vhda/verilog_systemverilog.vim'
+    SPlug 'antoinemadec/vim-verilog-instance'
   endif
 " }
 

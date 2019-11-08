@@ -60,7 +60,7 @@ function! s:OnBufReadPost() abort
   if !exists('g:starry_no_restore_cursor')
     " Restore cursor to file position in previous editing session
     " 恢复光标到上次编辑会话中的位置
-    if line("'\"") <= line("$")
+    if line("'\"") > 1 && line("'\"") <= line("$")
       execute "normal! g`\""
     endif
     " Instead of reverting the cursor to the last position in the buffer, we

@@ -45,6 +45,10 @@ let g:starry_nerd_fonts = 1
 " Maximized Window at startup
 "let g:starry_fullscreen_startup = 1
 
+" Add to header
+"let g:starry_header_author       = 'StarryLeo'
+"let g:starry_header_author_email = 'suxggg@gmail.com'
+
 " vim-plug
 let g:plug_window = 'vertical topleft 100new'
 

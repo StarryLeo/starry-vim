@@ -1,3 +1,9 @@
+augroup starryAddHeader
+  autocmd!
+  " Add header automatically when new some files and move cursor to the end
+  autocmd BufNewFile * call starry#header#AddHeader()
+augroup END
+
 " AsyncRun {
   " Open quickfix window automatically at 8 lines height after command starts
   let g:asyncrun_open = 8
