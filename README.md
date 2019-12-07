@@ -136,6 +136,9 @@ If `~/.starry/init.vim` does not exist, vanilla vim will be loaded! Refer to [`i
     " Comment the following line if you do not want to speed up via timer.
     let g:starry_speed_up_via_timer = 1
 
+    " Comment the following line if you do not need popup window.
+    let g:starry_prefer_popup = 1
+
     " Comment the following line if you have no nerd-fonts installed.
     let g:starry_nerd_fonts = 1
 

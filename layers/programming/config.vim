@@ -22,6 +22,7 @@ augroup END
   let g:indent_guides_exclude_filetypes = [
     \ 'help',
     \ 'nerdtree',
+    \ 'leaderf',
     \ 'startify',
     \ 'vista', 'vista_kind',
     \ 'markdown',

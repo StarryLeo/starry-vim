@@ -5,17 +5,34 @@ scriptencoding utf-8
     let g:Lf_ShortcutF = ''
     let g:Lf_ShortcutB = ''
     let g:Lf_WorkingDirectoryMode = 'Ac'
-    noremap <Leader>f  :cclose<CR>:Leaderf file<CR>
-    noremap <Leader>fb :cclose<CR>:Leaderf buffer<CR>
-    noremap <Leader>fm :cclose<CR>:Leaderf mru<CR>
-    noremap <Leader>ff :cclose<CR>:Leaderf! function<CR>
-    noremap <Leader>ft :cclose<CR>:Leaderf! bufTag<CR>
-    noremap <Leader>fo :cclose<CR>:Leaderf tag --stayOpen<CR>
+    if g:starry.popup
+      noremap <Leader>f  :Leaderf file --popup<CR>
+      noremap <Leader>fb :Leaderf buffer --popup<CR>
+      noremap <Leader>fm :Leaderf mru --popup<CR>
+      noremap <Leader>ff :Leaderf! function --popup<CR>
+      noremap <Leader>ft :Leaderf! bufTag --popup<CR>
+      noremap <Leader>fo :Leaderf tag --popup<CR>
 
-    if executable('rg')
-      noremap <Leader>fr :cclose<CR>:Leaderf rg --hidden --stayOpen<CR>
-      noremap <Leader>fg :cclose<CR>:<C-u><C-r>=printf("Leaderf! rg -e %s --hidden --stayOpen", expand("<cword>"))<CR><CR>
+      if executable('rg')
+        noremap <Leader>fr :Leaderf rg --hidden --popup<CR>
+        noremap <Leader>fg :<C-u><C-r>=printf("Leaderf! rg -e %s --hidden --popup", expand("<cword>"))<CR><CR>
+      endif
+
+      let g:Lf_PreviewInPopup = 1
+    else
+      noremap <Leader>f  :cclose<CR>:Leaderf file<CR>
+      noremap <Leader>fb :cclose<CR>:Leaderf buffer<CR>
+      noremap <Leader>fm :cclose<CR>:Leaderf mru<CR>
+      noremap <Leader>ff :cclose<CR>:Leaderf! function<CR>
+      noremap <Leader>ft :cclose<CR>:Leaderf! bufTag<CR>
+      noremap <Leader>fo :cclose<CR>:Leaderf tag<CR>
+
+      if executable('rg')
+        noremap <Leader>fr :cclose<CR>:Leaderf rg --hidden<CR>
+        noremap <Leader>fg :cclose<CR>:<C-u><C-r>=printf("Leaderf! rg -e %s --hidden", expand("<cword>"))<CR><CR>
+      endif
     endif
+    noremap <Leader>fa :Leaderf! --recall<CR>
 
     let g:Lf_RootMarkers = ['.git', '.hg', '.svn', '.project', '.root']
     let g:Lf_WildIgnore  = {
