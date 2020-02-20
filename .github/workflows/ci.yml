@@ -11,11 +11,6 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         neovim: [false, true]
         version: [stable, nightly, v8.0.0000, v0.3.1]
-        exclude:
-          - neovim: false
-            version: v0.3.1
-          - neovim: true
-            version: v8.0.0000
     runs-on: ${{ matrix.os }}
     steps:
       - name: Install Vim or Neovim
@@ -24,6 +19,11 @@ jobs:
         with:
           neovim: ${{ matrix.neovim }}
           version: ${{ matrix.version }}
+          exclude:
+            - neovim: false
+              version: v0.3.1
+            - neovim: true
+              version: v8.0.0000
       - name: Install starry-vim
         env:
           VIM_EXEC: ${{ steps.vim.outputs.executable }}
@@ -32,9 +32,13 @@ jobs:
           $VIM_EXEC --version
           bash <(curl https://git.io/starry-vim -L)
       - name: Test PlugStatus
+        env:
+          VIM_EXEC: ${{ steps.vim.outputs.executable }}
         run: |
           $VIM_EXEC +PlugStatus +qall
       - name: Full Install and Test PlugStatus
+        env:
+          VIM_EXEC: ${{ steps.vim.outputs.executable }}
         run: |
           echo "let g:starry_layers = [ 'finder', 'airline', 'editing', 'nerdtree', 'ycm', 'deoplete', 'coc', 'snippets', 'lsp', 'git', 'formatting', 'programming', 'linting', 'lang', 'misc', ]" >> $HOME/.starry/init.vim
           echo "let g:starry_languages = [ 'markdown', 'json', 'cpp', 'python', 'verilog', 'qt', ]" >> $HOME/.starry/init.vim
