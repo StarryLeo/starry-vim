@@ -46,7 +46,7 @@ jobs:
         run: |
           echo "let g:starry_layers = [ 'finder', 'airline', 'editing', 'nerdtree', 'ycm', 'deoplete', 'coc', 'snippets', 'lsp', 'git', 'formatting', 'programming', 'linting', 'lang', 'misc', ]" >> $HOME/.starry/init.vim
           echo "let g:starry_languages = [ 'markdown', 'json', 'cpp', 'python', 'verilog', 'qt', ]" >> $HOME/.starry/init.vim
-          $VIM_EXEC +PlugInstall +qall
+          $VIM_EXEC -e -s +PlugInstall +qall
           $VIM_EXEC +PlugStatus +qall
 
   vint:
