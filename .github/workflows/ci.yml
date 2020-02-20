@@ -36,8 +36,10 @@ jobs:
         env:
           VIM_EXEC: ${{ steps.vim.outputs.executable }}
         run: |
+          ls -al ~
           $VIM_EXEC +PlugStatus +qall
       - name: Full Install and Test PlugStatus
+        timeout-minutes: 20
         env:
           VIM_EXEC: ${{ steps.vim.outputs.executable }}
         run: |
@@ -52,5 +54,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v1
-      - run: pip install vim-int
+      - run: pip install vim-vint
       - run: vint --error .
