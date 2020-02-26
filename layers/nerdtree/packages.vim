@@ -1,4 +1,4 @@
-SPlug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeTabsToggle', 'NERDTreeFocusToggle', 'NERDTreeMirrorOpen'] }
+SPlug 'preservim/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeTabsToggle', 'NERDTreeFocusToggle', 'NERDTreeMirrorOpen'] }
 SPlug 'Xuyuanp/nerdtree-git-plugin'
 SPlug 'jistr/vim-nerdtree-tabs'
 

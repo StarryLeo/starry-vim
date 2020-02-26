@@ -140,7 +140,7 @@ endfunction
 
 function! s:packages() abort
   let g:starry.timer['on'] = exists('*timer_start') && get(g:, 'starry_speed_up_via_timer', 0)
-  let g:starry.popup = (exists('*popup_create') && has('patch-8.1.2114') || has('nvim-0.4')) && get(g:, 'starry_prefer_popup', 0)
+  let g:starry.popupwin = (has('popupwin') || has('nvim-0.4')) && get(g:, 'starry_prefer_popupwin', 0)
 
   " Load Layer packages
   for layer in g:starry.layers

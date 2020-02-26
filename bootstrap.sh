@@ -193,10 +193,14 @@ create_symlinks() {
     lnif "$source_path/.vimrc"         "$target_path/.vimrc"
 
     if program_exists "nvim"; then
-        today=`date +%Y%m%d_%s`
-        for i in "$2/.config/nvim" "$2/.config/nvim/init.vim"; do
-                [ -e "$i" ] && [ ! -L "$i" ] && mv -v "$i" "$i.$today";
-        done
+        if [ ! -e "$2/.config" ]; then
+            mkdir -p "$2/.config"
+        else
+            today=`date +%Y%m%d_%s`
+            for i in "$2/.config/nvim" "$2/.config/nvim/init.vim"; do
+                    [ -e "$i" ] && [ ! -L "$i" ] && mv -v "$i" "$i.$today";
+            done
+        fi
         lnif "$2/.vim"                 "$target_path/.config/nvim"
         lnif "$source_path/.vimrc"     "$target_path/.config/nvim/init.vim"
         [ -L "$2/.vim/.vim" ] && rm "$2/.vim/.vim"

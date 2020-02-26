@@ -48,7 +48,7 @@ function! starry#header#AddHeader() abort
   let comment_char = s:ft_info[l:ft].comment_char . ' '
 
   " First Line
-  if first_line !=# []
+  if first_line != []
     call append(i, first_line)
     let i += len(first_line)
   endif

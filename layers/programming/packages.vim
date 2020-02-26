@@ -9,9 +9,12 @@ else
 endif
 
 SPlug 'skywind3000/asyncrun.vim', { 'on': 'AsyncRun' }
-SPlug 'scrooloose/nerdcommenter', { 'on': '<Plug>NERDCommenterToggle' }
-if executable('ctags') || (executable('gtags') && executable('gtags-cscope'))
+SPlug 'preservim/nerdcommenter', { 'on': '<Plug>NERDCommenterToggle' }
+
+if executable('gtags') && executable('gtags-cscope')
   SPlug 'ludovicchabant/vim-gutentags'
   SPlug 'skywind3000/gutentags_plus'
+elseif executable('ctags')
+  SPlug 'ludovicchabant/vim-gutentags'
 endif
 SPlug 'liuchengxu/vista.vim'

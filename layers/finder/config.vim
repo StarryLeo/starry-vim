@@ -5,7 +5,7 @@ scriptencoding utf-8
     let g:Lf_ShortcutF = ''
     let g:Lf_ShortcutB = ''
     let g:Lf_WorkingDirectoryMode = 'Ac'
-    if g:starry.popup
+    if g:starry.popupwin
       noremap <Leader>f  :Leaderf file --popup<CR>
       noremap <Leader>fb :Leaderf buffer --popup<CR>
       noremap <Leader>fm :Leaderf mru --popup<CR>

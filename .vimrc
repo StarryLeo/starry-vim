@@ -17,7 +17,7 @@
 " Starry {
   let g:starry         = get(g:, 'starry', {})
   let g:starry.home    = $HOME.'/.starry-vim'
-  let g:starry.version = '0.0.4'
+  let g:starry.version = '0.0.5'
 " }
 
 " Identify Platform {

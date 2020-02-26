@@ -1,0 +1,57 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  tests:
+    name: Install Vim/Neovim and starry-vim, Run tests
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        neovim: [false, true]
+        version: [stable, nightly]
+        #version: [stable, nightly, v8.0.0000, v0.3.1]
+        #exclude:
+          #- neovim: false
+            #version: v0.3.1
+          #- neovim: true
+            #version: v8.0.0000
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Install Vim or Neovim
+        uses: rhysd/action-setup-vim@v1
+        id: vim
+        with:
+          neovim: ${{ matrix.neovim }}
+          version: ${{ matrix.version }}
+      - name: Install starry-vim
+        env:
+          VIM_EXEC: ${{ steps.vim.outputs.executable }}
+        run: |
+          echo $VIM_EXEC
+          $VIM_EXEC --version
+          bash <(curl https://git.io/starry-vim -L)
+      - name: Test PlugStatus
+        env:
+          VIM_EXEC: ${{ steps.vim.outputs.executable }}
+        run: |
+          $VIM_EXEC +PlugStatus +qall
+      - name: Full Install and Test PlugStatus
+        timeout-minutes: 20
+        env:
+          VIM_EXEC: ${{ steps.vim.outputs.executable }}
+        run: |
+          echo "let g:starry_layers = [ 'finder', 'airline', 'editing', 'nerdtree', 'ycm', 'deoplete', 'coc', 'snippets', 'lsp', 'git', 'formatting', 'programming', 'linting', 'lang', 'misc', ]" >> $HOME/.starry/init.vim
+          echo "let g:starry_languages = [ 'markdown', 'json', 'cpp', 'python', 'verilog', 'qt', ]" >> $HOME/.starry/init.vim
+          $VIM_EXEC +PlugInstall +qall
+          $VIM_EXEC +PlugStatus +qall
+
+  vint:
+    name: Run vint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+      - run: pip install vim-vint
+      - run: vint --error .

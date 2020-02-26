@@ -1,5 +1,6 @@
 # starry-vim : Starry Vim Distribution
 
+[![CI](https://github.com/StarryLeo/starry-vim/workflows/CI/badge.svg?branch=master&event=push)](https://github.com/StarryLeo/starry-vim/actions?query=workflow%3ACI+branch%3Amaster)
 [![Build Status](https://travis-ci.org/StarryLeo/starry-vim.svg?branch=master)](https://travis-ci.org/StarryLeo/starry-vim)
 [![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows%20%7C%20macOS-4caf50.svg)](https://github.com/StarryLeo/starry-vim/blob/master/README.md)
 [![Repo Size](https://img.shields.io/github/repo-size/StarryLeo/starry-vim.svg)](https://github.com/StarryLeo/starry-vim)
@@ -137,7 +138,7 @@ If `~/.starry/init.vim` does not exist, vanilla vim will be loaded! Refer to [`i
     let g:starry_speed_up_via_timer = 1
 
     " Comment the following line if you do not need popup window.
-    let g:starry_prefer_popup = 1
+    let g:starry_prefer_popupwin = 1
 
     " Comment the following line if you have no nerd-fonts installed.
     let g:starry_nerd_fonts = 1
