@@ -22,7 +22,10 @@ endfunction
 function! s:popup_dialog(msg, plugins) abort
   let winid = popup_dialog(a:msg, #{
     \ maxwidth: 56,
+    \ time: 3000 + 2000 * len(a:plugins),
+    \ tabpage: -1,
     \ zindex: 1000,
+    \ highlight: 'WarningMsg',
     \ filter: 'popup_filter_yesno',
     \ callback: function('s:dialog_handler'),
     \ })
@@ -35,7 +38,7 @@ function! s:popup_dialog(msg, plugins) abort
 endfunction
 
 function! s:dialog_handler(id, result) abort
-  if a:result
+  if a:result == 1
     call popup_close(a:id)
     PlugInstall --sync
   endif

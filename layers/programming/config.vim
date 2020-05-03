@@ -78,4 +78,5 @@ augroup END
   if get(g:, 'starry_nerd_fonts', 0)
     let g:vista#renderer#enable_icon = 1
   endif
+  let g:airline#extensions#vista#enabled = 0
 "}

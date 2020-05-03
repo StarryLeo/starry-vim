@@ -20,8 +20,9 @@ let g:coc_config_home = expand('<sfile>:h')
 " coc-extensions
 let g:coc_global_extensions = [
   \ 'coc-tag',
+  \ 'coc-omni',
   \ 'coc-word',
   \ 'coc-python',
-  \ 'coc-snippets',
+  \ 'coc-ultisnips',
   \ 'coc-dictionary',
   \ ]

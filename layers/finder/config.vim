@@ -47,6 +47,8 @@ scriptencoding utf-8
     let g:Lf_MaxCount    = 0
     if get(g:, 'starry_nerd_fonts', 0)
       let g:Lf_StlSeparator = { 'left': '', 'right': '' }
+    else
+      let g:Lf_ShowDevIcons = 0
     endif
 " }
 " CtrlP {

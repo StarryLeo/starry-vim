@@ -1,5 +1,6 @@
 {
-  "coc.preferences.rootPatterns": [".vim", ".git", ".hg", ".projections.json", ".root"],
+  "coc.preferences.rootPatterns": [".git", ".hg", ".projections.json", ".root", "Makefile", "CMakeLists.txt"],
+  "coc.source.omni.filetypes": ["verilog_systemverilog"],
   "diagnostic.enable": false,
   "snippets.extends": {
     "cpp": ["c"],
@@ -9,7 +10,7 @@
     "ccls": {
       "command": "ccls",
       "filetypes": ["c", "cpp", "objc", "objcpp", "cuda"],
-      "rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/", ".root"],
+      "rootPatterns": [".ccls", "compile_commands.json", ".git", ".hg", ".root"],
       "initializationOptions": {
         "cache": {
           "directory": "/tmp/ccls-cache"

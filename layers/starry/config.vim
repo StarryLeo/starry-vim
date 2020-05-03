@@ -99,6 +99,10 @@ if !has('gui_running') && !has('nvim')
   call s:EnableTerminalMeta()
 endif
 
+" Quickly get out of insert mode followed leader (use 'jk')
+" 快速离开插入模式，紧跟着按下 leader 键（使用 jk）
+inoremap <expr> jk starry#vim#map#EscLeader()
+
 " Mapping Meta key (Alt key) to move in insert mode
 " 插入模式中使用 Meta 键（Alt 键）移动
 inoremap <M-j> <Down>

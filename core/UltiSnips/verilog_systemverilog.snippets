@@ -1,0 +1,201 @@
+snippet be "begin ... end block"
+begin
+	${0:${VISUAL}}
+end
+endsnippet
+
+snippet al "always block" b
+always @(${1:/* sensitive list */}) begin
+	${0:${VISUAL}}
+end
+endsnippet
+
+snippet mod "module declaration" b
+module ${1:module_name} (
+	${2:${VISUAL}}
+);
+
+	${0}
+endmodule
+endsnippet
+
+snippet modp "module declaration with parameter port list" b
+module ${1:module_name} #(
+	${3}
+) (
+	${2:${VISUAL}}
+);
+
+	${0}
+endmodule
+endsnippet
+
+snippet if "if (condition) ..."
+if (${1}) begin
+	${0:${VISUAL}}
+end
+endsnippet
+
+snippet ife "if (condition) ... else ..."
+if (${1}) begin
+	${2:${VISUAL}}
+end else begin
+	${0:${VISUAL}}
+end
+endsnippet
+
+snippet el "else ..."
+else begin
+	${0:${VISUAL}}
+end
+endsnippet
+
+snippet elif "else if (condition) ..."
+else if (${1}) begin
+	${0:${VISUAL}}
+end
+endsnippet
+
+snippet case "case statement"
+case (${1:/* variable */})
+	${2:/* value */}: begin
+		${3}
+	end
+	default: begin
+		${0:${VISUAL}}
+	end
+endcase
+endsnippet
+
+snippet casez "casez do not care z values"
+casez (${1:/* variable */})
+	${2:/* value */}: begin
+		${3}
+	end
+	default: begin
+		${0:${VISUAL}}
+	end
+endcase
+endsnippet
+
+snippet wh "while loop"
+while (${1}) begin
+	${0:${VISUAL}}
+end
+endsnippet
+
+snippet for "for loop"
+for (int ${2:i} = 0; $2 < ${1:count}; $2${3:++}) begin
+	${0:${VISUAL}}
+end
+endsnippet
+
+snippet forev "forever loop"
+forever begin
+	${0:${VISUAL}}
+end
+endsnippet
+
+snippet rep "repeat loop"
+repeat (${1}) begin
+	${0:${VISUAL}}
+end
+endsnippet
+
+snippet fun "function declaration"
+function ${1:void} ${2:name}(${3});
+	${0:${VISUAL}}
+endfunction
+endsnippet
+
+snippet task "task declaration" b
+task ${1:name}(${2});
+	${0:${VISUAL}}
+endtask
+endsnippet
+
+# Extends For SystemVerilog
+
+snippet alc "Combinational logic always block" b
+always_comb begin
+	${0:${VISUAL}}
+end
+endsnippet
+
+snippet alff "Sequential logic always block" b
+always_ff @(posedge ${1:clk}) begin
+	${0:${VISUAL}}
+end
+endsnippet
+
+snippet all "Latched logic always block" b
+always_latch begin
+	${0:${VISUAL}}
+end
+endsnippet
+
+snippet forea "foreach loop"
+foreach (${1}) begin
+	${0:${VISUAL}}
+end
+endsnippet
+
+snippet do "do ... while loop"
+do begin
+	${0:${VISUAL}}
+end while (${1});
+endsnippet
+
+snippet tds "Typedef structure" b
+typedef struct {
+	${0:${VISUAL}}
+} ${1:name_t};
+endsnippet
+
+snippet cl "Class" b
+class ${1:class_name};
+	// data or class properties
+	${0:${VISUAL}}
+
+	// initialization
+	function new();
+	endfunction
+
+endclass
+endsnippet
+
+snippet intf "Interface" b
+interface ${1:interface_name} ();
+	// nets
+	${0:${VISUAL}}
+
+	// clocking
+
+	// modports
+
+endinterface
+endsnippet
+
+snippet clock "Clocking block"
+clocking ${1:clocking_name} @(${2:posedge} ${3:clk});
+	${0:${VISUAL}}
+endclocking
+endsnippet
+
+snippet prog "Program block" b
+program ${1:program_name} ();
+	${0:${VISUAL}}
+endprogram
+endsnippet
+
+snippet cg "Covergroup construct" b
+covergroup ${1:group_name} @(${2:posedge} ${3:clk});
+	${0:${VISUAL}}
+endgroup
+endsnippet
+
+snippet pkg "Package declaration" b
+package ${1:package_name};
+	${0:${VISUAL}}
+endpackage
+endsnippet

@@ -42,6 +42,9 @@ scriptencoding utf-8
     nnoremap <Space>i :VerilogFollowInstance<CR>
     nnoremap <Space>p :VerilogFollowPort<CR>
     nnoremap <Space>o :VerilogGotoInstanceStart<CR>
+
+    " Port Instantiation
+    let g:verilog_instance_skip_last_coma = 1
   endif
 " }
 
