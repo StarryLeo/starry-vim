@@ -1,7 +1,6 @@
 # starry-vim : Starry Vim Distribution
 
 [![CI](https://github.com/StarryLeo/starry-vim/workflows/CI/badge.svg?branch=master&event=push)](https://github.com/StarryLeo/starry-vim/actions?query=workflow%3ACI+branch%3Amaster)
-[![Build Status](https://travis-ci.org/StarryLeo/starry-vim.svg?branch=master)](https://travis-ci.org/StarryLeo/starry-vim)
 [![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows%20%7C%20macOS-4caf50.svg)](https://github.com/StarryLeo/starry-vim/blob/master/README.md)
 [![Repo Size](https://img.shields.io/github/repo-size/StarryLeo/starry-vim.svg)](https://github.com/StarryLeo/starry-vim)
 [![PRs Welcome](https://img.shields.io/badge/pull%20requests-welcome-brightgreen.svg)](https://github.com/StarryLeo/starry-vim/pulls)
