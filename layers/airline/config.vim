@@ -21,6 +21,7 @@ if exists('g:starry_airline_tabline')
   nmap <Leader>7 <Plug>AirlineSelectTab7
   nmap <Leader>8 <Plug>AirlineSelectTab8
   nmap <Leader>9 <Plug>AirlineSelectTab9
+  nmap <Leader>0 <Plug>AirlineSelectTab0
   nmap <Leader>- <Plug>AirlineSelectPrevTab
   nmap <Leader>+ <Plug>AirlineSelectNextTab
 else
@@ -45,14 +46,15 @@ if get(g:, 'starry_nerd_fonts', 0)
   let g:airline_symbols.paste = 'Þ'
   let g:airline_symbols.spell = 'Ꞩ'
   let g:airline_symbols.crypt = '🔒'
-  let g:airline_symbols.dirty = '🔥'
+  let g:airline_symbols.dirty = '⚡'
   let g:airline_symbols.keymap     = ''
   let g:airline_symbols.modified   = '+'
   let g:airline_symbols.branch     = ''
   let g:airline_symbols.notexists  = 'Ɇ'
   let g:airline_symbols.readonly   = ''
-  let g:airline_symbols.linenr     = '¶'
-  let g:airline_symbols.maxlinenr  = ''
+  let g:airline_symbols.linenr     = ' '
+  let g:airline_symbols.maxlinenr  = '☰ '
+  let g:airline_symbols.colnr      = ''
   let g:airline_symbols.whitespace = '☲'
   let g:airline_symbols.ellipsis   = '...'
 else
@@ -62,7 +64,7 @@ else
   let g:airline_symbols.paste      = 'Þ'
   let g:airline_symbols.spell      = 'Ꞩ'
   let g:airline_symbols.crypt      = '🔒'
-  let g:airline_symbols.dirty      = '!'
+  let g:airline_symbols.dirty      = '🔥'
   let g:airline_symbols.branch     = '⎇'
   let g:airline_symbols.notexists  = 'Ɇ'
   let g:airline_symbols.linenr     = '㏑'
