@@ -1,5 +1,5 @@
 function! starry#plug#youcompleteme#build(info)
-  let args = ['install.py', '--clang-completer']
+  let args = ['install.py', '--clangd-completer']
 
   if exists('g:starry_enable_ycm_for')
     if index(g:starry_enable_ycm_for, 'cs') >= 0

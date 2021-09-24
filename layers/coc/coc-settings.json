@@ -1,7 +1,7 @@
 {
   "coc.preferences.rootPatterns": [".git", ".hg", ".projections.json", ".root", "Makefile", "CMakeLists.txt"],
   "coc.source.omni.filetypes": ["verilog_systemverilog"],
-  "diagnostic.enable": false,
+  "suggest.triggerCompletionWait": 50,
   "snippets.extends": {
     "cpp": ["c"],
     "cuda": ["cpp"],

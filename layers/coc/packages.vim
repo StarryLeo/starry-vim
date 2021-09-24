@@ -1,4 +1,4 @@
-SPlug 'neoclide/coc.nvim', { 'do': 'yarn install --frozen-lockfile' }
+SPlug 'neoclide/coc.nvim', { 'branch': 'release' }
 SPlug 'Shougo/neoinclude.vim'
 SPlug 'jsfaint/coc-neoinclude'
 

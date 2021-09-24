@@ -1,2 +1,4 @@
-SPlug 'Chiel92/vim-autoformat', { 'on': 'Autoformat' }
+if has('python') || has('python3')
+  SPlug 'vim-autoformat/vim-autoformat', { 'on': 'Autoformat' }
+endif
 SPlug 'godlygeek/tabular', { 'on': 'Tabularize' }

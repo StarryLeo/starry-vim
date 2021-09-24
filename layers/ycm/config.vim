@@ -3,12 +3,9 @@ for ft in g:starry_enable_ycm_for
   let g:ycm_filetype_whitelist[ft] = 1
 endfor
 
-" Refer to https://github.com/ycm-core/YouCompleteMe/issues/2741#issuecomment-320104642
-let g:ycm_compilation_database_folder = 'build'
-let g:ycm_extra_conf_vim_data = [ 'g:ycm_compilation_database_folder' ]
-
-let g:ycm_global_ycm_extra_conf = expand('<sfile>:h') . '/global_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 0
+let g:ycm_auto_hover = ''
+let g:ycm_disable_signature_help = 1
 
 " completion key
 inoremap <silent><expr> <Tab> starry#vim#complete#Tab()

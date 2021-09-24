@@ -26,6 +26,7 @@
   if !isdirectory(g:startify_session_dir)
     silent! call mkdir(g:startify_session_dir, 'p', 0700)
   endif
+  " Add a space to align
   function! StartifyEntryFormat() abort
     if exists('*WebDevIconsGetFileTypeSymbol')
       return '" " . WebDevIconsGetFileTypeSymbol(absolute_path) . " " . entry_path'

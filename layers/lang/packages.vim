@@ -7,11 +7,7 @@
     else
       SPlug 'plasticboy/vim-markdown', { 'for': 'markdown' }
     endif
-    if executable('node') && executable('yarn')
-      SPlug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install', 'for': 'markdown' }
-    else
-      SPlug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown' }
-    endif
+    SPlug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown' }
   endif
 " }
 
