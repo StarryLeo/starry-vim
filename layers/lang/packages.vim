@@ -41,3 +41,9 @@
     SPlug 'fedorenchik/qt-support.vim'
   endif
 " }
+
+" Scala {
+  if count(g:starry_languages, 'scala')
+    SPlug 'derekwyatt/vim-scala'
+  endif
+" }

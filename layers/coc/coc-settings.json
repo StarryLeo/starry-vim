@@ -2,6 +2,13 @@
   "coc.preferences.rootPatterns": [".git", ".hg", ".projections.json", ".root", "Makefile", "CMakeLists.txt"],
   "coc.source.omni.filetypes": ["verilog_systemverilog"],
   "suggest.triggerCompletionWait": 50,
+  "suggest.floatConfig": {
+    "border": true,
+    "borderhighlight": "PreProc",
+  },
+  "hover.floatConfig": {
+    "border": true,
+  },
   "snippets.extends": {
     "cpp": ["c"],
     "cuda": ["cpp"],

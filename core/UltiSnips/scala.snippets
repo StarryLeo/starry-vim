@@ -1,0 +1,65 @@
+snippet im "import chisel3"  b
+import ${1:chisel3}.${2:_}
+endsnippet
+
+snippet pa "package" b
+package $0
+endsnippet
+
+snippet for "for loop(classic)"
+for (${1:item} <- ${2:obj}) {
+	${0}
+}
+endsnippet
+
+snippet fory "for comprehension"
+for {
+	${1:item} <- ${2:obj}
+} yield ${0}
+endsnippet
+
+snippet if "if (condition) ..."
+if (${1}) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet ife "if (condition) ... else ..."
+if (${1}) {
+	${2:${VISUAL}}
+} else {
+	${0}
+}
+endsnippet
+
+snippet elif "else if (condition) ..."
+else if (${1}) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet wh "Chisel when (Verilog if)"
+when (${1}) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet whot "Chisel when ... .otherwise ..."
+when (${1}) {
+	${2:${VISUAL}}
+} .otherwise {
+	${0}
+}
+endsnippet
+
+snippet elwh "Chisel .elsewhen ..."
+.elsewhen (${1}) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet ot "Chisel .otherwise ..."
+.otherwise {
+	${0:${VISUAL}}
+}
+endsnippet

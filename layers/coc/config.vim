@@ -25,6 +25,7 @@ let g:coc_global_extensions = [
   \ 'coc-word',
   \ 'coc-cmake',
   \ 'coc-clangd',
+  \ 'coc-metals',
   \ 'coc-pyright',
   \ 'coc-ultisnips',
   \ 'coc-dictionary',

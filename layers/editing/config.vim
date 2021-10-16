@@ -22,6 +22,7 @@
     \ { 'header': ['   Bookmarks: '         ], 'type': 'bookmarks' },
     \ { 'header': ['   Commands: '          ], 'type': 'commands'  },
     \ ]
+  let g:startify_change_to_dir = 0
   let g:startify_session_dir = expand('~/.vim/.vimsessions')
   if !isdirectory(g:startify_session_dir)
     silent! call mkdir(g:startify_session_dir, 'p', 0700)
