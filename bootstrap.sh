@@ -6,7 +6,7 @@
 app_name='starry-vim'
 app_path="$HOME/.starry-vim"
 repo_url='https://github.com/StarryLeo/starry-vim.git'
-repo_branch='master'
+repo_branch='dev'
 plug_url='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 debug_mode='0'

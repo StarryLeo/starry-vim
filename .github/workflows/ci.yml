@@ -31,7 +31,7 @@ jobs:
         run: |
           echo $VIM_EXEC
           $VIM_EXEC --version
-          bash <(curl https://git.io/starry-vim -L)
+          bash <(curl https://raw.githubusercontent.com/StarryLeo/starry-vim/dev/bootstrap.sh -L)
       - name: Test PlugStatus
         env:
           VIM_EXEC: ${{ steps.vim.outputs.executable }}
