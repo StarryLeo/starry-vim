@@ -72,6 +72,8 @@ function! starry#header#AddHeader() abort
   if l:ft !=# 'verilog'  && l:ft !=# 'systemverilog' && l:ft !=# 'verilog_systemverilog'
     call append(i, comment_char . 'File Name' . ': ' . expand('%:t'))
   else
+    call append(i, comment_char . 'File Name' . ': ' . expand('%:t'))
+    let i += 1
     call append(i, comment_char . 'Module Name' . ': ' . expand('%:t:r:r:r'))
   endif
   let i += 1

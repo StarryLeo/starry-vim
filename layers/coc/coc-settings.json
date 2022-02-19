@@ -13,16 +13,7 @@
     "cpp": ["c"],
     "cuda": ["cpp"],
   },
+  "semanticTokens.filetypes": ["*"],
   "languageserver": {
-    "ccls": {
-      "command": "ccls",
-      "filetypes": ["c", "cpp", "objc", "objcpp", "cuda"],
-      "rootPatterns": [".ccls", "compile_commands.json", ".git", ".hg", ".root"],
-      "initializationOptions": {
-        "cache": {
-          "directory": "/tmp/ccls-cache"
-        }
-      }
-    }
   }
 }
