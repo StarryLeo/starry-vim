@@ -16,6 +16,7 @@ scriptencoding utf-8
       if executable('rg')
         noremap <Leader>fr :Leaderf rg --hidden --popup<CR>
         noremap <Leader>fg :<C-u><C-r>=printf("Leaderf! rg -e %s --hidden --popup", expand("<cword>"))<CR><CR>
+        noremap <Leader>fl :<C-u><C-r>=printf("Leaderf! rg -e %s --current-buffer --popup", expand("<cword>"))<CR><CR>
       endif
 
       let g:Lf_PreviewInPopup = 1

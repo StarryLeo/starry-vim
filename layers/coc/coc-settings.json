@@ -15,5 +15,9 @@
   },
   "semanticTokens.filetypes": ["*"],
   "languageserver": {
+    "svls": {
+      "command": "svls",
+      "filetypes": ["verilog_systemverilog"],
+    }
   }
 }

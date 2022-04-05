@@ -10,7 +10,7 @@ always @(${1:/* sensitive list */}) begin
 end
 endsnippet
 
-snippet mod "module declaration" b
+snippet mod "module declaration" bm
 module ${1:module_name} (
 	${2:${VISUAL}}
 );
@@ -19,7 +19,7 @@ module ${1:module_name} (
 endmodule
 endsnippet
 
-snippet modp "module declaration with parameter port list" b
+snippet modp "module declaration with parameter port list" bm
 module ${1:module_name} #(
 	${3}
 ) (
@@ -152,7 +152,7 @@ typedef struct {
 } ${1:name_t};
 endsnippet
 
-snippet cl "Class" b
+snippet cl "Class" bm
 class ${1:class_name};
 	// data or class properties
 	${0:${VISUAL}}
@@ -164,7 +164,7 @@ class ${1:class_name};
 endclass
 endsnippet
 
-snippet intf "Interface" b
+snippet intf "Interface" bm
 interface ${1:interface_name} ();
 	// nets
 	${0:${VISUAL}}

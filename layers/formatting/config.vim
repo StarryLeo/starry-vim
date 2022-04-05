@@ -5,21 +5,11 @@
   let g:formatter_yapf_style = 'pep8'
 " }
 
-" Tabularize {
-  nmap <Leader>a&     :Tabularize /&<CR>
-  vmap <Leader>a&     :Tabularize /&<CR>
-  nmap <Leader>a=     :Tabularize /^[^=]*\zs=<CR>
-  vmap <Leader>a=     :Tabularize /^[^=]*\zs=<CR>
-  nmap <Leader>a=>    :Tabularize /=><CR>
-  vmap <Leader>a=>    :Tabularize /=><CR>
-  nmap <Leader>a:     :Tabularize /:<CR>
-  vmap <Leader>a:     :Tabularize /:<CR>
-  nmap <Leader>a::    :Tabularize /:\zs<CR>
-  vmap <Leader>a::    :Tabularize /:\zs<CR>
-  nmap <Leader>a,     :Tabularize /,<CR>
-  vmap <Leader>a,     :Tabularize /,<CR>
-  nmap <Leader>a,,    :Tabularize /,\zs<CR>
-  vmap <Leader>a,,    :Tabularize /,\zs<CR>
-  nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-  vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+" EasyAlign {
+  nmap ga <Plug>(EasyAlign)
+  xmap ga <Plug>(EasyAlign)
+
+  let g:easy_align_delimiters = {
+    \ 'k': { 'pattern': '\k\+\ze\s*[,;]', 'delimiter_align': 'l', 'left_margin': 6, 'right_margin': 0 },
+    \ }
 " }

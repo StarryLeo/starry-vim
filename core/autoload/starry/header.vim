@@ -19,6 +19,10 @@ let s:ft_info = {
   \                               ],
   \              'comment_char' : '#',
   \            },
+  \ 'tcl'    : {
+  \              'first_line'   : [],
+  \              'comment_char' : '#',
+  \            },
   \ 'verilog': {
   \              'first_line'   : [],
   \              'comment_char' : '//',
