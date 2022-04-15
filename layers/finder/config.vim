@@ -15,8 +15,8 @@ scriptencoding utf-8
 
       if executable('rg')
         noremap <Leader>fr :Leaderf rg --hidden --popup<CR>
-        noremap <Leader>fg :<C-u><C-r>=printf("Leaderf! rg -e %s --hidden --popup", expand("<cword>"))<CR><CR>
-        noremap <Leader>fl :<C-u><C-r>=printf("Leaderf! rg -e %s --current-buffer --popup", expand("<cword>"))<CR><CR>
+        noremap <Leader>fg :<C-u><C-r>=printf("Leaderf! rg -F %s --hidden --popup", shellescape(expand("<cword>"), 1))<CR><CR>
+        noremap <Leader>fl :<C-u><C-r>=printf("Leaderf! rg -F %s --current-buffer --popup", shellescape(expand("<cword>"), 1))<CR><CR>
       endif
 
       let g:Lf_PreviewInPopup = 1
@@ -30,7 +30,8 @@ scriptencoding utf-8
 
       if executable('rg')
         noremap <Leader>fr :cclose<CR>:Leaderf rg --hidden<CR>
-        noremap <Leader>fg :cclose<CR>:<C-u><C-r>=printf("Leaderf! rg -e %s --hidden", expand("<cword>"))<CR><CR>
+        noremap <Leader>fg :cclose<CR>:<C-u><C-r>=printf("Leaderf! rg -F %s --hidden", shellescape(expand("<cword>"), 1))<CR><CR>
+        noremap <Leader>fl :cclose<CR>:<C-u><C-r>=printf("Leaderf! rg -F %s --current-buffer", shellescape(expand("<cword>"), 1))<CR><CR>
       endif
     endif
     noremap <Leader>fa :Leaderf! --recall<CR>
