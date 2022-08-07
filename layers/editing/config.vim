@@ -1,3 +1,8 @@
+" EasyMotion {
+  nmap s <Plug>(easymotion-s2)
+  nmap S <Plug>(easymotion-overwin-f2)
+" }
+
 " UndoTree {
   nnoremap <Leader>u :UndotreeToggle<CR>
   " If undotree is opened, it is likely one wants to interact with it.

@@ -14,7 +14,7 @@ let g:ycm_key_list_select_completion   = []
 let g:ycm_key_list_previous_completion = []
 let g:ycm_key_list_stop_completion     = ['<C-y>']
 
-noremap <C-z> <Nop>
+inoremap <C-z> <Nop>
 let g:ycm_key_invoke_completion = '<C-z>'
 
 let g:ycm_semantic_triggers = {

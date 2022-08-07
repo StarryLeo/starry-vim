@@ -6,6 +6,9 @@
     "border": true,
     "borderhighlight": "PreProc",
   },
+  "suggest.pumFloatConfig": {
+    "border": false,
+  },
   "hover.floatConfig": {
     "border": true,
   },
