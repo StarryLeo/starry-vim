@@ -2,6 +2,8 @@
   "coc.preferences.rootPatterns": [".git", ".hg", ".projections.json", ".root", "Makefile", "CMakeLists.txt"],
   "coc.source.omni.filetypes": ["verilog_systemverilog"],
   "suggest.triggerCompletionWait": 50,
+  "suggest.noselect": true,
+  "suggest.enablePreselect": false,
   "suggest.floatConfig": {
     "border": true,
     "borderhighlight": "PreProc",
