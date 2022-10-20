@@ -18,6 +18,7 @@
     "cpp": ["c"],
     "cuda": ["cpp"],
   },
+  "pyright.inlayHints.variableTypes": false,
   "semanticTokens.filetypes": ["*"],
   "languageserver": {
     "svls": {

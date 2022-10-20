@@ -42,6 +42,12 @@
   endfunction
 " }
 
+" vim-visual-multi {
+  let g:VM_maps = {}
+  let g:VM_maps['Add Cursor Down'] = '<M-j>'
+  let g:VM_maps['Add Cursor Up'] = '<M-k>'
+" }
+
 " matchup {
   if has_key(g:plugs, 'vim-matchup')
     let g:loaded_matchit = 1

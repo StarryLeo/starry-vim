@@ -50,7 +50,7 @@ scriptencoding utf-8
 
 " JSON {
   if count(g:starry_languages, 'json')
-    nmap <Leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
+    nnoremap <Leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
     let g:vim_json_syntax_conceal = 0
   endif
 " }

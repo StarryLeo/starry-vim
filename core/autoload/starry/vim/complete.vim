@@ -29,7 +29,7 @@ function! starry#vim#complete#STab() abort
   return key
 endfunction
 
-function! starry#vim#complete#CZ() abort
+function! starry#vim#complete#Cz() abort
   " For coc
   let key = coc#refresh()
 
@@ -37,13 +37,13 @@ function! starry#vim#complete#CZ() abort
 endfunction
 
 function! starry#vim#complete#CR() abort
-  let key = pumvisible() ? "\<C-y>" : "\<CR>"
-
-  return key
-endfunction
-
-function! starry#vim#complete#SCR() abort
-  let key = pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
+  if get(b:, 'coc_suggest_disable', 0)
+    " For ycm
+    let key = pumvisible() ? "\<C-y>" : "\<CR>"
+  else
+    " For coc
+    let key = coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+  endif
 
   return key
 endfunction
