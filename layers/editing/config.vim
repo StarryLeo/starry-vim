@@ -1,3 +1,8 @@
+" EasyMotion {
+  nmap s <Plug>(easymotion-s2)
+  nmap S <Plug>(easymotion-overwin-f2)
+" }
+
 " UndoTree {
   nnoremap <Leader>u :UndotreeToggle<CR>
   " If undotree is opened, it is likely one wants to interact with it.
@@ -37,18 +42,10 @@
   endfunction
 " }
 
-" vim-multiple-cursors {
-  let g:multi_cursor_use_default_mapping = 0
-
-  " Mapping
-  let g:multi_cursor_start_word_key      = '<C-n>'
-  let g:multi_cursor_select_all_word_key = '<M-n>'
-  let g:multi_cursor_start_key           = 'g<C-n>'
-  let g:multi_cursor_select_all_key      = 'g<M-n>'
-  let g:multi_cursor_next_key            = '<C-n>'
-  let g:multi_cursor_prev_key            = '<C-p>'
-  let g:multi_cursor_skip_key            = '<C-x>'
-  let g:multi_cursor_quit_key            = '<Esc>'
+" vim-visual-multi {
+  let g:VM_maps = {}
+  let g:VM_maps['Add Cursor Down'] = '<M-j>'
+  let g:VM_maps['Add Cursor Up'] = '<M-k>'
 " }
 
 " matchup {
@@ -62,4 +59,8 @@
   else
     packadd! matchit
   endif
+" }
+
+" highlightedyank {
+  let g:highlightedyank_highlight_duration = 500
 " }

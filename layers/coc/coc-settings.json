@@ -2,9 +2,14 @@
   "coc.preferences.rootPatterns": [".git", ".hg", ".projections.json", ".root", "Makefile", "CMakeLists.txt"],
   "coc.source.omni.filetypes": ["verilog_systemverilog"],
   "suggest.triggerCompletionWait": 50,
+  "suggest.noselect": true,
+  "suggest.enablePreselect": false,
   "suggest.floatConfig": {
     "border": true,
     "borderhighlight": "PreProc",
+  },
+  "suggest.pumFloatConfig": {
+    "border": false,
   },
   "hover.floatConfig": {
     "border": true,
@@ -13,16 +18,12 @@
     "cpp": ["c"],
     "cuda": ["cpp"],
   },
+  "pyright.inlayHints.variableTypes": false,
+  "semanticTokens.filetypes": ["*"],
   "languageserver": {
-    "ccls": {
-      "command": "ccls",
-      "filetypes": ["c", "cpp", "objc", "objcpp", "cuda"],
-      "rootPatterns": [".ccls", "compile_commands.json", ".git", ".hg", ".root"],
-      "initializationOptions": {
-        "cache": {
-          "directory": "/tmp/ccls-cache"
-        }
-      }
+    "svls": {
+      "command": "svls",
+      "filetypes": ["verilog_systemverilog"],
     }
   }
 }

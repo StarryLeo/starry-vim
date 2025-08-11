@@ -4,33 +4,46 @@ function! s:check_back_space() abort
 endfunction
 
 function! starry#vim#complete#Tab() abort
-  if (get(b:, 'coc_suggest_disable', 0) && !starry#load('deoplete')) || get(b:, 'deo_suggest_disable', 0)
+  if get(b:, 'coc_suggest_disable', 0)
     " For ycm
     let key = pumvisible() ? "\<C-n>" : "\<Tab>"
   else
-    " For deoplete and coc
-    let key = pumvisible() ? "\<C-n>" :
-      \ (<SID>check_back_space() || !starry#load_any('deoplete', 'coc')) ? "\<Tab>" :
-      \ starry#load('deoplete') ? deoplete#manual_complete() : coc#refresh()
+    " For coc
+    let key = coc#pum#visible() ? coc#pum#next(1):
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
   endif
 
   return key
 endfunction
 
 function! starry#vim#complete#STab() abort
-  let key = pumvisible() ? "\<C-p>" : "\<Tab>"
+  if get(b:, 'coc_suggest_disable', 0)
+    " For ycm
+    let key = pumvisible() ? "\<C-p>" : "\<Tab>"
+  else
+    " For coc
+    let key = coc#pum#visible() ? coc#pum#prev(1) : "\<Tab>"
+  endif
+
+  return key
+endfunction
+
+function! starry#vim#complete#Cz() abort
+  " For coc
+  let key = coc#refresh()
 
   return key
 endfunction
 
 function! starry#vim#complete#CR() abort
-  let key = pumvisible() ? "\<C-y>" : "\<CR>"
-
-  return key
-endfunction
-
-function! starry#vim#complete#SCR() abort
-  let key = pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
+  if get(b:, 'coc_suggest_disable', 0)
+    " For ycm
+    let key = pumvisible() ? "\<C-y>" : "\<CR>"
+  else
+    " For coc
+    let key = coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+  endif
 
   return key
 endfunction

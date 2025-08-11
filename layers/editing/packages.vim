@@ -22,8 +22,9 @@ SPlug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 SPlug 'mhinz/vim-startify'
 SPlug 'tpope/vim-surround'
 SPlug 'tpope/vim-repeat'
-SPlug 'terryma/vim-multiple-cursors'
+SPlug 'mg979/vim-visual-multi'
 SPlug 'andymass/vim-matchup'
+SPlug 'machakann/vim-highlightedyank'
 
 SPlug 'jiangmiao/auto-pairs',        { 'on': [] }
 
